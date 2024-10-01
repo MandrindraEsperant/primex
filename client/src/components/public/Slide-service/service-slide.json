@@ -1,0 +1,17 @@
+[
+    {
+      "title": "Déclaration douaniére",
+      "detail": "Nous assurons le transport de vos marchandises par voie maritime avec des partenaires de confiance, garantissant la sécurité et la rapidité de la livraison.",
+      "image": "./r1.jpg"
+    },
+    {
+      "title": "Transport maritime",
+      "detail": "Nos experts en douane s occupent de toutes les formalités pour vous, simplifiant le processus de transit et évitant les retards.",
+       "image": "./r2.png"
+    },
+    {
+        "title": "Transport aérienne",
+        "detail": "Pour des livraison urgentes, notre service de transport aérien assure un acheminement rapide et fiable de vos colis.",
+        "image": "./r3.jpg"
+    }
+]
