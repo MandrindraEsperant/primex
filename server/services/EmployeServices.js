@@ -35,7 +35,6 @@ class EmployeService {
   }
 
   async authenticate(emailEmploye, motDePasse) {
-
     try {
       // Vérification si l'utilisateur existe dans la base de données
       const employe = await this.employeRepository.findByEmail(emailEmploye);
