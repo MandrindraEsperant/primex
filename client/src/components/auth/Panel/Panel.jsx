@@ -1,5 +1,6 @@
 import React from "react";
 import "./Panel.css";
+import "./Panel.scss"
 const Panel = () => {
   return (
     <div className="panels-container">
@@ -14,7 +15,7 @@ const Panel = () => {
             Sign up
           </button>
         </div>
-        <img src="/img/log.svg"  Name="image" alt="" />
+        <img src="/img/log.svg"  className="image" alt="" />
       </div>
       <div className="panel right-panel">
         <div className="content">
