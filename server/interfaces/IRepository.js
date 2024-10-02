@@ -6,9 +6,7 @@ class IEmployeRepository {
     async findById(id) {
       throw new Error('Not implemented');
     }
-    async findByEmail(email) {
-      throw new Error('Method not implemented.');
-    }
+
     async findAll() {
       throw new Error('Not implemented');
     }
@@ -19,6 +17,9 @@ class IEmployeRepository {
   
     async delete(id) {
       throw new Error('Not implemented');
+    }
+    async findByEmail(email) {
+      throw new Error('Method not implemented.');
     }
   }
   

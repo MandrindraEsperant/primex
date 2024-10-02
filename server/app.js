@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());
 app.use('/employe', employeRoutes);
 
-sequelize.sync({ force: true }) // Synchroniser la base de données
+// Synchroniser la base de données sans supprimer les tables existantes
+sequelize.sync({ force: false }) 
   .then(() => console.log('Database synced'))
   .catch(err => console.log('Error syncing database', err));
 
