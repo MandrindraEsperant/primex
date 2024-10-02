@@ -39,13 +39,16 @@ class EmployeService {
       // Vérification si l'utilisateur existe dans la base de données
       const employe = await this.employeRepository.findByEmail(emailEmploye);
       if (!employe) {
-        throw new Error("Utilisateur non trouvé.");
+
+        const erreur = "Utilisateur non trouvé.";
+        return {erreur}
       }
   
       // Vérification du mot de passe
       const isPasswordValid = await bcrypt.compare(motDePasse, employe.motDePasse);
       if (!isPasswordValid) {
-        throw new Error("Mot de passe invalide.");
+        // const erreur = "Mot de passe invalide."
+        return {'erreur': "Mot de passe invalide."};
       }
   
       // Génération du token JWT avec un temps d'expiration de 1 heure

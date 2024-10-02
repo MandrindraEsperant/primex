@@ -14,11 +14,8 @@ class EmployeController {
 
   async authentification(req, res) {
     try {
-      const { emailEmploye, motDePasse } = req.body;
-      const { token } = await this.employeService.authenticate(
-        emailEmploye,
-        motDePasse
-      );
+      const { email, password } = req.body; 
+      const { token } = await this.employeService.authenticate(email,password);
       res.status(200).json({ token });
     } catch (error) {
       res.status(401).json({ error: error.message });
