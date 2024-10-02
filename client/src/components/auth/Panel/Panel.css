@@ -1,4 +1,4 @@
-.panels-container {
+/* .panels-container {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -6,7 +6,7 @@
     left: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-  }
+  } */
   .containerLog:before {
     content: "";
     position: absolute;
@@ -26,43 +26,43 @@
     transition-delay: 0.4s;
   }
   
-.panel {
+/* .panel {
     display: flex;
     flex-direction: column;
-    /* align-items: flex-end; */
     align-items: center;
     justify-content: space-around;
     text-align: center;
     z-index: 6;
-  }
-  .left-panel {
+  } */
+  /* .left-panel {
     pointer-events: all;
     padding: 3rem 17% 2rem 12%;
-  }
-  .right-panel {
+  } */
+  /* .right-panel {
     pointer-events: none;
     padding: 3rem 12% 2rem 17%;
-  }
+  } */
   
-.panel .content {
+/* .panel .content {
     color: #fff;
     transition: transform 0.9s ease-in-out;
     transition-delay: 0.6s;
     width: 100%;
     padding:1rem;
-  }
+  } */
 
-  .panel h3 {
+  /* .panel h3 {
     font-weight: 600;
     line-height: 1;
     font-size: 1.5rem;
-  }
+  } */
   
-  .panel p {
+  /* .panel p {
     font-size: 0.95rem;
     padding: 0.7rem 0;
-  }
-  .btn.transparent {
+  } */
+ 
+  /* .btn.transparent {
     margin: 0;
     background: none;
     border: 2px solid #fff;
@@ -70,7 +70,7 @@
     height: 41px;
     font-weight: 600;
     font-size: 0.8rem;
-  }
+  } */
 
   .right-panel .image,
 .right-panel .content {

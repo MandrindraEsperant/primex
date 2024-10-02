@@ -16,25 +16,23 @@ import axios from "axios";
 const Formulaire = () => {
   const [login, setLogin] = useState({
     email: "",
-    // password: "",
+    password: "",
   });
   const navigate = useNavigate();
-
 
 useEffect(()=> {
   AccountService.logout();
 },[])
 
-  const handelLogin =  () => {
-    // e.preventDefault();
-    alert("okk")
+  const handelLogin =  (e) => {
+    e.preventDefault();
     axios
       .post("http://localhost:3002/employe/login", login)
       .then((res) => {
 
-        // const token =res.data.token;
+        const token =res.data.token;
 
-        // AccountService.saveToken(token);
+        AccountService.saveToken(token);
         AccountService.logout();
       })
       .catch((err) => console.log(err.message));
