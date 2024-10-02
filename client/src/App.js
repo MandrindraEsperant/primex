@@ -18,6 +18,7 @@ function App() {
             </AuthGuard>
           }
         />
+        
         <Route path="/auth/*" element={<AuthRouter />} />
       </Routes>
     </Router>

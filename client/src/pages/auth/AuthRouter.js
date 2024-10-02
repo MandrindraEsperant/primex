@@ -9,6 +9,7 @@ const AuthRouter = () => {
       <Routes>
         <Route index element={<Login />} />
         <Route path="login" element={<Login />} />
+        
         <Route path="*" element={<Error404 />} />
       </Routes>
     </div>

@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 const ALayout = () => {
   return (
     <div>
-      <h1>Page admin</h1>
+      <h1>Page admin hhhh</h1>
         <Outlet/>
     </div>
   )

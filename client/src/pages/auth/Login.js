@@ -18,6 +18,7 @@ const Login = () => {
       containerLog.classList.remove("sign-up-mode");
     });
   },[])
+  
   return (
     <div className="containerLog">
       <Formulaire />

@@ -30,8 +30,10 @@ class ClientRepository extends IRepository {
     async delete(id) {
       const client = await this.findById(id);
       if (client) {
-        return await employe.destroy();
+        return await client.destroy();
       }
       return null;
     }
   }
+
+  module.exports = ClientRepository

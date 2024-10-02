@@ -7,7 +7,7 @@ import Error404 from "../../_utils/Error404";
 const AdminRouter = () => {
   return (
     <Routes>
-      <Route element={<ALayout />}>
+      <Route element={<ALayout />}> 
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="user" element={<User />} />

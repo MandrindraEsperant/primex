@@ -3,7 +3,7 @@ const EmployeRepository = require('../repository/EmployeRepository');
 const EmployeService = require('../services/EmployeServices');
 const EmployeController = require('../controller/EmployeController');
 
-const router = express.Router();
+const router = express.Router(); 
 
 const employeRepository = new EmployeRepository();
 const employeService = new EmployeService(employeRepository);

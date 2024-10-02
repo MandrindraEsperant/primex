@@ -35,21 +35,28 @@ class EmployeService {
   }
 
   async authenticate(emailEmploye, motDePasse) {
-    const employe = await this.employeRepository.findByEmail(emailEmploye);
-    if (!employe) {
-      throw new Error("Utilisateur non trouvé.");
-    }
 
-    const isPasswordValid = await bcrypt.compare(
-      motDePasse,
-      employe.motDePasse
-    );
-    if (!isPasswordValid) {
-      throw new Error("Mot de passe invalide.");
+    try {
+      // Vérification si l'utilisateur existe dans la base de données
+      const employe = await this.employeRepository.findByEmail(emailEmploye);
+      if (!employe) {
+        throw new Error("Utilisateur non trouvé.");
+      }
+  
+      // Vérification du mot de passe
+      const isPasswordValid = await bcrypt.compare(motDePasse, employe.motDePasse);
+      if (!isPasswordValid) {
+        throw new Error("Mot de passe invalide.");
+      }
+  
+      // Génération du token JWT avec un temps d'expiration de 1 heure
+      const token = jwt.sign({ id: employe.idEmployer, nom : employe.nomEmploye }, SECRET_KEY, { expiresIn: "1h" });
+  
+      return { token };
+    } catch (error) {
+      // Gestion de toutes les erreurs et renvoi d'un message approprié
+      throw new Error(error.message || "Erreur lors de l'authentification.");
     }
-
-    const token = jwt.sign({ id: employe.id }, SECRET_KEY, { expiresIn: "1h" });
-    return { token };
   }
 
   // *******************************************************

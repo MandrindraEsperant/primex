@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Formulaire.css";
 import {
   FaEnvelope,
@@ -16,16 +16,26 @@ import axios from "axios";
 const Formulaire = () => {
   const [login, setLogin] = useState({
     email: "",
-    password: "",
+    // password: "",
   });
   const navigate = useNavigate();
-  const handelLogin =  (e) => {
-    e.preventDefault();
+
+
+useEffect(()=> {
+  AccountService.logout();
+},[])
+
+  const handelLogin =  () => {
+    // e.preventDefault();
+    alert("okk")
     axios
       .post("http://localhost:3002/employe/login", login)
       .then((res) => {
-        const token =res.data.token;
-        AccountService.saveToken(token);
+
+        // const token =res.data.token;
+
+        // AccountService.saveToken(token);
+        AccountService.logout();
       })
       .catch((err) => console.log(err.message));
 
@@ -50,7 +60,6 @@ const Formulaire = () => {
           </div>
           <div className="input-field">
             <i>
-              {" "}
               <FaLock />
             </i>
             <input

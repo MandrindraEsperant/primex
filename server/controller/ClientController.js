@@ -14,7 +14,7 @@ class ClientController {
   
     async getClientById(req, res) {
       try {
-        const client = await this.clientService.getEmployeById(req.params.id);
+        const client = await this.clientService.getClientById(req.params.id);
         if (client) {
           res.status(200).json(client);
         } else {
