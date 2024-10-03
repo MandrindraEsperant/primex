@@ -1,18 +1,19 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "../../components/admin/sidebar/Sidebar";
+import "./App.scss";
 
 const ALayout = () => {
-
-
   return (
-    <div>
-      <h1>Page admin hhhh 
-        {/* { login } */}
+    <main className="page-wrapper">
+      {/* left of page */}
+      <Sidebar />
+      {/* right side/content of the page */}
+      <div className="content-wrapper">
+        <Outlet />
+      </div>
+    </main>
+  );
+};
 
-      </h1>
-        <Outlet/>
-    </div>
-  )
-}
-
-export default ALayout
+export default ALayout;
