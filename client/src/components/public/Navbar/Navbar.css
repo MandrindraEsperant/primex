@@ -103,7 +103,7 @@ nav .langue select {
         width: 100%;
         height: max-content;
     }
-    ul {
+    ul#menu {
         padding: 2rem;
         line-height: 3rem;
         position: fixed;

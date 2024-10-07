@@ -16,14 +16,16 @@ import {
   MdDirectionsBoat
 
 } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 import "./Sidebar.scss";
-import { SidebarContext } from "./../../../context/SidebarContext";
+// import { SidebarContext } from "./../../../context/SidebarContext";
 import { AccountService } from './../../../_services/Account.service';
 
 const Sidebar = () => {
+  const location = useLocation(); // Récupérer l'URL actuelle
   const { theme } = useContext(ThemeContext);
-  const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
+  // const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const navbarRef = useRef(null);
 
   // closing the navbar when clicked outside the sidebar area
@@ -53,7 +55,14 @@ const Sidebar = () => {
 
   return (
     <nav
-      className={`sidebar ${isSidebarOpen ? "sidebar-show" : ""}`}
+      className={
+        // `
+       'sidebar' 
+        //  ${isSidebarOpen ? 
+          // "sidebar-show" : ""
+        // }
+          // `
+        }
       ref={navbarRef}
     >
       <div className="sidebar-top">
@@ -61,7 +70,9 @@ const Sidebar = () => {
           <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
           <span className="sidebar-brand-text">Primex Logistics</span>
         </div>
-        <button className="sidebar-close-btn" onClick={closeSidebar}>
+        <button className="sidebar-close-btn" 
+        // onClick={closeSidebar}
+        >
           <MdOutlineClose size={24} />
         </button>
       </div>
@@ -69,7 +80,11 @@ const Sidebar = () => {
         <div className="sidebar-menu">
           <ul className="menu-list">
             <li className="menu-item">
-              <Link to="/admin" className="menu-link active">
+              <Link to="/admin/dashboard" 
+               className={`menu-link ${location.pathname === '/admin/dashboard' ? 'active' : ''}`}
+              // className="menu-link"
+              >
+              
                 <span className="menu-link-icon">
                   <MdOutlineGridView size={18} />
                 </span>
@@ -77,7 +92,10 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/client" className="menu-link">
+              <Link to="/admin/client" 
+
+               className={`menu-link ${location.pathname === '/admin/client' ? 'active' : ''}`}
+              >
                 <span className="menu-link-icon">
                   <MdGroups size={20} />
                 </span>
@@ -137,7 +155,7 @@ const Sidebar = () => {
                 <span className="menu-link-text">Parametre</span>
               </Link>
             </li>
-            <li className="menu-item" onClick={Deconnection}>
+            <li className="menu-item" title="logout" onClick={Deconnection}>
               <span to="/" className="menu-link">
                 <span className="menu-link-icon">
                   <MdOutlineLogout size={20} />

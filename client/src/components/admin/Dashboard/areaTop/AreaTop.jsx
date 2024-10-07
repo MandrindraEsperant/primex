@@ -7,7 +7,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
 
-const AreaTop = () => {
+const  AreaTop = () => {
   // const { openSidebar, closeSidebar } = useContext(SidebarContext); // Récupérer openSidebar et closeSidebar
 
   const [state, setState] = useState([

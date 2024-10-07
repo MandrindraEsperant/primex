@@ -1,4 +1,4 @@
-@import '../../App.scss';
+@import '../../../pages/admin/App.scss';
 
 .light-mode {
   .table {
@@ -37,49 +37,49 @@
 }
 
 // Utilisation du mixin pour le mode sombre
-.dark-mode {
-  .searchContainer {
-    background: var(--background-color);
-  }
+// .dark-mode {
+//   .searchContainer {
+//     background: var(--background-color);
+//   }
 
-  h3 {
-    color: #ffffff;
-  }
+//   h3 {
+//     color: #ffffff;
+//   }
 
-  .table {
-    background-color: var(--background-color);
+//   .table {
+//     background-color: var(--background-color);
 
-    th {
-      background-color: var(--secondary-color); // Même couleur que <td> en mode sombre
-      color: #ffffff; // Couleur blanche pour le texte dans les cellules
-    }
+//     th {
+//       background-color: var(--secondary-color); // Même couleur que <td> en mode sombre
+//       color: #ffffff; // Couleur blanche pour le texte dans les cellules
+//     }
 
-    td {
-      background-color: var(--secondary-color); // Couleur par défaut pour les cellules
-      color: #ffffff; // Couleur blanche pour le texte dans les cellules
-    }
+//     td {
+//       background-color: var(--secondary-color); // Couleur par défaut pour les cellules
+//       color: #ffffff; // Couleur blanche pour le texte dans les cellules
+//     }
 
-    tr:nth-child(even) {
-      background-color: var(--side-link-hover-color);
-    }
+//     tr:nth-child(even) {
+//       background-color: var(--side-link-hover-color);
+//     }
 
-    // Ajout de l'effet hover pour les lignes
-    tr:hover {
-      background-color: var(--primary-color); // Couleur pour le survol
-      color: var(--secondary-color); // Couleur du texte au survol
-    }
+//     // Ajout de l'effet hover pour les lignes
+//     tr:hover {
+//       background-color: var(--primary-color); // Couleur pour le survol
+//       color: var(--secondary-color); // Couleur du texte au survol
+//     }
 
-    .selectedRow {
-      background-color: var(--primary-color) !important;
-      color: var(--text-color-inverted) !important;
-    }
-  }
+//     .selectedRow {
+//       background-color: var(--primary-color) !important;
+//       color: var(--text-color-inverted) !important;
+//     }
+//   }
 
-  .detailContainer {
-    background-color: var(--background-color);
-    color: var(--base-text-color);
-  }
-}
+//   .detailContainer {
+//     background-color: var(--background-color);
+//     color: var(--base-text-color);
+//   }
+// }
 
 
 

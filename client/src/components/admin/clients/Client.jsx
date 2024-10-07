@@ -1,8 +1,9 @@
 import { useState, useContext } from 'react';
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "./../../../context/ThemeContext";
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import './Client.scss';
 
+import { Link } from "react-router-dom";
 
 const initialData = [
     { id: 1, nom: 'Alice Dupont', adresse: '123 Rue A', contact: '0123456789', email: 'alice@example.com', imageUrl: 'https://via.placeholder.com/150' },
@@ -72,9 +73,11 @@ const Client = () => {
                                 />
                             )}
                         </div>
+                        <Link to="/admin/ajoutclient">
                         <button className="addButton">
                             <MdAdd /> Ajouter
                         </button>
+                        </Link>
                     </div>
                     <table className="table">
                         <thead>

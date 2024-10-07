@@ -40,10 +40,11 @@
   }
 
   // hiding full on small screen
-  @media(max-width: 768px){
-    width: 260px;
-    transform: translateX(-100%);
-  }
+  // @media(max-width: 768px){
+  //   width: 260px;
+  //   width: 260px;
+  //   transform: translateX(-100%);
+  // }
 
   .sidebar-top{
     display: flex;
@@ -70,9 +71,9 @@
         display: none;
     }
 
-    @media(max-width: 768px){
-        display: inline-block;
-    }
+    // @media(max-width: 768px){
+    //     display: inline-block;
+    // }
   }
 
   .sidebar-close-btn{
@@ -88,9 +89,9 @@
     transition: var(--default-transition);
     display: none;
 
-    @media(max-width: 768px){
-        display: inline-flex;
-    }
+    // @media(max-width: 768px){
+    //     display: inline-flex;
+    // }
 
     &:hover{
         opacity: 0.8;
@@ -164,9 +165,9 @@
     @media(max-width: 1200px){
         display: none;
     }
-    @media(max-width: 768px){
-        display: inline-block;
-    }
+    // @media(max-width: 768px){
+    //     display: inline-block;
+    // }
   }
 
   .sidebar-body{
@@ -177,7 +178,11 @@
 
     .menu-list{
       display: flex;
-      flex-direction: column;      
+      flex-direction: column;   
+
+         @media(max-width: 858px){
+        display: inline-block;
+    }
     }
   }
 

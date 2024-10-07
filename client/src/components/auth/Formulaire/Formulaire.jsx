@@ -21,7 +21,9 @@ const Formulaire = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    AccountService.logout();
+    if(AccountService.isLogged){ 
+      navigate('/admin/dashboard')
+    }
   }, []);
   
   const handleLogin = async (e) => {
