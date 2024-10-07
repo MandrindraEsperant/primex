@@ -20,31 +20,38 @@ const Formulaire = () => {
   });
   const navigate = useNavigate();
 
-useEffect(()=> {
-  AccountService.logout();
-},[])
-
-  const handelLogin =  (e) => {
+  useEffect(() => {
+    if(AccountService.isLogged){ 
+      navigate('/admin/dashboard')
+    }
+  }, []);
+  
+  const handleLogin = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3002/employe/login", login)
-      .then((res) => {
+  
+    try {
+      const res = await axios.post("http://localhost:3001/employe/login", login);
 
-        const token =res.data.token;
-
+      if (res.status === 200) {
+        const token = res.data.token;
         AccountService.saveToken(token);
-        AccountService.logout();
-      })
-      .catch((err) => console.log(err.message));
-
-    
-    navigate('/admin')
+        navigate("/admin");
+      }
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.error)
+      } else {
+        // Si c'est une autre erreur (ex. problème de réseau)
+        console.error("Erreur :", err.message);
+        alert("Erreur lors de la connexion. Veuillez vérifier votre connexion réseau.");
+      }
+    }
   };
-
+  
   return (
     <div className="forms-container">
       <div className="signin-signup">
-        <form action="#" className="sign-in-form" onSubmit={handelLogin}>
+        <form action="#" className="sign-in-form" onSubmit={handleLogin}>
           <h2 className="title">Sign in</h2>
           <div className="input-field">
             <i>

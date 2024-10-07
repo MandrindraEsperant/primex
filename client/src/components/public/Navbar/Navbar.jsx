@@ -43,7 +43,7 @@ const Navbar = () => {
                                 <option value="en">EN</option>
                             </select>
                         </div>
-                    </ul>
+                    </ul> 
                 </div>
             </OutsideClickHandler>
         </nav>

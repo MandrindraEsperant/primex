@@ -15,15 +15,17 @@ class EmployeController {
   async authentification(req, res) {
     try {
       const { email, password } = req.body;
-      const { token } = await this.employeService.authenticate(email,password);
+      const { token } = await this.employeService.authenticate(email, password);
       res.status(200).json({ token });
     } catch (error) {
-      res.status(401).json({ error: error.message });
+      if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        // Erreur interne serveur
+        res.status(500).json({ error: "Erreur lors de l'authentification" });
+      }
     }
   }
-
-
-
 
   async getEmploye(req, res) {
     try {
