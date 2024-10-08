@@ -1,5 +1,8 @@
 @import '../../../pages/admin/App.scss';
 
+th{
+  color: black;
+}
 .light-mode {
   .table {
     background-color: var(--background-color);

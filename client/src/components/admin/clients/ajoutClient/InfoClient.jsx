@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StepperContext } from '../../../../context/StepperContext';
 
 const InfoClient = () => {
@@ -9,36 +9,39 @@ const InfoClient = () => {
         setUserData({ ...userData, [name]: value });
     };
 
+    // Pas besoin de définir isFormValid ici, il est géré dans ClientForm
+    useEffect(() => {
+      // Vérification des champs dans le context
+    }, [userData]);
+
     return (
-        <div className="flex flex-col">
-            {/* Nom Client */}
-            <div className="w-full mx-2 flex-1">
-                <div className="font-bold h-6 mt-3 text-gray-500 text-xs leading-8 uppercase">
+        <div className='flex flex-col'>
+            <div className='w-full mx-2 flex-1'>
+                <div className='font-bold h-6 mt-3 text-gray-500 text-xs leading-8 uppercase'>
                     Nom Client
                 </div>
-                <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
-                    <input
+                <div className='bg-white my-2 p-1 flex border borde-gray-200 rounded'>
+                    <input 
                         onChange={handleChange}
                         value={userData["username"] || ""}
-                        name="username"
-                        placeholder="Nom"
-                        className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                        name='username'
+                        placeholder='Username'
+                        className='p-1 px-2 appearance-none outline-none w-full text-gray-800'
                     />
                 </div>
             </div>
-            {/* Email */}
-            <div className="w-full mx-2 flex-1">
-                <div className="font-bold h-6 mt-3 text-gray-500 text-xs leading-8 uppercase">
-                    Email
+            <div className='w-full mx-2 flex-1'>
+                <div className='font-bold h-6 mt-3 text-gray-500 text-xs leading-8 uppercase'>
+                    Password
                 </div>
-                <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
-                    <input
+                <div className='bg-white my-2 p-1 flex border borde-gray-200 rounded'>
+                    <input 
                         onChange={handleChange}
                         value={userData["password"] || ""}
-                        name="password"
-                        placeholder="Email"
-                        type="password"
-                        className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                        name='password'
+                        placeholder='Password'
+                        type='password'
+                        className='p-1 px-2 appearance-none outline-none w-full text-gray-800'
                     />
                 </div>
             </div>

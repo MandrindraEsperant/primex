@@ -111,7 +111,9 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className="menu-link">
+              <Link to="/admin/importation" 
+
+className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdLocalShipping size={18} />
                 </span>
