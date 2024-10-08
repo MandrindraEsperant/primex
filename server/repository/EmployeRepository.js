@@ -31,7 +31,7 @@ class EmployeRepository extends IRepository {
   async delete(id) {
     const employe = await this.findById(id);
     if (employe) {
-      return await employe.destroy();
+      return await employe.destroy({where: { idEmployer: id }});
     }
     return null;
   }

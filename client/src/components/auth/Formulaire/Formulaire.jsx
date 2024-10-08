@@ -21,8 +21,10 @@ const Formulaire = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(AccountService.isLogged){ 
+    if(!AccountService.isLogged){ 
       navigate('/admin/dashboard')
+    }else{
+      navigate('/auth/')
     }
   }, []);
   
@@ -35,7 +37,7 @@ const Formulaire = () => {
       if (res.status === 200) {
         const token = res.data.token;
         AccountService.saveToken(token);
-        navigate("/admin");
+        navigate("/admin/dashboard");
       }
     } catch (err) {
       if (err.response) {

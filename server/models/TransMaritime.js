@@ -1,28 +1,35 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
 
-class Client extends Sequelize.Model {}
+class TransMaritime extends Sequelize.Model {}
 
-Client.init(
+TransMaritime.init(
   {
-    idClient: {
+    idTransMaritime: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    nomClient: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    emailClient: {
+    numHBL: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    CINClient: {
+    numBateau: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+    },
+    nomBateau: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    dateDepart: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    dateArriver: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     creerPar: {
       type: DataTypes.INTEGER,
@@ -35,9 +42,9 @@ Client.init(
   },
   {
     sequelize,
-    modelName: "Client",
+    modelName: "TransMaritime",
     timestamps: true, // Inclut createdAt et updatedAt
   }
 );
 
-module.exports = Client;
+module.exports = TransMaritime;

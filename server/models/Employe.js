@@ -4,7 +4,6 @@ const sequelize = require('../config/database'); // Assure-toi d'avoir la connex
 class Employe extends Sequelize.Model {}
 
 Employe.init(
-  
   {
     idEmployer: {
       type: DataTypes.INTEGER,
@@ -18,12 +17,14 @@ Employe.init(
     emailEmploye: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        isEmail: true, // Validation pour s'assurer que c'est un email valide
+      },
     },
     motDePasse: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
     },
     typeEmploye: {
       type: DataTypes.ENUM('Employe', 'Administrateur'),
