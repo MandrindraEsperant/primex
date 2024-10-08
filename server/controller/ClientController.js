@@ -3,12 +3,17 @@ class ClientController {
       this.clientService = clientService;
     }
   
-    async createClient(req, res) {
+    async createClient(req, res) { 
       try {
         const client = await this.clientService.createClient(req.body);
         res.status(201).json(client);
       } catch (error) {
-        res.status(500).send(error.message);
+        if (error.message) {
+          res.status(401).json({ error: error.message });
+        } else {
+          // Erreur interne serveur
+          res.status(500).json({ error: "Erreur lors de la creation du client" });
+        }
       }
     }
   

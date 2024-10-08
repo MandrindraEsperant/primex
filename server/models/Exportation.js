@@ -1,28 +1,31 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
 
-class Client extends Sequelize.Model {}
+class Exportation extends Sequelize.Model {}
 
-Client.init(
+Exportation.init(
   {
-    idClient: {
+    idExportation: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    nomClient: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    dateExportation:{
+        type: DataTypes.DATE,
+        allowNull:false,
     },
-    emailClient: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+    numMBL:{
+        type: DataTypes.STRING,
+        allowNull:false,
+        unique: true
     },
-    CINClient: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+    modeTransport: {
+        type: DataTypes.ENUM('Maritime', 'Aerienne'),
+        allowNull: false
+    },
+    idTransport: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     creerPar: {
       type: DataTypes.INTEGER,
@@ -35,9 +38,9 @@ Client.init(
   },
   {
     sequelize,
-    modelName: "Client",
+    modelName: "Exportation",
     timestamps: true, // Inclut createdAt et updatedAt
   }
 );
 
-module.exports = Client;
+module.exports = Exportation;

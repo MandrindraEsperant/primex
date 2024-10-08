@@ -6,7 +6,7 @@ class ClientRepository extends IRepository {
     async create(clientData) {
       return await Client.create(clientData);
     }
-  
+
     async findById(id) {
       return await Client.findByPk(id);
     }
@@ -30,7 +30,7 @@ class ClientRepository extends IRepository {
     async delete(id) {
       const client = await this.findById(id);
       if (client) {
-        return await client.destroy();
+        return await client.destroy({where: { idClient: id }});
       }
       return null;
     }

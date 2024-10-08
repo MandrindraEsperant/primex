@@ -6,13 +6,10 @@ class ClientService {
     async createClient(clientData) {
       // Validation des données
       if (
-        !clientData.nomClient ||
-        !clientData.emailClient ||
-        !clientData.CINClient 
+        !clientData.nomClient || !clientData.emailClient || !clientData.CINClient || !clientData.creerPar
       ) {
         throw new Error("Tous les champs sont requis.");
       }
-  
       return await this.clientRepository.create(clientData);
     }
 
@@ -20,7 +17,7 @@ class ClientService {
       return await this.clientRepository.findById(id);
     }
   
-    async getAllClients() {
+    async getAllClients() { 
       return await this.clientRepository.findAll();
     }
   
