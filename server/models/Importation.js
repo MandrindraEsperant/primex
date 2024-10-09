@@ -1,31 +1,31 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
 
-class TransAerienne extends Sequelize.Model {}
+class Importation extends Sequelize.Model {}
 
-TransAerienne.init(
+Importation.init(
   {
-    idTransAerienne: {
+    idImportation: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    numVol: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+    dateImportation:{
+        type: DataTypes.DATE,
+        allowNull:false,
     },
-    nomCompagnie: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    numMBL:{
+        type: DataTypes.STRING,
+        allowNull:false,
+        unique: true
     },
-    dateDepart: {
-      type: DataTypes.DATE,
-      allowNull: false,
+    modeTransport: {
+        type: DataTypes.ENUM('Maritime', 'Aerienne'),
+        allowNull: false
     },
-    dateArriver: {
-      type: DataTypes.DATE,
-      allowNull: false,
+    idTransport: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     creerPar: {
       type: DataTypes.INTEGER,
@@ -38,9 +38,9 @@ TransAerienne.init(
   },
   {
     sequelize,
-    modelName: "TransAerienne",
+    modelName: "Importation",
     timestamps: true, // Inclut createdAt et updatedAt
   }
 );
 
-module.exports = TransAerienne;
+module.exports = Importation;

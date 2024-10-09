@@ -21,7 +21,7 @@ class TransMaritimeRepository extends IRepository {
     }
     return null;
   }
-
+ 
   async delete(id) {
     const transMaritime = await this.findById(id);
     if (transMaritime) {
