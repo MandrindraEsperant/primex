@@ -2,7 +2,7 @@ import React from 'react'
 import { Dialog, IconButton, DialogContent} from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
-import ClientForm from '../../components/admin/clients/ajoutClient/ClientForm'
+import AjoutCli from '../../components/admin/clients/ajoutClient/AjouCli';
 
 const AjoutCLi = ({ open, handleClose }) => {
   return (
@@ -20,7 +20,7 @@ const AjoutCLi = ({ open, handleClose }) => {
         >
           <CloseIcon />
         </IconButton>
-        <ClientForm />
+        <AjoutCli />
       </DialogContent>
     </Dialog>
   )

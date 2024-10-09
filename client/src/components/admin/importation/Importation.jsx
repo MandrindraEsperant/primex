@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { ThemeContext } from "./../../../context/ThemeContext";
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import '../clients/Client.scss'
-
+import AjoutImportPage from '../../../pages/admin/AjoutImportPage';
 
 import { Link } from "react-router-dom";
 
@@ -79,9 +79,10 @@ const Importation = () => {
                                 />
                             )}
                         </div>
-                            <button className="addButton" >
+                            <button className="addButton" onClick={handleClickOpen}>
                                 <MdAdd /> Ajouter
                             </button>
+                            <AjoutImportPage open={open} handleClose={handleClose}/>
                             
                     </div>
                     <table className="table">
