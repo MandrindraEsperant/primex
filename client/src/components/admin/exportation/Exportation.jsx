@@ -9,33 +9,57 @@ import {
   MdClear,
 } from "react-icons/md";
 import "../clients/Client.scss";
-import AjoutImportPage from "../../../pages/admin/AjoutImportPage";
+import AjoutEXportPage from "../../../pages/admin/AjoutEXportPage";
 import axios from "axios";
 
-const Importation = () => {
+const initialData = [
+  {
+    idExportation: 1,
+    dateExportation: "14/09/2024",
+    numMBL: "214587MKO",
+    modeTransport: "Maritime",
+    idTransport: "15741DSZ",
+  },
+  {
+    idExportation: 2,
+    dateExportation: "10/01/2021",
+    numMBL: "974585DREF",
+    modeTransport: "Aérienne",
+    idTransport: "15741PKZ",
+  },
+  {
+    idExportation: 2,
+    dateExportation: "14/09/2024",
+    numMBL: "321582GF",
+    modeTransport: "Maritime",
+    idTransport: "5478QSX",
+  },
+];
+const Exportation = () => {
+  const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
 
-  const allImportation = async () => {
+  const allExportation = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/importation/");
+      const response = await axios.get("http://localhost:3001/exportation/");
       setData(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
+
   const supprimer = (id) => {
     axios
-      .delete("http://localhost:3001/importation/" + id)
+      .delete("http://localhost:3001/exportation/" + id)
       .then((res) => {
-        allImportation();
+        allExportation();
       })
       .catch((err) => alert(err));
   };
 
   useEffect(() => {
-    allImportation();
+    allExportation();
   }, []);
-  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,12 +75,16 @@ const Importation = () => {
   const itemsPerPage = 7;
 
   const handleSelect = (person) => {
-    if (selectedPerson && selectedPerson.id === person.id) {
+    if (
+      selectedPerson &&
+      selectedPerson.idExportation === person.idExportation
+    ) {
       setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
   };
+
   const filteredData = data;
 
   // Pagination logic
@@ -72,7 +100,7 @@ const Importation = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-      <h3 className="title">LISTE DE TOUT LES IMPORTATIONS</h3>
+      <h3 className="title">LISTE DE TOUT LES EXPORTATIONS</h3>
       <div className="container">
         <div className="tableContainer">
           <div className="actionsContainer">
@@ -95,7 +123,7 @@ const Importation = () => {
             <button className="addButton" onClick={handleClickOpen}>
               <MdAdd /> Ajouter
             </button>
-            <AjoutImportPage open={open} handleClose={handleClose} />
+            <AjoutEXportPage open={open} handleClose={handleClose} />
           </div>
           <table className="table">
             <thead>
@@ -111,7 +139,7 @@ const Importation = () => {
             <tbody>
               {currentData.map((item) => (
                 <tr
-                  key={item.idImportation}
+                  key={item.idExportation}
                   onClick={() => handleSelect(item)}
                   className={item === selectedPerson ? "selectedRow" : ""}
                 >
@@ -122,7 +150,7 @@ const Importation = () => {
                       readOnly
                     />
                   </td>
-                  <td>{item.dateImportation}</td>
+                  <td>{item.dateExportation}</td>
                   <td>{item.numMBL}</td>
                   <td>{item.modeTransport}</td>
                   <td>{item.idTransport}</td>
@@ -131,7 +159,7 @@ const Importation = () => {
                       <MdEdit className="editIcon" />
                       <MdDelete
                         className="deleteIcon"
-                        onClick={() => supprimer(item.idImportation)}
+                        onClick={() => supprimer(item.idExportation)}
                       />
                       <MdVisibility className="viewIcon" />
                     </span>
@@ -156,28 +184,33 @@ const Importation = () => {
             )}
           </div>
         </div>
-
         <div className="detailContainer">
           <div className="detailHeader">
             {selectedPerson && (
               <img
-                src={selectedPerson.imageUrl}
-                alt={selectedPerson.nom}
+                src=""
+                alt={selectedPerson.modeTransport}
                 className="detailImage"
               />
             )}
-            <h3>Date  : {selectedPerson ? selectedPerson.dateImportation : ""}
+            <h3>
+              Détails : {selectedPerson ? selectedPerson.modeTransport : ""}
             </h3>
           </div>
           <p>
-            <strong>Numero MBL :</strong> {selectedPerson ? selectedPerson.numMBL : ""}
+            <strong>Date :</strong>{" "}
+            {selectedPerson ? selectedPerson.dateExportation : ""}
           </p>
           <p>
-            <strong>Mode de transport :</strong>{" "}
+            <strong>Num MBL :</strong>{" "}
+            {selectedPerson ? selectedPerson.numMBL : ""}
+          </p>
+          <p>
+            <strong>Mode Transport :</strong>{" "}
             {selectedPerson ? selectedPerson.modeTransport : ""}
           </p>
           <p>
-            <strong>ID de transport :</strong>{" "}
+            <strong>Id Transport :</strong>{" "}
             {selectedPerson ? selectedPerson.idTransport : ""}
           </p>
           <button className="editButton">
@@ -189,4 +222,4 @@ const Importation = () => {
   );
 };
 
-export default Importation;
+export default Exportation;

@@ -33,7 +33,17 @@ const AjoutCli = ({ ToutClient }) => {
           toast.success("Client bien ajouté");
           ToutClient();
         })
-        .catch(err=> console.log(err))
+        .catch(err=>{
+          if (err.response) {
+            toast.error(err.response.data.error);
+          } else {
+            // Si c'est une autre erreur (ex. problème de réseau)
+            toast.error(err.message);        
+          }
+          
+          ToutClient();
+          console.log(err)
+        } )
       
     } else {
       toast.error("Please fill in all the required fields");

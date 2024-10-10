@@ -6,7 +6,8 @@ import User from "./User";
 import Dashboard from "./Dashboard";
 import ClientPage from "./ClientPage";
 import ImportationPage from "./ImportationPage";
-
+import EmployePage from "./EmployePage";
+import ExportationPage from "./ExportationPage";
 
 
 import Error404 from "../../_utils/Error404";
@@ -20,6 +21,8 @@ const AdminRouter = () => {
 
         <Route path="client" element={<ClientPage />} />
         <Route path="importation" element={<ImportationPage />} />
+        <Route path="employe" element={<EmployePage />} />
+        <Route path="exportation" element={<ExportationPage />} />
 
         <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />
