@@ -2,17 +2,18 @@ import { useState, useContext } from 'react';
 import { ThemeContext } from "./../../../context/ThemeContext";
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import '../clients/Client.scss'
-import AjoutImportPage from '../../../pages/admin/AjoutImportPage';
+import AjoutEXportPage from '../../../pages/admin/AjoutEXportPage';
+
 
 import { Link } from "react-router-dom";
 
 const initialData = [
-    { id: 1, dateimport: '14/09/2024', nummbl: '214587MKO', modetransport: 'Maritime', idtransport: '15741DSZ',},
-    { id: 2, dateimport: '10/01/2021', nummbl: '974585DREF', modetransport: 'Aérienne', idtransport: '15741PKZ',},
-    { id: 2, dateimport: '14/09/2024', nummbl: '321582GF', modetransport: 'Maritime', idtransport: '5478QSX',},
+    { idExportation: 1, dateExportation: '14/09/2024', numMBL: '214587MKO', modeTransport: 'Maritime', idTransport: '15741DSZ',},
+    { idExportation: 2, dateExportation: '10/01/2021', numMBL: '974585DREF', modeTransport: 'Aérienne', idTransport: '15741PKZ',},
+    { idExportation: 2, dateExportation: '14/09/2024', numMBL: '321582GF', modeTransport: 'Maritime', idTransport: '5478QSX',},
     
 ];
-const Importation = () => {
+const Exportation = () => {
 
   const [open, setOpen] = useState(false);
 
@@ -31,7 +32,7 @@ const Importation = () => {
   const itemsPerPage = 7;
 
   const handleSelect = (person) => {
-      if (selectedPerson && selectedPerson.id === person.id) {
+      if (selectedPerson && selectedPerson.idExportation === person.idExportation) {
           setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
       } else {
           setSelectedPerson(person); // Sélectionne la personne cliquée
@@ -39,9 +40,9 @@ const Importation = () => {
   };
 
   const filteredData = data.filter(item =>
-      item.dateimport.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.nummbl.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.modetransport.toLowerCase().includes(searchTerm.toLowerCase())
+      item.dateExportation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.numMBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.modeTransport.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Pagination logic
@@ -59,7 +60,7 @@ const Importation = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-            <h3 className="title">LISTE DE TOUT LES IMPORTATIONS</h3>
+            <h3 className="title">LISTE DE TOUT LES EXPORTATIONS</h3>
             <div className="container">
                 <div className="tableContainer">
                     <div className="actionsContainer">
@@ -82,7 +83,7 @@ const Importation = () => {
                             <button className="addButton" onClick={handleClickOpen}>
                                 <MdAdd /> Ajouter
                             </button>
-                            <AjoutImportPage open={open} handleClose={handleClose}/>
+                            <AjoutEXportPage open={open} handleClose={handleClose}/>
                             
                     </div>
                     <table className="table">
@@ -90,7 +91,7 @@ const Importation = () => {
                             <tr >
                                 <th>#</th>
                                 <th>ID</th>
-                                <th>Date de l'importation</th>
+                                <th>Date de l'exportation</th>
                                 <th>N° MBL</th>
                                 <th>Mode de Transport</th>
                                 <th>ID Transport</th>
@@ -100,7 +101,7 @@ const Importation = () => {
                         <tbody>
                             {currentData.map(item => (
                                 <tr
-                                    key={item.id}
+                                    key={item.idExportation}
                                     onClick={() => handleSelect(item)}
                                     className={item === selectedPerson ? 'selectedRow' : ''}
                                 >
@@ -111,11 +112,11 @@ const Importation = () => {
                                             readOnly
                                         />
                                     </td>
-                                    <td>{item.id}</td>
-                                    <td>{item.dateimport}</td>
-                                    <td>{item.nummbl}</td>
-                                    <td>{item.modetransport}</td>
-                                    <td>{item.idtransport}</td>
+                                    <td>{item.idExportation}</td>
+                                    <td>{item.dateExportation}</td>
+                                    <td>{item.numMBL}</td>
+                                    <td>{item.modeTransport}</td>
+                                    <td>{item.idTransport}</td>
                                     <td>
                                         <span className="actionIcons">
                                             <MdEdit className="editIcon" />
@@ -142,13 +143,13 @@ const Importation = () => {
 
                 <div className="detailContainer">
                     <div className="detailHeader">
-                        {selectedPerson && <img src='' alt={selectedPerson.modetransport} className="detailImage" />}
-                        <h3>Détails : {selectedPerson ? selectedPerson.modetransport : ''}</h3>
+                        {selectedPerson && <img src='' alt={selectedPerson.modeTransport} className="detailImage" />}
+                        <h3>Détails : {selectedPerson ? selectedPerson.modeTransport : ''}</h3>
                     </div>
-                    <p><strong>Date :</strong> {selectedPerson ? selectedPerson.dateimport : ''}</p>
-                    <p><strong>Num MBL :</strong> {selectedPerson ? selectedPerson.nummbl : ''}</p>
-                    <p><strong>Mode Transport :</strong> {selectedPerson ? selectedPerson.modetransport : ''}</p>
-                    <p><strong>Id Transport :</strong> {selectedPerson ? selectedPerson.idtransport : ''}</p>
+                    <p><strong>Date :</strong> {selectedPerson ? selectedPerson.dateExportation : ''}</p>
+                    <p><strong>Num MBL :</strong> {selectedPerson ? selectedPerson.numMBL : ''}</p>
+                    <p><strong>Mode Transport :</strong> {selectedPerson ? selectedPerson.modeTransport : ''}</p>
+                    <p><strong>Id Transport :</strong> {selectedPerson ? selectedPerson.idTransport : ''}</p>
                     <button className="editButton">
                         <MdEdit /> Modifier
                     </button>
@@ -159,4 +160,4 @@ const Importation = () => {
   );
 };
 
-export default Importation;
+export default Exportation;

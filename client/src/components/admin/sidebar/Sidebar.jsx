@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { ThemeContext } from "./../../../context/ThemeContext";
 import { LIGHT_THEME } from "./../../../constants/themeConstants";
 import LogoBlue from "./../../../assets/images/logo_blue.svg";
@@ -23,6 +23,15 @@ import "./Sidebar.scss";
 import { AccountService } from './../../../_services/Account.service';
 
 const Sidebar = () => {
+
+
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+
+  const toggleSubmenu = () => {
+    setIsSubmenuOpen(!isSubmenuOpen); // Inverse l'état du sous-menu
+  };
+
+
   const location = useLocation(); // Récupérer l'URL actuelle
   const { theme } = useContext(ThemeContext);
   // const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
@@ -57,12 +66,12 @@ const Sidebar = () => {
     <nav
       className={
         // `
-       'sidebar' 
+        'sidebar'
         //  ${isSidebarOpen ? 
-          // "sidebar-show" : ""
+        // "sidebar-show" : ""
         // }
-          // `
-        }
+        // `
+      }
       ref={navbarRef}
     >
       <div className="sidebar-top">
@@ -70,7 +79,7 @@ const Sidebar = () => {
           <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
           <span className="sidebar-brand-text">Primex Logistics</span>
         </div>
-        <button className="sidebar-close-btn" 
+        <button className="sidebar-close-btn"
         // onClick={closeSidebar}
         >
           <MdOutlineClose size={24} />
@@ -80,11 +89,11 @@ const Sidebar = () => {
         <div className="sidebar-menu">
           <ul className="menu-list">
             <li className="menu-item">
-              <Link to="/admin/dashboard" 
-               className={`menu-link ${location.pathname === '/admin/dashboard' ? 'active' : ''}`}
+              <Link to="/admin/dashboard"
+                className={`menu-link ${location.pathname === '/admin/dashboard' ? 'active' : ''}`}
               // className="menu-link"
               >
-              
+
                 <span className="menu-link-icon">
                   <MdOutlineGridView size={18} />
                 </span>
@@ -92,9 +101,9 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/admin/client" 
+              <Link to="/admin/client"
 
-               className={`menu-link ${location.pathname === '/admin/client' ? 'active' : ''}`}
+                className={`menu-link ${location.pathname === '/admin/client' ? 'active' : ''}`}
               >
                 <span className="menu-link-icon">
                   <MdGroups size={20} />
@@ -103,17 +112,17 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className="menu-link">
+              <Link to="/admin/employe" className={`menu-link ${location.pathname === '/admin/employe' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdBuild size={20} />
                 </span>
-                <span className="menu-link-text">Services</span>
+                <span className="menu-link-text">Employé</span>
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/admin/importation" 
+              <Link to="/admin/importation"
 
-className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
+                className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdLocalShipping size={18} />
                 </span>
@@ -121,7 +130,10 @@ className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : 
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className="menu-link">
+              <Link to="/admin/exportation"
+
+                className={`menu-link ${location.pathname === '/admin/exportation' ? 'active' : ''}`}
+              >
                 <span className="menu-link-icon">
                   <MdFlightLand size={20} />
                 </span>
@@ -129,19 +141,37 @@ className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : 
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className="menu-link">
+              <Link className="menu-link">
                 <span className="menu-link-icon">
                   <MdDirectionsBoat size={20} />
                 </span>
-                <span className="menu-link-text">Compagnie</span>
+                <span className="menu-link-text">Transport</span>
               </Link>
+              <ul className="submenu">
+                <li className="submenu-item">
+                  <Link to="/admin/transport/maritime" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdDirectionsBoat size={18} />
+                    </span>
+                    <span className="menu-link-text">Maritime</span>
+                  </Link>
+                </li>
+                <li className="submenu-item">
+                  <Link to="/admin/transport/aerienne" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdFlightLand size={18} />
+                    </span>
+                    <span className="menu-link-text">Aérienne</span>
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li className="menu-item">
               <Link to="/" className="menu-link">
                 <span className="menu-link-icon">
                   <MdOutlineMessage size={18} />
                 </span>
-                <span className="menu-link-text">Messages</span>
+                <span className="menu-link-text">Marchandise</span>
               </Link>
             </li>
           </ul>

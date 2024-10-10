@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Importation.css'
+import './Exportation.css'
 
-function AjoutImportation() {
+function AjoutExportation() {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
   const [state, setState] = useState({
-    dateimportation: '',
-    nummbl: '',
-    modetransport: '',
-    idtransport: '',
+    dateExportation: '',
+    numMBL: '',
+    modeTransport: '',
+    idTransport: '',
   });
 
   const inputHandle = (e) => {
@@ -21,12 +21,12 @@ function AjoutImportation() {
   };
 
   const isStep1Valid = () => {
-    return state.dateimportation && state.nummbl;
+    return state.dateExportation && state.numMBL;
   };
 
   const isStep2Valid = () => {
-    return state.modetransport;
-    return state.idtransport;
+    return state.modeTransport;
+    return state.idTransport;
   };
 
   const next = () => {
@@ -73,7 +73,7 @@ function AjoutImportation() {
               </div>
               {/* Informations sous l'étape, stylisées en bleu ciel */}
               <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                {i === 0 && 'IMPORTATION'}
+                {i === 0 && 'EXPORTATION'}
                 {i === 1 && 'TRANSPORT'}
               </div>
             </div>
@@ -99,27 +99,27 @@ function AjoutImportation() {
       {formNo === 1 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="dateimportation">Date de l'importation</label>
+            <label htmlFor="dateExportation">Date de l'exportation</label>
             <input
-              value={state.dateimportation}
+              value={state.dateExportation}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="Date"
-              name="dateimportation"
+              name="dateExportation"
               placeholder="Date"
-              id="dateimportation"
+              id="dateExportation"
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="nummbl">Numéro MBL</label>
+            <label htmlFor="numMBL">Numéro MBL</label>
             <input
-              value={state.nummbl}
+              value={state.numMBL}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="text"
-              name="nummbl"
+              name="numMBL"
               placeholder="Numéro MBL"
-              id="nummbl"
+              id="numMBL"
             />
           </div>
           
@@ -150,27 +150,27 @@ function AjoutImportation() {
       {formNo === 2 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="modetransport">Mode de transport</label>
+            <label htmlFor="modeTransport">Mode de transport</label>
             <input
-              value={state.modetransport}
+              value={state.modeTransport}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="text"
-              name="modetransport"
-              placeholder="Emodetransport"
-              id="modetransport" // Ajout de l'ID manquant
+              name="modeTransport"
+              placeholder="EmodeTransport"
+              id="modeTransport" // Ajout de l'ID manquant
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="idtransport">ID transport</label>
+            <label htmlFor="idTransport">ID transport</label>
             <input
-              value={state.idtransport}
+              value={state.idTransport}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="text"
-              name="idtransport"
+              name="idTransport"
               placeholder="ID Transport"
-              id="idtransport" // Ajout de l'ID manquant
+              id="idTransport" // Ajout de l'ID manquant
             />
           </div>
           <div className="mt-4 gap-3 flex justify-center items-center mt-8">
@@ -200,4 +200,4 @@ function AjoutImportation() {
   );
 }
 
-export default AjoutImportation;
+export default AjoutExportation;
