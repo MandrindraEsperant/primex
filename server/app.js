@@ -32,7 +32,7 @@ app.use('/marchandise', marchandiseRoutes);
 
 
 // Synchroniser la base de données sans supprimer les tables existantes
-sequelize.sync({ force: true, alter:true }) 
+sequelize.sync({ force: false, alter:true }) 
   .then(() => console.log('Database synced'))
   .catch(err => console.log('Error syncing database', err));
 

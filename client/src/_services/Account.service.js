@@ -12,3 +12,4 @@ let isLogged = () =>{
 export const AccountService = {
    saveToken, logout, isLogged 
 }
+
