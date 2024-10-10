@@ -1,28 +1,45 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import '../../clients/Client.scss';
-import { Link } from "react-router-dom";
 import AjoutTransA from '../../../../pages/admin/AjoutTransA';
+import axios from 'axios';
 
-const initialData = [
-    { idTransAerienne: 1, numVol: '21458', nomCompagnie: 'Air France', dateDepart: '14/09/2024', dateArriver: '14/09/2024',},
-    { idTransAerienne: 2, numVol: '68452', nomCompagnie: 'Air France', dateDepart: '14/09/2024', dateArriver: '14/09/2024',},
-    { idTransAerienne: 3, numVol: '25212', nomCompagnie: 'Air France', dateDepart: '14/09/2024', dateArriver: '14/09/2024',},
-    
-];
 const TransportAerienne = () => {
     const [open, setOpen] = useState(false);
+
+    const [data, setData] = useState([]);
+
+    const allTransAerienne = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/transAerienne/");
+        setData(response.data);
+        // console.log(response.data);
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      }
+    };
+  
+    const supprimer = (id) => {
+      axios
+        .delete("http://localhost:3001/transAerienne/" + id)
+        .then((res) => {
+          allTransAerienne();
+        })
+        .catch((err) => alert(err));
+    };
+  
+    useEffect(() => {
+        allTransAerienne();
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
     };
-  
     const handleClose = () => {
         setOpen(false);
     };
     const { theme } = useContext(ThemeContext);
-    const [data] = useState(initialData);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +52,6 @@ const TransportAerienne = () => {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
-  
     const filteredData = data.filter(item =>
         item.numVol.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.nomCompagnie.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -48,12 +64,9 @@ const TransportAerienne = () => {
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-  
-  
   
     return (
       <div className={`client-container ${theme}`}>
@@ -117,7 +130,9 @@ const TransportAerienne = () => {
                                       <td>
                                           <span className="actionIcons">
                                               <MdEdit className="editIcon" />
-                                              <MdDelete className="deleteIcon" />
+                                              <MdDelete className="deleteIcon"
+                                                 onClick={() => supprimer(item.idTransAerienne)}
+                                              />
                                               <MdVisibility className="viewIcon" />
                                           </span>
                                       </td>

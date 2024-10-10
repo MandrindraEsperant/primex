@@ -98,8 +98,8 @@ const Client = () => {
             </div>
             <button className="addButton" onClick={handleClickOpen}>
               <MdAdd /> Ajouter
-            </button>
-            <AjoutCLi open={open} ToutClient={allClient} handleClose={handleClose} />
+            </button> 
+            <AjoutCLi open={open} allClient={allClient} handleClose={handleClose} />
           </div>
           <table className="table">
             <thead>

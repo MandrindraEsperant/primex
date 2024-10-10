@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
-const AjoutCli = ({ ToutClient }) => {
+const AjoutCli = ({ allClient }) => {
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const idEmploye = decodedToken.id;
@@ -24,14 +24,12 @@ const AjoutCli = ({ ToutClient }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
-
-    if (isFormValid()) {
-      axios.post('http://localhost:3001/client/', state)
+axios.post('http://localhost:3001/client/', state)
         .then(res =>  {
           toast.success("Client bien ajouté");
-          ToutClient();
+          allClient();
         })
         .catch(err=>{
           if (err.response) {
@@ -40,14 +38,7 @@ const AjoutCli = ({ ToutClient }) => {
             // Si c'est une autre erreur (ex. problème de réseau)
             toast.error(err.message);        
           }
-          
-          ToutClient();
-          console.log(err)
         } )
-      
-    } else {
-      toast.error("Please fill in all the required fields");
-    }
   };
 
   const isFormValid = () => {
