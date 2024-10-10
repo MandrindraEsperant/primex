@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../clients/ajoutClient/ClientForm.css';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function AjoutTransMaritime({ onSubmitSuccess }) {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+  const idEmploye = decodedToken.id;
   const [state, setState] = useState({
     numHBL: '',
     numBateau: '',
-    nomBateau: '',
+    nomBateau: '', 
     dateDepart: '',
     dateArriver: '',
+    creerPar: idEmploye,
+    modifierPAr: idEmploye
   });
 
   const inputHandle = (e) => {
@@ -20,15 +27,12 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
       [e.target.name]: e.target.value
     });
   };
-
   const isStep1Valid = () => {
     return state.numHBL && state.numBateau && state.nomBateau;
   };
-
   const isStep2Valid = () => {
     return state.dateDepart && state.dateArriver;
   };
-
   const next = () => {
     if (formNo === 1 && isStep1Valid()) {
       setFormNo(formNo + 1);
@@ -45,17 +49,28 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
     }
   };
 
-  const finalSubmit = () => {
-    if (isStep2Valid()) {
-      toast.success('Form submission successful', { autoClose: 3000 });
-      setTimeout(() => {
-        if (onSubmitSuccess) {
-          onSubmitSuccess();  // Ferme le Dialog
+  const finalSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/transMaritime/", state)
+      .then((res) => {
+        toast.success("Transport maritime bien ajouté");
+        setTimeout(() => {
+          if (onSubmitSuccess) {
+            onSubmitSuccess();  // Ferme le Dialog
+          }
+        }, 3000);      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error(err.response.data.error);
+        } else {
+          // Si c'est une autre erreur (ex. problème de réseau)
+          toast.error(err.message);
         }
-      }, 3000);
-    } else {
-      toast.error('Please fill in all the required fields');
-    }
+      });
+
+    
+
   };
 
   return (

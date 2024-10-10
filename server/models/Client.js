@@ -19,7 +19,7 @@ Client.init(
       allowNull: false,
       unique: true,
     },
-    CINClient: {
+    CINClient : {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,

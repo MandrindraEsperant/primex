@@ -2,15 +2,22 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Exportation.css'
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function AjoutExportation() {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+  const idEmploye = decodedToken.id;
   const [state, setState] = useState({
     dateExportation: '',
     numMBL: '',
     modeTransport: '',
     idTransport: '',
+    creerPar: idEmploye,
+    modifierPar: idEmploye
   });
 
   const inputHandle = (e) => {
@@ -45,12 +52,22 @@ function AjoutExportation() {
     }
   };
 
-  const finalSubmit = () => {
-    if (isStep2Valid()) {
-      toast.success('Form submission successful');
-    } else {
-      toast.error('Please fill in all the required fields');
-    }
+  const finalSubmit = (e) => {
+    e.preventDefault();
+    
+    axios
+      .post("http://localhost:3001/exportation/", state)
+      .then((res) => {
+        toast.success("Exportation bien ajouté");
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error(err.response.data.error);
+        } else {
+          // Si c'est une autre erreur (ex. problème de réseau)
+          toast.error(err.message);
+        }
+      });
   };
 
   return (
