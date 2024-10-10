@@ -1,16 +1,37 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import '../../clients/Client.scss';
-import { Link } from "react-router-dom";
 import AjoutTransM from '../../../../pages/admin/AjoutTransM';
+import axios from 'axios';
 
-const initialData = [
-    { idTransMaritime: 1, numHBL: '21458', numBateau: '14MNB', nomBateau: 'Bateau',  dateDepart: '14/09/2024', dateArriver: '14/09/2024',},
-    
-];
 const TransportMaritime = () => {
     const [open, setOpen] = useState(false);
+
+    const [data, setData] = useState([]);
+
+    const allTransMaritime = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/transMaritime/");
+        setData(response.data);
+        // console.log(response.data);
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      }
+    };
+  
+    const supprimer = (id) => {
+      axios
+        .delete("http://localhost:3001/transMaritime/" + id)
+        .then((res) => {
+          allTransMaritime();
+        })
+        .catch((err) => alert(err));
+    };
+  
+    useEffect(() => {
+        allTransMaritime();
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -20,7 +41,6 @@ const TransportMaritime = () => {
         setOpen(false);
     };
     const { theme } = useContext(ThemeContext);
-    const [data] = useState(initialData);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -118,7 +138,9 @@ const TransportMaritime = () => {
                                       <td>
                                           <span className="actionIcons">
                                               <MdEdit className="editIcon" />
-                                              <MdDelete className="deleteIcon" />
+                                              <MdDelete className="deleteIcon"
+                                                    onClick={() => supprimer(item.idTransMaritime)}
+                                              />
                                               <MdVisibility className="viewIcon" />
                                           </span>
                                       </td>
