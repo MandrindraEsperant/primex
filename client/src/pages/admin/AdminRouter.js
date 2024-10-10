@@ -9,6 +9,7 @@ import ImportationPage from "./ImportationPage";
 import EmployePage from "./EmployePage";
 import ExportationPage from "./ExportationPage";
 import TransportAeriennePage from "./TransportAeriennePage";
+import TransportMaritimePage from "./TransportMaritimePage";
 
 
 import Error404 from "../../_utils/Error404";
@@ -25,6 +26,7 @@ const AdminRouter = () => {
         <Route path="employe" element={<EmployePage />} />
         <Route path="exportation" element={<ExportationPage />} />
         <Route path="transportaerienne" element={<TransportAeriennePage />} />
+        <Route path="transportmaritime" element={<TransportMaritimePage />} />
 
         <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />

@@ -141,7 +141,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transportaerienne' ? 'active' : ''}`}>
+              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transportaerienne' || location.pathname === '/admin/transportmaritime'  ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdDirectionsBoat size={20} />
                 </span>
@@ -149,7 +149,7 @@ const Sidebar = () => {
               </div>
               <ul className="submenu">
                 <li className="submenu-item">
-                  <Link to="/admin/transport/maritime" className="menu-link">
+                  <Link to="/admin/transportmaritime" className="menu-link">
                     <span className="menu-link-icon">
                       <MdDirectionsBoat size={18} />
                     </span>
