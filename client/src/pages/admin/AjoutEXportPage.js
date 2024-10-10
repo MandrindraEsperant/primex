@@ -5,7 +5,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import AjoutExportation from '../../components/admin/exportation/ajoutexport/AjoutEXportation'
 
 const AjoutEXportPage = ({ open, handleClose }) => {
-  return (<Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+  return (
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
     <DialogContent style={{ position: 'relative' }}>
       {/* Bouton de fermeture en haut à droite */}
       <IconButton
