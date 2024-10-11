@@ -29,11 +29,10 @@ function AjoutImportation() {
   };
 
   const isStep1Valid = () => {
-    return state.dateImportation && state.numMBL;
+    return state.dateImportation && state.numMBL && state.modeTransport;;
   };
 
   const isStep2Valid = () => {
-    return state.modeTransport;
     return state.idTransport;
   };
 
@@ -119,7 +118,7 @@ function AjoutImportation() {
       {formNo === 1 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="dateImportation">Date de l'importation</label>
+            <label htmlFor="dateImportation" className="text-lg font-semibold mb-2">Date de l'importation</label>
             <input
               value={state.dateImportation}
               onChange={inputHandle}
@@ -131,7 +130,7 @@ function AjoutImportation() {
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numMBL">Numéro MBL</label>
+            <label htmlFor="numMBL" className="text-lg font-semibold mb-2">Numéro MBL</label>
             <input
               value={state.numMBL}
               onChange={inputHandle}
@@ -142,6 +141,20 @@ function AjoutImportation() {
               id="numMBL"
             />
           </div>
+          <div className="flex flex-col mb-3">
+                        <label htmlFor="modeTransport" className="text-lg font-semibold mb-2">Mde TRansport</label>
+                        <select
+                            value={state.modeTransport}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            name="modeTransport"
+                            id="modeTransport"
+                        >
+                            <option value="" disabled>Type</option>
+                            <option value="aerienne">Aérienne</option>
+                            <option value="maritime">Maritime</option>
+                        </select>
+                    </div>
 
           <div className="mt-4 gap-3 flex justify-center items-center mt-8">
             {/* Previous button (disabled on the first step) */}
@@ -174,29 +187,70 @@ function AjoutImportation() {
       {formNo === 2 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="modeTransport">Mode de transport</label>
-            <input
-              value={state.modeTransport}
-              onChange={inputHandle}
-              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="text"
-              name="modeTransport"
-              placeholder="Mode de Transport"
-              id="modeTransport"
-            />
-          </div>
-          <div className="flex flex-col mb-3">
-            <label htmlFor="idTransport">ID transport</label>
+            <label htmlFor="idTransport" className="text-lg font-semibold mb-2">ID transport</label>
             <input
               value={state.idTransport}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="text"
+              type="number"
               name="idTransport"
               placeholder="ID Transport"
               id="idTransport" // Ajout de l'ID manquant
             />
           </div>
+
+          {/* DETAILS DU TRANSPORTS SELECTIONNE  */}
+
+          <div className="flex flex-col mb-3">
+            <label htmlFor="numVol">N° Vol</label>
+            <input
+              value={state.numVol}
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="number"
+              name="numVol"
+              placeholder="N° vol"
+              id="numVol"
+            />
+          </div>
+          <div className="flex flex-col mb-3">
+            <label htmlFor="nomCompagnie">Nom Compagnie</label>
+            <input
+              value={state.nomCompagnie}
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="text"
+              name="nomCompagnie"
+              placeholder="Compagnie"
+              id="nomCompagnie"
+            />
+          </div>
+          <div className="flex flex-col mb-3">
+            <label htmlFor="dateDepart">Date de Départ</label>
+            <input
+              value={state.dateDepart}
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="date"
+              name="dateDepart"
+              placeholder="Date depart"
+              id="dateDepart" // Ajout de l'ID manquant
+            />
+          </div>
+          <div className="flex flex-col mb-3">
+            <label htmlFor="dateArriver">Date d' Arrivé</label>
+            <input
+              value={state.dateArriver}
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="date"
+              name="dateArriver"
+              placeholder="Date arrivé"
+              id="dateArriver" // Ajout de l'ID manquant
+            />
+          </div>
+
+
           <div className="mt-4 gap-3 flex justify-center items-center mt-8">
             {/* Previous button */}
             <button
