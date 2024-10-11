@@ -20,13 +20,21 @@
   .first .element{
     display: block;
   }
+
   
- .footer2 .first a{
-    text-decoration: none;
-  }
-  .first .label {
+ .footer2 .first a {
+  display: flex;
+  align-items: center;
+}
+ .footer2 .first div {
+  display: flex;
+  align-items: center;
+}
+
+.first .label {
     font-size: 1rem;
     font-weight: 600;
+    padding-left: .4rem;
     color: var(--white);
     text-decoration: none;
   }
@@ -43,7 +51,6 @@
        
       }
      .footer2 .first{
-        /* border: 5px solid red; */
         padding: 1rem;
       }
   }

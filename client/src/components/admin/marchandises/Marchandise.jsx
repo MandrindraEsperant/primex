@@ -1,16 +1,36 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import '../clients/ajoutClient/ClientForm.css'
-import { Link } from "react-router-dom";
 import AjoutMarchandisePage from '../../../pages/admin/AjoutMarchandisePage';
+import axios from 'axios';
 
-const initialData = [
-    { idMarchandise: 1, typeExpedition: 'Importation', idExpedition: '14MNB', numConteneur: '14587',  typeConteneur: '20', numPlomb: '14/09/2024', nature:'Lunette', nbColis:'4', poid:'20', volume:'300'},
-    
-];
 const Marchandise = () => {
     const [open, setOpen] = useState(false);
+    const [data, setData] = useState([]);
+
+    const allMarchandise = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/marchandise/");
+        setData(response.data);
+        // console.log(response.data);
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      }
+    };
+  
+    const supprimer = (id) => {
+      axios
+        .delete("http://localhost:3001/marchandise/" + id)
+        .then((res) => {
+          allMarchandise();
+        })
+        .catch((err) => alert(err));
+    };
+  
+    useEffect(() => {
+        allMarchandise();
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -20,7 +40,6 @@ const Marchandise = () => {
         setOpen(false);
     };
     const { theme } = useContext(ThemeContext);
-    const [data] = useState(initialData);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -126,7 +145,9 @@ const Marchandise = () => {
                                       <td>
                                           <span className="actionIcons">
                                               <MdEdit className="editIcon" />
-                                              <MdDelete className="deleteIcon" />
+                                              <MdDelete className="deleteIcon"  
+                                              onClick={() => supprimer(item.idMarchandise)} 
+                                              />
                                               <MdVisibility className="viewIcon" />
                                           </span>
                                       </td>

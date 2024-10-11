@@ -3,7 +3,7 @@ import GridService from './../../components/public/service/grid/gridService';
 
 const Service = () => {
   return (
-    <div>
+    <div style={{marginTop: '7rem'}}>
       <GridService/>
     </div>
   )

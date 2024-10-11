@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../clients/ajoutClient/ClientForm.css'
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function AjoutMarchandise({ onSubmitSuccess }) {
     const formArray = [1, 2, 3];
     const [formNo, setFormNo] = useState(formArray[0]);
+
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const idEmploye = decodedToken.id;
     const [state, setState] = useState({
         typeExpedition: '',
         idExpedition: '',
@@ -16,6 +22,8 @@ function AjoutMarchandise({ onSubmitSuccess }) {
         nbColis: '',
         poid: '',
         volume: '',
+        creerPar: idEmploye,
+        modifierPar: idEmploye
     });
 
     const inputHandle = (e) => {
@@ -52,18 +60,23 @@ function AjoutMarchandise({ onSubmitSuccess }) {
         }
     };
 
-    const finalSubmit = () => {
-        if (isStep3Valid()) {
-            toast.success('Form submission successful', { autoClose: 3000 });
-            setTimeout(() => {
-                if (onSubmitSuccess) {
-                    onSubmitSuccess();  // Ferme le Dialog
-                }
-            }, 3000);
-        } else {
-            toast.error('Please fill in all the required fields');
-        }
-    };
+    const finalSubmit = (e) => {
+        e.preventDefault();
+        
+        axios
+          .post("http://localhost:3001/marchandise/", state)
+          .then((res) => {
+            toast.success("Marchandise bien ajouté");
+          })
+          .catch((err) => {
+            if (err.response) {
+              toast.error(err.response.data.error);
+            } else {
+              // Si c'est une autre erreur (ex. problème de réseau)
+              toast.error(err.message);
+            }
+          });
+      };
 
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
