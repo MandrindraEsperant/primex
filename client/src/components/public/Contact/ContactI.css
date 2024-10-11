@@ -5,10 +5,9 @@
     align-items: center;
     border-radius: 10px;
     padding: 1.5rem;
-    width: 60%;
+    width: 70%;
     margin: 4rem auto 2rem auto;
     box-shadow: 3px 2px 10px 0 rgba(0, 0, 0, 0.5);
-    /* Exemple de box-shadow */
 }
 
 .formulaire {
@@ -29,11 +28,19 @@
 .info {
     line-height: 2.5rem;
 }
+.info .im-contact {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+.formulaire form {
+    border: 2px solid orange;
+
+}
 .cadre .formulaire input::placeholder , .cadre .formulaire textarea::placeholder{
     color: rgb(204, 201, 201);
-}
-.cadre .formulaire button{
-    /* border: none; */
+} 
+ .cadre .formulaire button{
     width: 100%;
 }
 

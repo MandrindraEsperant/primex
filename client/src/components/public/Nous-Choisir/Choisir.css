@@ -21,4 +21,5 @@
 .inner-container button{
     background: #5a73d7;
     border-radius: 10px;   
+    padding:.2rem 1.1rem;
 }

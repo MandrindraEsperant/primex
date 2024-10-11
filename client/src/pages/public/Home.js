@@ -6,7 +6,7 @@ import Mission from './../../components/public/Mission/Mission';
 
 const Home = () => {
   return (
-    <div className="Home">
+    <div className="Home" >
       <Page1/>
       <Page2/>
       <div className="choisir">

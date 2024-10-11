@@ -18,25 +18,27 @@ const Footer = () => {
     <div className="footer ">
       <div className="footer1">
         {footerData.map((card, i) => (
-            <div className="first" key={i}>
-              <div className="primaryText"> {card.title}</div>
-              <div>
-                {card.element.map((elem, index) => (
-                  <span className="element secondaryText" key={index}>
-                    {elem}
-                  </span>
-                ))}
-              </div>
+          <div className="first" key={i}>
+            <div className="primaryText"> {card.title}</div>
+            <div>
+              {card.element.map((elem, index) => (
+                <span className="element secondaryText" key={index}>
+                  {elem}
+                </span>
+              ))}
             </div>
+          </div>
         ))}
       </div>
+
       <div className="footer2">
         <div className="first">
+         
           <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
-            <span className="icon">
-              <FaLocationDot />
-            </span>
-            <span className="label">{adr}</span>
+          <span className="icon">
+            <FaLocationDot />
+          </span>
+          <span className="label">{adr}</span>
           </a>
         </div>
         <div className="first">

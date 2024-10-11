@@ -21,18 +21,21 @@ const Formulaire = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!AccountService.isLogged){ 
-      navigate('/admin/dashboard')
-    }else{
-      navigate('/auth/')
+    if (!AccountService.isLogged) {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/auth/");
     }
   }, []);
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const res = await axios.post("http://localhost:3001/employe/login", login);
+      const res = await axios.post(
+        "http://localhost:3001/employe/login",
+        login
+      );
 
       if (res.status === 200) {
         const token = res.data.token;
@@ -41,15 +44,17 @@ const Formulaire = () => {
       }
     } catch (err) {
       if (err.response) {
-        alert(err.response.data.error)
+        alert(err.response.data.error);
       } else {
         // Si c'est une autre erreur (ex. problème de réseau)
         console.error("Erreur :", err.message);
-        alert("Erreur lors de la connexion. Veuillez vérifier votre connexion réseau.");
+        alert(
+          "Erreur lors de la connexion. Veuillez vérifier votre connexion réseau."
+        );
       }
     }
   };
-  
+
   return (
     <div className="forms-container">
       <div className="signin-signup">

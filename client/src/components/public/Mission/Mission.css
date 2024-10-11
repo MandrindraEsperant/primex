@@ -26,16 +26,12 @@
 .head-accordion .primaryText {
     text-align: center;
     flex-grow: 1;
+    font-size: 1.3rem;
   }
   .secondaryText{
     color: gray;
 }
-.icon{
-    padding: 10px;
-    background: #eeeeff;
-    border-radius: 5px ;
-    color: var(--main);
-}
+
 
 @media (max-width:1024px){
     .c-container{
