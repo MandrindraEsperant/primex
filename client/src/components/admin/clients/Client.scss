@@ -1,9 +1,10 @@
 @import '../../../pages/admin/App.scss';
 
-th{
+th {
   color: black;
 }
-.light-mode {
+
+/* .light-mode {
   .table {
     background-color: var(--background-color);
 
@@ -39,52 +40,50 @@ th{
   }
 }
 
-// Utilisation du mixin pour le mode sombre
-// .dark-mode {
-//   .searchContainer {
-//     background: var(--background-color);
-//   }
+Utilisation du mixin pour le mode sombre
+.dark-mode {
+  .searchContainer {
+    background: var(--background-color);
+  }
 
-//   h3 {
-//     color: #ffffff;
-//   }
+  h3 {
+    color: #ffffff;
+  }
 
-//   .table {
-//     background-color: var(--background-color);
+  .table {
+    background-color: var(--background-color);
 
-//     th {
-//       background-color: var(--secondary-color); // Même couleur que <td> en mode sombre
-//       color: #ffffff; // Couleur blanche pour le texte dans les cellules
-//     }
+    th {
+      background-color: var(--secondary-color); // Même couleur que <td> en mode sombre
+      color: #ffffff; // Couleur blanche pour le texte dans les cellules
+    }
 
-//     td {
-//       background-color: var(--secondary-color); // Couleur par défaut pour les cellules
-//       color: #ffffff; // Couleur blanche pour le texte dans les cellules
-//     }
+    td {
+      background-color: var(--secondary-color); // Couleur par défaut pour les cellules
+      color: #ffffff; // Couleur blanche pour le texte dans les cellules
+    }
 
-//     tr:nth-child(even) {
-//       background-color: var(--side-link-hover-color);
-//     }
+    tr:nth-child(even) {
+      background-color: var(--side-link-hover-color);
+    }
 
-//     // Ajout de l'effet hover pour les lignes
-//     tr:hover {
-//       background-color: var(--primary-color); // Couleur pour le survol
-//       color: var(--secondary-color); // Couleur du texte au survol
-//     }
+    // Ajout de l'effet hover pour les lignes
+    tr:hover {
+      background-color: var(--primary-color); // Couleur pour le survol
+      color: var(--secondary-color); // Couleur du texte au survol
+    }
 
-//     .selectedRow {
-//       background-color: var(--primary-color) !important;
-//       color: var(--text-color-inverted) !important;
-//     }
-//   }
+    .selectedRow {
+      background-color: var(--primary-color) !important;
+      color: var(--text-color-inverted) !important;
+    }
+  }
 
-//   .detailContainer {
-//     background-color: var(--background-color);
-//     color: var(--base-text-color);
-//   }
-// }
-
-
+  .detailContainer {
+    background-color: var(--background-color);
+    color: var(--base-text-color);
+  }
+} */
 
 
 
@@ -207,6 +206,7 @@ th{
 
 .table {
   width: 100%;
+  border-color: var(--tbl-border-color);
   border-collapse: collapse;
   background-color: var(--table-bg); // Utilise la variable de couleur
 
@@ -221,8 +221,8 @@ th{
   }
 
   th {
-    background-color: var(--header-bg); // Utilise la variable de couleur
-    color: white; // Texte en blanc pour le contraste
+    background-color: var(--thead-bg-color); // Utilise la variable de couleur
+    color: black; // Texte en blanc pour le contraste
   }
 
   tr:nth-child(even) {
@@ -239,8 +239,48 @@ th{
 
   // Ajout de la classe pour la ligne sélectionnée
   .selectedRow {
-    background-color: var(--selected-bg) !important; // Couleur bleu pour la ligne sélectionnée
-    color: white; // Optionnel : changer la couleur du texte pour le contraste
+    background-color: var(--select-tbl-color) !important; // Couleur bleu pour la ligne sélectionnée
+    color: white;
+
+    .editIcon {
+      cursor: pointer;
+      color: #0022e4; // Bl// Optionnel : changer la couleur du texte pour le contrasteeu ciel
+      transition: color 0.3s;
+      background-color: #98caeb;
+      width: 16px;
+      height: 18px;
+      border-radius: 15%;
+
+      &:hover {
+        color: #0049b8; // Changement de couleur au survol
+      }
+    }
+
+    .deleteIcon {
+      cursor: pointer;
+      color: #FF4500; // Rouge
+      transition: color 0.3s;
+      width: 16px;
+      height: 18px;
+      border-radius: 15%;
+
+      &:hover {
+        color: #FF6347; // Changement de couleur au survol
+      }
+    }
+
+    .viewIcon {
+      cursor: pointer;
+      color: #32CD32; // Couleur verte pour l'icône de visualisation
+      transition: color 0.3s;
+      width: 16px;
+      height: 18px;
+      border-radius: 15%;
+
+      &:hover {
+        color: #3CB371; // Changement de couleur au survol
+      }
+    }
   }
 
   .actionIcons {
@@ -253,6 +293,9 @@ th{
     cursor: pointer;
     color: #00BFFF; // Bleu ciel
     transition: color 0.3s;
+    width: 16px;
+    height: 18px;
+    border-radius: 15%;
 
     &:hover {
       color: #1E90FF; // Changement de couleur au survol
@@ -263,6 +306,9 @@ th{
     cursor: pointer;
     color: #FF4500; // Rouge
     transition: color 0.3s;
+    width: 16px;
+    height: 18px;
+    border-radius: 15%;
 
     &:hover {
       color: #FF6347; // Changement de couleur au survol
@@ -273,6 +319,9 @@ th{
     cursor: pointer;
     color: #32CD32; // Couleur verte pour l'icône de visualisation
     transition: color 0.3s;
+    width: 16px;
+    height: 18px;
+    border-radius: 15%;
 
     &:hover {
       color: #3CB371; // Changement de couleur au survol

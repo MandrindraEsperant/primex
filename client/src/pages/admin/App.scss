@@ -27,6 +27,7 @@
 
 // color mode toggle mixins
 @mixin lightMode {
+  --select-tbl-color: #52a3ee;
   --primary-color: #475be8;
   --secondary-color: #fff;
   --background-color: #fafafa;
