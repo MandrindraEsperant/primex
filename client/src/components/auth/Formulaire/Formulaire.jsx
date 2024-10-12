@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import "./Formulaire.css";
 import {
   FaEnvelope,
@@ -19,15 +19,6 @@ const Formulaire = () => {
     password: "",
   });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!AccountService.isLogged) {
-      navigate("/admin/dashboard");
-    } else {
-      navigate("/auth/");
-    }
-  }, []);
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -60,7 +51,7 @@ const Formulaire = () => {
       <div className="signin-signup">
         <form action="#" className="sign-in-form" onSubmit={handleLogin}>
           <h2 className="title">Sign in</h2>
-          <div className="input-field">
+          <div className="input-field"> 
             <i>
               <FaUser />
             </i>

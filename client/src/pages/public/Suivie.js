@@ -3,7 +3,7 @@ import Tableau from './../../components/public/Suivi/Tableau/Tableau';
 
 const Suivie = () => {
   return (
-    <div >
+    <div className='screen-buplic' >
        < Tableau />
     </div>
   )

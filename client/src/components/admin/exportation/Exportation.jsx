@@ -12,29 +12,7 @@ import "../clients/Client.scss";
 import AjoutEXportPage from "../../../pages/admin/AjoutEXportPage";
 import axios from "axios";
 
-const initialData = [
-  {
-    idExportation: 1,
-    dateExportation: "14/09/2024",
-    numMBL: "214587MKO",
-    modeTransport: "Maritime",
-    idTransport: "15741DSZ",
-  },
-  {
-    idExportation: 2,
-    dateExportation: "10/01/2021",
-    numMBL: "974585DREF",
-    modeTransport: "Aérienne",
-    idTransport: "15741PKZ",
-  },
-  {
-    idExportation: 2,
-    dateExportation: "14/09/2024",
-    numMBL: "321582GF",
-    modeTransport: "Maritime",
-    idTransport: "5478QSX",
-  },
-];
+
 const Exportation = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
