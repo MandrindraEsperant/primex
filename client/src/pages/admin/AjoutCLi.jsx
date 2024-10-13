@@ -4,7 +4,7 @@ import { Dialog, IconButton, DialogContent} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AjoutCli from '../../components/admin/clients/ajoutClient/AjouCli';
 
-const AjoutCLi = ({ open, handleClose }) => {
+const AjoutCLi = ({open, handleClose, isEditMode, selectedPerson, allClient }) => {
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
       <DialogContent style={{ position: 'relative' }}>
@@ -20,7 +20,11 @@ const AjoutCLi = ({ open, handleClose }) => {
         >
           <CloseIcon />
         </IconButton>
-        <AjoutCli />
+        <AjoutCli 
+        handleClose={handleClose}
+        isEditMode={isEditMode}
+        selectedPerson={selectedPerson}
+        allClient={allClient} />
       </DialogContent>
     </Dialog>
   )
