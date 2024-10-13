@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
-import '../clients/ajoutClient/ClientForm.css'
 import AjoutMarchandisePage from '../../../pages/admin/AjoutMarchandisePage';
 import axios from 'axios';
 

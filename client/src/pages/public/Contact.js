@@ -3,7 +3,7 @@ import ContactInt from './../../components/public/Contact/ContactInt';
 
 const Contact = () => {
   return (
-    <div className="Contact" >
+    <div className="Contact screen-buplic" >
       <ContactInt/>
     </div>
   )

@@ -3,7 +3,7 @@ import Primex from './../../components/public/Apropos/Primex/Primex';
 
 const About = () => {
   return (
-    <div className="About" >
+    <div className="About screen-buplic" >
         <h1 className="primaryText" 
         style={{textAlign: 'center',padding: '1rem'}}>A PROPOS DE NOUS</h1>
         <Primex/>

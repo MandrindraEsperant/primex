@@ -82,7 +82,6 @@ section .page1 {
  }
  
  .card-box .item:hover {
-     /* border: 2px solid ; */
      background: rgb(248, 248, 248);
      transform: scale(0.99);
  }

@@ -1,11 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
     --main-bg: #0082e6;
     --main:  #4169E1;
     --white : #fff;
     --black : #000000;
-    --secondary : #;
+    --secondary : #d4d3d3;
     --tertiary : #E1A624;
-    --background-end-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255; 
   }
   
 *{
@@ -15,6 +19,9 @@
     list-style: none;
     box-sizing: border-box;
     font-family: 'Times New Roman', Times, serif;
+}
+.screen-buplic{
+  margin-top: 3rem;
 }
 .page{
   margin-top: 3rem;
@@ -38,7 +45,12 @@
   /* border: 2px solid black; */
   padding:0 1.5rem;
 }
-
+a {
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+}
 .image-container{
   width: 30rem;
   height: 30rem;

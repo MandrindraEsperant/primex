@@ -39,16 +39,33 @@ const Client = () => {
 
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
+    setIsEditMode(false);
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setSelectedPerson(null);
   };
+
+
+
+  const [isEditMode, setIsEditMode] = useState(false);
   const { theme } = useContext(ThemeContext);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
+
+
+
+
+  const handleEditClickOpen = (person) => {
+    console.log('Editing person:', person);
+    setSelectedPerson(person);
+    setIsEditMode(true); // Mode modification
+    setOpen(true);
+  };
+
 
   const handleSelect = (person) => {
     if (selectedPerson && selectedPerson.id === person.id) {
@@ -99,7 +116,12 @@ const Client = () => {
             <button className="addButton" onClick={handleClickOpen}>
               <MdAdd /> Ajouter
             </button> 
-            <AjoutCLi open={open} allClient={allClient} handleClose={handleClose} />
+            <AjoutCLi 
+            open={open}
+            allClient={allClient}
+            handleClose={handleClose}
+            isEditMode={isEditMode}
+            selectedPerson={selectedPerson} />
           </div>
           <table className="table">
             <thead>
@@ -131,7 +153,7 @@ const Client = () => {
                   <td>{item.CINClient}</td>
                   <td>
                     <span className="actionIcons">
-                      <MdEdit className="editIcon" />
+                    <MdEdit className="editIcon" onClick={() => handleEditClickOpen(item)} />
                       <MdDelete className="deleteIcon" onClick={()=>supprimer(item.idClient)} />
                       <MdVisibility className="viewIcon" />
                     </span>
@@ -179,7 +201,7 @@ const Client = () => {
             {selectedPerson ? selectedPerson.CINClient : ""}
           </p>
           
-          <button className="editButton">
+          <button className="editButton" >
             <MdEdit /> Modifier
           </button>
         </div>

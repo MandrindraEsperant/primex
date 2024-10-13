@@ -5,6 +5,7 @@ import AreaTable from './../../components/admin/Dashboard/areaTable/AreaTable';
 import AreaTop from './../../components/admin/Dashboard/areaTop/AreaTop';
 
 const Dashboard = () => {
+  
   return (
     <div className="content-area">
       <AreaTop />

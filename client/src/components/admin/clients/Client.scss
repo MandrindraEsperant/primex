@@ -242,11 +242,13 @@ Utilisation du mixin pour le mode sombre
     background-color: var(--select-tbl-color) !important; // Couleur bleu pour la ligne sélectionnée
     color: white;
 
+    .checkbox{
+      color: var(--primary-color);
+    }
     .editIcon {
       cursor: pointer;
       color: #0022e4; // Bl// Optionnel : changer la couleur du texte pour le contrasteeu ciel
       transition: color 0.3s;
-      background-color: #98caeb;
       width: 16px;
       height: 18px;
       border-radius: 15%;
@@ -271,7 +273,7 @@ Utilisation du mixin pour le mode sombre
 
     .viewIcon {
       cursor: pointer;
-      color: #32CD32; // Couleur verte pour l'icône de visualisation
+      color: #74f574; // Couleur verte pour l'icône de visualisation
       transition: color 0.3s;
       width: 16px;
       height: 18px;
