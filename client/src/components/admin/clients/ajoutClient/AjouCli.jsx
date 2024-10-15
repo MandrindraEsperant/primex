@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {jwtDecode} from "jwt-decode"; // Assurez-vous que l'importation soit correcte
+import {jwtDecode} from "jwt-decode";
+
+import Swal from 'sweetalert2';
 import axios from "axios";
 
 const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
@@ -22,9 +24,9 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
     if (isEditMode && selectedPerson) {
       // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
       setState({
-        nomClient: selectedPerson.nomClient,
-        CINClient: selectedPerson.CINClient,
-        emailClient: selectedPerson.emailClient,
+        nomClient: selectedPerson.nomClient || '',
+        CINClient: selectedPerson.CINClient || '',
+        emailClient: selectedPerson.emailClient || '',
         creerPar: selectedPerson.creerPar || idEmploye,
         modifierPar: idEmploye,
       });
@@ -63,6 +65,13 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
         .put(`http://localhost:3001/client/${selectedPerson.idClient}`, clientData)
         .then((res) => {
           toast.success("Client modifié avec succès");
+         Swal.fire({
+          title: 'Modifié!',
+          text: 'Le client a été modifié.',
+          icon: 'success',
+          timer: 3000,
+          showConfirmButton: false, 
+        });
           allClient();
           handleClose();
         })
@@ -78,7 +87,13 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
       axios
         .post("http://localhost:3001/client/", clientData)
         .then((res) => {
-          toast.success("Client ajouté avec succès");
+          Swal.fire({
+          title: 'Ajouté!',
+          text: 'Le client a été ajouté.',
+          icon: 'success',
+          timer: 3000,
+          showConfirmButton: false, 
+        });
           allClient();
           handleClose();
         })

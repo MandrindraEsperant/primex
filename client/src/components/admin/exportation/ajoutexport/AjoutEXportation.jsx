@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
-function AjoutExportation() {
+function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
   const token = localStorage.getItem("token");
@@ -91,6 +91,7 @@ function AjoutExportation() {
   };
 
   const isStep2Valid = () => {
+    return state.idTransport
   };
 
   const next = () => {
