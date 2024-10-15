@@ -29,6 +29,15 @@ class ClientController {
         res.status(500).send(error.message);
       }
     }
+    async getResultSeach(req, res) {
+  
+      try {
+        const clients = await this.clientService.searchAll(req.query.search);
+        res.status(200).json(clients);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
   
     async getAllClients(req, res) {
       try {

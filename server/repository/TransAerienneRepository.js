@@ -9,7 +9,21 @@ class TransAerienneRepository extends IRepository {
   async findById(id) {
     return await TransAerienne.findByPk(id);
   }
-  
+  async findByNumVol(numVol) {
+    return await TransAerienne.findOne({ where: { numVol: numVol } });
+  }
+  async searchAll(word) {
+    return await Client.findAll({
+      where: {
+        [Op.or]: [
+          { numVol: { [Op.like]: `%${word}%` } },
+          { nomCompagnie: { [Op.like]: `%${word}%` } },
+          { dateDepart: { [Op.like]: `%${word}%` } },
+          { dateArriver: { [Op.like]: `%${word}%` } },
+        ],
+      },
+    });
+  }
   async findAll() {
     return await TransAerienne.findAll();
   }

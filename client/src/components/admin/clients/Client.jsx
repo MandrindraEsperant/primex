@@ -32,7 +32,6 @@ const Client = () => {
         })
         .catch(err=> alert(err))
   };
-
   useEffect(() => {
     allClient();
   }, []);
@@ -47,8 +46,6 @@ const Client = () => {
     setSelectedPerson(null);
   };
 
-
-
   const [isEditMode, setIsEditMode] = useState(false);
   const { theme } = useContext(ThemeContext);
   const [selectedPerson, setSelectedPerson] = useState(null);
@@ -56,17 +53,12 @@ const Client = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
-
-
-
   const handleEditClickOpen = (person) => {
     console.log('Editing person:', person);
     setSelectedPerson(person);
     setIsEditMode(true); // Mode modification
     setOpen(true);
   };
-
-
   const handleSelect = (person) => {
     if (selectedPerson && selectedPerson.id === person.id) {
       setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée

@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {jwtDecode} from "jwt-decode"; // Assurez-vous que l'importation soit correcte
 import axios from "axios";
 
-const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
+const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const idEmploye = decodedToken.id;

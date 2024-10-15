@@ -8,9 +8,27 @@ class TransMaritimeService {
     if (!Data.numHBL || !Data.numBateau || !Data.nomBateau || !Data.dateDepart || !Data.dateArriver || !Data.creerPar ) {
       throw new Error("Tous les champs sont requis.");
     }
-
     return await this.transMaritimeRepository.create(Data);
   }
+
+  async searchAll(word) {
+    return await this.transMaritimeRepository.searchAll(word);
+  }
+
+  async getOrCreateTransport(transportData){
+
+    if (!transportData.numHBL || !transportData.numBateau || !transportData.nomBateau || !transportData.dateDepart || !transportData.dateArriver || !transportData.creerPar ) {
+      throw new Error("Tous les champs sont requis.");
+    }
+
+    let transport = await this.transMaritimeRepository.findByNumHBL(transportData.numHBL);
+    if (!transport) {
+      transport = await this.transMaritimeRepository.create(transportData);
+    }
+    // Retourner l'ID du transport
+    return transport.idTransMaritime;
+  };
+
   async getTransMaritimeById(id) {
     return await this.transMaritimeRepository.findById(id);
   }
