@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import idUserConnected from "../../../../constants/idUserConnected";
+import Swal from "sweetalert2";
 
-function AjoutTransMaritime({ onSubmitSuccess }) {
+function AjoutTransMaritime({ handleClose, allTransMaritime }) {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
-  const token = localStorage.getItem("token");
-  const decodedToken = jwtDecode(token);
-  const idEmploye = decodedToken.id;
+  const idEmploye = idUserConnected();
+
   const [state, setState] = useState({
-    numHBL: '',
-    numBateau: '',
-    nomBateau: '', 
-    dateDepart: '',
-    dateArriver: '',
+    numHBL: "",
+    numBateau: "",
+    nomBateau: "",
+    dateDepart: "",
+    dateArriver: "",
     creerPar: idEmploye,
-    modifierPAr: idEmploye
+    modifierPAr: idEmploye,
   });
 
   const inputHandle = (e) => {
     setState({
       ...state,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
   const isStep1Valid = () => {
@@ -38,27 +38,29 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
     } else if (formNo === 2 && isStep2Valid()) {
       finalSubmit(); // Appeler finalSubmit ici
     } else {
-      toast.error('Please fill in all the required fields');
+      toast.error("Please fill in all the required fields");
     }
   };
-
   const pre = () => {
     if (formNo > 1) {
       setFormNo(formNo - 1);
     }
   };
-
   const finalSubmit = (e) => {
     e.preventDefault();
     axios
       .post("http://localhost:3001/transMaritime/", state)
       .then((res) => {
-        toast.success("Transport maritime bien ajouté");
-        setTimeout(() => {
-          if (onSubmitSuccess) {
-            onSubmitSuccess();  // Ferme le Dialog
-          }
-        }, 3000);      })
+        Swal.fire({
+          title: "Ajouté!",
+          text: "Le client a été ajouté.",
+          icon: "success",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        allTransMaritime();
+        handleClose();
+      })
       .catch((err) => {
         if (err.response) {
           toast.error(err.response.data.error);
@@ -67,46 +69,49 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
           toast.error(err.message);
         }
       });
-
-    
-
   };
 
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
-        <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">AJOUT TRANSPORT MARITIME</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
+        AJOUT TRANSPORT MARITIME
+      </h2>
       <div className="flex items-center w-full mb-4">
         {formArray.map((v, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center w-full">
               {/* Étape actuelle avec icône ou numéro */}
               <div
-                className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
-                    ? 'bg-green-500' // Étape terminée
-                    : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
-                      ? 'bg-green-500' // Étape en cours
-                      : 'bg-slate-400' // Étape non atteinte
-                  } flex justify-center items-center`}
+                className={`w-[35px] h-[35px] my-3 text-white rounded-full ${
+                  formNo - 1 > i
+                    ? "bg-green-500" // Étape terminée
+                    : formNo - 1 === i ||
+                      formNo - 1 === i + 1 ||
+                      formNo === formArray.length
+                    ? "bg-green-500" // Étape en cours
+                    : "bg-slate-400" // Étape non atteinte
+                } flex justify-center items-center`}
               >
-                {formNo - 1 > i ? '✓' : v} {/* Icône de validation ou numéro */}
+                {formNo - 1 > i ? "✓" : v} {/* Icône de validation ou numéro */}
               </div>
 
               <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                {i === 0 && 'INFORMATION BATEAU'}
-                {i === 1 && 'DATE'}
+                {i === 0 && "INFORMATION BATEAU"}
+                {i === 1 && "DATE"}
               </div>
             </div>
 
             {/* Trait de liaison entre les étapes, collé aux étapes */}
             {i !== formArray.length - 1 && (
               <div
-                className={`h-[2px] w-full ${formNo - 1 > i
-                    ? 'bg-green-500'
+                className={`h-[2px] w-full ${
+                  formNo - 1 > i
+                    ? "bg-green-500"
                     : formNo === i + 2 || formNo === formArray.length
-                      ? 'bg-green-500'
-                      : 'bg-slate-400'
-                  }`}
-                style={{ marginLeft: '0px', marginRight: '0px' }}
+                    ? "bg-green-500"
+                    : "bg-slate-400"
+                }`}
+                style={{ marginLeft: "0px", marginRight: "0px" }}
               ></div>
             )}
           </React.Fragment>
@@ -117,7 +122,9 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
       {formNo === 1 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numHBL" className="text-lg font-semibold mb-2">N° HBL</label>
+            <label htmlFor="numHBL" className="text-lg font-semibold mb-2">
+              N° HBL
+            </label>
             <input
               value={state.numHBL}
               onChange={inputHandle}
@@ -126,10 +133,13 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
               name="numHBL"
               placeholder="N° HBL"
               id="numHBL"
+              autofocus
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numBateau" className="text-lg font-semibold mb-2 ">N° Bateau</label>
+            <label htmlFor="numBateau" className="text-lg font-semibold mb-2 ">
+              N° Bateau
+            </label>
             <input
               value={state.numBateau}
               onChange={inputHandle}
@@ -141,7 +151,9 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numBateau" className="text-lg font-semibold mb-2">Nom Bateau</label>
+            <label htmlFor="numBateau" className="text-lg font-semibold mb-2">
+              Nom Bateau
+            </label>
             <input
               value={state.nomBateau}
               onChange={inputHandle}
@@ -158,8 +170,9 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
             <button
               onClick={pre}
               disabled={formNo === 1}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? 'bg-blue-100 cursor-not-allowed' : 'bg-blue-500'
-                }`}
+              className={`px-3 py-2 text-lg rounded-md w-full text-white ${
+                formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
+              }`}
             >
               Previous
             </button>
@@ -167,8 +180,11 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
             <button
               onClick={next}
               disabled={!isStep1Valid()}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep1Valid() ? 'bg-blue-500' : 'bg-blue-100 cursor-not-allowed'
-                }`}
+              className={`px-3 py-2 text-lg rounded-md w-full text-white ${
+                isStep1Valid()
+                  ? "bg-blue-500"
+                  : "bg-blue-100 cursor-not-allowed"
+              }`}
             >
               Next
             </button>
@@ -180,7 +196,9 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
       {formNo === 2 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="dateDepart" className="text-lg font-semibold mb-2">Date de Départ</label>
+            <label htmlFor="dateDepart" className="text-lg font-semibold mb-2">
+              Date de Départ
+            </label>
             <input
               value={state.dateDepart}
               onChange={inputHandle}
@@ -192,7 +210,12 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="dateArriver" className="text-lg font-semibold mb-2 ">Date d' Arrivé</label>
+            <label
+              htmlFor="dateArriver"
+              className="text-lg font-semibold mb-2 "
+            >
+              Date d' Arrivé
+            </label>
             <input
               value={state.dateArriver}
               onChange={inputHandle}
@@ -215,8 +238,11 @@ function AjoutTransMaritime({ onSubmitSuccess }) {
             <button
               onClick={finalSubmit}
               disabled={!isStep2Valid()}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? 'bg-blue-500' : 'bg-blue-100 cursor-not-allowed'
-                }`}
+              className={`px-3 py-2 text-lg rounded-md w-full text-white ${
+                isStep2Valid()
+                  ? "bg-blue-500"
+                  : "bg-blue-100 cursor-not-allowed"
+              }`}
             >
               Submit
             </button>

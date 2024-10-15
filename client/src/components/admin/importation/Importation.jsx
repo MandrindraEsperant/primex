@@ -51,7 +51,7 @@ const Importation = () => {
   const itemsPerPage = 7;
 
   const handleSelect = (person) => {
-    if (selectedPerson && selectedPerson.id === person.id) {
+    if (selectedPerson && selectedPerson.idImportation === person.idImportation) {
       setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée

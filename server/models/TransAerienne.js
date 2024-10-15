@@ -13,7 +13,9 @@ TransAerienne.init(
     numVol: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: 'Le numero de vol est déjà existé.' 
+      },
     },
     nomCompagnie: {
       type: DataTypes.STRING,

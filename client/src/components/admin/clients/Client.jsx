@@ -11,6 +11,7 @@ import {
 } from "react-icons/md";
 import "./Client.scss";
 import AjoutCLi from "../../../pages/admin/AjoutCLi";
+import Swal from "sweetalert2";
 import axios from "axios";
 
 const Client = () => {
@@ -25,12 +26,20 @@ const Client = () => {
     }
   };
   const supprimer = (id) => {
-    axios.delete('http://localhost:3001/client/'+id)
-        .then(res =>  {
-         console.log(res);
-         allClient();
-        })
-        .catch(err=> alert(err))
+    axios
+      .delete("http://localhost:3001/client/" + id)
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
+          title: "Supprimé!",
+          text: "Le client a été supprimé.",
+          icon: "success",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        allClient();
+      })
+      .catch((err) => alert(err));
   };
   useEffect(() => {
     allClient();
@@ -38,6 +47,7 @@ const Client = () => {
 
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
+    setSelectedPerson(null);
     setIsEditMode(false);
     setOpen(true);
   };
@@ -53,15 +63,18 @@ const Client = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
-  const handleEditClickOpen = (person) => {
-    console.log('Editing person:', person);
-    setSelectedPerson(person);
+  // const handleEditClickOpen = (person) => {
+  //     console.log('Editing person:', person);
+  //     setSelectedPerson(person);
+
+  const handleEditClickOpen = (client) => {
+    setSelectedPerson(client);
     setIsEditMode(true); // Mode modification
     setOpen(true);
   };
   const handleSelect = (person) => {
-    if (selectedPerson && selectedPerson.id === person.id) {
-      setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
+    if (selectedPerson && selectedPerson.idClient === person.idClient) {
+      setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
@@ -69,8 +82,27 @@ const Client = () => {
   const filteredData = data.filter(
     (item) =>
       item.nomClient.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.CINClient.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.emailClient.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // SUPPRESSION
+  const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr?",
+      text: "De supprimmer ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui, supprimer!",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supprimer(id); // Appeler la fonction de suppression si confirmé
+      }
+    });
+  };
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -107,13 +139,14 @@ const Client = () => {
             </div>
             <button className="addButton" onClick={handleClickOpen}>
               <MdAdd /> Ajouter
-            </button> 
-            <AjoutCLi 
-            open={open}
-            allClient={allClient}
-            handleClose={handleClose}
-            isEditMode={isEditMode}
-            selectedPerson={selectedPerson} />
+            </button>
+            <AjoutCLi
+              open={open}
+              allClient={allClient}
+              handleClose={handleClose}
+              isEditMode={isEditMode}
+              selectedPerson={selectedPerson}
+            />
           </div>
           <table className="table">
             <thead>
@@ -145,8 +178,14 @@ const Client = () => {
                   <td>{item.CINClient}</td>
                   <td>
                     <span className="actionIcons">
-                    <MdEdit className="editIcon" onClick={() => handleEditClickOpen(item)} />
-                      <MdDelete className="deleteIcon" onClick={()=>supprimer(item.idClient)} />
+                      <MdEdit
+                        className="editIcon"
+                        onClick={() => handleEditClickOpen(item)}
+                      />
+                      <MdDelete
+                        className="deleteIcon"
+                        onClick={() => handleDeleteClick(item.idClient)}
+                      />
                       <MdVisibility className="viewIcon" />
                     </span>
                   </td>
@@ -182,7 +221,8 @@ const Client = () => {
             )}
           </div>
           <p>
-            <strong>Nom :</strong> {selectedPerson ? selectedPerson.nomClient : ""}
+            <strong>Nom :</strong>{" "}
+            {selectedPerson ? selectedPerson.nomClient : ""}
           </p>
           <p>
             <strong>Email :</strong>{" "}
@@ -192,8 +232,8 @@ const Client = () => {
             <strong>CNI :</strong>{" "}
             {selectedPerson ? selectedPerson.CINClient : ""}
           </p>
-          
-          <button className="editButton" >
+
+          <button className="editButton">
             <MdEdit /> Modifier
           </button>
         </div>
