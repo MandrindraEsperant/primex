@@ -17,12 +17,21 @@ Client.init(
     emailClient: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: 'L\'adresse email est déjà utilisée.' 
+      },
+      validate: {
+        isEmail: {
+          msg: 'Veuillez fournir une adresse email valide.'
+        }
+      }
     },
     CINClient : {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: 'Le Numero CIN est déjà appartient au autre persone'
+      }
     },
     creerPar: {
       type: DataTypes.INTEGER,

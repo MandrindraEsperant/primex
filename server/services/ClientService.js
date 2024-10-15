@@ -13,10 +13,21 @@ class ClientService {
       return await this.clientRepository.create(clientData);
     }
 
+    async getOrCreateClient(clientData){
+      let client = await this.clientRepository.findByCIN(clientData.CINClient);
+      if (!client) {
+        client = await this.createClient(clientData);
+      }
+      // Retourner l'ID
+      return client.idClient;
+    }
+
     async getClientById(id) {
       return await this.clientRepository.findById(id);
     }
-  
+    async searchAll(word) {
+      return await this.clientRepository.searchAll(word);
+    }
     async getAllClients() { 
       return await this.clientRepository.findAll();
     }

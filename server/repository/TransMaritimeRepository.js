@@ -9,7 +9,23 @@ class TransMaritimeRepository extends IRepository {
   async findById(id) {
     return await TransMaritime.findByPk(id);
   }
-  
+
+  async findByNumHBL(numHBL) {
+    return await TransMaritime.findOne({ where: { numHBL: numHBL } });
+  }
+  async searchAll(word) {
+    return await Client.findAll({
+      where: {
+        [Op.or]: [
+          { numHBL: { [Op.like]: `%${word}%` } },
+          { numBateau: { [Op.like]: `%${word}%` } },
+          { nomBateau: { [Op.like]: `%${word}%` } },
+          { dateDepart: { [Op.like]: `%${word}%` } },
+          { dateArriver: { [Op.like]: `%${word}%` } },
+        ],
+      },
+    });
+  }
   async findAll() {
     return await TransMaritime.findAll();
   }

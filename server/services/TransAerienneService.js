@@ -15,6 +15,21 @@ class TransAerienneService {
     }
     return await this.transAerienneRepository.create(Data);
   }
+
+  async searchAll(word) {
+    return await this.transAerienneRepository.searchAll(word);
+  }
+  
+  async getOrCreateTransport(transportData){
+    let transport = await this.transAerienneRepository.findByNumVol(transportData.numVol);
+    if (!transport) {
+      transport = await this.transAerienneRepository.create(transportData);
+    }
+    // Retourner l'ID du transport
+    return transport.idTransAerienne;
+  };
+
+
   async getTransAerienneById(id) {
     return await this.transAerienneRepository.findById(id);
   }

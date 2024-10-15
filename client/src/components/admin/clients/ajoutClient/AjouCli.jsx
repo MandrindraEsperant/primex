@@ -2,16 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {jwtDecode} from "jwt-decode";
-
 import Swal from 'sweetalert2';
 import axios from "axios";
+import idUserConnected from './../../../../constants/idUserConnected';
 
-const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
-  const token = localStorage.getItem("token");
-  const decodedToken = jwtDecode(token);
-  const idEmploye = decodedToken.id;
-
+const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
+  const idEmploye = idUserConnected();
   const [state, setState] = useState({
     nomClient: "",
     CINClient: "",

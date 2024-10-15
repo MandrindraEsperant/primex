@@ -13,7 +13,9 @@ TransMaritime.init(
     numHBL: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: 'Le numero de HBL est déjà existé.' 
+      },
     },
     numBateau: {
       type: DataTypes.STRING,
