@@ -17,9 +17,15 @@ function AjoutImportation() {
     dateImportation: "",
     numMBL: "",
     modeTransport: "",
+    idTransport:"",
     TransportAerienneData: {
-      numHBL: "",
       nomCompagnie: "",
+      dateArriver: "",
+      dateDepart: "",
+      numVol: "",
+    },
+    TransportMaritimeData: {
+      numHBL: "",
       dateArriver: "",
       dateDepart: "",
       numVol: "",
@@ -29,19 +35,17 @@ function AjoutImportation() {
     creerPar: idEmploye,
     modifierPar: idEmploye,
     DestinateurData: {
+      idClient:"",
       nomClient: "",
       CINClient: "",
       emailClient: "",
     },
     ExpediteurData: {
+      idClient:"",
       nomClientE: "",
       CINClientE: "",
       emailClientE: "",
     },
-    /*  idClient:"",
-     nomClient: "",
-     CINClient: "",
-     emailClient: "", */
   });
 
 
@@ -57,8 +61,6 @@ function AjoutImportation() {
       numVol,
     }));
   };
-  const [selectedClient, setSelectedClient] = useState(null);
-
   const handleCheckboxChange = (e, rowData) => {
     if (e.target.checked) {
       // Si une autre ligne est déjà sélectionnée, désélectionnez-la
@@ -96,29 +98,51 @@ function AjoutImportation() {
       }
     }
   };
-
-
-
   const inputHandle = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+  
+    // Vérifiez si le champ appartient à DestinateurData
+    if (["nomClient", "CINClient", "emailClient"].includes(name)) {
+      setState((prevState) => ({
+        ...prevState,
+        DestinateurData: {
+          ...prevState.DestinateurData,
+          [name]: value, // Met à jour uniquement le champ dans DestinateurData
+        },
+      }));
+    } 
+    // Vérifiez si le champ appartient à ExpediteurData
+    else if (["nomClientE", "CINClientE", "emailClientE"].includes(name)) {
+      setState((prevState) => ({
+        ...prevState,
+        ExpediteurData: {
+          ...prevState.ExpediteurData,
+          [name]: value, // Met à jour uniquement le champ dans ExpediteurData
+        },
+      }));
+    } 
+    // Pour les autres champs non spécifiques
+    else {
+      setState((prevState) => ({
+        ...prevState,
+        [name]: value, // Met à jour le champ dans l'état principal
+      }));
+    }
   };
 
+
+    // MULTI STEP 
   const isStep1Valid = () => {
-    return state.dateImportation && state.numMBL && state.modeTransport;
-    
-  };
-
+    return state.dateImportation && state.numMBL && state.modeTransport;  
+  };           
   const isStep2Valid = () => {
-    return state.TransportAerienneData;
+    return state.idTransport;
   };
   const isStep3Valid = () => {
-    return state.DestinateurData;
+    return state.nomClient && state.CINClient && state.emailClient;
   };
   const isStep4Valid = () => {
-    return state.ExpediteurData;
+    return state.nomClientE && state.CINClientE && state.emailClientE;
   };
   const next = () => {
     if (formNo === 1 && isStep1Valid()) {
@@ -133,19 +157,21 @@ function AjoutImportation() {
       toast.error("Please fill in all the required fields");
     }
   };
-
-
   const pre = () => {
     if (formNo > 1) {
       setFormNo(formNo - 1);
     }
   };
 
+
+
   // POUR LE TABLEAU AERIENNE 
   const [destinataire, setDestinataire] = useState([]);
   const [transAeriennes, setTransAeriennes] = useState([]);
   const [error, setError] = useState(null);
   const [selectedPerson, setSelectedPerson] = useState(null);
+
+const [selectedExpediteur, setSelectedExpediteur] = useState(null);
 
   const fetchTransAeriennes = async () => {
     const response = await fetch("http://localhost:3001/transAerienne/");
@@ -165,10 +191,37 @@ function AjoutImportation() {
     return await response.json();
   };
   const handleSelect = (person) => {
-    if (selectedPerson && selectedPerson.nomClient === person.nomClient) {
-      setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
+    if (selectedPerson && selectedPerson.idClient === person.idClient) {
+      setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
-      setSelectedPerson(person); // Sélectionne la personne cliquée
+      setSelectedPerson(person); // Sélectionner un nouveau client
+      setState(prevState => ({
+        ...prevState,
+        DestinateurData: {
+          ...prevState.DestinateurData,
+          idClient: person.idClient,
+          nomClient: person.nomClient,
+          CINClient: person.CINClient,
+          emailClient: person.emailClient
+        },
+      }));
+    }
+  };
+  const handleSelectE = (person) => {
+    if (selectedExpediteur && selectedExpediteur.idClient === person.idClient) {
+      setSelectedExpediteur(null); // Désélectionne si la même personne est déjà sélectionnée
+    } else {
+      setSelectedExpediteur(person); // Sélectionner un nouveau client
+      setState(prevState => ({
+        ...prevState,
+         ExpediteurData: {
+          ...prevState.ExpediteurData,
+          idClient: person.idClient,
+          nomClientE: person.nomClient,
+          CINClientE: person.CINClient,
+          emailClientE: person.emailClient
+        }
+      }));
     }
   };
 
@@ -217,6 +270,23 @@ function AjoutImportation() {
   }, [selectedPerson]);
 
 
+  useEffect(() => {
+    if (selectedExpediteur) {
+      setState({
+        nomClientE: selectedExpediteur.nomClient || '',
+        CINClientE: selectedExpediteur.CINClient || '',
+        emailClientE: selectedExpediteur.emailClient || '',
+      });
+    } else {
+      setState({
+        nomClientE: "",
+        CINClientE: "",
+        emailClientE: "",
+      });
+    }
+  }, [selectedExpediteur]);
+
+
   const finalSubmit = (e) => {
     e.preventDefault();
 
@@ -234,6 +304,13 @@ function AjoutImportation() {
         }
       });
   };
+
+
+
+
+
+
+
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
       <div className="flex items-center w-full mb-4">
@@ -354,7 +431,7 @@ function AjoutImportation() {
             <div className="flex flex-col mb-3">
               <label htmlFor="idTransport" className="text-lg font-semibold mb-2">ID transport</label>
               <input
-                value={state.TransportAerienneData}
+                value={state.idTransport}
                 onChange={inputHandle}
                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                 type="number"
@@ -588,24 +665,13 @@ function AjoutImportation() {
       {formNo === 3 && (
 
         <div className="flex flex-row gap-4">
-          <div className="w-1/2">
-            <div className="flex flex-col mb-3">
-              <label htmlFor="idTransport" className="text-lg font-semibold mb-2">ID Client</label>
-              <input
-                value={state.idClient}
-                onChange={inputHandle}
-                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                type="number"
-                name="DestinateurData"
-                placeholder="ID Client"
-                id="DestinateurData"
-              />
-            </div>
-            <div>
+          <div className="w-1/2 pt-14 mr-2">
+           
               <div className="flex flex-col mb-3">
                 <label htmlFor="numVol">Nom Client</label>
                 <input
-                  value={state.nomClient}
+                value={state.nomClient}
+
                   onChange={inputHandle}
                   className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                   type="text"
@@ -617,7 +683,7 @@ function AjoutImportation() {
               <div className="flex flex-col mb-3">
                 <label htmlFor="CINClient">N° CIN</label>
                 <input
-                  value={state.CINClient}
+                value={state.CINClient}
                   onChange={inputHandle}
                   className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                   type="text"
@@ -629,7 +695,7 @@ function AjoutImportation() {
               <div className="flex flex-col mb-3">
                 <label htmlFor="dateDepart">E-mail</label>
                 <input
-                  value={state.emailClient}
+                value={state.emailClient}
                   onChange={inputHandle}
                   className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                   type="mail"
@@ -660,10 +726,10 @@ function AjoutImportation() {
                 >
                   Next
                 </button>
-              </div>
+            
             </div>
           </div>
-          <div className="w-1/2 p-6" style={{ maxHeight: '400px' }}>
+          <div className="w-1/2 pt-6" style={{ maxHeight: '400px' }}>
             <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">
               Liste des clients disponible
             </h2>
@@ -680,9 +746,9 @@ function AjoutImportation() {
                 <tbody className="space-y-2">
                   {destinataire.map((client, index) => (
                    <tr
-                   key={client.CINClient}
+                   key={client.idClient}
                    onClick={() => handleSelect(client)}
-                   className={`hover:bg-blue-200 ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedPerson ? 'selectedRow' : ''}`}
+                   className={`hover:bg-blue-200 ${client === selectedPerson ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedPerson ? 'selectedRow' : ''}`}
                  ><td>
                  <input
                    type="checkbox"
@@ -710,24 +776,13 @@ function AjoutImportation() {
       {/* Form Step 4 */}
       {formNo === 4 && (
        <div className="flex flex-row gap-4">
-       <div className="w-1/2">
-         <div className="flex flex-col mb-3">
-           <label htmlFor="idTransport" className="text-lg font-semibold mb-2">ID Client</label>
-           <input
-             value={state.ExpediteurData}
-             onChange={inputHandle}
-             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-             type="number"
-             name="ExpediteurData"
-             placeholder="ID Client"
-             id="ExpediteurData"
-           />
-         </div>
-         <div>
+       <div className="w-1/2 pt-14 mr-2">
+        
            <div className="flex flex-col mb-3">
-             <label htmlFor="nomCLient">Nom Client</label>
+             <label htmlFor="nomClient">Nom Client</label>
              <input
-               value={selectedClient.nomClientE}
+             value={state.nomClientE}
+
                onChange={inputHandle}
                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                type="text"
@@ -739,7 +794,7 @@ function AjoutImportation() {
            <div className="flex flex-col mb-3">
              <label htmlFor="CINClient">N° CIN</label>
              <input
-               value={selectedClient.CINClientE}
+             value={state.CINClientE}
                onChange={inputHandle}
                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                type="text"
@@ -751,7 +806,7 @@ function AjoutImportation() {
            <div className="flex flex-col mb-3">
              <label htmlFor="dateDepart">E-mail</label>
              <input
-               value={selectedClient.emailClientE}
+             value={state.emailClientE}
                onChange={inputHandle}
                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                type="mail"
@@ -762,23 +817,30 @@ function AjoutImportation() {
            </div>
 
            <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-            <button
-              onClick={pre}
-              className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
-            >
-              Previous
-            </button>
-            <button
-              onClick={finalSubmit}
-              disabled={!isStep4Valid()}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep4Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
-            >
-              Submit
-            </button>
-          </div>
+             {/* Previous button (disabled on the first step) */}
+             <button
+               onClick={pre}
+               disabled={formNo === 1}
+               className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
+                 }`}
+             >
+               Previous
+             </button>
+             {/* Next button */}
+             <button
+               onClick={next}
+               disabled={!isStep3Valid()}
+               className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep3Valid()
+                 ? "bg-blue-500"
+                 : "bg-blue-100 cursor-not-allowed"
+                 }`}
+             >
+               Next
+             </button>
+         
          </div>
        </div>
-       <div className="w-1/2 p-6" style={{ maxHeight: '400px' }}>
+       <div className="w-1/2 pt-6" style={{ maxHeight: '400px' }}>
          <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">
            Liste des clients disponible
          </h2>
@@ -794,19 +856,16 @@ function AjoutImportation() {
              </thead>
              <tbody className="space-y-2">
                {destinataire.map((client, index) => (
-              <tr
-              key={client.idClient}
-              onClick={() => handleSelect(client)}
-              className={`hover:bg-blue-200 ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedPerson ? 'selectedRow' : ''}`}
-            >
-                   <td className="py-2 px-4">
-                    
-                       <input
-                       type="checkbox"
-                       checked={client === selectedPerson}
-                       readOnly
-                     />
-                 
+                <tr
+                key={client.idClient}
+                onClick={() => handleSelectE(client)}
+                className={`hover:bg-blue-200 ${client === selectedExpediteur ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedExpediteur ? 'selectedRow' : ''}`}
+              ><td>
+              <input
+                type="checkbox"
+                checked={client === selectedExpediteur}
+                readOnly
+              />
                    </td>
                    <td className="py-2 px-4">{client.nomClient}</td>
                    <td className="py-2 px-4">{client.CINClient}</td>
@@ -815,10 +874,11 @@ function AjoutImportation() {
                ))}
              </tbody>
            </table>
-         </div>
 
-          
-        </div></div>
+
+         </div>
+       </div>
+     </div>
       )}
 
 
