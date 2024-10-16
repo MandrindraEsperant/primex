@@ -23,7 +23,6 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
         nomClient: selectedPerson.nomClient || '',
         CINClient: selectedPerson.CINClient || '',
         emailClient: selectedPerson.emailClient || '',
-        creerPar: selectedPerson.creerPar || idEmploye,
         modifierPar: idEmploye,
       });
     } else {
@@ -51,12 +50,12 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
       nomClient: state.nomClient,
       emailClient: state.emailClient,
       CINClient: state.CINClient,
-      creerPar: state.creerPar,
       modifierPar: state.modifierPar,
     };
 
     if (isEditMode) {
       // Mode modification
+      delete state['creerPar'];
       axios
         .put(`http://localhost:3001/client/${selectedPerson.idClient}`, clientData)
         .then((res) => {

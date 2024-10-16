@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import idUserConnected from "../../../../constants/idUserConnected";
 import Swal from "sweetalert2";
 
-function AjoutTransMaritime({ handleClose, allTransMaritime }) {
+function AjoutTransMaritime({
+  handleClose,
+  isEditMode,
+  allTransMaritime,
+  selectedPerson,
+}) {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
   const idEmploye = idUserConnected();
@@ -19,6 +24,30 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
     creerPar: idEmploye,
     modifierPAr: idEmploye,
   });
+
+  useEffect(() => {
+    if (isEditMode && selectedPerson) {
+      setState({
+        numHBL: selectedPerson.numHBL,
+        numBateau: selectedPerson.numBateau,
+        nomBateau: selectedPerson.nomBateau,
+        dateDepart: selectedPerson.dateDepart,
+        dateArriver: selectedPerson.dateArriver,
+        modifierPAr: idEmploye,
+      });
+    } else {
+      // Sinon, réinitialiser les champs
+      setState({
+        numHBL: "",
+        numBateau: "",
+        nomBateau: "",
+        dateDepart: "",
+        dateArriver: "",
+        creerPar: idEmploye,
+        modifierPAr: idEmploye,
+      });
+    }
+  }, [isEditMode, selectedPerson, idEmploye]);
 
   const inputHandle = (e) => {
     setState({
@@ -48,12 +77,36 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
   };
   const finalSubmit = (e) => {
     e.preventDefault();
-    axios
+    if (isEditMode) {
+      delete state['creerPar'];
+      axios
+      .put(`http://localhost:3001/transMaritime/${selectedPerson.idTransMaritime}`, state)
+      .then((res) => {
+        toast.success("Transport maritime modifié avec succès");
+       Swal.fire({
+        title: 'Modification',
+        text: 'Le Transport maritime a été modifié.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: false, 
+      });
+      allTransMaritime();
+      handleClose();
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error(err.response.data.error);
+        } else {
+          toast.error(err.message);
+        }
+      });
+    }else{
+      axios
       .post("http://localhost:3001/transMaritime/", state)
       .then((res) => {
         Swal.fire({
-          title: "Ajouté!",
-          text: "Le client a été ajouté.",
+          title: "Ajout",
+          text: "Le Transport maritime a été ajouté.",
           icon: "success",
           timer: 3000,
           showConfirmButton: false,
@@ -69,6 +122,8 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
           toast.error(err.message);
         }
       });
+    }
+    
   };
 
   return (

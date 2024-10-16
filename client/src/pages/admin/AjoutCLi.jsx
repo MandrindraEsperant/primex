@@ -10,7 +10,7 @@ const AjoutCLi = ({open, handleClose, isEditMode, selectedPerson, allClient }) =
       <DialogContent style={{ position: 'relative' }}>
         {/* Bouton de fermeture en haut à droite */}
         <IconButton
-          onClick={handleClose}
+          onClick={handleClose} 
           style={{
             position: 'absolute',
             top: 10,

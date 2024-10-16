@@ -15,6 +15,13 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const Client = () => {
+  const [open, setOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const { theme } = useContext(ThemeContext);
+  const [selectedPerson, setSelectedPerson] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
   const [data, setData] = useState([]);
 
   const allClient = async () => {
@@ -44,8 +51,6 @@ const Client = () => {
   useEffect(() => {
     allClient();
   }, []);
-
-  const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setSelectedPerson(null);
     setIsEditMode(false);
@@ -55,18 +60,6 @@ const Client = () => {
     setOpen(false);
     setSelectedPerson(null);
   };
-
-  const [isEditMode, setIsEditMode] = useState(false);
-  const { theme } = useContext(ThemeContext);
-  const [selectedPerson, setSelectedPerson] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
-
-  // const handleEditClickOpen = (person) => {
-  //     console.log('Editing person:', person);
-  //     setSelectedPerson(person);
-
   const handleEditClickOpen = (client) => {
     setSelectedPerson(client);
     setIsEditMode(true); // Mode modification
@@ -85,8 +78,6 @@ const Client = () => {
       item.CINClient.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.emailClient.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // SUPPRESSION
   const handleDeleteClick = (id) => {
     Swal.fire({
       title: "Êtes-vous sûr?",
@@ -193,6 +184,7 @@ const Client = () => {
               ))}
             </tbody>
           </table>
+
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNumber) => (

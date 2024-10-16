@@ -14,6 +14,7 @@ import axios from "axios";
 
 const TransportMaritime = () => {
   const [open, setOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const [data, setData] = useState([]);
 
@@ -40,9 +41,6 @@ const TransportMaritime = () => {
     allTransMaritime();
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -53,10 +51,18 @@ const TransportMaritime = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
+  const handleClickOpen = () => {
+    setIsEditMode(false);
+    setOpen(true);
+  };
+  const handleEditClickOpen = (trans) => {
+    setSelectedPerson(trans);
+    setIsEditMode(true); // Mode modification
+    setOpen(true);
+  };
   const handleSelect = (person) => {
     if (
-      selectedPerson &&
-      selectedPerson.idTransMaritime === person.idTransMaritime
+      selectedPerson && selectedPerson.idTransMaritime === person.idTransMaritime
     ) {
       setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
@@ -110,6 +116,8 @@ const TransportMaritime = () => {
               <MdAdd /> Ajouter
             </button>
             <AjoutTransM 
+             selectedPerson={selectedPerson}
+              isEditMode={isEditMode}
               open={open}
               handleClose={handleClose}
               allTransMaritime={allTransMaritime}
@@ -150,7 +158,9 @@ const TransportMaritime = () => {
                   <td>{item.dateArriver}</td>
                   <td>
                     <span className="actionIcons">
-                      <MdEdit className="editIcon" />
+                      <MdEdit className="editIcon"
+                         onClick={() => handleEditClickOpen(item)}
+                      />
                       <MdDelete
                         className="deleteIcon"
                         onClick={() => supprimer(item.idTransMaritime)}
