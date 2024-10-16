@@ -3,6 +3,7 @@ import { ThemeContext } from '../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import AjoutMarchandisePage from '../../../pages/admin/AjoutMarchandisePage';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Marchandise = () => {
     const [open, setOpen] = useState(false);
@@ -26,27 +27,58 @@ const Marchandise = () => {
         })
         .catch((err) => alert(err));
     };
-  
+  // SUPPRESSION
+  const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr?",
+      text: "De supprimmer ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Supprimer!",
+      cancelButtonText: "Annuler",
+      reverseButtons:true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supprimer(id); // Appeler la fonction de suppression si confirmé
+      }
+    });
+  };
+
+
+
     useEffect(() => {
         allMarchandise();
     }, []);
 
     const handleClickOpen = () => {
+        setSelectedPerson(null);
+        setIsEditMode(false);
         setOpen(true);
     };
   
     const handleClose = () => {
         setOpen(false);
     };
+
+    const [isEditMode, setIsEditMode] = useState(false);
     const { theme } = useContext(ThemeContext);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 7;
   
+
+    const handleEditClickOpen = (marchandise) => {
+        setSelectedPerson(marchandise);
+        setIsEditMode(true); // Mode modification
+        setOpen(true);
+      };
+
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idMarchandise === person.idMarchandise) {
-            setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
+            setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
@@ -97,7 +129,13 @@ const Marchandise = () => {
                               <button className="addButton" onClick={handleClickOpen}>
                                   <MdAdd /> Ajouter
                               </button>
-                               <AjoutMarchandisePage open={open} handleClose={handleClose}/>
+                               <AjoutMarchandisePage
+                                open={open}
+                                handleClose={handleClose}
+                                allMarchandise={allMarchandise}
+                                isEditMode={isEditMode}
+                                selectedPerson={selectedPerson}
+                                />
                               
                       </div>
                       <table className="table">
@@ -143,9 +181,9 @@ const Marchandise = () => {
                                       <td>{item.volume}m<sup>3</sup></td>
                                       <td>
                                           <span className="actionIcons">
-                                              <MdEdit className="editIcon" />
+                                              <MdEdit className="editIcon" onClick={() => handleEditClickOpen(item)}/>
                                               <MdDelete className="deleteIcon"  
-                                              onClick={() => supprimer(item.idMarchandise)} 
+                                              onClick={() => handleDeleteClick(item.idMarchandise)} 
                                               />
                                               <MdVisibility className="viewIcon" />
                                           </span>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-function AjoutMarchandise({ onSubmitSuccess }) {
+function AjoutMarchandise({ handleClose, allMarchandise, isEditMode, selectedPerson }) {
     const formArray = [1, 2, 3];
     const [formNo, setFormNo] = useState(formArray[0]);
 
@@ -24,6 +25,41 @@ function AjoutMarchandise({ onSubmitSuccess }) {
         creerPar: idEmploye,
         modifierPar: idEmploye
     });
+    useEffect(() => {
+        if (isEditMode && selectedPerson) {
+          // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
+          setState({
+            typeExpedition: selectedPerson.typeExpedition || '',
+            idExpedition: selectedPerson.idExpedition || '',
+            numConteneur: selectedPerson.numConteneur || '',
+            typeConteneur: selectedPerson.typeConteneur || '',
+            numPlomb: selectedPerson.numPlomb || '',
+            nature: selectedPerson.nature || '',
+            nbColis: selectedPerson.nbColis || '',
+            poid: selectedPerson.poid || '',
+            volume: selectedPerson.volume || '',
+            creerPar: selectedPerson.creerPar || idEmploye,
+            modifierPar: idEmploye,
+          });
+        } else {
+          // Sinon, réinitialiser les champs
+          setState({
+            typeExpedition: "",
+            idExpedition: "",
+            numConteneur: "",
+            typeConteneur: "",
+            numPlomb: "",
+            nature: "",
+            nbColis: "",
+            poid: "",
+            volume: "",
+            creerPar: idEmploye,
+            modifierPar: idEmploye,
+          });
+        }
+      }, [isEditMode, selectedPerson, idEmploye]);
+    
+
 
     const inputHandle = (e) => {
         setState({
@@ -61,20 +97,64 @@ function AjoutMarchandise({ onSubmitSuccess }) {
 
     const finalSubmit = (e) => {
         e.preventDefault();
-        
+        const marchandiseData={
+            typeExpedition: state.typeExpedition,
+            idExpedition: state.idExpedition,
+            numConteneur: state.numConteneur,
+            typeConteneur: state.typeConteneur,
+            numPlomb: state.numPlomb,
+            nature: state.nature,
+            nbColis: state.nbColis,
+            poid: state.poid,
+            volume: state.volume,
+            creerPar: state.creerPar,
+            modifierPar: state.modifierPar,
+        }
+        if (isEditMode) {
+            // Mode modification
+            axios
+              .put(`http://localhost:3001/marchandise/${selectedPerson.idMarchandise}`, marchandiseData)
+              .then((res) => {
+                toast.success("Marchandise modifié avec succès");
+               Swal.fire({
+                title: 'Modifié!',
+                text: 'Le marchandise a été modifié.',
+                icon: 'success',
+                timer: 3000,
+                showConfirmButton: false, 
+              });
+                allMarchandise();
+                handleClose();
+              })
+              .catch((err) => {
+                if (err.response) {
+                  toast.error(err.response.data.error);
+                } else {
+                  toast.error(err.message);
+                }
+              });
+          } else {
         axios
-          .post("http://localhost:3001/marchandise/", state)
+          .post("http://localhost:3001/marchandise/", marchandiseData)
           .then((res) => {
-            toast.success("Marchandise bien ajouté");
+            Swal.fire({
+            title: 'Ajouté!',
+            text: 'Le client a été ajouté.',
+            icon: 'success',
+            timer: 3000,
+            showConfirmButton: false, 
+          });
+            allMarchandise();
+            handleClose();
           })
           .catch((err) => {
             if (err.response) {
               toast.error(err.response.data.error);
             } else {
-              // Si c'est une autre erreur (ex. problème de réseau)
               toast.error(err.message);
             }
           });
+        }
       };
 
     return (

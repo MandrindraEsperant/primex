@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-function AjoutTransAerienne({ onSubmitSuccess }) {
+function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selectedPerson }) {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
   const token = localStorage.getItem("token");
@@ -18,6 +19,32 @@ function AjoutTransAerienne({ onSubmitSuccess }) {
     creerPar: idEmploye,
     modifierPAr: idEmploye
   });
+
+
+  useEffect(() => {
+    if (isEditMode && selectedPerson) {
+      // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
+      setState({
+        numVol: selectedPerson.numVol || '',
+        nomCompagnie: selectedPerson.nomCompagnie || '',
+        dateDepart: selectedPerson.dateDepart || '',
+        dateArriver: selectedPerson.dateArriver || '',
+        creerPar: selectedPerson.creerPar || idEmploye,
+        modifierPar: idEmploye,
+      });
+    } else {
+      // Sinon, réinitialiser les champs
+      setState({
+        numVol: '',
+        nomCompagnie: '',
+        dateDepart: '',
+        dateArriver: '',
+        creerPar: idEmploye,
+        modifierPAr: idEmploye
+      });
+    }
+  }, [isEditMode, selectedPerson, idEmploye]);
+
 
   const inputHandle = (e) => {
     setState({
@@ -52,24 +79,68 @@ function AjoutTransAerienne({ onSubmitSuccess }) {
 
   const finalSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/transAerienne/", state)
-      .then((res) => {
-        toast.success("Importation bien ajouté");
-        onSubmitSuccess();  // Ferme le Dialog
-      })
-      .catch((err) => {
-        if (err.response) {
-          toast.error(err.response.data.error);
-        } else {
-          // Si c'est une autre erreur (ex. problème de réseau)
-          toast.error(err.message);
-        }
-      });
+    const TransaerienneData = {
+      numVol: state.numVol,
+      nomCompagnie: state.nomCompagnie,
+      dateDepart: state.dateDepart,
+      dateArriver: state.dateArriver,
+      creerPar: state.creerPar,
+      modifierPar: state.idEmploye,
+    }
+
+    if (isEditMode) {
+      // Mode modification
+      axios
+        .put(`http://localhost:3001/transAerienne/${selectedPerson.idTransAerienne}`, TransaerienneData)
+        .then((res) => {
+          toast.success("Tansport modifié avec succès");
+          Swal.fire({
+            title: 'Modifié!',
+            text: 'Le transport a été modifié.',
+            icon: 'success',
+            timer: 3000,
+            showConfirmButton: false,
+          });
+          allTransAerienne();
+          handleClose();
+        })
+        .catch((err) => {
+          if (err.response) {
+            toast.error(err.response.data.error);
+          } else {
+            toast.error(err.message);
+          }
+        });
+    } else {
+
+      axios
+        .post("http://localhost:3001/transAerienne/", state)
+        .then((res) => {
+          Swal.fire({
+            title: 'Ajouté!',
+            text: 'Le transport a été ajouté.',
+            icon: 'success',
+            timer: 3000,
+            showConfirmButton: false,
+          });
+          allTransAerienne();
+          handleClose();
+        })
+        .catch((err) => {
+          if (err.response) {
+            toast.error(err.response.data.error);
+          } else {
+            toast.error(err.message);
+          }
+        });
+    }
   };
 
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
+      <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
+        {isEditMode ? "Modifier un Client" : "Ajouter un Client"}
+      </h2>
       <div className="flex items-center w-full mb-4">
         {formArray.map((v, i) => (
           <React.Fragment key={i}>
@@ -77,10 +148,10 @@ function AjoutTransAerienne({ onSubmitSuccess }) {
               {/* Étape actuelle avec icône ou numéro */}
               <div
                 className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
-                    ? 'bg-green-500' // Étape terminée
-                    : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
-                      ? 'bg-green-500' // Étape en cours
-                      : 'bg-slate-400' // Étape non atteinte
+                  ? 'bg-green-500' // Étape terminée
+                  : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
+                    ? 'bg-green-500' // Étape en cours
+                    : 'bg-slate-400' // Étape non atteinte
                   } flex justify-center items-center`}
               >
                 {formNo - 1 > i ? '✓' : v} {/* Icône de validation ou numéro */}
@@ -96,10 +167,10 @@ function AjoutTransAerienne({ onSubmitSuccess }) {
             {i !== formArray.length - 1 && (
               <div
                 className={`h-[2px] w-full ${formNo - 1 > i
+                  ? 'bg-green-500'
+                  : formNo === i + 2 || formNo === formArray.length
                     ? 'bg-green-500'
-                    : formNo === i + 2 || formNo === formArray.length
-                      ? 'bg-green-500'
-                      : 'bg-slate-400'
+                    : 'bg-slate-400'
                   }`}
                 style={{ marginLeft: '0px', marginRight: '0px' }}
               ></div>
@@ -201,7 +272,7 @@ function AjoutTransAerienne({ onSubmitSuccess }) {
               className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? 'bg-blue-500' : 'bg-blue-100 cursor-not-allowed'
                 }`}
             >
-              Submit
+              {isEditMode ? "Modifier" : "Ajouter"}
             </button>
           </div>
         </div>

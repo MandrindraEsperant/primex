@@ -63,10 +63,6 @@ const Client = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
-  // const handleEditClickOpen = (person) => {
-  //     console.log('Editing person:', person);
-  //     setSelectedPerson(person);
-
   const handleEditClickOpen = (client) => {
     setSelectedPerson(client);
     setIsEditMode(true); // Mode modification
@@ -93,10 +89,11 @@ const Client = () => {
       text: "De supprimmer ?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui, supprimer!",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Supprimer!",
       cancelButtonText: "Annuler",
+      reverseButtons:true
     }).then((result) => {
       if (result.isConfirmed) {
         supprimer(id); // Appeler la fonction de suppression si confirmé

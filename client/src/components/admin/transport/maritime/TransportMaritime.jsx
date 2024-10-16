@@ -11,10 +11,11 @@ import {
 import "../../clients/Client.scss";
 import AjoutTransM from "../../../../pages/admin/AjoutTransM";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const TransportMaritime = () => {
   const [open, setOpen] = useState(false);
-
+  const [isEditMode, setIsEditMode] = useState(false);
   const [data, setData] = useState([]);
 
   const allTransMaritime = async () => {
@@ -36,16 +37,47 @@ const TransportMaritime = () => {
       .catch((err) => alert(err));
   };
 
+// SUPPRESSION
+const handleDeleteClick = (id) => {
+  Swal.fire({
+    title: "Êtes-vous sûr?",
+    text: "De supprimmer ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Supprimer!",
+    cancelButtonText: "Annuler",
+    reverseButtons:true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      supprimer(id); // Appeler la fonction de suppression si confirmé
+    }
+  });
+};
+
+
   useEffect(() => {
     allTransMaritime();
   }, []);
 
-  const handleClickOpen = () => {
+
+  const handleEditClickOpen = (transmaritime) => {
+    setSelectedPerson(transmaritime);
+    setIsEditMode(true); // Mode modification
     setOpen(true);
+  };
+
+
+  const handleClickOpen = () => {
+    setSelectedPerson(null);
+        setIsEditMode(false);
+        setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setSelectedPerson(null);
   };
   const { theme } = useContext(ThemeContext);
   const [selectedPerson, setSelectedPerson] = useState(null);
@@ -58,7 +90,7 @@ const TransportMaritime = () => {
       selectedPerson &&
       selectedPerson.idTransMaritime === person.idTransMaritime
     ) {
-      setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
+      setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
@@ -113,6 +145,8 @@ const TransportMaritime = () => {
               open={open}
               handleClose={handleClose}
               allTransMaritime={allTransMaritime}
+              isEditMode={isEditMode}
+              selectedPerson={selectedPerson}
             />
           </div>
           <table className="table">
@@ -150,10 +184,12 @@ const TransportMaritime = () => {
                   <td>{item.dateArriver}</td>
                   <td>
                     <span className="actionIcons">
-                      <MdEdit className="editIcon" />
+                      <MdEdit className="editIcon" 
+                      onClick={() => handleEditClickOpen(item)}
+                      />
                       <MdDelete
                         className="deleteIcon"
-                        onClick={() => supprimer(item.idTransMaritime)}
+                        onClick={() => handleDeleteClick(item.idTransMaritime)}
                       />
                       <MdVisibility className="viewIcon" />
                     </span>

@@ -17,7 +17,7 @@ import {
 
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import Swal from 'sweetalert2';
 import "./Sidebar.scss";
 // import { SidebarContext } from "./../../../context/SidebarContext";
 import { AccountService } from './../../../_services/Account.service';
@@ -56,10 +56,25 @@ const Sidebar = () => {
   // }, []);
 
   const navigate = useNavigate()
+
   const Deconnection = () => {
-    AccountService.logout()
-    window.location.reload()
-    navigate('/');
+    Swal.fire({
+      title: 'Êtes-vous sûr(e) ?',
+      text: "Vous allez être déconnecté(e).",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',  
+      cancelButtonColor: '#3085d6', 
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Déconnecter!',
+      reverseButtons: true, 
+    }).then((result) => {
+      if (result.isConfirmed) {
+        AccountService.logout();
+        window.location.reload();
+        navigate('/');
+      }
+    });
   }
 
   return (

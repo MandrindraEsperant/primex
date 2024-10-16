@@ -11,6 +11,7 @@ import {
 import "../clients/Client.scss";
 import AjoutImportPage from "../../../pages/admin/AjoutImportPage";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Importation = () => {
   const [data, setData] = useState([]);
@@ -23,6 +24,7 @@ const Importation = () => {
       console.error("Error submitting data:", error);
     }
   };
+  // SUPPRESSION
   const supprimer = (id) => {
     axios
       .delete("http://localhost:3001/importation/" + id)
@@ -30,6 +32,23 @@ const Importation = () => {
         allImportation();
       })
       .catch((err) => alert(err));
+  };
+
+   const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr?",
+      text: "De supprimmer ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui, supprimer!",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supprimer(id); // Appeler la fonction de suppression si confirmé
+      }
+    });
   };
 
   useEffect(() => {
@@ -131,7 +150,7 @@ const Importation = () => {
                       <MdEdit className="editIcon" />
                       <MdDelete
                         className="deleteIcon"
-                        onClick={() => supprimer(item.idImportation)}
+                        onClick={() => handleDeleteClick(item.idImportation)}
                       />
                       <MdVisibility className="viewIcon" />
                     </span>

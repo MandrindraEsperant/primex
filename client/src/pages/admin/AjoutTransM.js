@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer } from 'react-toastify';
 import AjoutTransMaritime from '../../components/admin/transport/maritime/AjoutTransMaritime';
 
-const AjoutTransM = ({ open, allTransMaritime ,handleClose }) => {
+const AjoutTransM = ({ open, allTransMaritime ,handleClose, isEditMode, selectedPerson }) => {
     return (
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
         <DialogContent style={{ position: 'relative' }}>
@@ -22,6 +22,8 @@ const AjoutTransM = ({ open, allTransMaritime ,handleClose }) => {
           </IconButton>
           <AjoutTransMaritime 
           handleClose={handleClose}
+          isEditMode={isEditMode}
+          selectedPerson={selectedPerson}
           allTransMaritime ={allTransMaritime }
           />
           <ToastContainer />

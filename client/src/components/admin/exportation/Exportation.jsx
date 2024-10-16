@@ -11,6 +11,7 @@ import {
 import "../clients/Client.scss";
 import AjoutEXportPage from "../../../pages/admin/AjoutEXportPage";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const Exportation = () => {
@@ -34,6 +35,25 @@ const Exportation = () => {
       })
       .catch((err) => alert(err));
   };
+
+  // SUPPRESSION
+  const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr?",
+      text: "De supprimmer ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui, supprimer!",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supprimer(id); // Appeler la fonction de suppression si confirmé
+      }
+    });
+  };
+
 
   useEffect(() => {
     allExportation();
@@ -137,7 +157,7 @@ const Exportation = () => {
                       <MdEdit className="editIcon" />
                       <MdDelete
                         className="deleteIcon"
-                        onClick={() => supprimer(item.idExportation)}
+                        onClick={() => handleDeleteClick(item.idExportation)}
                       />
                       <MdVisibility className="viewIcon" />
                     </span>

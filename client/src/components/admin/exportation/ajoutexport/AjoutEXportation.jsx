@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
   const formArray = [1, 2];

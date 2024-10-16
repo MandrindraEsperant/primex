@@ -4,10 +4,11 @@ import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-
 import '../../clients/Client.scss';
 import AjoutTransA from '../../../../pages/admin/AjoutTransA';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const TransportAerienne = () => {
     const [open, setOpen] = useState(false);
-
+    const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
 
     const allTransAerienne = async () => {
@@ -19,7 +20,14 @@ const TransportAerienne = () => {
         console.error("Error submitting data:", error);
       }
     };
+
+    const handleEditClickOpen = (transAerienne) => {
+        setSelectedPerson(transAerienne);
+        setIsEditMode(true); // Mode modification
+        setOpen(true);
+      };
   
+   // SUPPRESSION
     const supprimer = (id) => {
       axios
         .delete("http://localhost:3001/transAerienne/" + id)
@@ -28,16 +36,37 @@ const TransportAerienne = () => {
         })
         .catch((err) => alert(err));
     };
-  
+   const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr?",
+      text: "De supprimmer ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Supprimer!",
+      cancelButtonText: "Annuler",
+      reverseButtons:true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supprimer(id); // Appeler la fonction de suppression si confirmé
+      }
+    });
+  };
+
+
     useEffect(() => {
         allTransAerienne();
     }, []);
 
     const handleClickOpen = () => {
+        setSelectedPerson(null);
+        setIsEditMode(false);
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
+        setSelectedPerson(null);
     };
     const { theme } = useContext(ThemeContext);
     const [selectedPerson, setSelectedPerson] = useState(null);
@@ -47,7 +76,7 @@ const TransportAerienne = () => {
   
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idTransAerienne === person.idTransAerienne) {
-            setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
+            setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
@@ -93,7 +122,12 @@ const TransportAerienne = () => {
                               <button className="addButton" onClick={handleClickOpen}>
                                   <MdAdd /> Ajouter
                               </button>
-                              <AjoutTransA open={open} handleClose={handleClose}/>{}
+                              <AjoutTransA
+                               open={open}
+                               allTransAerienne={allTransAerienne}
+                               handleClose={handleClose}
+                               isEditMode={isEditMode}
+                               selectedPerson={selectedPerson}/>
                               
                       </div>
                       <table className="table">
@@ -129,9 +163,11 @@ const TransportAerienne = () => {
                                       <td>{item.dateArriver}</td>
                                       <td>
                                           <span className="actionIcons">
-                                              <MdEdit className="editIcon" />
-                                              <MdDelete className="deleteIcon"
-                                                 onClick={() => supprimer(item.idTransAerienne)}
+                                              <MdEdit className="editIcon"
+                                               onClick={() => handleEditClickOpen(item)}/>
+                                              <MdDelete
+                                               className="deleteIcon"
+                                                 onClick={() => handleDeleteClick(item.idTransAerienne)}
                                               />
                                               <MdVisibility className="viewIcon" />
                                           </span>

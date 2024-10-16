@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import idUserConnected from "../../../../constants/idUserConnected";
 import Swal from "sweetalert2";
 
-function AjoutTransMaritime({ handleClose, allTransMaritime }) {
+function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransMaritime }) {
   const formArray = [1, 2];
   const [formNo, setFormNo] = useState(formArray[0]);
   const idEmploye = idUserConnected();
@@ -19,6 +19,33 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
     creerPar: idEmploye,
     modifierPAr: idEmploye,
   });
+
+
+  useEffect(() => {
+    if (isEditMode && selectedPerson) {
+      // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
+      setState({
+        numHBL: selectedPerson.numHBL || '',
+        numBateau: selectedPerson.numBateau || '',
+        nomBateau: selectedPerson.nomBateau || '',
+        dateDepart: selectedPerson.dateDepart || '',
+        dateArriver: selectedPerson.dateArriver || '',
+        creerPar: selectedPerson.creerPar || idEmploye,
+        modifierPar: idEmploye,
+      });
+    } else {
+      // Sinon, réinitialiser les champs
+      setState({
+        numHBL: '',
+        numBateau: '',
+        nomBateau: '',
+        dateDepart: '',
+        dateArriver: '',
+        creerPar: idEmploye,
+        modifierPAr: idEmploye
+      });
+    }
+  }, [isEditMode, selectedPerson, idEmploye]);
 
   const inputHandle = (e) => {
     setState({
@@ -46,14 +73,51 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
       setFormNo(formNo - 1);
     }
   };
+
+
+
   const finalSubmit = (e) => {
     e.preventDefault();
+const TransMaritimeData= {
+  numHBL: state.numHBL,
+  numBateau: state.numBateau,
+  nomBateau: state.nomBateau,
+  dateDepart: state.dateDepart,
+  dateArriver: state.dateArriver,
+  creerPar: state.creerPar,
+  modifierPar: state.idEmploye,
+}
+
+if (isEditMode) {
+  // Mode modification
+  axios
+    .put(`http://localhost:3001/transMaritime/${selectedPerson.idTransMaritime}`, TransMaritimeData)
+    .then((res) => {
+      toast.success("Tansport modifié avec succès");
+     Swal.fire({
+      title: 'Modifié!',
+      text: 'Le transport a été modifié.',
+      icon: 'success',
+      timer: 3000,
+      showConfirmButton: false, 
+    });
+    allTransMaritime();
+      handleClose();
+    })
+    .catch((err) => {
+      if (err.response) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error(err.message);
+      }
+    });
+} else {
     axios
       .post("http://localhost:3001/transMaritime/", state)
       .then((res) => {
         Swal.fire({
           title: "Ajouté!",
-          text: "Le client a été ajouté.",
+          text: "Le transport a été ajouté.",
           icon: "success",
           timer: 3000,
           showConfirmButton: false,
@@ -68,13 +132,13 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
           // Si c'est une autre erreur (ex. problème de réseau)
           toast.error(err.message);
         }
-      });
+      });}
   };
 
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
       <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-        AJOUT TRANSPORT MARITIME
+      {isEditMode ? "Modifier un Client" : "Ajouter un Client"}
       </h2>
       <div className="flex items-center w-full mb-4">
         {formArray.map((v, i) => (
@@ -82,15 +146,14 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
             <div className="flex flex-col items-center w-full">
               {/* Étape actuelle avec icône ou numéro */}
               <div
-                className={`w-[35px] h-[35px] my-3 text-white rounded-full ${
-                  formNo - 1 > i
+                className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
                     ? "bg-green-500" // Étape terminée
                     : formNo - 1 === i ||
                       formNo - 1 === i + 1 ||
                       formNo === formArray.length
-                    ? "bg-green-500" // Étape en cours
-                    : "bg-slate-400" // Étape non atteinte
-                } flex justify-center items-center`}
+                      ? "bg-green-500" // Étape en cours
+                      : "bg-slate-400" // Étape non atteinte
+                  } flex justify-center items-center`}
               >
                 {formNo - 1 > i ? "✓" : v} {/* Icône de validation ou numéro */}
               </div>
@@ -104,13 +167,12 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
             {/* Trait de liaison entre les étapes, collé aux étapes */}
             {i !== formArray.length - 1 && (
               <div
-                className={`h-[2px] w-full ${
-                  formNo - 1 > i
+                className={`h-[2px] w-full ${formNo - 1 > i
                     ? "bg-green-500"
                     : formNo === i + 2 || formNo === formArray.length
-                    ? "bg-green-500"
-                    : "bg-slate-400"
-                }`}
+                      ? "bg-green-500"
+                      : "bg-slate-400"
+                  }`}
                 style={{ marginLeft: "0px", marginRight: "0px" }}
               ></div>
             )}
@@ -170,9 +232,8 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
             <button
               onClick={pre}
               disabled={formNo === 1}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${
-                formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
-              }`}
+              className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
+                }`}
             >
               Previous
             </button>
@@ -180,11 +241,10 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
             <button
               onClick={next}
               disabled={!isStep1Valid()}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${
-                isStep1Valid()
+              className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep1Valid()
                   ? "bg-blue-500"
                   : "bg-blue-100 cursor-not-allowed"
-              }`}
+                }`}
             >
               Next
             </button>
@@ -238,13 +298,13 @@ function AjoutTransMaritime({ handleClose, allTransMaritime }) {
             <button
               onClick={finalSubmit}
               disabled={!isStep2Valid()}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${
-                isStep2Valid()
+              className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid()
                   ? "bg-blue-500"
                   : "bg-blue-100 cursor-not-allowed"
-              }`}
+                }`}
             >
-              Submit
+             
+             {isEditMode ? "Modifier" : "Ajouter"}
             </button>
           </div>
         </div>

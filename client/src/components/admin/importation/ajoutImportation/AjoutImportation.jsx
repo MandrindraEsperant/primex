@@ -35,13 +35,11 @@ function AjoutImportation() {
     creerPar: idEmploye,
     modifierPar: idEmploye,
     DestinateurData: {
-      idClient:"",
       nomClient: "",
       CINClient: "",
       emailClient: "",
     },
     ExpediteurData: {
-      idClient:"",
       nomClientE: "",
       CINClientE: "",
       emailClientE: "",
@@ -136,7 +134,7 @@ function AjoutImportation() {
     return state.dateImportation && state.numMBL && state.modeTransport;  
   };           
   const isStep2Valid = () => {
-    return state.idTransport;
+    return state.nomCompagnie;
   };
   const isStep3Valid = () => {
     return state.nomClient && state.CINClient && state.emailClient;
@@ -307,12 +305,11 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
 
 
 
-
-
-
-
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
+      <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
+        {/* {isEditMode ? "Modifier un Client" : "Ajouter un Client"} */}Ajouter une importation
+      </h2>
       <div className="flex items-center w-full mb-4">
         {" "}
         {/* Ajout d'une marge en bas ici */}
@@ -428,18 +425,6 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
       {formNo === 2 && (
         <div className="flex flex-row gap-4">
           <div className="w-1/2">
-            <div className="flex flex-col mb-3">
-              <label htmlFor="idTransport" className="text-lg font-semibold mb-2">ID transport</label>
-              <input
-                value={state.idTransport}
-                onChange={inputHandle}
-                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                type="number"
-                name="idTransport"
-                placeholder="ID Transport"
-                id="idTransport"
-              />
-            </div>
             {/* Formulaire pour aérienne */}
             {state.modeTransport === "aerienne" && (
               <div>
@@ -577,7 +562,7 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                     Previous
                   </button>
                   <button
-                    onClick={finalSubmit}
+                    onClick={next}
                     disabled={!isStep2Valid()}
                     className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
                   >
@@ -828,14 +813,14 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
              </button>
              {/* Next button */}
              <button
-               onClick={next}
-               disabled={!isStep3Valid()}
-               className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep3Valid()
+               onClick={finalSubmit}
+               disabled={!isStep4Valid()}
+               className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep4Valid()
                  ? "bg-blue-500"
                  : "bg-blue-100 cursor-not-allowed"
                  }`}
              >
-               Next
+               Submit
              </button>
          
          </div>

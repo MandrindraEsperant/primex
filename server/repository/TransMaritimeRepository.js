@@ -33,7 +33,7 @@ class TransMaritimeRepository extends IRepository {
   async update(id, transMaritimeData) {
     const transMaritime = await this.findById(id);
     if (transMaritime) {
-      return await TransMaritime.update(transMaritimeData);
+      return await TransMaritime.update(transMaritimeData , { where: { idTransMaritime: id } });
     }
     return null;
   }
