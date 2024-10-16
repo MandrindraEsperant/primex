@@ -87,8 +87,7 @@ const handleDeleteClick = (id) => {
 
   const handleSelect = (person) => {
     if (
-      selectedPerson &&
-      selectedPerson.idTransMaritime === person.idTransMaritime
+      selectedPerson && selectedPerson.idTransMaritime === person.idTransMaritime
     ) {
       setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
     } else {

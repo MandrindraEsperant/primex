@@ -1,8 +1,8 @@
-import React from 'react'
-import { Dialog, IconButton, DialogContent} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { ToastContainer } from 'react-toastify';
-import AjoutTransMaritime from '../../components/admin/transport/maritime/AjoutTransMaritime';
+import React from "react";
+import { Dialog, IconButton, DialogContent } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { ToastContainer } from "react-toastify";
+import AjoutTransMaritime from "../../components/admin/transport/maritime/AjoutTransMaritime";
 
 const AjoutTransM = ({ open, allTransMaritime ,handleClose, isEditMode, selectedPerson }) => {
     return (
@@ -32,4 +32,4 @@ const AjoutTransM = ({ open, allTransMaritime ,handleClose, isEditMode, selected
       )
 }
 
-export default AjoutTransM
+export default AjoutTransM;
