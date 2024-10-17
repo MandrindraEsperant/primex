@@ -6,6 +6,9 @@ class ClientRepository extends IRepository {
   async create(clientData) {
     return await Client.create(clientData);
   }
+  async countAll() {
+    return await Client.count();
+  }
   async findById(id) {
     return await Client.findByPk(id);
   }

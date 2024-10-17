@@ -10,6 +10,7 @@ const exportationService = new ExportationService(exportationRepository);
 const exportationController = new ExportationController(exportationService);
 
 router.post('/', (req, res) => exportationController.createExportation(req, res));
+router.get('/all/', (req, res) => exportationController.getCountAllExportation(req, res));
 router.get('/', (req, res) => exportationController.getAllExportations(req, res));
 router.get('/:id', (req, res) =>exportationController.getOneExportation(req, res));
 router.put('/:id', (req, res) => exportationController.updateExportation(req, res));

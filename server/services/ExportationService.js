@@ -35,8 +35,13 @@ class ExportationService {
     Data["idTransport"] = idTransport;
 
     // Verification de client expediteur et destinataire
-    idDestinataire = await clientService.getOrCreateClient(Data.destinaireData);
-    idExpediteur = await clientService.getOrCreateClient(Data.expediteurData);
+    if(!Data.destinataireData  ){
+      throw new Error("  destinateur requis");
+    }else if(!Data.expediteurData){
+      throw new Error("  expediteur requis");
+    }
+  let  idDestinataire = await clientService.getOrCreateClient(Data.destinataireData);
+  let  idExpediteur = await clientService.getOrCreateClient(Data.expediteurData);
     Data["idDestinataire"] = idDestinataire;
     Data["idExpediteur"] = idExpediteur;
     delete Data["destinataireData"];
@@ -44,10 +49,11 @@ class ExportationService {
 
     return await this.exportationRepository.create(Data);
   }
-
-
   async getExportationById(id) {
     return await this.exportationRepository.findById(id);
+  }
+  async getCountAllExportation() {
+    return await this.exportationRepository.countAll();
   }
   async getAllExportations() {
     return await this.exportationRepository.findAll();

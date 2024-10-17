@@ -10,6 +10,7 @@ const importationService = new ImportationService(importationRepository);
 const importationController = new ImportationController(importationService);
 
 router.post('/', (req, res) => importationController.createImportation(req, res));
+router.get('/all/', (req, res) => importationController.getCountAllImportation(req, res));
 router.get('/', (req, res) => importationController.getAllImportations(req, res));
 router.get('/:id', (req, res) =>importationController.getOneImportation(req, res));
 router.put('/:id', (req, res) => importationController.updateImportation(req, res));

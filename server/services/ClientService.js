@@ -14,6 +14,9 @@ class ClientService {
     }
 
     async getOrCreateClient(clientData){
+      if(!clientData.CINClient ){
+        throw new Error("Le CIN de client est requis");
+      }
       let client = await this.clientRepository.findByCIN(clientData.CINClient);
       if (!client) {
         client = await this.createClient(clientData);
@@ -24,6 +27,9 @@ class ClientService {
 
     async getClientById(id) {
       return await this.clientRepository.findById(id);
+    }
+    async getCountAllClient() {
+      return await this.clientRepository.countAll();
     }
     async searchAll(word) {
       return await this.clientRepository.searchAll(word);

@@ -52,6 +52,14 @@ class ClientController {
       res.status(500).send(error.message);
     }
   }
+  async getCountAllClients(req, res) {
+    try {
+      const clients = await this.clientService.getCountAllClient();
+      res.status(200).json(clients);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
 
   async updateClient(req, res) {
     try {

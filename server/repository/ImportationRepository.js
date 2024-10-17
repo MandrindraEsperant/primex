@@ -9,7 +9,9 @@ class ImportationRepository extends IRepository {
   async findById(id) {
     return await Importation.findByPk(id);
   }
-  
+  async countAll() {
+    return await Importation.count();
+  }
   async findAll() {
     return await Importation.findAll();
   }

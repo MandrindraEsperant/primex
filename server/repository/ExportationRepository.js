@@ -9,6 +9,9 @@ class ExportationRepository extends IRepository {
   async findById(id) {
     return await Exportation.findByPk(id);
   }
+  async countAll() {
+    return await Exportation.count();
+  }
   
   async findAll() {
     return await Exportation.findAll();

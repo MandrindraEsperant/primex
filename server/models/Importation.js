@@ -38,7 +38,7 @@ Importation.init(
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
-    idDestinateur: {
+    idDestinataire: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

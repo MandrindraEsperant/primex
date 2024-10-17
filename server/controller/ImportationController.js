@@ -11,6 +11,15 @@ class ImportationController {
         res.status(500).send(error.message);
       }
     }
+
+    async getCountAllImportation(req, res) {
+      try {
+        const Importation = await this.ImportationService.getCountAllImportation();
+        res.status(201).json(Importation);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
   
     async getOneImportation(req, res) {
       try {
