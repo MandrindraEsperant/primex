@@ -30,6 +30,14 @@ class MarchandiseController {
         res.status(500).send(error.message);
       }
     } 
+    async getPlusExpedier(req, res) {
+      try {
+        const Marchandises = await this.MarchandiseService.getPlusExpedier();        
+        res.status(200).json(Marchandises); 
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    } 
     async updateMarchandise(req, res) {
       try {
         const Marchandise = await this.MarchandiseService.updateMarchandise(
