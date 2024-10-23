@@ -15,16 +15,18 @@ class ExportationRepository extends IRepository {
     return await Exportation.findByPk(id);
   }
   async countAll() {
-    return await Exportation.count(
-      {
+    try {
+      return await Exportation.count({
         where: {
           dateExportation: {
-            [Op.gte]: twoMonthsAgo,
-            [Op.lt]: now            
-          }
-        }
-      }
-    );
+            [Op.gte]: new Date(new Date() - 2 * 30 * 24 * 60 * 60 * 1000), // 2 mois en millisecondes
+          },
+        }, 
+      });
+    } catch (error) {
+      console.error('Error counting exportations:', error);
+      throw new Error('Failed to count exportations');
+    }
   }
   
   async findAll() {
