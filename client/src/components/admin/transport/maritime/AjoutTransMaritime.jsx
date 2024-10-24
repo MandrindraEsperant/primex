@@ -11,11 +11,14 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
   const idEmploye = idUserConnected();
 
   const [state, setState] = useState({
-    numHBL: "",
-    numBateau: "",
-    nomBateau: "",
-    dateDepart: "",
-    dateArriver: "",
+    numIMO: "",
+    nomNavire: "",
+    armateur: "",
+    dateChargement: "",
+    paysChargement: "",
+    villeChargement: "",
+    paysDechargement: "",
+    villeDechargement: "",
     creerPar: idEmploye,
     modifierPAr: idEmploye,
   });
@@ -25,24 +28,30 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
     if (isEditMode && selectedPerson) {
       // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
       setState({
-        numHBL: selectedPerson.numHBL || '',
-        numBateau: selectedPerson.numBateau || '',
-        nomBateau: selectedPerson.nomBateau || '',
-        dateDepart: selectedPerson.dateDepart || '',
-        dateArriver: selectedPerson.dateArriver || '',
+        numIMO: selectedPerson.numIMO || '',
+        nomNavire: selectedPerson.nomNavire || '',
+        armateur: selectedPerson.armateur || '',
+        dateChargement: selectedPerson.dateChargement || '',
+        paysChargement: selectedPerson.paysChargement || '',
+        villeChargement: selectedPerson.villeChargement || '',
+        paysDechargement: selectedPerson.paysDechargement || '',
+        villeDechargement: selectedPerson.villeDechargement || '',
         creerPar: selectedPerson.creerPar || idEmploye,
         modifierPar: idEmploye,
       });
     } else {
       // Sinon, réinitialiser les champs
       setState({
-        numHBL: '',
-        numBateau: '',
-        nomBateau: '',
-        dateDepart: '',
-        dateArriver: '',
-        creerPar: idEmploye,
-        modifierPAr: idEmploye
+        numIMO: "",
+    nomNavire: "",
+    armateur: "",
+    dateChargement: "",
+    paysChargement: "",
+    villeChargement: "",
+    paysDechargement: "",
+    villeDechargement: "",
+    creerPar: idEmploye,
+    modifierPAr: idEmploye,
       });
     }
   }, [isEditMode, selectedPerson, idEmploye]);
@@ -54,10 +63,10 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
     });
   };
   const isStep1Valid = () => {
-    return state.numHBL && state.numBateau && state.nomBateau;
+    return state.numIMO && state.nomNavire && state.armateur;
   };
   const isStep2Valid = () => {
-    return state.dateDepart && state.dateArriver;
+    return state.dateChargement && state.paysChargement && state.paysDechargement && state.villeChargement && state.villeDechargement;
   };
   const next = () => {
     if (formNo === 1 && isStep1Valid()) {
@@ -78,12 +87,15 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
 
   const finalSubmit = (e) => {
     e.preventDefault();
-const TransMaritimeData= {
-  numHBL: state.numHBL,
-  numBateau: state.numBateau,
-  nomBateau: state.nomBateau,
-  dateDepart: state.dateDepart,
-  dateArriver: state.dateArriver,
+const TransMaritimeData= {  
+  numIMO: "",
+  nomNavire: "",
+  armateur: "",
+  dateChargement: "",
+  paysChargement: "",
+  villeChargement: "",
+  paysDechargement: "",
+  villeDechargement: "",
   creerPar: state.creerPar,
   modifierPar: state.idEmploye,
 }
@@ -138,7 +150,7 @@ if (isEditMode) {
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
       <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-      {isEditMode ? "Modifier un Client" : "Ajouter un Client"}
+      {isEditMode ? "Modifier un Transport Marimitime" : "Ajouter un Transport Marimitime"}
       </h2>
       <div className="flex items-center w-full mb-4">
         {formArray.map((v, i) => (
@@ -160,7 +172,7 @@ if (isEditMode) {
 
               <div className="text-sm mt-1 text-center text-green-500 font-semibold">
                 {i === 0 && "INFORMATION BATEAU"}
-                {i === 1 && "DATE"}
+                {i === 1 && "CHARGEMENT DECHARGEMENT"}
               </div>
             </div>
 
@@ -184,46 +196,46 @@ if (isEditMode) {
       {formNo === 1 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numHBL" className="text-lg font-semibold mb-2">
-              N° HBL
+            <label htmlFor="numIMO" className="text-lg font-semibold mb-2">
+              N° IMO
             </label>
             <input
-              value={state.numHBL}
+              value={state.numIMO}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="text"
-              name="numHBL"
-              placeholder="N° HBL"
-              id="numHBL"
+              name="numIMO"
+              placeholder="N° IMO"
+              id="numIMO"
               autofocus
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numBateau" className="text-lg font-semibold mb-2 ">
-              N° Bateau
+            <label htmlFor="nomNavire" className="text-lg font-semibold mb-2 ">
+              Nom Navire
             </label>
             <input
-              value={state.numBateau}
+              value={state.nomNavire}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="text"
-              name="numBateau"
-              placeholder="Num bateau"
-              id="numBateau"
+              name="nomNavire"
+              placeholder="Nom Navire"
+              id="nomNavire"
             />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="numBateau" className="text-lg font-semibold mb-2">
-              Nom Bateau
+            <label htmlFor="nomNavire" className="text-lg font-semibold mb-2">
+              Nom Armateur
             </label>
             <input
-              value={state.nomBateau}
+              value={state.armateur}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="text"
-              name="nomBateau"
-              placeholder="Nom bateau"
-              id="nomBateau"
+              name="armateur"
+              placeholder="Nom armateur"
+              id="armateur"
             />
           </div>
 
@@ -256,36 +268,87 @@ if (isEditMode) {
       {formNo === 2 && (
         <div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="dateDepart" className="text-lg font-semibold mb-2">
-              Date de Départ
+            <label htmlFor="dateChargement" className="text-lg font-semibold mb-2">
+              Date de Chargement
             </label>
             <input
-              value={state.dateDepart ? new Date(state.dateDepart).toISOString().split('T')[0]
+              value={state.dateChargement ? new Date(state.dateChargement).toISOString().split('T')[0]
                 : ''}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="date"
-              name="dateDepart"
-              placeholder="Date depart"
-              id="dateDepart" // Ajout de l'ID manquant
+              name="dateChargement"
+              placeholder="Date chargement"
+              id="dateChargement" // Ajout de l'ID manquant
+            />
+          </div>
+          
+          <div className="flex flex-col mb-3">
+            <label
+              htmlFor="paysChargement"
+              className="text-lg font-semibold mb-2 "
+            >
+              Pays de Chargement
+            </label>
+            <input
+              value={state.paysChargement}
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="text"
+              name="paysChargement"
+              placeholder="Pays chargement"
+              id="paysChargement" // Ajout de l'ID manquant
             />
           </div>
           <div className="flex flex-col mb-3">
             <label
-              htmlFor="dateArriver"
+              htmlFor="paysDechargement"
               className="text-lg font-semibold mb-2 "
             >
-              Date d' Arrivé
+              Pays de déchargement
             </label>
             <input
-              value={state.dateArriver ? new Date(state.dateArriver).toISOString().split('T')[0]
-                : ''}
+              value={state.paysDechargement }
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="date"
-              name="dateArriver"
-              placeholder="Date arrivé"
-              id="dateArriver" // Ajout de l'ID manquant
+              type="text"
+              name="paysDechargement"
+              placeholder="Pays dechargement"
+              id="paysDechargement" // Ajout de l'ID manquant
+            />
+          </div>
+          <div className="flex flex-col mb-3">
+            <label
+              htmlFor="villeChargement"
+              className="text-lg font-semibold mb-2 "
+            >
+              Ville de Chargement
+            </label>
+            <input
+              value={state.villeChargement }
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="text"
+              name="villeChargement"
+              placeholder="Ville chargement"
+              id="villeChargement" // Ajout de l'ID manquant
+            />
+          </div>
+          <div className="flex flex-col mb-3">
+            <label
+              htmlFor="villeDechargement"
+              className="text-lg font-semibold mb-2 "
+            >
+              Ville de déchargement
+            </label>
+            <input
+              value={state.villeDechargement }
+              onChange={inputHandle}
+              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+              type="text"
+              name="villeDechargement"
+              placeholder="VIlle dechargement"
+              id="villeDechargement" // Ajout de l'ID manquant
             />
           </div>
           <div className="mt-4 gap-3 flex justify-center items-center mt-8">

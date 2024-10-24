@@ -8,10 +8,11 @@ import {
   MdSearch,
   MdClear,
 } from "react-icons/md";
-import "../../clients/Client.scss";
 import AjoutTransM from "../../../../pages/admin/AjoutTransM";
 import axios from "axios";
 import Swal from "sweetalert2";
+import "../../Dashboard/areaTable/AreaTable.scss"
+import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 
 const TransportMaritime = () => {
   const [open, setOpen] = useState(false);
@@ -37,24 +38,24 @@ const TransportMaritime = () => {
       .catch((err) => alert(err));
   };
 
-// SUPPRESSION
-const handleDeleteClick = (id) => {
-  Swal.fire({
-    title: "Êtes-vous sûr?",
-    text: "De supprimmer ?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Supprimer!",
-    cancelButtonText: "Annuler",
-    reverseButtons:true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      supprimer(id); // Appeler la fonction de suppression si confirmé
-    }
-  });
-};
+  // SUPPRESSION
+  const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr?",
+      text: "De supprimmer ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Supprimer!",
+      cancelButtonText: "Annuler",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        supprimer(id); // Appeler la fonction de suppression si confirmé
+      }
+    });
+  };
 
 
   useEffect(() => {
@@ -71,8 +72,8 @@ const handleDeleteClick = (id) => {
 
   const handleClickOpen = () => {
     setSelectedPerson(null);
-        setIsEditMode(false);
-        setOpen(true);
+    setIsEditMode(false);
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -97,11 +98,14 @@ const handleDeleteClick = (id) => {
 
   const filteredData = data.filter(
     (item) =>
-      item.numHBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.numBateau.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.nomBateau.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.dateArriver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.dateDepart.toLowerCase().includes(searchTerm.toLowerCase())
+      item.numIMO.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.nomNavire.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.armateur.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.dateChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.paysChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.villeChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.paysDechargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.villeDechargement.toLowerCase().includes(searchTerm.toLowerCase()) 
   );
 
   // Pagination logic
@@ -118,9 +122,8 @@ const handleDeleteClick = (id) => {
   return (
     <div className={`client-container ${theme}`}>
       <h3 className="title">LISTE DE TOUT LES TRANSPORTS MARITIME</h3>
-      <div className="container">
-        <div className="tableContainer">
-          <div className="actionsContainer">
+      <div className="lex flex-col space-y-6">
+          <div className="actionsContainer flex items-center space-x-4">
             <div className="searchContainer">
               <MdSearch className="searchIcon" />
               <input
@@ -140,7 +143,7 @@ const handleDeleteClick = (id) => {
             <button className="addButton" onClick={handleClickOpen}>
               <MdAdd /> Ajouter
             </button>
-            <AjoutTransM 
+            <AjoutTransM
               open={open}
               handleClose={handleClose}
               allTransMaritime={allTransMaritime}
@@ -148,16 +151,18 @@ const handleDeleteClick = (id) => {
               selectedPerson={selectedPerson}
             />
           </div>
-          <table className="table">
+          {/* <table className="table">
             <thead>
               <tr>
                 <th>#</th>
-                {/* <th>ID</th>  */}
-                <th>N° HBL</th>
-                <th>N° Bateau</th>
-                <th>Nom Bateau</th>
-                <th>Date Départ</th>
-                <th>Date Arrivé</th>
+                <th>N° IMO</th>
+                <th>Nom Navire</th>
+                <th>Armateur</th>
+                <th>Date de chargement</th>
+                <th>Pays de chargement</th>
+                <th>Pays de déchargement</th>
+                <th>Ville de chargement</th>
+                <th>Ville de déchargement</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -175,16 +180,18 @@ const handleDeleteClick = (id) => {
                       readOnly
                     />
                   </td>
-                  {/* <td>{item.idTransMaritime}</td> */}
-                  <td>{item.numHBL}</td>
-                  <td>{item.numBateau}</td>
-                  <td>{item.nomBateau}</td>
-                  <td>{new Date(item.dateDepart).toLocaleDateString('fr-FR')}</td>
-                  <td>{new Date(item.dateArriver).toLocaleDateString('fr-FR')}</td>
+                  <td>{item.numIMO}</td>
+                  <td>{item.nomNavire}</td>
+                  <td>{item.armateur}</td>
+                  <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
+                  <td>{item.paysChargement}</td>
+                  <td>{item.paysDechargement}</td>
+                  <td>{item.villeChargement}</td>
+                  <td>{item.villeDechargement}</td>
                   <td>
                     <span className="actionIcons">
-                      <MdEdit className="editIcon" 
-                      onClick={() => handleEditClickOpen(item)}
+                      <MdEdit className="editIcon"
+                        onClick={() => handleEditClickOpen(item)}
                       />
                       <MdDelete
                         className="deleteIcon"
@@ -196,59 +203,71 @@ const handleDeleteClick = (id) => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
+
+
+<section className="content-area-table">
+<div className="data-table-diagram">
+        <table>
+        <thead>
+              <tr>
+                <th>#</th>
+                <th>N° IMO</th>
+                <th>Nom Navire</th>
+                <th>Armateur</th>
+                <th>Date de chargement</th>
+                <th>Pays de chargement</th>
+                <th>Pays de déchargement</th>
+                <th>Ville de chargement</th>
+                <th>Ville de déchargement</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+          <tbody>
+          {currentData.map((item) => (
+                <tr
+                  key={item.idTransMaritime}
+                  onClick={() => handleSelect(item)}
+                  className={item === selectedPerson ? "selectedRow" : ""}
+                >
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={item === selectedPerson}
+                      readOnly
+                    />
+                  </td>
+                  <td>{item.numIMO}</td>
+                  <td>{item.nomNavire}</td>
+                  <td>{item.armateur}</td>
+                  <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
+                  <td>{item.paysChargement}</td>
+                  <td>{item.paysDechargement}</td>
+                  <td>{item.villeChargement}</td>
+                  <td>{item.villeDechargement}</td>
+                  <td className="dt-cell-action">
+                    <AreaTableAction />
+                  </td>
+                </tr>
+            
+            ))}
+          </tbody>
+        </table></div></section>
+
+
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNumber) => (
                 <button
                   key={pageNumber}
-                  className={`pageButton ${
-                    currentPage === pageNumber ? "activePage" : ""
-                  }`}
+                  className={`pageButton ${currentPage === pageNumber ? "activePage" : ""
+                    }`}
                   onClick={() => handlePageChange(pageNumber)}
                 >
                   {pageNumber}
                 </button>
               )
             )}
-          </div>
-        </div>
-
-        <div className="detailContainer">
-          <div className="detailHeader">
-            {selectedPerson && (
-              <img
-                src=""
-                alt={selectedPerson.nomBateau}
-                className="detailImage"
-              />
-            )}
-            <h3>Détails : {selectedPerson ? selectedPerson.numHBL : ""}</h3>
-          </div>
-          <p>
-            <strong>N° HBL :</strong>{" "}
-            {selectedPerson ? selectedPerson.numHBL : ""}
-          </p>
-          <p>
-            <strong>N° Bateau :</strong>{" "}
-            {selectedPerson ? selectedPerson.numBateau : ""}
-          </p>
-          <p>
-            <strong>Nom Bateau :</strong>{" "}
-            {selectedPerson ? selectedPerson.nomBateau : ""}
-          </p>
-          <p>
-  <strong>Date Départ :</strong>{" "}
-  {selectedPerson ? new Date(selectedPerson.dateDepart).toLocaleDateString("fr-FR") : ""}
-</p>
-
-          <p>
-            <strong>Date Arrivé :</strong>{" "}
-            {selectedPerson ? new Date(selectedPerson.dateArriver).toLocaleDateString("fr-FR") : ""}
-          </p>
-          <button className="editButton">
-            <MdEdit /> Modifier
-          </button>
         </div>
       </div>
     </div>
