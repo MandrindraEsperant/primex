@@ -9,6 +9,8 @@ const transAerienneRoutes = require('./routes/transAerienneRoutes');
 const exportationRoutes = require('./routes/exportationRoutes');
 const importationRoutes = require('./routes/importationRoutes');
 const marchandiseRoutes = require('./routes/marchandiseRoutes');
+const agentRoutes = require('./routes/agentRoutes');
+// const transactionRoutes = require('./routes/transactionRoutes');
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use('/transAerienne', transAerienneRoutes);
 app.use('/exportation', exportationRoutes);  
 app.use('/importation', importationRoutes);  
 app.use('/marchandise', marchandiseRoutes);  
+app.use('/agent', agentRoutes);  
+// app.use('/transaction', transactionRoutes);  
 
 
 // Synchroniser la base de données sans supprimer les tables existantes

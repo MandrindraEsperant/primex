@@ -1,41 +1,33 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
 
-class TransMaritime extends Sequelize.Model {}
+class Agent extends Sequelize.Model {}
 
-TransMaritime.init(
+Agent.init(
   {
-    idTransMaritime: {
+    idAgent: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    numHBL: {
+    nomAgent: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    paysAgent: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    contactAgent: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: 'Le numero de HBL est déjà existé.' 
-      },
+        msg: 'Ce contact est déjà apparient  email est déjà utilisée.' 
+      }
     },
-    armateur: {
+    adresseAgent : {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    numBateau: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    nomBateau: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    dateDepart: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    dateArriver: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
     creerPar: {
       type: DataTypes.INTEGER,
@@ -48,9 +40,9 @@ TransMaritime.init(
   },
   {
     sequelize,
-    modelName: "TransMaritime",
+    modelName: "Agent",
     timestamps: true, // Inclut createdAt et updatedAt
   }
 );
 
-module.exports = TransMaritime;
+module.exports = Agent;

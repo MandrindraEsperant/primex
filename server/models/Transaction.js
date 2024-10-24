@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const TransportMaritime = require("./TransMaritime");
-const TransportAerienne = require("./TransAerienne");
+const Agent = require("./Agent");
 
 class Transaction extends Sequelize.Model {}
 
@@ -19,13 +19,35 @@ Transaction.init(
         msg: "Le Numero MBL est déjà appartient au autre transaction",
       },
     },
-    modeTransport: {
-      type: DataTypes.ENUM("Maritime", "Aerienne"),
-      allowNull: false,
-    },
     idTransport: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: TransportMaritime,
+        key: "idTransMaritime",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    },
+    idAgentDest:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Agent,
+        key: "idClient",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    },
+    idAgentExp:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Agent,
+        key: "idAgent",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
     creerPar: {
       type: DataTypes.INTEGER,
@@ -40,26 +62,14 @@ Transaction.init(
     sequelize,
     modelName: "Transaction",
     timestamps: true,
+    validate: {
+      expediteurDifferentDeDestinateur() {
+        if (this.idAgentDest === this.idAgentExp) {
+          throw new Error("idTransitExpediteur doit être différent de idTransitDestinateur.");
+        }
+      },
+    }, 
   }
 );
-
-// Définir les associations polymorphes
-Transaction.belongsTo(TransportMaritime, {
-  foreignKey: 'idTransport',
-  constraints: false,
-  as: 'transportMaritime',
-  scope: {
-    modeTransport: 'Maritime',
-  },
-});
-
-Transaction.belongsTo(TransportAerienne, {
-  foreignKey: 'idTransport',
-  constraints: false,
-  as: 'transportAerienne',
-  scope: {
-    modeTransport: 'Aerienne',
-  },
-});
 
 module.exports = Transaction;
