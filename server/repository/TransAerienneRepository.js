@@ -5,7 +5,6 @@ class TransAerienneRepository extends IRepository {
   async create(Data) {
     return await TransAerienne.create(Data);
   }
-
   async findById(id) {
     return await TransAerienne.findByPk(id);
   }
@@ -18,8 +17,12 @@ class TransAerienneRepository extends IRepository {
         [Op.or]: [
           { numVol: { [Op.like]: `%${word}%` } },
           { nomCompagnie: { [Op.like]: `%${word}%` } },
-          { dateDepart: { [Op.like]: `%${word}%` } },
-          { dateArriver: { [Op.like]: `%${word}%` } },
+          { dateChargement: { [Op.like]: `%${word}%` } },
+          { paysChargement: { [Op.like]: `%${word}%` } },
+          { villeChargement: { [Op.like]: `%${word}%` } },
+          { dateDechargement: { [Op.like]: `%${word}%` } },
+          { paysDechargement: { [Op.like]: `%${word}%` } },
+          { villeDechargement: { [Op.like]: `%${word}%` } },
         ],
       },
     });
@@ -27,7 +30,6 @@ class TransAerienneRepository extends IRepository {
   async findAll() {
     return await TransAerienne.findAll();
   }
-
   async update(id, transAerienneData) {
     const transAerienne = await this.findById(id);
     if (transAerienne) {
@@ -35,7 +37,6 @@ class TransAerienneRepository extends IRepository {
     }
     return null;
   }
-
   async delete(id) {
     const transAerienne = await this.findById(id);
     if (transAerienne) {

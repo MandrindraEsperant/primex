@@ -21,13 +21,29 @@ TransAerienne.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dateDepart: {
+    dateChargement: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    dateArriver: {
+    dateDechargement: {
       type: DataTypes.DATE,
       allowNull: false,
+    },
+    paysChargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    villeChargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    paysDechargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    villeDechargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
     },
     creerPar: {
       type: DataTypes.INTEGER,

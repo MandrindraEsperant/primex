@@ -7,6 +7,7 @@ class TransMaritimeService {
     // Validation des données 
     if (!Data.numIMO
       || !Data.nomNavire 
+      || !Data.armateur
       || !Data.dateChargement 
       || !Data.paysChargement 
       || !Data.villeChargement 
