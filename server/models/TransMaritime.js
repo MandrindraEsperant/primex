@@ -14,8 +14,8 @@ TransMaritime.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique:{
-        msg:""
-      }
+        msg: 'Le numéro IMO est déjà utilisé.' 
+      },
     },
     armateur: {
       type: DataTypes.STRING,

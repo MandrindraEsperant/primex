@@ -8,8 +8,8 @@ class TransMaritimeRepository extends IRepository {
   async findById(id) {
     return await TransMaritime.findByPk(id);
   }
-  async findByNumIMO(numHBL) {
-    return await TransMaritime.findOne({ where: { numHBL: numHBL } });
+  async findByNumIMO(numIMO) {
+    return await TransMaritime.findOne({ where: { numIMO: numIMO } });
   }
   async searchAll(word) {
     return await Client.findAll({
