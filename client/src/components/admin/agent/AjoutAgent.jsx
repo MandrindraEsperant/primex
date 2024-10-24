@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
 import axios from "axios";
 
-const AjoutAgent = ({ handleClose, allagent, isEditMode, selectedPerson }) => {
+const AjoutAgent = ({ handleClose, allAgent, isEditMode, selectedPerson }) => {
 
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
@@ -75,7 +75,7 @@ const AjoutAgent = ({ handleClose, allagent, isEditMode, selectedPerson }) => {
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allagent();
+                    allAgent();
                     handleClose();
                 })
                 .catch((err) => {
@@ -97,7 +97,7 @@ const AjoutAgent = ({ handleClose, allagent, isEditMode, selectedPerson }) => {
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allagent();
+                    allAgent();
                     handleClose();
                 })
                 .catch((err) => {

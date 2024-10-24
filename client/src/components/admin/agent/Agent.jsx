@@ -77,7 +77,7 @@ const Agent = () => {
         item.nomAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.paysAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.adresseAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.emailagent.toLowerCase().includes(searchTerm.toLowerCase())
+        item.contactAgent.toLowerCase().includes(searchTerm.toLowerCase())
     );
     const handleDeleteClick = (id) => {
       Swal.fire({
@@ -113,7 +113,7 @@ const Agent = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="title">LISTE DE TOUT LES TRANSACTIONS</h3>
+    <h3 className="title">LISTE DE TOUT LES AGENTS</h3>
     <div className="flex flex-col space-y-6">
         <div className="actionsContainer flex items-center space-x-4">
           <div className="searchContainer">
@@ -167,10 +167,10 @@ const Agent = () => {
                     readOnly
                   />
                 </td>
-                <td>Locamarine</td>
-                <td>Canada</td>
-                <td>Rue 548 Mor</td>
-                <td>loc@gmail.com</td>
+                <td>{item.nomAgent}</td>
+                <td>{item.paysAgent}</td>
+                <td>{item.adresseAgent}</td>
+                <td>{item.contactAgent}</td>
                 <td>
                   <span className="actionIcons">
                     <MdEdit
