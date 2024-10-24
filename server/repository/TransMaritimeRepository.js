@@ -5,23 +5,25 @@ class TransMaritimeRepository extends IRepository {
   async create(Data) {
     return await TransMaritime.create(Data);
   }
-
   async findById(id) {
     return await TransMaritime.findByPk(id);
   }
-
-  async findByNumHBL(numHBL) {
+  async findByNumIMO(numHBL) {
     return await TransMaritime.findOne({ where: { numHBL: numHBL } });
   }
   async searchAll(word) {
     return await Client.findAll({
       where: {
         [Op.or]: [
-          { numHBL: { [Op.like]: `%${word}%` } },
-          { numBateau: { [Op.like]: `%${word}%` } },
+          { numIMO: { [Op.like]: `%${word}%` } },
+          { nomNavire: { [Op.like]: `%${word}%` } },
           { nomBateau: { [Op.like]: `%${word}%` } },
-          { dateDepart: { [Op.like]: `%${word}%` } },
-          { dateArriver: { [Op.like]: `%${word}%` } },
+          { dateChargement: { [Op.like]: `%${word}%` } },
+          { paysChargement: { [Op.like]: `%${word}%` } },
+          { villeChargement: { [Op.like]: `%${word}%` } },
+          { dateDechargement: { [Op.like]: `%${word}%` } },
+          { paysDechargement: { [Op.like]: `%${word}%` } },
+          { villeDechargement: { [Op.like]: `%${word}%` } },
         ],
       },
     });
@@ -29,7 +31,6 @@ class TransMaritimeRepository extends IRepository {
   async findAll() {
     return await TransMaritime.findAll();
   }
-
   async update(id, transMaritimeData) {
     const transMaritime = await this.findById(id);
     if (transMaritime) {
@@ -37,7 +38,6 @@ class TransMaritimeRepository extends IRepository {
     }
     return null;
   }
- 
   async delete(id) {
     const transMaritime = await this.findById(id);
     if (transMaritime) {
@@ -46,5 +46,6 @@ class TransMaritimeRepository extends IRepository {
     return null;
   }
 }
+
 
 module.exports = TransMaritimeRepository;

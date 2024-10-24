@@ -5,19 +5,25 @@ class TransMaritimeService {
   }
   async createTransMaritime(Data) {
     // Validation des données 
-    if (!Data.numHBL || !Data.numBateau || !Data.nomBateau || !Data.dateDepart || !Data.dateArriver || !Data.creerPar ) {
+    if (!Data.numIMO
+      || !Data.nomNavire 
+      || !Data.dateChargement 
+      || !Data.paysChargement 
+      || !Data.villeChargement 
+      || !Data.paysDechargement
+      || !Data.creerPar ) {
       throw new Error("Tous les champs sont requis.");
     }
     return await this.transMaritimeRepository.create(Data);
   }
-
   async searchAll(word) {
     return await this.transMaritimeRepository.searchAll(word);
   }
-
   async getOrCreateTransport(transportData){
 
-    if (!transportData.numHBL || !transportData.numBateau || !transportData.nomBateau || !transportData.dateDepart || !transportData.dateArriver || !transportData.creerPar ) {
+    if (
+      !transportData.numHBL || !transportData.numBateau || !transportData.nomBateau || !transportData.dateDepart || !transportData.dateArriver || !transportData.creerPar 
+    ) {
       throw new Error("Tous les champs sont requis.");
     }
 

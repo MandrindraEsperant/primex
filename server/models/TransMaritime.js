@@ -10,32 +10,44 @@ TransMaritime.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    numHBL: {
+    numIMO: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        msg: 'Le numero de HBL est déjà existé.' 
-      },
+      unique:{
+        msg:""
+      }
     },
     armateur: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    numBateau: {
+    nomNavire: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    nomBateau: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    dateDepart: {
+    dateChargement: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    dateArriver: {
+    dateDechargement: {
       type: DataTypes.DATE,
       allowNull: false,
+    },
+    paysChargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    villeChargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    paysDechargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    villeDechargement:{
+      type:DataTypes.STRING,
+      allowNull:false,
     },
     creerPar: {
       type: DataTypes.INTEGER,
