@@ -13,8 +13,8 @@ import {
   MdBuild,
   MdLocalShipping,
   MdFlightLand,
-  MdDirectionsBoat
-
+  MdDirectionsBoat,
+  MdDeliveryDining
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -191,6 +191,17 @@ const Sidebar = () => {
                 <span className="menu-link-text">Marchandise</span>
               </Link>
             </li>
+            <li className="menu-item">
+  <Link to="/admin/suivi"
+    className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>
+    <span className="menu-link-icon">
+      <MdDeliveryDining size={18} />
+    </span>
+    <span className="menu-link-text">Suivi</span>
+  </Link>
+</li>
+
+
           </ul>
         </div>
 

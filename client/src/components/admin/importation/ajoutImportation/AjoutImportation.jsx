@@ -17,7 +17,7 @@ function AjoutImportation() {
     dateImportation: "",
     numMBL: "",
     modeTransport: "",
-    idTransport:"",
+    idTransport: "",
     TransportAerienneData: {
       nomCompagnie: "",
       dateArriver: "",
@@ -26,9 +26,8 @@ function AjoutImportation() {
     },
     TransportMaritimeData: {
       numHBL: "",
-      dateArriver: "",
-      dateDepart: "",
-      numVol: "",
+      dateArriverM: "",
+      dateDepartM: "",
       nomBateau: "",
       numBateau: "",
     },
@@ -46,59 +45,9 @@ function AjoutImportation() {
     },
   });
 
-
-
-  const [selectedRow, setSelectedRow] = useState(null); // État pour la ligne sélectionnée
-
-  const handleRowSelect = (nomCompagnie, dateArriver, dateDepart, numVol) => {
-    setState((prevState) => ({
-      ...prevState,
-      nomCompagnie,
-      dateArriver,
-      dateDepart,
-      numVol,
-    }));
-  };
-  const handleCheckboxChange = (e, rowData) => {
-    if (e.target.checked) {
-      // Si une autre ligne est déjà sélectionnée, désélectionnez-la
-      if (selectedRow && selectedRow !== rowData.numVol) {
-        // Reset l'état de la ligne précédente
-        setSelectedRow(null);
-        setState((prevState) => ({
-          ...prevState,
-          nomCompagnie: "",
-          dateArriver: "",
-          dateDepart: "",
-          numVol: "",
-        }));
-      }
-
-      // Sélectionnez la nouvelle ligne
-      setSelectedRow(rowData.numVol); // Mettez à jour l'état de la ligne sélectionnée
-      handleRowSelect(
-        rowData.nomCompagnie,
-        rowData.dateArriver,
-        rowData.dateDepart,
-        rowData.numVol,
-      );
-    } else {
-      // Si la case est décochée, vérifiez si c'est la ligne actuellement sélectionnée
-      if (selectedRow === rowData.numVol ) {
-        setSelectedRow(null); // Réinitialisez l'état de la ligne sélectionnée
-        setState((prevState) => ({
-          ...prevState,
-          nomCompagnie: "",
-          dateArriver: "",
-          dateDepart: "",
-          numVol: "",
-        }));
-      }
-    }
-  };
   const inputHandle = (e) => {
     const { name, value } = e.target;
-  
+
     // Vérifiez si le champ appartient à DestinateurData
     if (["nomClient", "CINClient", "emailClient"].includes(name)) {
       setState((prevState) => ({
@@ -108,7 +57,7 @@ function AjoutImportation() {
           [name]: value, // Met à jour uniquement le champ dans DestinateurData
         },
       }));
-    } 
+    }
     // Vérifiez si le champ appartient à ExpediteurData
     else if (["nomClientE", "CINClientE", "emailClientE"].includes(name)) {
       setState((prevState) => ({
@@ -118,24 +67,75 @@ function AjoutImportation() {
           [name]: value, // Met à jour uniquement le champ dans ExpediteurData
         },
       }));
-    } 
-    // Pour les autres champs non spécifiques
+    }
+    // Vérifiez si le champ appartient à TransportAerienneData
+    else if (["nomCompagnie", "numVol"].includes(name)) {
+      setState((prevState) => ({
+        ...prevState,
+        TransportAerienneData: {
+          ...prevState.TransportAerienneData,
+          [name]: value, // Met à jour uniquement le champ dans TransportAerienneData
+        },
+      }));
+    }
+    // Gestion des champs de type date pour TransportAerienneData
+    else if (["dateDepart", "dateArriver"].includes(name)) {
+      // Si value est une date ISO, formatons-la correctement
+      const formattedDate = new Date(value).toISOString().split('T')[0]; // Format "yyyy-MM-dd"
+      setState((prevState) => ({
+        ...prevState,
+        TransportAerienneData: {
+          ...prevState.TransportAerienneData,
+          [name]: formattedDate, // Utiliser la valeur formatée
+        },
+      }));
+    }
+    else if (["numHBL", "dateArriverM", "dateDepartM", "nomBateau", "numBateau"].includes(name)) {
+      setState((prevState) => ({
+        ...prevState,
+        TransportMaritimeData: {
+          ...prevState.TransportMaritimeData,
+          [name]: value,
+        },
+      }));
+    }
     else {
       setState((prevState) => ({
         ...prevState,
-        [name]: value, // Met à jour le champ dans l'état principal
+        [name]: value, 
       }));
     }
   };
 
 
-    // MULTI STEP 
+  // MULTI STEP 
   const isStep1Valid = () => {
-    return state.dateImportation && state.numMBL && state.modeTransport;  
-  };           
-  const isStep2Valid = () => {
-    return state.nomCompagnie;
+    return state.dateImportation && state.numMBL && state.modeTransport;
   };
+  const isStep2Valid = () => {
+    if (state.modeTransport === "aerienne") {
+      const { TransportAerienneData } = state;
+      return (
+        TransportAerienneData &&
+        TransportAerienneData.numVol &&
+        TransportAerienneData.nomCompagnie &&
+        TransportAerienneData.dateDepart &&
+        TransportAerienneData.dateArriver
+      );
+    } else if (state.modeTransport === "maritime") {
+      const { TransportMaritimeData } = state;
+      return (
+        TransportMaritimeData &&
+        TransportMaritimeData.numHBL &&
+        TransportMaritimeData.nomBateau &&
+        TransportMaritimeData.numBateau &&
+        TransportMaritimeData.dateDepartM &&
+        TransportMaritimeData.dateArriverM
+      );
+    }
+    return false;
+  };
+  
   const isStep3Valid = () => {
     return state.nomClient && state.CINClient && state.emailClient;
   };
@@ -161,15 +161,15 @@ function AjoutImportation() {
     }
   };
 
-
-
   // POUR LE TABLEAU AERIENNE 
   const [destinataire, setDestinataire] = useState([]);
   const [transAeriennes, setTransAeriennes] = useState([]);
+  const [transmaritime, setTransmaritime] = useState([]);
   const [error, setError] = useState(null);
   const [selectedPerson, setSelectedPerson] = useState(null);
-
-const [selectedExpediteur, setSelectedExpediteur] = useState(null);
+  const [selectedExpediteur, setSelectedExpediteur] = useState(null);
+  const [selectedAerienne, setSelectedAerienne] = useState(null);
+  const [selectedMaritime, setSelectedMaritime] = useState(null);
 
   const fetchTransAeriennes = async () => {
     const response = await fetch("http://localhost:3001/transAerienne/");
@@ -178,9 +178,13 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
     }
     return await response.json();
   };
-
-
-
+  const fetchMaritime = async () => {
+    const response = await fetch("http://localhost:3001/transMaritime/");
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des données');
+    }
+    return await response.json();
+  };
   const fetchClients = async () => {
     const response = await fetch("http://localhost:3001/client/");
     if (!response.ok) {
@@ -212,7 +216,7 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
       setSelectedExpediteur(person); // Sélectionner un nouveau client
       setState(prevState => ({
         ...prevState,
-         ExpediteurData: {
+        ExpediteurData: {
           ...prevState.ExpediteurData,
           idClient: person.idClient,
           nomClientE: person.nomClient,
@@ -222,7 +226,44 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
       }));
     }
   };
-
+  const handleSelectA = (trans) => {
+    if (selectedAerienne && selectedAerienne.idTransAerienne === trans.idTransAerienne) {
+      setSelectedAerienne(null); // Désélectionne si la même personne est déjà sélectionnée
+    } else {
+      setSelectedAerienne(trans); // Sélectionner un nouveau transport
+      setState(prevState => ({
+        ...prevState,
+        TransportAerienneData: {
+          ...prevState.TransportAerienneData,
+          idTransAerienne: trans.idTransAerienne,
+          nomCompagnie: trans.nomCompagnie,
+          dateArriver: trans.dateArriver,
+          dateDepart: trans.dateDepart,
+          numVol: trans.numVol,
+          modeTransport: "aerienne",
+        }
+      }));
+    }
+  };
+  const handleselectM = (transm) => {
+    if (selectedMaritime && selectedMaritime.idTransMaritime === transm.idTransMaritime) {
+      setSelectedMaritime(null); // Désélectionne si la même personne est déjà sélectionnée
+    } else {
+      setSelectedMaritime(transm); // Sélectionner un nouveau transport
+      setState(prevState => ({
+        ...prevState,
+        TransportMaritimeData: {
+          ...prevState.TransportMaritimeData,
+          numHBL: transm.numHBL,
+          dateArriverM: transm.dateArriver,
+          dateDepartM: transm.dateDepart,
+          nomBateau: transm.nomBateau,
+          numBateau: transm.numBateau,
+          modeTransport: "maritime",
+        }
+      }));
+    }
+  };
 
 
   useEffect(() => {
@@ -235,7 +276,18 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
       }
     };
 
+
     getTransAeriennes();
+
+    const getTransMaritime = async () => {
+      try {
+        const data = await fetchMaritime();
+        setTransmaritime(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    getTransMaritime();
 
     const getDestinataire = async () => {
       try {
@@ -249,7 +301,6 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
 
 
   }, []);
-
 
   useEffect(() => {
     if (selectedPerson) {
@@ -267,7 +318,6 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
     }
   }, [selectedPerson]);
 
-
   useEffect(() => {
     if (selectedExpediteur) {
       setState({
@@ -283,7 +333,6 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
       });
     }
   }, [selectedExpediteur]);
-
 
   const finalSubmit = (e) => {
     e.preventDefault();
@@ -302,7 +351,6 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
         }
       });
   };
-
 
 
   return (
@@ -363,10 +411,11 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
               value={state.dateImportation}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="Date"
+              type="date"
               name="dateImportation"
               placeholder="Date"
               id="dateImportation"
+              aria-label="Date de l'importation"
             />
           </div>
           <div className="flex flex-col mb-3">
@@ -431,7 +480,7 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 <div className="flex flex-col mb-3">
                   <label htmlFor="numVol">N° Vol</label>
                   <input
-                    value={state.numVol}
+                    value={state.TransportAerienneData ? state.TransportAerienneData.numVol : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="number"
@@ -443,7 +492,7 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 <div className="flex flex-col mb-3">
                   <label htmlFor="nomCompagnie">Nom Compagnie</label>
                   <input
-                    value={state.nomCompagnie}
+                    value={state.TransportAerienneData ? state.TransportAerienneData.nomCompagnie : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="text"
@@ -455,30 +504,32 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 <div className="flex flex-col mb-3">
                   <label htmlFor="dateDepart">Date de Départ</label>
                   <input
-                    value={state.dateDepart}
+                    value={state.TransportAerienneData && state.TransportAerienneData.dateDepart
+                      ? new Date(state.TransportAerienneData.dateDepart).toISOString().split('T')[0]
+                      : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="date"
                     name="dateDepart"
-                    placeholder="Date départ"
                     id="dateDepart"
                   />
                 </div>
                 <div className="flex flex-col mb-3">
                   <label htmlFor="dateArriver">Date d'Arrivée</label>
                   <input
-                    value={state.dateArriver}
+                    value={state.TransportAerienneData && state.TransportAerienneData.dateArriver
+                      ? new Date(state.TransportAerienneData.dateArriver).toISOString().split('T')[0]
+                      : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="date"
                     name="dateArriver"
-                    placeholder="Date d'arrivée"
                     id="dateArriver"
                   />
                 </div>
                 {/* Previous button (disabled on the first step) */}
 
-                <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+                <div className="gap-3 flex justify-center items-center mt-8">
                   <button
                     onClick={pre}
                     disabled={formNo === 1}
@@ -506,9 +557,21 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
             {state.modeTransport === "maritime" && (
               <div>
                 <div className="flex flex-col mb-3">
+                  <label htmlFor="numHBL">N° HBL</label>
+                  <input
+                    value={state.TransportMaritimeData ? state.TransportMaritimeData.numHBL : ''}
+                    onChange={inputHandle}
+                    className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                    type="number"
+                    name="numHBL"
+                    placeholder="N° HBL"
+                    id="numHBL"
+                  />
+                </div>
+                <div className="flex flex-col mb-3">
                   <label htmlFor="numBateau">N° Bateau</label>
                   <input
-                    value={state.numBateau}
+                    value={state.TransportMaritimeData ? state.TransportMaritimeData.numBateau : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="number"
@@ -520,7 +583,7 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 <div className="flex flex-col mb-3">
                   <label htmlFor="nomBateau">Nom Bateau</label>
                   <input
-                    value={state.nomBateau}
+                    value={state.TransportMaritimeData ? state.TransportMaritimeData.nomBateau : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="text"
@@ -532,7 +595,10 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 <div className="flex flex-col mb-3">
                   <label htmlFor="dateDepartMaritime">Date de Départ</label>
                   <input
-                    value={state.dateDepartMaritime}
+                    
+                    value={state.TransportMaritimeData && state.TransportMaritimeData.dateDepartM
+                      ? new Date(state.TransportMaritimeData.dateDepartM).toISOString().split('T')[0]
+                      : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="date"
@@ -544,7 +610,9 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 <div className="flex flex-col mb-3">
                   <label htmlFor="dateArriverMaritime">Date d'Arrivée</label>
                   <input
-                    value={state.dateArriverMaritime}
+                    value={state.TransportMaritimeData && state.TransportMaritimeData.dateArriverM
+                      ? new Date(state.TransportMaritimeData.dateArriverM).toISOString().split('T')[0]
+                      : ''}
                     onChange={inputHandle}
                     className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                     type="date"
@@ -554,7 +622,7 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                   />
                 </div>
 
-                <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+                <div className="gap-3 flex justify-center items-center mt-8">
                   <button
                     onClick={pre}
                     className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
@@ -594,18 +662,24 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                   </thead>
                   <tbody className="space-y-2">
                     {transAeriennes.map((trans, index) => (
-                      <tr key={trans.id}
-                       className={`hover:bg-blue-200 ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'}`}>
-                        <td className="py-2 px-2">
+                      <tr
+                        key={trans.idTransAerienne}
+                        onClick={() => handleSelectA(trans)}
+                        className={`hover:bg-blue-200 ${trans === selectedAerienne ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${trans === selectedAerienne ? 'selectedRow' : ''}`}
+                      ><td>
                           <input
                             type="checkbox"
-                            onChange={(e) => handleCheckboxChange(e, trans)}
+                            checked={trans === selectedAerienne}
+                            readOnly
                           />
                         </td>
                         <td className="py-2 px-4">{trans.numVol}</td>
                         <td className="py-2 px-4">{trans.nomCompagnie}</td>
-                        <td className="py-2 px-4">{trans.dateArriver}</td>
-                        <td className="py-2 px-4">{trans.dateDepart}</td>
+                        <td className="py-2 px-4">
+                          {new Date(trans.dateArriver).toLocaleDateString('fr-FR')}
+                        </td>
+                        <td className="py-2 px-4">
+                          {new Date(trans.dateDepart).toLocaleDateString('fr-FR')}</td>
                       </tr>
                     ))}
 
@@ -625,18 +699,27 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                       <th className="py-2 px-4 text-left">Date Départ</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white hover:bg-gray-100">
-                      <td className="py-2 px-4">
-                        <input type="checkbox" />
-                      </td>
-                      <td className="py-2 px-4">78945</td>
-                      <td className="py-2 px-4">85445</td>
-                      <td className="py-2 px-4">Maersk</td>
-                      <td className="py-2 px-4">12/12/2014</td>
-                      <td className="py-2 px-4">14/03/2015</td>
-                    </tr>
-                    {/* Ajoutez d'autres lignes ici si nécessaire */}
+                  <tbody className="space-y-2">
+                    {transmaritime.map((transm, index) => (
+                      <tr
+                      key={transm.idTransMaritime}
+                      onClick={() => handleselectM(transm)}
+                      className={`hover:bg-blue-200 ${transm === selectedMaritime ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${transm === selectedMaritime ? 'selectedRow' : ''}`}
+                    ><td>
+                          <input
+                            type="checkbox"
+                            checked={transm === selectedMaritime}
+                            readOnly
+                          />
+                        </td>
+                        <td className="py-2 px-4">{transm.numHBL}</td>
+                        <td className="py-2 px-4">{transm.nomBateau}</td>
+                        <td className="py-2 px-4">{transm.numBateau}</td>
+                        <td className="py-2 px-4">{new Date(transm.dateArriver).toLocaleDateString('fr-FR')}</td>
+                        <td className="py-2 px-4"> {new Date(transm.dateDepart).toLocaleDateString('fr-FR')}</td>
+                      </tr>
+                    ))}
+
                   </tbody>
                 </table>
               )}</div>
@@ -645,73 +728,72 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
 
       )}
 
-
       {/* Form Step 3 */}
       {formNo === 3 && (
 
         <div className="flex flex-row gap-4">
           <div className="w-1/2 pt-14 mr-2">
-           
-              <div className="flex flex-col mb-3">
-                <label htmlFor="numVol">Nom Client</label>
-                <input
+
+            <div className="flex flex-col mb-3">
+              <label htmlFor="numVol">Nom Client</label>
+              <input
                 value={state.nomClient}
 
-                  onChange={inputHandle}
-                  className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                  type="text"
-                  name="nomClientD"
-                  placeholder="Nom"
-                  id="nomClientD"
-                />
-              </div>
-              <div className="flex flex-col mb-3">
-                <label htmlFor="CINClient">N° CIN</label>
-                <input
+                onChange={inputHandle}
+                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                type="text"
+                name="nomClientD"
+                placeholder="Nom"
+                id="nomClientD"
+              />
+            </div>
+            <div className="flex flex-col mb-3">
+              <label htmlFor="CINClient">N° CIN</label>
+              <input
                 value={state.CINClient}
-                  onChange={inputHandle}
-                  className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                  type="text"
-                  name="CINClientD"
-                  placeholder="N° CIN"
-                  id="CINClientD"
-                />
-              </div>
-              <div className="flex flex-col mb-3">
-                <label htmlFor="dateDepart">E-mail</label>
-                <input
+                onChange={inputHandle}
+                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                type="text"
+                name="CINClientD"
+                placeholder="N° CIN"
+                id="CINClientD"
+              />
+            </div>
+            <div className="flex flex-col mb-3">
+              <label htmlFor="dateDepart">E-mail</label>
+              <input
                 value={state.emailClient}
-                  onChange={inputHandle}
-                  className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                  type="mail"
-                  name="emailClientD"
-                  placeholder="Email"
-                  id="emailClientD"
-                />
-              </div>
+                onChange={inputHandle}
+                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                type="mail"
+                name="emailClientD"
+                placeholder="Email"
+                id="emailClientD"
+              />
+            </div>
 
-              <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-                {/* Previous button (disabled on the first step) */}
-                <button
-                  onClick={pre}
-                  disabled={formNo === 1}
-                  className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
-                    }`}
-                >
-                  Previous
-                </button>
-                {/* Next button */}
-                <button
-                  onClick={next}
-                  disabled={!isStep3Valid()}
-                  className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep3Valid()
-                    ? "bg-blue-500"
-                    : "bg-blue-100 cursor-not-allowed"
-                    }`}
-                >
-                  Next
-                </button>
-            
+            <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+              {/* Previous button (disabled on the first step) */}
+              <button
+                onClick={pre}
+                disabled={formNo === 1}
+                className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
+                  }`}
+              >
+                Previous
+              </button>
+              {/* Next button */}
+              <button
+                onClick={next}
+                disabled={!isStep3Valid()}
+                className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep3Valid()
+                  ? "bg-blue-500"
+                  : "bg-blue-100 cursor-not-allowed"
+                  }`}
+              >
+                Next
+              </button>
+
             </div>
           </div>
           <div className="w-1/2 pt-6" style={{ maxHeight: '400px' }}>
@@ -730,16 +812,16 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
                 </thead>
                 <tbody className="space-y-2">
                   {destinataire.map((client, index) => (
-                   <tr
-                   key={client.idClient}
-                   onClick={() => handleSelect(client)}
-                   className={`hover:bg-blue-200 ${client === selectedPerson ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedPerson ? 'selectedRow' : ''}`}
-                 ><td>
-                 <input
-                   type="checkbox"
-                   checked={client === selectedPerson}
-                   readOnly
-                 />
+                    <tr
+                      key={client.idClient}
+                      onClick={() => handleSelect(client)}
+                      className={`hover:bg-blue-200 ${client === selectedPerson ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedPerson ? 'selectedRow' : ''}`}
+                    ><td>
+                        <input
+                          type="checkbox"
+                          checked={client === selectedPerson}
+                          readOnly
+                        />
                       </td>
                       <td className="py-2 px-4">{client.nomClient}</td>
                       <td className="py-2 px-4">{client.CINClient}</td>
@@ -755,115 +837,112 @@ const [selectedExpediteur, setSelectedExpediteur] = useState(null);
         </div>
       )}
 
-
-
-
       {/* Form Step 4 */}
       {formNo === 4 && (
-       <div className="flex flex-row gap-4">
-       <div className="w-1/2 pt-14 mr-2">
-        
-           <div className="flex flex-col mb-3">
-             <label htmlFor="nomClient">Nom Client</label>
-             <input
-             value={state.nomClientE}
+        <div className="flex flex-row gap-4">
+          <div className="w-1/2 pt-14 mr-2">
 
-               onChange={inputHandle}
-               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-               type="text"
-               name="nomClientE"
-               placeholder="Nom"
-               id="nomClientE"
-             />
-           </div>
-           <div className="flex flex-col mb-3">
-             <label htmlFor="CINClient">N° CIN</label>
-             <input
-             value={state.CINClientE}
-               onChange={inputHandle}
-               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-               type="text"
-               name="CINClientE"
-               placeholder="N° CIN"
-               id="CINClientE"
-             />
-           </div>
-           <div className="flex flex-col mb-3">
-             <label htmlFor="dateDepart">E-mail</label>
-             <input
-             value={state.emailClientE}
-               onChange={inputHandle}
-               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-               type="mail"
-               name="emailClientE"
-               placeholder="Email"
-               id="emailClientE"
-             />
-           </div>
-
-           <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-             {/* Previous button (disabled on the first step) */}
-             <button
-               onClick={pre}
-               disabled={formNo === 1}
-               className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
-                 }`}
-             >
-               Previous
-             </button>
-             {/* Next button */}
-             <button
-               onClick={finalSubmit}
-               disabled={!isStep4Valid()}
-               className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep4Valid()
-                 ? "bg-blue-500"
-                 : "bg-blue-100 cursor-not-allowed"
-                 }`}
-             >
-               Submit
-             </button>
-         
-         </div>
-       </div>
-       <div className="w-1/2 pt-6" style={{ maxHeight: '400px' }}>
-         <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">
-           Liste des clients disponible
-         </h2>
-         <div className="overflow-auto" style={{ maxHeight: '330px' }}>
-           <table className="table-auto w-full text-left border-collapse">
-             <thead className="text-white bg-blue-200">
-               <tr>
-                 <th className="py-2 px-4 text-left">#</th>
-                 <th className="py-2 px-4 text-left">Nom</th>
-                 <th className="py-2 px-4 text-left">CIN</th>
-                 <th className="py-2 px-4 text-left">Email</th>
-               </tr>
-             </thead>
-             <tbody className="space-y-2">
-               {destinataire.map((client, index) => (
-                <tr
-                key={client.idClient}
-                onClick={() => handleSelectE(client)}
-                className={`hover:bg-blue-200 ${client === selectedExpediteur ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedExpediteur ? 'selectedRow' : ''}`}
-              ><td>
+            <div className="flex flex-col mb-3">
+              <label htmlFor="nomClient">Nom Client</label>
               <input
-                type="checkbox"
-                checked={client === selectedExpediteur}
-                readOnly
+                value={state.nomClientE}
+
+                onChange={inputHandle}
+                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                type="text"
+                name="nomClientE"
+                placeholder="Nom"
+                id="nomClientE"
               />
-                   </td>
-                   <td className="py-2 px-4">{client.nomClient}</td>
-                   <td className="py-2 px-4">{client.CINClient}</td>
-                   <td className="py-2 px-4">{client.emailClient}</td>
-                 </tr>
-               ))}
-             </tbody>
-           </table>
+            </div>
+            <div className="flex flex-col mb-3">
+              <label htmlFor="CINClient">N° CIN</label>
+              <input
+                value={state.CINClientE}
+                onChange={inputHandle}
+                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                type="text"
+                name="CINClientE"
+                placeholder="N° CIN"
+                id="CINClientE"
+              />
+            </div>
+            <div className="flex flex-col mb-3">
+              <label htmlFor="dateDepart">E-mail</label>
+              <input
+                value={state.emailClientE}
+                onChange={inputHandle}
+                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                type="mail"
+                name="emailClientE"
+                placeholder="Email"
+                id="emailClientE"
+              />
+            </div>
+
+            <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+              {/* Previous button (disabled on the first step) */}
+              <button
+                onClick={pre}
+                disabled={formNo === 1}
+                className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? "bg-blue-100 cursor-not-allowed" : "bg-blue-500"
+                  }`}
+              >
+                Previous
+              </button>
+              {/* Next button */}
+              <button
+                onClick={finalSubmit}
+                disabled={!isStep4Valid()}
+                className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep4Valid()
+                  ? "bg-blue-500"
+                  : "bg-blue-100 cursor-not-allowed"
+                  }`}
+              >
+                Submit
+              </button>
+
+            </div>
+          </div>
+          <div className="w-1/2 pt-6" style={{ maxHeight: '400px' }}>
+            <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">
+              Liste des clients disponible
+            </h2>
+            <div className="overflow-auto" style={{ maxHeight: '330px' }}>
+              <table className="table-auto w-full text-left border-collapse">
+                <thead className="text-white bg-blue-200">
+                  <tr>
+                    <th className="py-2 px-4 text-left">#</th>
+                    <th className="py-2 px-4 text-left">Nom</th>
+                    <th className="py-2 px-4 text-left">CIN</th>
+                    <th className="py-2 px-4 text-left">Email</th>
+                  </tr>
+                </thead>
+                <tbody className="space-y-2">
+                  {destinataire.map((client, index) => (
+                    <tr
+                      key={client.idClient}
+                      onClick={() => handleSelectE(client)}
+                      className={`hover:bg-blue-200 ${client === selectedExpediteur ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${client === selectedExpediteur ? 'selectedRow' : ''}`}
+                    ><td>
+                        <input
+                          type="checkbox"
+                          checked={client === selectedExpediteur}
+                          readOnly
+                        />
+                      </td>
+                      <td className="py-2 px-4">{client.nomClient}</td>
+                      <td className="py-2 px-4">{client.CINClient}</td>
+                      <td className="py-2 px-4">{client.emailClient}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
 
-         </div>
-       </div>
-     </div>
+            </div>
+          </div>
+        </div>
       )}
 
 

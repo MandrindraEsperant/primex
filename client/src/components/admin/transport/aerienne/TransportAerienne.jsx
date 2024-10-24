@@ -159,8 +159,8 @@ const TransportAerienne = () => {
                                       <td>{item.idTransAerienne}</td>
                                       <td>{item.numVol}</td>
                                       <td>{item.nomCompagnie}</td>
-                                      <td>{item.dateDepart}</td>
-                                      <td>{item.dateArriver}</td>
+                                      <td>{new Date(item.dateDepart).toLocaleDateString('fr-FR')}</td>
+                                      <td>{new Date(item.dateArriver).toLocaleDateString('fr-FR')}</td>
                                       <td>
                                           <span className="actionIcons">
                                               <MdEdit className="editIcon"

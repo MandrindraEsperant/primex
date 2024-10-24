@@ -236,7 +236,8 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
           <div className="flex flex-col mb-3">
             <label htmlFor="dateDepart">Date de Départ</label>
             <input
-              value={state.dateDepart}
+              value={state.dateDepart ? new Date(state.dateDepart).toISOString().split('T')[0]
+                : ''}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="date"
@@ -248,7 +249,8 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
           <div className="flex flex-col mb-3">
             <label htmlFor="dateArriver">Date d' Arrivé</label>
             <input
-              value={state.dateArriver}
+              value={state.dateArriver ? new Date(state.dateArriver).toISOString().split('T')[0]
+                : ''}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
               type="date"

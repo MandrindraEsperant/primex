@@ -179,8 +179,8 @@ const handleDeleteClick = (id) => {
                   <td>{item.numHBL}</td>
                   <td>{item.numBateau}</td>
                   <td>{item.nomBateau}</td>
-                  <td>{item.dateDepart}</td>
-                  <td>{item.dateArriver}</td>
+                  <td>{new Date(item.dateDepart).toLocaleDateString('fr-FR')}</td>
+                  <td>{new Date(item.dateArriver).toLocaleDateString('fr-FR')}</td>
                   <td>
                     <span className="actionIcons">
                       <MdEdit className="editIcon" 
@@ -238,12 +238,13 @@ const handleDeleteClick = (id) => {
             {selectedPerson ? selectedPerson.nomBateau : ""}
           </p>
           <p>
-            <strong>Date Départ :</strong>{" "}
-            {selectedPerson ? selectedPerson.dateDepart : ""}
-          </p>
+  <strong>Date Départ :</strong>{" "}
+  {selectedPerson ? new Date(selectedPerson.dateDepart).toLocaleDateString("fr-FR") : ""}
+</p>
+
           <p>
             <strong>Date Arrivé :</strong>{" "}
-            {selectedPerson ? selectedPerson.dateArriver : ""}
+            {selectedPerson ? new Date(selectedPerson.dateArriver).toLocaleDateString("fr-FR") : ""}
           </p>
           <button className="editButton">
             <MdEdit /> Modifier
