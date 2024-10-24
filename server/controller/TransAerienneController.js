@@ -4,32 +4,37 @@ class TransAerienneController {
   }
   async createTransAerienne(req, res) {
     try {
-      const transAerienne = await this.transAerienneService.createTransAerienne(req.body);
+      const transAerienne = await this.transAerienneService.createTransAerienne(
+        req.body
+      );
       res.status(201).json(transAerienne);
+    } catch (error) {
+      if (error.name === "SequelizeUniqueConstraintError") {
+        // Gérer l'erreur d'unicité
+        res.status(400).json({
+          error:
+            error.errors[0].message || "Une valeur unique est déjà présente.",
+        });
+      } else if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        // Erreur interne serveur
+        res
+          .status(500)
+          .json({ error: "Erreur lors de la creation du transport aerienne" });
+      }
+    }
+  }
+  async getResultSeach(req, res) {
+    try {
+      const transport = await this.transAerienneService.searchAll(
+        req.query.search
+      );
+      res.status(200).json(transport);
     } catch (error) {
       res.status(500).send(error.message);
     }
-}
-async getResultSeach(req, res) {
-  try {
-    const clients = await this.transAerienneService.searchAll(req.query.search);
-    res.status(200).json(clients);
-  } catch (error) {
-    res.status(500).send(error.message);
   }
-}
-
-//  async createOrGetTransport (req, res){
-//   try {
-//     const idTransport = await transportService.getOrCreateTransport(req.body);
-//     res.status(200).json({ idTransport });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Erreur lors de la création ou de la récupération du transport.' });
-//   }
-// };
-
-
-
   async getOneTransAerienne(req, res) {
     try {
       const transAerienne =
@@ -37,7 +42,7 @@ async getResultSeach(req, res) {
       if (transAerienne) {
         res.status(200).json(transAerienne);
       } else {
-        res.status(404).send("User not found");
+        res.status(404).send("transport aerienne not found");
       }
     } catch (error) {
       res.status(500).send(error.message);
@@ -52,7 +57,6 @@ async getResultSeach(req, res) {
       res.status(500).send(error.message);
     }
   }
-
   async updateTransAerienne(req, res) {
     try {
       const transAerienne = await this.transAerienneService.updateTransAerienne(
@@ -61,10 +65,20 @@ async getResultSeach(req, res) {
       );
       res.status(200).json(transAerienne);
     } catch (error) {
-      res.status(500).send(error.message);
+      if (error.name === "SequelizeUniqueConstraintError") {
+        // Gérer l'erreur d'unicité
+        res.status(400).json({
+          error:
+            error.errors[0].message || "Une valeur unique est déjà présente.",
+        });
+      } else if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        // Erreur interne serveur
+        res.status(500).json({ error: "Erreur lors de la creation du transport maritime" });
+      }
     }
   }
-
   async deleteTransAerienne(req, res) {
     try {
       await this.transAerienneService.deleteTransAerienne(req.params.id);

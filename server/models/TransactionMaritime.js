@@ -53,6 +53,10 @@ TransactionMaritime.init(
         type:DataTypes.DATE,
          allowNull:false
      },
+    dateDestination:{
+        type:DataTypes.DATE,
+         allowNull:false
+     },
     creerPar: {
       type: DataTypes.INTEGER,
       allowNull: false,
