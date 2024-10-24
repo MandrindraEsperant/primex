@@ -25,10 +25,6 @@ TransAerienne.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    dateDechargement: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     paysChargement:{
       type:DataTypes.STRING,
       allowNull:false,
