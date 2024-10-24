@@ -15,6 +15,8 @@ import TransportMaritimePage from "./TransportMaritimePage";
 import Error404 from "../../_utils/Error404";
 import MarchandisePage from "./MarchandisePage";
 import SuiviExp from "./SuiviExp";
+import TransactionPage from "./TransactionPage";
+import AgentP from "./AgentP";
 const AdminRouter = () => {
   return (
     <Routes>
@@ -31,6 +33,8 @@ const AdminRouter = () => {
         <Route path="transportmaritime" element={<TransportMaritimePage />} />
         <Route path="marchandise" element={<MarchandisePage />} />
         <Route path="suivi" element={<SuiviExp />} />
+        <Route path="transaction" element={<TransactionPage />} />
+        <Route path="agent" element={<AgentP />} />
 
         <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />

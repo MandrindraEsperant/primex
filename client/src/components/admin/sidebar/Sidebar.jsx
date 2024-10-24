@@ -14,7 +14,11 @@ import {
   MdLocalShipping,
   MdFlightLand,
   MdDirectionsBoat,
-  MdDeliveryDining
+  MdDeliveryDining,
+  MdAttachMoney,
+  MdSupervisorAccount,
+  MdContactMail,
+
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -63,11 +67,11 @@ const Sidebar = () => {
       text: "Vous allez être déconnecté(e).",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',  
-      cancelButtonColor: '#3085d6', 
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       cancelButtonText: 'Annuler',
       confirmButtonText: 'Déconnecter!',
-      reverseButtons: true, 
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         AccountService.logout();
@@ -135,6 +139,16 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
+              <Link to="/admin/agent"
+
+                className={`menu-link ${location.pathname === '/admin/agent' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdContactMail size={18} />
+                </span>
+                <span className="menu-link-text">Agent</span>
+              </Link>
+            </li>
+            <li className="menu-item">
               <Link to="/admin/importation"
 
                 className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
@@ -192,14 +206,23 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-  <Link to="/admin/suivi"
-    className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>
-    <span className="menu-link-icon">
-      <MdDeliveryDining size={18} />
-    </span>
-    <span className="menu-link-text">Suivi</span>
-  </Link>
-</li>
+              <Link to="/admin/transaction"
+                className={`menu-link ${location.pathname === '/admin/transaction' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdAttachMoney size={18} />
+                </span>
+                <span className="menu-link-text">Transaction</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/admin/suivi"
+                className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdDeliveryDining size={18} />
+                </span>
+                <span className="menu-link-text">Suivi</span>
+              </Link>
+            </li>
 
 
           </ul>
