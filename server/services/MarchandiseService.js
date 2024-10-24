@@ -25,6 +25,9 @@ class MarchandiseService {
     async getAllMarchandises() {
       return await this.MarchandiseRepository.findAll(); 
     }
+    async getPlusExpedier() {
+      return await this.MarchandiseRepository.plusExpedier(); 
+    }
     async updateMarchandise(id, Data) {
       return await this.MarchandiseRepository.update(id, Data);
     }

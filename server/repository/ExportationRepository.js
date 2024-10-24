@@ -1,6 +1,11 @@
 const Exportation = require('../models/Exportation');
 const IRepository = require('../interfaces/IRepository');
 
+const { Op } = require('sequelize');
+const moment = require('moment'); 
+const twoMonthsAgo = moment().subtract(2, 'months').startOf('month').toDate();
+const now = new Date();
+
 class ExportationRepository extends IRepository {
   async create(Data) {
     return await Exportation.create(Data);
@@ -10,7 +15,18 @@ class ExportationRepository extends IRepository {
     return await Exportation.findByPk(id);
   }
   async countAll() {
-    return await Exportation.count();
+    try {
+      return await Exportation.count({
+        where: {
+          dateExportation: {
+            [Op.gte]: new Date(new Date() - 2 * 30 * 24 * 60 * 60 * 1000), // 2 mois en millisecondes
+          },
+        }, 
+      });
+    } catch (error) {
+      console.error('Error counting exportations:', error);
+      throw new Error('Failed to count exportations');
+    }
   }
   
   async findAll() {

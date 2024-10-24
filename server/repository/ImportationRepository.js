@@ -1,6 +1,8 @@
 const Importation = require('../models/Importation');
 const IRepository = require('../interfaces/IRepository');
 
+const { Op } = require('sequelize');   // Importer les opérateurs Sequelize
+
 class ImportationRepository extends IRepository {
   async create(Data) {
     return await Importation.create(Data);
@@ -10,7 +12,18 @@ class ImportationRepository extends IRepository {
     return await Importation.findByPk(id);
   }
   async countAll() {
-    return await Importation.count();
+    try {
+      return await Importation.count({
+        where: {
+          dateImportation: {
+            [Op.gte]: new Date(new Date() - 2 * 30 * 24 * 60 * 60 * 1000), // 2 mois en millisecondes
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Error counting importations:', error);
+      throw new Error('Failed to count importations');
+    }
   }
   async findAll() {
     return await Importation.findAll();

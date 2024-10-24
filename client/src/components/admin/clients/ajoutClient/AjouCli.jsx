@@ -17,6 +17,7 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
   });
 
   useEffect(() => {
+    
     if (isEditMode && selectedPerson) {
       // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
       setState({
@@ -51,6 +52,7 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
       emailClient: state.emailClient,
       CINClient: state.CINClient,
       modifierPar: state.modifierPar,
+      creerPar: state.creerPar
     };
 
     if (isEditMode) {
@@ -78,7 +80,7 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
           }
         });
     } else {
-      // Mode ajout
+      // Mode ajout      
       axios
         .post("http://localhost:3001/client/", clientData)
         .then((res) => {

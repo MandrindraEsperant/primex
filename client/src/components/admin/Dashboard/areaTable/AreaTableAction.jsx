@@ -7,15 +7,12 @@ const AreaTableAction = () => {
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-
   const dropdownRef = useRef(null);
-
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowDropdown(false);
     }
   };
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
