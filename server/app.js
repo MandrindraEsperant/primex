@@ -11,6 +11,7 @@ const importationRoutes = require('./routes/importationRoutes');
 const marchandiseRoutes = require('./routes/marchandiseRoutes');
 const agentRoutes = require('./routes/agentRoutes');
 const transactionMaritimeRoutes = require('./routes/transactionMaritimeRoutes');
+const transactionAerienneRoutes = require('./routes/transactionAerienneRoutes');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/importation', importationRoutes);
 app.use('/marchandise', marchandiseRoutes);  
 app.use('/agent', agentRoutes);  
 app.use('/transactionMaritime', transactionMaritimeRoutes);  
+app.use('/transactionAerienne', transactionAerienneRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes
 sequelize.sync({ force: false, alter:true }) 
