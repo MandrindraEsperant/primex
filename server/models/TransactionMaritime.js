@@ -8,9 +8,9 @@ class TransactionMaritime extends Sequelize.Model {}
 TransactionMaritime.init(
   {
     idTransactionMaritime: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     numMBL: {
       type: DataTypes.STRING,
@@ -34,7 +34,7 @@ TransactionMaritime.init(
       allowNull: false,
       references: {
         model: Agent,
-        key: "idClient",
+        key: "idAgent",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -80,4 +80,4 @@ TransactionMaritime.init(
   }
 );
 
-module.exports = TransactionMaritimeMaritime;
+module.exports = TransactionMaritime;
