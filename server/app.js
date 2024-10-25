@@ -2,14 +2,16 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./config/database');
+
+const agentRoutes = require('./routes/agentRoutes');
 const employeRoutes = require('./routes/employeRoutes');
 const clientRoutes = require('./routes/clientRoutes');
-const transMaritimeRoutes = require('./routes/transMaritimeRoutes');
-const transAerienneRoutes = require('./routes/transAerienneRoutes');
 const exportationRoutes = require('./routes/exportationRoutes');
 const importationRoutes = require('./routes/importationRoutes');
 const marchandiseRoutes = require('./routes/marchandiseRoutes');
-const agentRoutes = require('./routes/agentRoutes');
+const hblTransactionRoutes = require('./routes/hblTransactionRoutes');
+const transAerienneRoutes = require('./routes/transAerienneRoutes');
+const transMaritimeRoutes = require('./routes/transMaritimeRoutes');
 const transactionMaritimeRoutes = require('./routes/transactionMaritimeRoutes');
 const transactionAerienneRoutes = require('./routes/transactionAerienneRoutes');
 
@@ -25,14 +27,15 @@ app.use((req, res, next) => {
   next();
 }); 
 
+app.use('/agent', agentRoutes);  
 app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
-app.use('/transMaritime', transMaritimeRoutes); 
-app.use('/transAerienne', transAerienneRoutes);
 app.use('/exportation', exportationRoutes);  
 app.use('/importation', importationRoutes);  
 app.use('/marchandise', marchandiseRoutes);  
-app.use('/agent', agentRoutes);  
+app.use('/hblTransaction', hblTransactionRoutes);  
+app.use('/transMaritime', transMaritimeRoutes); 
+app.use('/transAerienne', transAerienneRoutes);
 app.use('/transactionMaritime', transactionMaritimeRoutes);  
 app.use('/transactionAerienne', transactionAerienneRoutes);  
 
