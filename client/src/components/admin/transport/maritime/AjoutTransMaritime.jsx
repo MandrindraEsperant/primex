@@ -42,7 +42,7 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
     } else {
       // Sinon, réinitialiser les champs
       setState({
-        numIMO: "",
+    numIMO: "",
     nomNavire: "",
     armateur: "",
     dateChargement: "",
@@ -87,23 +87,10 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
 
   const finalSubmit = (e) => {
     e.preventDefault();
-const TransMaritimeData= {  
-  numIMO: "",
-  nomNavire: "",
-  armateur: "",
-  dateChargement: "",
-  paysChargement: "",
-  villeChargement: "",
-  paysDechargement: "",
-  villeDechargement: "",
-  creerPar: state.creerPar,
-  modifierPar: state.idEmploye,
-}
 
 if (isEditMode) {
-  // Mode modification
   axios
-    .put(`http://localhost:3001/transMaritime/${selectedPerson.idTransMaritime}`, TransMaritimeData)
+    .put(`http://localhost:3001/transMaritime/${selectedPerson.idTransMaritime}`, state)
     .then((res) => {
       toast.success("Tansport modifié avec succès");
      Swal.fire({

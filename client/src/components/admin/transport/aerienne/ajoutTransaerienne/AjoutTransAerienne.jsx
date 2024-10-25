@@ -14,8 +14,11 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
   const [state, setState] = useState({
     numVol: '',
     nomCompagnie: '',
-    dateDepart: '',
-    dateArriver: '',
+    dateChargement: "",
+    paysChargement: "",
+    villeChargement: "",
+    paysDechargement: "",
+    villeDechargement: "",
     creerPar: idEmploye,
     modifierPAr: idEmploye
   });
@@ -27,8 +30,11 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
       setState({
         numVol: selectedPerson.numVol || '',
         nomCompagnie: selectedPerson.nomCompagnie || '',
-        dateDepart: selectedPerson.dateDepart || '',
-        dateArriver: selectedPerson.dateArriver || '',
+        dateChargement: selectedPerson.dateChargement || '',
+        paysChargement: selectedPerson.paysChargement || '',
+        villeChargement: selectedPerson.villeChargement || '',
+        paysDechargement: selectedPerson.paysDechargement || '',
+        villeDechargement: selectedPerson.villeDechargement || '',
         creerPar: selectedPerson.creerPar || idEmploye,
         modifierPar: idEmploye,
       });
@@ -37,8 +43,11 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
       setState({
         numVol: '',
         nomCompagnie: '',
-        dateDepart: '',
-        dateArriver: '',
+        dateChargement: "",
+        paysChargement: "",
+        villeChargement: "",
+        paysDechargement: "",
+        villeDechargement: "",
         creerPar: idEmploye,
         modifierPAr: idEmploye
       });
@@ -58,7 +67,7 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
   };
 
   const isStep2Valid = () => {
-    return state.dateDepart && state.dateArriver;
+    return state.dateChargement && state.paysChargement && state.paysDechargement && state.villeChargement && state.villeDechargement;
   };
 
   const next = () => {
@@ -79,19 +88,10 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
 
   const finalSubmit = (e) => {
     e.preventDefault();
-    const TransaerienneData = {
-      numVol: state.numVol,
-      nomCompagnie: state.nomCompagnie,
-      dateDepart: state.dateDepart,
-      dateArriver: state.dateArriver,
-      creerPar: state.creerPar,
-      modifierPar: state.idEmploye,
-    }
 
     if (isEditMode) {
-      // Mode modification
       axios
-        .put(`http://localhost:3001/transAerienne/${selectedPerson.idTransAerienne}`, TransaerienneData)
+        .put(`http://localhost:3001/transAerienne/${selectedPerson.idTransAerienne}`, state)
         .then((res) => {
           toast.success("Tansport modifié avec succès");
           Swal.fire({
@@ -232,52 +232,113 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
 
       {/* Form Step 2 */}
       {formNo === 2 && (
-        <div>
-          <div className="flex flex-col mb-3">
-            <label htmlFor="dateDepart">Date de Départ</label>
-            <input
-              value={state.dateDepart ? new Date(state.dateDepart).toISOString().split('T')[0]
-                : ''}
-              onChange={inputHandle}
-              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="date"
-              name="dateDepart"
-              placeholder="Date depart"
-              id="dateDepart" // Ajout de l'ID manquant
-            />
-          </div>
-          <div className="flex flex-col mb-3">
-            <label htmlFor="dateArriver">Date d' Arrivé</label>
-            <input
-              value={state.dateArriver ? new Date(state.dateArriver).toISOString().split('T')[0]
-                : ''}
-              onChange={inputHandle}
-              className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="date"
-              name="dateArriver"
-              placeholder="Date arrivé"
-              id="dateArriver" // Ajout de l'ID manquant
-            />
-          </div>
-          <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-            {/* Previous button */}
-            <button
-              onClick={pre}
-              className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
-            >
-              Previous
-            </button>
-            {/* Final Submit button */}
-            <button
-              onClick={finalSubmit}
-              disabled={!isStep2Valid()}
-              className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? 'bg-blue-500' : 'bg-blue-100 cursor-not-allowed'
-                }`}
-            >
-              {isEditMode ? "Modifier" : "Ajouter"}
-            </button>
-          </div>
-        </div>
+         <div>
+         <div className="flex flex-col mb-3">
+           <label htmlFor="dateChargement" className="text-lg font-semibold mb-2">
+             Date de Chargement
+           </label>
+           <input
+             value={state.dateChargement ? new Date(state.dateChargement).toISOString().split('T')[0]
+               : ''}
+             onChange={inputHandle}
+             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+             type="date"
+             name="dateChargement"
+             placeholder="Date chargement"
+             id="dateChargement" // Ajout de l'ID manquant
+           />
+         </div>
+         
+         <div className="flex flex-col mb-3">
+           <label
+             htmlFor="paysChargement"
+             className="text-lg font-semibold mb-2 "
+           >
+             Pays de Chargement
+           </label>
+           <input
+             value={state.paysChargement}
+             onChange={inputHandle}
+             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+             type="text"
+             name="paysChargement"
+             placeholder="Pays chargement"
+             id="paysChargement" // Ajout de l'ID manquant
+           />
+         </div>
+         <div className="flex flex-col mb-3">
+           <label
+             htmlFor="paysDechargement"
+             className="text-lg font-semibold mb-2 "
+           >
+             Pays de déchargement
+           </label>
+           <input
+             value={state.paysDechargement }
+             onChange={inputHandle}
+             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+             type="text"
+             name="paysDechargement"
+             placeholder="Pays dechargement"
+             id="paysDechargement" // Ajout de l'ID manquant
+           />
+         </div>
+         <div className="flex flex-col mb-3">
+           <label
+             htmlFor="villeChargement"
+             className="text-lg font-semibold mb-2 "
+           >
+             Ville de Chargement
+           </label>
+           <input
+             value={state.villeChargement }
+             onChange={inputHandle}
+             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+             type="text"
+             name="villeChargement"
+             placeholder="Ville chargement"
+             id="villeChargement" // Ajout de l'ID manquant
+           />
+         </div>
+         <div className="flex flex-col mb-3">
+           <label
+             htmlFor="villeDechargement"
+             className="text-lg font-semibold mb-2 "
+           >
+             Ville de déchargement
+           </label>
+           <input
+             value={state.villeDechargement }
+             onChange={inputHandle}
+             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+             type="text"
+             name="villeDechargement"
+             placeholder="VIlle dechargement"
+             id="villeDechargement" // Ajout de l'ID manquant
+           />
+         </div>
+         <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+           {/* Previous button */}
+           <button
+             onClick={pre}
+             className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
+           >
+             Previous
+           </button>
+           {/* Final Submit button */}
+           <button
+             onClick={finalSubmit}
+             disabled={!isStep2Valid()}
+             className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid()
+                 ? "bg-blue-500"
+                 : "bg-blue-100 cursor-not-allowed"
+               }`}
+           >
+            
+            {isEditMode ? "Modifier" : "Ajouter"}
+           </button>
+         </div>
+       </div>
       )}
 
       {/* Container for Toast notifications */}
