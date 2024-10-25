@@ -3,32 +3,29 @@ import { motion } from "framer-motion";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import { useTranslation } from 'react-i18next';
 import Typography from "@mui/material/Typography";
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import data from "./accordion";
 import "./Mission.css";
-// import { FiChevronDown } from 'react-icons/fi';
 
 const Mission = () => {
+  const { t } = useTranslation(); 
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Si l'entrée est visible dans le viewport
         if (entries[0].isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.5 } // déclenchement lorsque 50% de la section est visible
+      { threshold: 0.5 } 
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-
-    // Cleanup de l'observateur
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
@@ -40,12 +37,11 @@ const Mission = () => {
       <div className="paddings innerWidth  flexCenter c-container">
         {/* Left side */}
         <div className="flexColCenter c-left">
-          <span className="orangeText">Nos missions</span>
-          <span className="primaryText">Value we Give to You</span>
+          <span className="orangeText">{t('our_missions')}</span>
+          <span className="primaryText">{t('value_we_give')}</span>
           <span className="secondaryText">
-            We always ready to help by providing the best services for you{" "}
-            <br />
-            We beleive a good blace to live can make your life better
+          {t('mission_description')}
+          
           </span>
           <div>
             {data.map((item) => {
@@ -58,11 +54,11 @@ const Mission = () => {
                   >
                     {/* Icône + Titre dans l'entête */}
                     <div className="flexCenter icon">{item.icon}</div>
-                    <span className="primaryText">{item.heading}</span>
+                    <span className="primaryText">{t(item.heading)}</span>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography className="secondaryText">
-                      {item.detail}
+                    {t(item.detail)}
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -79,7 +75,7 @@ const Mission = () => {
           transition={{ duration: 3 }}
         >
           <div className=" image-container ">
-            <img src="./mission.jpg" alt="" />
+            <img src="./mission.jpg" alt={t('mission_image_alt')} />
           </div>
         </motion.div>
       </div>

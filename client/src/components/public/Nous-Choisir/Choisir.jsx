@@ -1,21 +1,27 @@
-// import React from 'react'
-import './Choisir.css'
+import "./Choisir.css";
+import { useTranslation } from "react-i18next";
+
 const Choisir = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <div className="paddings innerWidth g-container">
         <div className=" inner-container">
-          <span className='primaryText title'>Pourquoi Choisir PRIMEX LOGISTICS ?</span>
-          <span className='secondaryText'>PRIMEX LOGISTICS se distingue par son expertise et son expérience en transit international, offrant des solutions sur mesure adaptées aux
-            besoins de chaque client. 
-             Nous garantissons la sécurité et la fiabilité de vos marchandises tout au long du processus. Grâce à notre réseau global de
-            partenaires, nous assurons une couverture mondiale pour vos opérations de transit
+          <span className="primaryText title"> {t("why_choose_primex")} </span>
+
+          <span className="secondaryText">
+            <div class="text-xl font-bold">
+              <span class="text-white">PR</span>EMIUM
+              <span class="text-white"> IM</span>PORT
+              <span class="text-white"> EX</span>PORT
+            </div>
+            {t('primex_description')}
           </span>
-          <button className="btn">Contacter </button>
+          <button className="btn">{t('contact_us')}</button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Choisir
+export default Choisir;

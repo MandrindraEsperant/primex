@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { FaGlobe } from 'react-icons/fa'
 import './Tableau.css'
 import Expedie from '../Expedie/Expedie'
+import { useTranslation } from 'react-i18next';
 const Tableau = () => {
-
+    const { t } = useTranslation(); 
     const [isVisible, setIsVisible] = useState(false);
     const sectionRef = useRef(null);
 
@@ -34,10 +35,10 @@ const Tableau = () => {
     return (
         <div className='tableau'>
             <div className="div1 flexSpace">
-                <div className="flexColStart primaryText">Suivi des expéditions</div>
+                <div className="flexColStart primaryText">{t('shipmentTrackingTitle')}</div>
                 <div className="rechercher">
-                    <input type="text" className=' txt-input' placeholder='Entrez votre numéro de suivi' />
-                    <button type='button' className='btn'>Suivre</button>
+                    <input type="text" className=' txt-input' placeholder={t('trackingNumberPlaceholder')} />
+                    <button type='button' className='btn'>{t('track')}</button>
                 </div>
             </div>
             <Expedie />
@@ -49,9 +50,8 @@ const Tableau = () => {
             >
                 <div className="bloc dessous flexColCenter">
                     <div className="icon"> <FaGlobe size={50} /> </div>
-                    <h2 className="primaryText">Expédiez maintenant</h2>
-                    <p className='secondaryText'>Sélectionner le service correspondant à
-                        la dimension de votre envoi</p>
+                    <h2 className="primaryText">{t('ship_now')}</h2>
+                    <p className='secondaryText'>{t('selectServiceText')}</p>
                 </div>
             </motion.div>
         </div>

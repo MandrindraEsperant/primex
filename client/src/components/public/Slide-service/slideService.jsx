@@ -1,52 +1,41 @@
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-// Import Swiper modules
-import { Navigation, Pagination } from 'swiper/modules';  // Notez la différence ici
-import './slideService.css'
-import data from './service-slide.json'
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import "./slideService.css";
+import data from "./service-slide.json";
+import { useTranslation } from "react-i18next";
 const SlideService = () => {
-  return  (
+  const { t } = useTranslation();
+
+  return (
     <div>
-      <Swiper className='swiper'
-        modules={[Navigation, Pagination]}  // Ajouter les modules ici
+      <Swiper
+        className="swiper"
+        modules={[Navigation, Pagination]}
         spaceBetween={10}
         slidesPerView={1}
-        navigation      // Activer la navigation (flèches)
-        pagination={{ clickable: true }}  // Activer la pagination (points)
-
+        navigation
+        pagination={{ clickable: true }}
         breakpoints={{
-            // Quand la largeur de la fenêtre est >= 1024px (ordinateur)
-            1080: {
-              slidesPerView: 3,  // Tous les slides affichés
-            },
-            // Quand la largeur de la fenêtre est >= 768px (tablette)
-            800: {
-              slidesPerView: 2, 
-               // 3 slides affichés
-            },
-            // Quand la largeur de la fenêtre est >= 480px (téléphone)
-           
-          }}
+          1080: {
+            slidesPerView: 3,
+          },
+          800: {
+            slidesPerView: 2,
+          },
+        }}
       >
-        {
-                        data.map((card, i) => (
-                            <SwiperSlide key={i}>
-                                <div className="r-card" >
-                                    <img src={card.image} alt="" />
-                                    <span className=' primaryText'>{card.title}</span>
-                                    <span className='secondaryText'>{card.detail}</span>
-                                </div>
-                            </SwiperSlide>
-                        ))
-                    }
-
-
+        {data.map((card, i) => (
+          <SwiperSlide key={i}>
+            <div className="r-card">
+              <img src={card.image} alt="" />
+              <span className=" primaryText">{t(card.title)}</span>
+              <span className="secondaryText">{t(card.detail)}</span>
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

@@ -7,67 +7,66 @@ import { IoMdClose } from "react-icons/io";
 import { BsGlobe2 } from "react-icons/bs";
 import { PiPlanetFill } from "react-icons/pi";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
   const [toggleMenu, setToggleMenu] = useState(false);
 
   const handleToggle = () => {
     setToggleMenu((prevToggleMenu) => !prevToggleMenu);
-    // Inverse l'état du menu
+  };
+  const handleLanguageChange = (event) => {
+    i18n.changeLanguage(event.target.value);
   };
 
   return (
     <nav className="pub-nav">
       <NavLink to="/" className={"logo menu"}>
         <PiPlanetFill className="icon-logo" />
-        <span>
-          PRIME<span className="x">X</span>
-        </span>
+        <span>PRIME<span className="x">X</span></span>
       </NavLink>
-
       <label className="checkbtn" onClick={handleToggle}>
         <FiAlignJustify className="tiret" />
       </label>
-
       <OutsideClickHandler onOutsideClick={() => setToggleMenu(false)}>
       <div style={{ position: "relative" }}>
-        {/* Ajoute la classe 'toggle' seulement si le menu est ouvert */}
         <ul className={toggleMenu ? "toggle" : ""} id="menu">
         <div className="fermerute_menu icon" onClick={() => setToggleMenu(false)}><IoMdClose /></div>
           <li>
             <NavLink className={"menu"} to={"/"}>
-              Accueil
+            {t('home')}
             </NavLink>
           </li>
           <li>
             <NavLink className={"menu"} to={"/suivi"}>
-              Suivi
+            {t('tracking')}
             </NavLink>
           </li>
           <li>
             <NavLink className={"menu"} to={"/service"}>
-              Service
+            {t('service')}
             </NavLink>
           </li>
           <li>
             <NavLink className={"menu"} to={"/about"}>
-              A propos
+            {t('about')}
             </NavLink>
           </li>
           <li>
             <NavLink className={"menu"} to={"/contact"}>
-              Contact
+            {t('contact_us')}
             </NavLink>
           </li>
           <li className="btn">
             <NavLink className={"menu"} to={"/auth/login"}>
-              Connexion
+            {t('login')}
             </NavLink>
           </li>
 
           <div className="langue">
             <BsGlobe2 className="icon-menu" />
-            <select name="langue" id="langue">
+            <select name="langue" id="langue" onChange={handleLanguageChange} defaultValue="fr">
               <option value="fr">FR</option>
               <option value="en">EN</option>
             </select>

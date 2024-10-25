@@ -1,8 +1,8 @@
-// import React from 'react'
 import './Page1.css'
 import { motion } from 'framer-motion';
-
+import { useTranslation } from 'react-i18next';
 const Page1 = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <section className="container-section">
@@ -16,7 +16,7 @@ const Page1 = () => {
                 type: "spring"
               }}
             >
-              Simplifiez vos opérations internationales</motion.h3>
+               {t('simplify_operations')}</motion.h3>
             <motion.h1
               initial={{ x: "8rem" }}
               animate={{ x: 0 }}
@@ -24,11 +24,8 @@ const Page1 = () => {
                 duration: 3,
                 type: "spring"
               }}
-            >Nous transportons vos marchandises </motion.h1> <h3>en toute <span>sécurité et dans les délais</span></h3>
-            <p> votre partenaire
-              de confiance en transit et logistique. Nous offrons des solutions personnalisées et
-              efficaces pour le transport maritime et aérien, avec une technologie de pointe pour
-              suivre vos envois en temps réel et optimiser votre chaîne d&apos;approvisionnement.</p>
+            >{t('we_transport_goods')}</motion.h1> <h3>{t('in_security')}<span>{t('on_time')}</span></h3>
+            <p> {t('trust_partner')}</p>
           </div>
 
         </div>

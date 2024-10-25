@@ -1,5 +1,5 @@
 import React from 'react'
-import GridService from './../../components/public/service/grid/gridService';
+import GridService from '../../components/public/service/grid/GridService'
 
 const Service = () => {
   return (
