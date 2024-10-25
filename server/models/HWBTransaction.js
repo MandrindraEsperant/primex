@@ -1,35 +1,35 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const TransactionMaritime = require("./TransactionMaritime");
+const TransactionAerienne = require("./TransactionAerienne");
 const Client = require("./Client");
 
-class HBLTransaction extends Sequelize.Model {}
+class HWBTransaction extends Sequelize.Model {}
 
-HBLTransaction.init(
+HWBTransaction.init(
   {
-    idHBLTransaction: {
+    idHWBTransaction: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    numHBL: {
+    numHWB: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Ce numéro HBL est déjà utilisée.",
+        msg: "Ce numéro HWB est déjà utilisée.",
       },
     },
     idMBL: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: TransactionMaritime,
-        key: "idTransactionMaritime",
+        model: TransactionAerienne,
+        key: "idTransactionAerienne",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
-    dateHBLTransaction: {
+    dateHWBTransaction: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -64,7 +64,7 @@ HBLTransaction.init(
   },
   {
     sequelize,
-    modelName: "HBLTransaction",
+    modelName: "HWBTransaction",
     timestamps: true,
     validate: {
       expediteurDifferentDeDestinateur() {
@@ -76,4 +76,4 @@ HBLTransaction.init(
   }
 );
 
-module.exports = HBLTransaction;
+module.exports = HWBTransaction;

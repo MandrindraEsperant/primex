@@ -1,13 +1,13 @@
-class HBLTransactionController {
-    constructor(HBLTransactionService) {
-      this.HBLTransactionService = HBLTransactionService;
+class HWBTransactionController {
+    constructor(HWBTransactionService) {
+      this.HWBTransactionService = HWBTransactionService;
     }
-    async createHBLTransaction(req, res) {
+    async createHWBTransaction(req, res) {
       try {
-        const HBLTransaction = await this.HBLTransactionService.createHBLTransaction(
+        const HWBTransaction = await this.HWBTransactionService.createHWBTransaction(
           req.body
         );
-        res.status(201).json(HBLTransaction);
+        res.status(201).json(HWBTransaction);
       } catch (error) {
         if (error.name === "SequelizeUniqueConstraintError") {
             // Gérer l'erreur d'unicité
@@ -19,47 +19,47 @@ class HBLTransactionController {
             res.status(401).json({ error: error.message });
           } else {
             // Erreur interne serveur
-            res.status(500).json({ error: "Erreur lors de la creation du HBL" });
+            res.status(500).json({ error: "Erreur lors de la creation du HWL" });
           }
       }
     }
-    async getOneHBLTransaction(req, res) {
+    async getOneHWBTransaction(req, res) {
       try {
-        const HBLTransaction = await this.HBLTransactionService.getHBLTransactionById(
+        const HWBTransaction = await this.HWBTransactionService.getHWBTransactionById(
           req.params.id
         );
-        if (HBLTransaction) {
-          res.status(200).json(HBLTransaction);
+        if (HWBTransaction) {
+          res.status(200).json(HWBTransaction);
         } else {
-          res.status(404).send("HBLTransaction not found");
+          res.status(404).send("HWBTransaction not found");
         }
       } catch (error) {
         res.status(500).send(error.message);
       }
     }
-    async getAllHBLTransactions(req, res) {
+    async getAllHWBTransactions(req, res) {
       try {
-        const HBLTransactions = await this.HBLTransactionService.getAllHBLTransactions();
-        res.status(200).json(HBLTransactions);
+        const HWBTransactions = await this.HWBTransactionService.getAllHWBTransactions();
+        res.status(200).json(HWBTransactions);
       } catch (error) {
         res.status(500).send(error.message);
       }
     }
-    // async getCountAllHBLTransaction(req, res) {
+    // async getCountAllHWBTransaction(req, res) {
     //    try {
-    //     const HBLTransactions = await this.HBLTransactionService.getCountAllHBLTransaction();
-    //     res.status(200).json(HBLTransactions);
+    //     const HWBTransactions = await this.HWBTransactionService.getCountAllHWBTransaction();
+    //     res.status(200).json(HWBTransactions);
     //   } catch (error) {
     //     res.status(500).send(error.message);
     //   }
     // }
-    async updateHBLTransaction(req, res) {
+    async updateHWBTransaction(req, res) {
       try {
-        const HBLTransaction = await this.HBLTransactionService.updateHBLTransaction(
+        const HWBTransaction = await this.HWBTransactionService.updateHWBTransaction(
           req.params.id,
           req.body
         );
-        res.status(200).json(HBLTransaction);
+        res.status(200).json(HWBTransaction);
       } catch (error) {
         if (error.name === "SequelizeUniqueConstraintError") {
             // Gérer l'erreur d'unicité
@@ -71,13 +71,13 @@ class HBLTransactionController {
             res.status(401).json({ error: error.message });
           } else {
             // Erreur interne serveur
-            res.status(500).json({ error: "Erreur lors de la creation du HBL" });
+            res.status(500).json({ error: "Erreur lors de la creation du HWL" });
           }
       }
     }
-    async deleteHBLTransaction(req, res) {
+    async deleteHWBTransaction(req, res) {
       try {
-        await this.HBLTransactionService.deleteHBLTransaction(req.params.id);
+        await this.HWBTransactionService.deleteHWBTransaction(req.params.id);
         res.status(204).send();
       } catch (error) {
         res.status(500).send(error.message);
@@ -85,5 +85,5 @@ class HBLTransactionController {
     }
   }
   
-  module.exports = HBLTransactionController;
+  module.exports = HWBTransactionController;
   
