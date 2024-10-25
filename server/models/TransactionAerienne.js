@@ -1,30 +1,30 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const TransportMaritime = require("./TransMaritime");
+const TransportAerienne = require("./TransAerienne");
 const Agent = require("./Agent");
 
-class Transaction extends Sequelize.Model {}
+class TransactionAerienne extends Sequelize.Model {}
 
-Transaction.init(
+TransactionAerienne.init(
   {
-    idTransaction: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+    idTransactionAerienne: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
-    numMBL: {
+    numMWL: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Le Numero MBL est déjà appartient au autre transaction",
+        msg: "Le Numero MBL est déjà appartient au autre TransactionAerienne",
       },
     },
     idTransport: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: TransportMaritime,
-        key: "idTransMaritime",
+        model: TransportAerienne,
+        key: "idTransAerienne",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -34,7 +34,7 @@ Transaction.init(
       allowNull: false,
       references: {
         model: Agent,
-        key: "idClient",
+        key: "idAgent",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -49,6 +49,14 @@ Transaction.init(
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
+    dateEmission:{
+        type:DataTypes.DATE,
+         allowNull:false
+     },
+    dateDestination:{
+        type:DataTypes.DATE,
+         allowNull:false
+     },
     creerPar: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -60,7 +68,7 @@ Transaction.init(
   },
   {
     sequelize,
-    modelName: "Transaction",
+    modelName: "TransactionAerienne",
     timestamps: true,
     validate: {
       expediteurDifferentDeDestinateur() {
@@ -72,4 +80,4 @@ Transaction.init(
   }
 );
 
-module.exports = Transaction;
+module.exports = TransactionAerienne;

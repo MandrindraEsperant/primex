@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const TransactionMaritime = require("../models/TransactionMaritime");
 const IRepository = require("../interfaces/IRepository");
 
@@ -21,15 +20,14 @@ class TransactionMaritimeRepository extends IRepository {
   async update(id, TransactionData) {
     const transaction = await this.findById(id);
     if (transaction) {
-      return await TransactionMaritime.update(TransactionData,{where: { idTransAerienne: id }});
+      return await TransactionMaritime.update(TransactionData,{where: { idTransactionMaritime: id }});
     }
     return null;
   }
-
   async delete(id) {
-    const Transaction = await this.findById(id);
-    if (Transaction) {
-      return await Transaction.destroy({ where: { idTransaction: id } });
+    const transaction = await this.findById(id);
+    if (transaction) {
+      return await TransactionMaritime.destroy({ where: { idTransactionMaritime: id } });
     }
     return null;
   }

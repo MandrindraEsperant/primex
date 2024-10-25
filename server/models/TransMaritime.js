@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
 
 class TransMaritime extends Sequelize.Model {}
-
+  
 TransMaritime.init(
   {
     idTransMaritime: {
