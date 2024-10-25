@@ -19,7 +19,7 @@ HWBTransaction.init(
         msg: "Ce numéro HWB est déjà utilisée.",
       },
     },
-    idMBL: {
+    idMWB: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

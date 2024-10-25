@@ -8,7 +8,10 @@ const employeRoutes = require('./routes/employeRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const exportationRoutes = require('./routes/exportationRoutes');
 const importationRoutes = require('./routes/importationRoutes');
-const marchandiseRoutes = require('./routes/marchandiseRoutes');
+const suiviHBLRoutes = require('./routes/suiviHBLRoutes');
+const suiviHWBRoutes = require('./routes/suiviHWBRoutes');
+const marchandiseHBLRoutes = require('./routes/marchandiseHBLRoutes');
+const marchandiseHWBRoutes = require('./routes/marchandiseHWBRoutes');
 const hblTransactionRoutes = require('./routes/hblTransactionRoutes');
 const hwbTransactionRoutes = require('./routes/hwbTransactionRoutes');
 const transAerienneRoutes = require('./routes/transAerienneRoutes');
@@ -33,7 +36,10 @@ app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
 app.use('/exportation', exportationRoutes);  
 app.use('/importation', importationRoutes);  
-app.use('/marchandise', marchandiseRoutes);  
+app.use('/suiviHBL', suiviHBLRoutes);  
+app.use('/suiviHWB', suiviHWBRoutes);  
+app.use('/marchandiseHBL', marchandiseHBLRoutes);  
+app.use('/marchandiseHWB', marchandiseHWBRoutes);  
 app.use('/hblTransaction', hblTransactionRoutes);  
 app.use('/hwbTransaction', hwbTransactionRoutes);  
 app.use('/transMaritime', transMaritimeRoutes); 
@@ -42,7 +48,7 @@ app.use('/transactionMaritime', transactionMaritimeRoutes);
 app.use('/transactionAerienne', transactionAerienneRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes
-sequelize.sync({ force: false, alter:true }) 
+sequelize.sync({ force: false }) 
   .then(() => console.log('Database synced'))
   .catch(err => console.log('Error syncing database', err));
 

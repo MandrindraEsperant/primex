@@ -1,29 +1,26 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const TransportMaritime = require("./TransMaritime");
-const Agent = require("./Agent");
-
-class Transaction extends Sequelize.Model {}
-
-Transaction.init(
+const HBLTransaction = require('./HBLTransaction')
+class SuiviHBL extends Sequelize.Model {}
+SuiviHBL.init(
   {
-    idSuivi: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+    idSuiviHBL: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
-    numMBL: {
+    numHBL: {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: TransportMaritime,
-        key: "idTransMaritime",
+        model: HBLTransaction,
+        key: "numHBL",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
     etape: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     dateEtape:{
@@ -33,6 +30,10 @@ Transaction.init(
     status:{
       type: DataTypes.STRING,
       allowNull: false
+    },
+    commentaire:{
+      type: DataTypes.STRING,
+      allowNull: true
     },
     creerPar: {
       type: DataTypes.INTEGER,
@@ -45,16 +46,15 @@ Transaction.init(
   },
   {
     sequelize,
-    modelName: "Transaction",
-    timestamps: true,
-    validate: {
-      expediteurDifferentDeDestinateur() {
-        if (this.idAgentDest === this.idAgentExp) {
-          throw new Error("idTransitExpediteur doit être différent de idTransitDestinateur.");
-        }
-      },
-    }, 
+    modelName: "SuiviHBL",
+    timestamps: true ,
+    indexes: [
+      {
+        unique: true,
+        fields: ["numHBL", "etape"]
+      }
+    ]
   }
 );
 
-module.exports = Transaction;
+module.exports = SuiviHBL;

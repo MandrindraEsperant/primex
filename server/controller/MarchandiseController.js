@@ -7,7 +7,18 @@ class MarchandiseController {
         const Marchandise = await this.MarchandiseService.createMarchandise(req.body);
         res.status(201).json(Marchandise);
       } catch (error) {
-        res.status(500).send(error.message);
+        if (error.name === "SequelizeUniqueConstraintError") {
+          // Gérer l'erreur d'unicité
+          res.status(400).json({
+            error:
+              error.errors[0].message || "Une valeur unique est déjà présente.",
+          });
+        } else if (error.message) {
+          res.status(401).json({ error: error.message });
+        } else {
+          // Erreur interne serveur
+          res.status(500).json({ error: "Erreur lors de la creation du Marchandise" });
+        }
       }
     }
     async getOneMarchandise(req, res) {
@@ -46,7 +57,18 @@ class MarchandiseController {
         );
         res.status(200).json(Marchandise);
       } catch (error) {
-        res.status(500).send(error.message);
+        if (error.name === "SequelizeUniqueConstraintError") {
+          // Gérer l'erreur d'unicité
+          res.status(400).json({
+            error:
+              error.errors[0].message || "Une valeur unique est déjà présente.",
+          });
+        } else if (error.message) {
+          res.status(401).json({ error: error.message });
+        } else {
+          // Erreur interne serveur
+          res.status(500).json({ error: "Erreur lors de la creation du Marchandise" });
+        }
       }
     }
     async deleteMarchandise(req, res) {

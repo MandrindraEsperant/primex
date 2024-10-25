@@ -1,22 +1,19 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
+const sequelize = require("../config/database"); 
+const HBLTransaction =require('./HBLTransaction')
 
-class Marchandise extends Sequelize.Model {}
+class MarchandiseHBL extends Sequelize.Model {}
 
-Marchandise.init(
+MarchandiseHBL.init(
   {
-    idMarchandise: {
+    idMarchandiseHBL: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    typeExpedition: {
-      type: DataTypes.ENUM("Importation", "Exportation"),
-      allowNull: false,
-    },
-    idExpedition: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     numConteneur: {
       type: DataTypes.STRING,
@@ -46,6 +43,17 @@ Marchandise.init(
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    HBL: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: HBLTransaction, 
+        key: 'numHBL',
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    },
+
     creerPar: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -57,9 +65,9 @@ Marchandise.init(
   },
   {
     sequelize,
-    modelName: "Marchandise",
+    modelName: "MarchandiseHBL",
     timestamps: true, // Inclut createdAt et updatedAt
   }
 );
 
-module.exports = Marchandise;
+module.exports = MarchandiseHBL;

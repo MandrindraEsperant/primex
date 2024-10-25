@@ -5,8 +5,7 @@ class MarchandiseService {
     }
     async createMarchandise(Data) {
       // Validation des données
-      if (!Data.typeExpedition || !Data.idExpedition 
-        || !Data.numConteneur 
+      if ( !Data.numConteneur 
         || !Data.typeConteneur 
         || !Data.numPlomb 
         || !Data.nature 
@@ -18,7 +17,6 @@ class MarchandiseService {
       }
       return await this.MarchandiseRepository.create(Data);
     }
-
     async getMarchandiseById(id) {
       return await this.MarchandiseRepository.findById(id);
     }

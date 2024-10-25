@@ -1,19 +1,18 @@
 const express = require('express');
-const HWBTransactionRepository = require('../repository/HWBTransactionRepository');
-const HWBTransactionService = require('../services/HWBTransactionService');
-const HWBTransactionController = require('../controller/HWBTransactionController');
+const HouseTransactionRepository = require('../repository/HWBTransactionRepository');
+const HouseTransactionService = require('../services/HouseTransactionService');
+const HouseTransactionController = require('../controller/HouseTransactionController');
 
 const router = express.Router(); 
 
-const hwbTransactionRepository = new HWBTransactionRepository();
-const hwbTransactionService = new HWBTransactionService(hwbTransactionRepository);
-const hwbTransactionController = new HWBTransactionController(hwbTransactionService);
+const houseTransactionRepository = new HouseTransactionRepository();
+const houseTransactionService = new HouseTransactionService(houseTransactionRepository);
+const houseTransactionController = new HouseTransactionController(houseTransactionService);
 
-router.post('/', (req, res) => hwbTransactionController.createHWBTransaction(req, res));
-// router.get('/all/', (req, res) => hwbTransactionController.getCountAllHWBTransaction(req, res));
-router.get('/', (req, res) => hwbTransactionController.getAllHWBTransactions(req, res));
-router.get('/:id', (req, res) =>hwbTransactionController.getOneHWBTransaction(req, res));
-router.put('/:id', (req, res) => hwbTransactionController.updateHWBTransaction(req, res));
-router.delete('/:id', (req, res) => hwbTransactionController.deleteHWBTransaction(req, res));
+router.post('/', (req, res) => houseTransactionController.createHouseTransaction(req, res));
+router.get('/', (req, res) => houseTransactionController.getAllHouseTransactions(req, res));
+router.get('/:id', (req, res) =>houseTransactionController.getOneHouseTransaction(req, res));
+router.put('/:id', (req, res) => houseTransactionController.updateHouseTransaction(req, res));
+router.delete('/:id', (req, res) => houseTransactionController.deleteHouseTransaction(req, res));
 
 module.exports = router;
