@@ -6,7 +6,9 @@ import "./Footer.css";
 import { FaLocationDot } from "react-icons/fa6";
 import { SiGmail } from "react-icons/si";
 import { IoCall } from "react-icons/io5";
+import { useTranslation } from 'react-i18next';
 const Footer = () => {
+  const { t } = useTranslation();
   const location = adr;
   const googleMapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
     location
@@ -19,21 +21,19 @@ const Footer = () => {
       <div className="footer1">
         {footerData.map((card, i) => (
           <div className="first" key={i}>
-            <div className="primaryText"> {card.title}</div>
+            <div className="primaryText"> {t(card.title)}</div>
             <div>
               {card.element.map((elem, index) => (
                 <span className="element secondaryText" key={index}>
-                  {elem}
+                  {t(elem)}
                 </span>
               ))}
             </div>
           </div>
         ))}
       </div>
-
       <div className="footer2">
         <div className="first">
-         
           <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
           <span className="icon">
             <FaLocationDot />

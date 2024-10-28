@@ -1,5 +1,5 @@
 const express = require('express');
-const MarchandiseRepository = require('../repository/MarchandiseRepository');
+const MarchandiseRepository = require('../repository/MarchandiseHBLRepository');
 const MarchandiseService = require('../services/MarchandiseService');
 const MarchandiseController = require('../controller/MarchandiseController');
 

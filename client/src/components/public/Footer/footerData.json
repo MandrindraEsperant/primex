@@ -1,15 +1,11 @@
 [
     {
-      "title": "Service",
-      "element": ["Transport Maritime","Transport Aérienne","Douane"]
+      "title": "our_services",
+      "element": ["air_transport","sea_transport", "customsClearing"]
     },
+   
     {
-      "title": "A propos",
-      "element": ["Transport","Communication","Douane"]
-        
-    },
-    {
-        "title": "Lien rapide",
-        "element": ["Suivi d’expédition","Expédiez","Service client"]
+        "title": "offer",
+        "element": ["shipmentTracking", "ship", "customerService"]
     }
 ]

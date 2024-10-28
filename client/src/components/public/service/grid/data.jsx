@@ -5,27 +5,28 @@ import { MdOutlineVerified } from 'react-icons/md';
 const data = [
     {
         icon: <RiExportLine />,
-        heading: "EXPORTATION",
-        detail:"Exportation fluide et conforme aux normes internationales."    },
+        heading: "export",
+        detail:"exportDetail"   
+    },
     {
         icon: <RiImportLine />,
-        heading: "IMPORTATION",
-        detail:"Importation sécurisée avec dédouanement rapide et conforme."
+        heading: "import",
+        detail:"importDetail"
     },
     {
         icon: <MdOutlineVerified />,
-        heading: "DEDOUANIERE",
-        detail:"Service de dédouanement rapide et efficace pour une livraison sans tracas."
+        heading: "customsClearing",
+        detail:"customsClearingDetail"
     },
     {
         icon: <FaPlane />,
-        heading: "FRET AERIEN",
-        detail:"Solution idéale pour les expéditions rapides et les produits hors gabarit"
+        heading: "airFreight",
+        detail: "airFreightDetail"
     },
     {
         icon: <FaShip />,
-        heading: "FRET MARITIME",
-        detail:"Service de fret maritime fiable pour un transport international sécurisé et efficace."
+        heading:  "seaFreight",
+        detail:"seaFreightDetail"
     },
 
 ];

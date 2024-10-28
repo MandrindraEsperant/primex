@@ -22,7 +22,7 @@ Agent.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: 'Ce contact est déjà apparient  email est déjà utilisée.' 
+        msg: 'Ce contact est déjà apparient aux autre.' 
       }
     },
     adresseAgent : {

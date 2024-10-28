@@ -1,4 +1,4 @@
-const Marchandise = require("../models/Marchandise");
+const Marchandise = require("../models/MarchandiseHBL");
 const IRepository = require("../interfaces/IRepository");
 const { Sequelize, literal } = require('sequelize');
 
@@ -30,7 +30,7 @@ class MarchandiseRepository extends IRepository {
     const marchandise = await this.findById(id);
     if (marchandise) {
       return await Marchandise.update(MarchandiseData, {
-        where: { idMarchandise: id },
+        where: { idMarchandiseHBL: id },
       });
     }
     return null;
@@ -38,7 +38,7 @@ class MarchandiseRepository extends IRepository {
   async delete(id) {
     const marchandise = await this.findById(id);
     if (marchandise) {
-      return await Marchandise.destroy({ where: { idMarchandise: id } });
+      return await Marchandise.destroy({ where: { idMarchandiseHBL: id } });
     }
     return null;
   }

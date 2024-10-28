@@ -15,24 +15,6 @@ class TransactionAerienneService {
       }
       return await this.TransactionAerienneRepository.create(Data);
     }
-    // async getOrCreateTransport(transportData){
-    //   if (!Data.numIMO
-    //     || !Data.nomNavire 
-    //     || !Data.dateChargement 
-    //     || !Data.paysChargement 
-    //     || !Data.villeChargement 
-    //     || !Data.paysDechargement
-    //     || !Data.creerPar ) {
-    //     throw new Error("Tous les champs sont requis.");
-    //   }
-  
-    //   let transport = await this.TransactionAerienneRepository.findByNumIMO(transportData.numIMO);
-    //   if (!transport) {
-    //     transport = await this.TransactionAerienneRepository.create(transportData);
-    //   }
-    //   // Retourner l'ID du transport
-    //   return transport.idTransactionAerienne;
-    // };
     async getTransactionAerienneById(id) {
       return await this.TransactionAerienneRepository.findById(id);
     }

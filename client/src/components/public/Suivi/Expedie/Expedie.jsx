@@ -2,7 +2,11 @@ import React from 'react'
 import './Expedie.css'
 import imgSuivi from './suivi.png'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next';
+
 const Expedie = () => {
+  const { t } = useTranslation(); 
+
   return (
     <div className='expedie'>
       <motion.div className="e-left flexColCenter"
@@ -10,11 +14,11 @@ const Expedie = () => {
         animate={{ opacity: 1, x: "0" }}
         transition={{ type: "sping", duration: 1.5 }}
       >
-        <h2 className="primaryText">Grâce à votre numéro de suivi</h2>
-        <p className='secondaryText'>nous pouvons contacter la division pertinente pour répondre à vos interrogations. Une fois votre numéro de colis saisi et soumis, vous pourrez accéder à toutes les informations pertinentes concernant votre expédition</p>
+        <h2 className="primaryText">{t('expedieTitle')}</h2>
+        <p className='secondaryText'>{t('expedieText')}</p>
         <div className="btn-container flexSpace">
-          <div className="btn left">suivre</div>
-          <div className="btn">Expedier</div>
+          <div className="btn left">{t('track')}</div>
+          <div className="btn">{t('track')}</div>
         </div>
       </motion.div>
       <motion.div className="e-right "
