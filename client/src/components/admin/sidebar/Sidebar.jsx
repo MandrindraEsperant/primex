@@ -16,7 +16,6 @@ import {
   MdDirectionsBoat,
   MdDeliveryDining,
   MdAttachMoney,
-  MdSupervisorAccount,
   MdContactMail,
 
 } from "react-icons/md";
@@ -206,14 +205,33 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/admin/transaction"
-                className={`menu-link ${location.pathname === '/admin/transaction' ? 'active' : ''}`}>
+              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transactionaerienne' || location.pathname === '/admin/transactionmaritime' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
-                  <MdAttachMoney size={18} />
+                  <MdDirectionsBoat size={20} />
                 </span>
                 <span className="menu-link-text">Transaction</span>
-              </Link>
+              </div>
+              <ul className="submenu">
+                <li className="submenu-item">
+                  <Link to="/admin/transactionmaritime" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdDirectionsBoat size={18} />
+                    </span>
+                    <span className="menu-link-text">Maritime</span>
+                  </Link>
+                </li>
+                <li className="submenu-item">
+                  <Link to="/admin/transactionaerienne" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdFlightLand size={18} />
+                    </span>
+                    <span className="menu-link-text">Aérienne</span>
+                  </Link>
+                </li>
+              </ul>
             </li>
+
+
             <li className="menu-item">
               <Link to="/admin/suivi"
                 className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>

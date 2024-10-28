@@ -18,13 +18,13 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
     idTransport: '',
     creerPar: idEmploye,
     modifierPar: idEmploye,
-    numHBL:"",
-    nomCompagnie:"",
-    dateArriver:"",
-    dateDepart:"",
-    numVol:"",
-    nomBateau:"",
-    numBateau:"",
+    numHBL: "",
+    nomCompagnie: "",
+    dateArriver: "",
+    dateDepart: "",
+    numVol: "",
+    nomBateau: "",
+    numBateau: "",
   });
 
 
@@ -54,7 +54,7 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
           numVol: "",
         }));
       }
-      
+
       // Sélectionnez la nouvelle ligne
       setSelectedRow(rowData.numVol); // Mettez à jour l'état de la ligne sélectionnée
       handleRowSelect(
@@ -113,7 +113,7 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
 
   const finalSubmit = (e) => {
     e.preventDefault();
-    
+
     axios
       .post("http://localhost:3001/exportation/", state)
       .then((res) => {
@@ -131,32 +131,32 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
 
 
 
-      // POUR LE TABLEAU AERIENNE 
+  // POUR LE TABLEAU AERIENNE 
 
-      const [transAeriennes, setTransAeriennes] = useState([]);
-      const [error, setError] = useState(null);
-    
-      const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/transAerienne/");
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
-        }
-        return await response.json();
-      };
-    
-      useEffect(() => {
-        const getTransAeriennes = async () => {
-          try {
-            const data = await fetchTransAeriennes();
-            setTransAeriennes(data);
-          } catch (err) {
-            setError(err.message);
-          }
-        };
-    
-        getTransAeriennes();
-      }, []);
-    
+  const [transAeriennes, setTransAeriennes] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchTransAeriennes = async () => {
+    const response = await fetch("http://localhost:3001/transAerienne/");
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des données');
+    }
+    return await response.json();
+  };
+
+  useEffect(() => {
+    const getTransAeriennes = async () => {
+      try {
+        const data = await fetchTransAeriennes();
+        setTransAeriennes(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    getTransAeriennes();
+  }, []);
+
 
 
   return (
@@ -167,13 +167,12 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
             <div className="flex flex-col items-center w-full">
               {/* Étape actuelle avec icône ou numéro */}
               <div
-                className={`w-[35px] h-[35px] my-3 text-white rounded-full ${
-                  formNo - 1 > i
-                    ? 'bg-green-500' // Étape terminée
-                    : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
+                className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
+                  ? 'bg-green-500' // Étape terminée
+                  : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
                     ? 'bg-green-500' // Étape en cours
                     : 'bg-slate-400' // Étape non atteinte
-                } flex justify-center items-center`}
+                  } flex justify-center items-center`}
               >
                 {formNo - 1 > i ? '✓' : v} {/* Icône de validation ou numéro */}
               </div>
@@ -187,13 +186,12 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
             {/* Trait de liaison entre les étapes, collé aux étapes */}
             {i !== formArray.length - 1 && (
               <div
-                className={`h-[2px] w-full ${
-                  formNo - 1 > i
-                    ? 'bg-green-500' 
-                    : formNo === i + 2 || formNo === formArray.length
-                    ? 'bg-green-500' 
-                    : 'bg-slate-400' 
-                }`}
+                className={`h-[2px] w-full ${formNo - 1 > i
+                  ? 'bg-green-500'
+                  : formNo === i + 2 || formNo === formArray.length
+                    ? 'bg-green-500'
+                    : 'bg-slate-400'
+                  }`}
                 style={{ marginLeft: '0px', marginRight: '0px' }} // Colle la ligne aux étapes
               ></div>
             )}
@@ -242,7 +240,7 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
               <option value="maritime">Maritime</option>
             </select>
           </div>
-          
+
           <div className="mt-4 gap-3 flex justify-center items-center mt-8">
             {/* Previous button (disabled on the first step) */}
             <button
@@ -443,20 +441,20 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
                     </tr>
                   </thead>
                   <tbody className="p-3">
-                  {transAeriennes.map((trans) => (
-    <tr key={trans.id} className="bg-white hover:bg-gray-100">
-      <td>
-        <input
-          type="checkbox"
-          onChange={(e) => handleCheckboxChange(e, trans)}
-        />
-      </td>
-      <td>{trans.numVol}</td>
-      <td>{trans.nomCompagnie}</td>
-      <td>{trans.dateArriver}</td>
-      <td>{trans.dateDepart}</td>
-    </tr>
-  ))}
+                    {transAeriennes.map((trans) => (
+                      <tr key={trans.id} className="bg-white hover:bg-gray-100">
+                        <td>
+                          <input
+                            type="checkbox"
+                            onChange={(e) => handleCheckboxChange(e, trans)}
+                          />
+                        </td>
+                        <td>{trans.numVol}</td>
+                        <td>{trans.nomCompagnie}</td>
+                        <td>{trans.dateArriver}</td>
+                        <td>{trans.dateDepart}</td>
+                      </tr>
+                    ))}
 
                   </tbody>
                 </table>
