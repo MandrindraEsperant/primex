@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useState, useRef } from "react";
 import { ThemeContext } from "./../../../context/ThemeContext";
 import { LIGHT_THEME } from "./../../../constants/themeConstants";
 import LogoBlue from "./../../../assets/images/logo_blue.svg";
@@ -7,7 +7,6 @@ import {
   MdOutlineClose,
   MdOutlineGridView,
   MdOutlineLogout,
-  MdOutlineMessage,
   MdOutlineSettings,
   MdGroups,
   MdBuild,
@@ -15,9 +14,7 @@ import {
   MdFlightLand,
   MdDirectionsBoat,
   MdDeliveryDining,
-  MdAttachMoney,
-  MdContactMail,
-
+  MdContactMail
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -139,7 +136,6 @@ const Sidebar = () => {
             </li>
             <li className="menu-item">
               <Link to="/admin/agent"
-
                 className={`menu-link ${location.pathname === '/admin/agent' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdContactMail size={18} />
@@ -147,7 +143,7 @@ const Sidebar = () => {
                 <span className="menu-link-text">Agent</span>
               </Link>
             </li>
-            <li className="menu-item">
+            {/* <li className="menu-item">
               <Link to="/admin/importation"
 
                 className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
@@ -156,8 +152,18 @@ const Sidebar = () => {
                 </span>
                 <span className="menu-link-text">Importation</span>
               </Link>
-            </li>
+            </li> */}
             <li className="menu-item">
+              <Link to="/admin/transactionHouse"
+                className={`menu-link ${location.pathname === '/admin/transactionHouse' ? 'active' : ''}`}
+              >
+                <span className="menu-link-icon">
+                  <MdFlightLand size={20} />
+                </span>
+                <span className="menu-link-text">Transaction fils</span>
+              </Link>
+            </li>
+            {/* <li className="menu-item">
               <Link to="/admin/exportation"
 
                 className={`menu-link ${location.pathname === '/admin/exportation' ? 'active' : ''}`}
@@ -167,8 +173,8 @@ const Sidebar = () => {
                 </span>
                 <span className="menu-link-text">Exportation</span>
               </Link>
-            </li>
-            <li className="menu-item">
+            </li> */}
+             <li className="menu-item">
               <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transportaerienne' || location.pathname === '/admin/transportmaritime' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdDirectionsBoat size={20} />

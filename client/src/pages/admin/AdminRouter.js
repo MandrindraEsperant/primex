@@ -22,11 +22,8 @@ import MarchandiseHWB from "./MarchandiseHwb";
 const AdminRouter = () => {
   return (
     <Routes>
-      <Route element={<ALayout />}> 
-        {/* <Route index element={<Dashboard />} /> */}
-        
+      <Route element={<ALayout />}>         
         <Route path="dashboard" element={<Dashboard />} />
-
         <Route path="client" element={<ClientPage />} />
         <Route path="importation" element={<ImportationPage />} />
         <Route path="employe" element={<EmployePage />} />
@@ -39,7 +36,6 @@ const AdminRouter = () => {
         <Route path="transactionaerienne" element={<TransactionA />} />
         <Route path="transactionmaritime" element={<TransactionM />} />
         <Route path="marchandisehwb" element={<MarchandiseHWB />} />
-
         <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />
 
