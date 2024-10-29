@@ -1,6 +1,10 @@
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
+<<<<<<< HEAD
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
+=======
+import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
+>>>>>>> origin/main
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
@@ -16,7 +20,10 @@ const TransactionAerien = () => {
         try {
             const response = await axios.get("http://localhost:3001/transactionAerienne/");
             setData(response.data);
+<<<<<<< HEAD
             // console.log(response.data);
+=======
+>>>>>>> origin/main
         } catch (error) {
             console.error("Error submitting data:", error);
         }
@@ -134,11 +141,15 @@ const TransactionAerien = () => {
                 <tr >
                     <th>#</th>
                     <th>N° MWL</th>
-                    <th>ID Transport</th>
-                    <th>ID Agent Destinataire</th>
-                    <th>ID Agent EXpediteur</th>
-                    <th>Date destination</th>
-                    <th>Date Emission</th>
+                    <th>N° de vol</th>
+                    <th>Compagnie</th>
+                    <th>date de chargement</th>
+                    <th>Pays de chargement</th>
+                    <th>Pays de déchargement</th>
+                    <th>Agent destinataire</th>
+                    <th>Agent expediteur</th>
+                    <th>Date Emission </th>
+                    <th>Date d'arriver prevue</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -157,11 +168,15 @@ const TransactionAerien = () => {
                             />
                         </td>
                         <td>{item.numMWL}</td>
-                        <td>{item.idTransport}</td>
-                        <td>{item.idAgentDest}</td>
-                        <td>{item.idAgentExp}</td>
-                        <td>{new Date(item.dateDestination).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.TransAerienne.numVol}</td>
+                        <td>{item.TransAerienne.nomCompagnie}</td>
+                        <td>{ new Date(item.TransAerienne.dateChargement).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.TransAerienne.paysChargement}</td>
+                        <td>{item.TransAerienne.paysDechargement}</td>
+                        <td>{item.agentDest.nomAgent}</td>
+                        <td>{item.agentExp.nomAgent}</td>
                         <td>{new Date(item.dateEmission).toLocaleDateString('fr-FR')}</td>
+                        <td>{new Date(item.dateDestination).toLocaleDateString('fr-FR')}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}

@@ -6,7 +6,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
+<<<<<<< HEAD
 import AjoutMarchHWB from '../../../../pages/admin/AjoutMarchHwb';
+=======
+>>>>>>> origin/main
 const MarchandiseHwb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);

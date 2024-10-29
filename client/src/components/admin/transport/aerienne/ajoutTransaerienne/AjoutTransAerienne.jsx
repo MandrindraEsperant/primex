@@ -188,7 +188,7 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
               value={state.numVol}
               onChange={inputHandle}
               className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-              type="number"
+              type="text"
               name="numVol"
               placeholder="N° vol"
               id="numVol"

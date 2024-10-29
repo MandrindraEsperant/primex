@@ -23,11 +23,8 @@ import TransactionP from "./Transaction";
 const AdminRouter = () => {
   return (
     <Routes>
-      <Route element={<ALayout />}> 
-        {/* <Route index element={<Dashboard />} /> */}
-        
+      <Route element={<ALayout />}>         
         <Route path="dashboard" element={<Dashboard />} />
-
         <Route path="client" element={<ClientPage />} />
         <Route path="importation" element={<ImportationPage />} />
         <Route path="employe" element={<EmployePage />} />
