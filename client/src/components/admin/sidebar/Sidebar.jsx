@@ -13,7 +13,10 @@ import {
   MdBuild,
   MdLocalShipping,
   MdFlightLand,
-  MdDirectionsBoat
+  MdDirectionsBoat,
+  MdDeliveryDining,
+  MdAttachMoney,
+  MdContactMail,
 
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -63,11 +66,11 @@ const Sidebar = () => {
       text: "Vous allez être déconnecté(e).",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',  
-      cancelButtonColor: '#3085d6', 
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       cancelButtonText: 'Annuler',
       confirmButtonText: 'Déconnecter!',
-      reverseButtons: true, 
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         AccountService.logout();
@@ -135,6 +138,16 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
+              <Link to="/admin/agent"
+
+                className={`menu-link ${location.pathname === '/admin/agent' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdContactMail size={18} />
+                </span>
+                <span className="menu-link-text">Agent</span>
+              </Link>
+            </li>
+            <li className="menu-item">
               <Link to="/admin/importation"
 
                 className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
@@ -182,15 +195,70 @@ const Sidebar = () => {
               </ul>
             </li>
             <li className="menu-item">
-              <Link to="/admin/marchandise"
-
-                className={`menu-link ${location.pathname === '/admin/marchandise' ? 'active' : ''}`}>
+              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/marchandiseHBL' || location.pathname === '/admin/marchandiseHWB' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
-                  <MdOutlineMessage size={18} />
+                  <MdDirectionsBoat size={20} />
                 </span>
                 <span className="menu-link-text">Marchandise</span>
+              </div>
+              <ul className="submenu">
+                <li className="submenu-item">
+                  <Link to="/admin/marchandiseHBL" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdDirectionsBoat size={18} />
+                    </span>
+                    <span className="menu-link-text">HBL</span>
+                  </Link>
+                </li>
+                <li className="submenu-item">
+                  <Link to="/admin/marchandiseHWB" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdFlightLand size={18} />
+                    </span>
+                    <span className="menu-link-text">HWB</span>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className="menu-item">
+              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transactionaerienne' || location.pathname === '/admin/transactionmaritime' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdDirectionsBoat size={20} />
+                </span>
+                <span className="menu-link-text">Transaction</span>
+              </div>
+              <ul className="submenu">
+                <li className="submenu-item">
+                  <Link to="/admin/transactionmaritime" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdDirectionsBoat size={18} />
+                    </span>
+                    <span className="menu-link-text">Maritime</span>
+                  </Link>
+                </li>
+                <li className="submenu-item">
+                  <Link to="/admin/transactionaerienne" className="menu-link">
+                    <span className="menu-link-icon">
+                      <MdFlightLand size={18} />
+                    </span>
+                    <span className="menu-link-text">Aérienne</span>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+
+            <li className="menu-item">
+              <Link to="/admin/suivi"
+                className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdDeliveryDining size={18} />
+                </span>
+                <span className="menu-link-text">Suivi</span>
               </Link>
             </li>
+
+
           </ul>
         </div>
 

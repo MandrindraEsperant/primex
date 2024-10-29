@@ -1,7 +1,7 @@
 const express = require('express');
 const TransactionMaritimeRepository = require('../repository/TransactionMaritimeRepository');
 const TransactionMaritimeService = require('../services/TransactionMaritimeService');
-const TransactionMaritimeController = require('../controller/TransactionMAritimeController');
+const TransactionMaritimeController = require('../controller/TransactionMaritimeController');
 
 const router = express.Router(); 
 

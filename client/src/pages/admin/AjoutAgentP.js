@@ -1,17 +1,15 @@
 import React from 'react'
 import { Dialog, IconButton, DialogContent} from '@mui/material';
-
 import CloseIcon from '@mui/icons-material/Close';
-import AjoutImportation from '../../components/admin/importation/ajoutImportation/AjoutImportation';
+import AjoutAgent from '../../components/admin/agent/AjoutAgent';
 
-
-const AjoutImportPage = ({ open, handleClose, allTransaction }) => {
+const AjoutAgentP = ({open, handleClose, isEditMode, selectedPerson, allAgent }) => {
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
     <DialogContent style={{ position: 'relative' }}>
       {/* Bouton de fermeture en haut à droite */}
       <IconButton
-        onClick={handleClose}
+        onClick={handleClose} 
         style={{
           position: 'absolute',
           top: 10,
@@ -21,10 +19,14 @@ const AjoutImportPage = ({ open, handleClose, allTransaction }) => {
       >
         <CloseIcon />
       </IconButton>
-      <AjoutImportation />
+      <AjoutAgent 
+      handleClose={handleClose}
+      isEditMode={isEditMode}
+      selectedPerson={selectedPerson}
+      allAgent={allAgent} />
     </DialogContent>
   </Dialog>
   )
 }
 
-export default AjoutImportPage
+export default AjoutAgentP

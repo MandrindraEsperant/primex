@@ -6,15 +6,15 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-
-const TransportAerienne = () => {
+import AjoutMarchHWB from '../../../../pages/admin/AjoutMarchHwb';
+const MarchandiseHwb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
 
-    const allTransAerienne = async () => {
+    const allMarchandiseHWB = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/transAerienne/");
+            const response = await axios.get("http://localhost:3001/marchandiseHWB/");
             setData(response.data);
             // console.log(response.data);
         } catch (error) {
@@ -22,8 +22,8 @@ const TransportAerienne = () => {
         }
     };
 
-    const handleEditClickOpen = (transAerienne) => {
-        setSelectedPerson(transAerienne);
+    const handleEditClickOpen = (marchandiseHWB) => {
+        setSelectedPerson(marchandiseHWB);
         setIsEditMode(true); // Mode modification
         setOpen(true);
     };
@@ -31,9 +31,9 @@ const TransportAerienne = () => {
     // SUPPRESSION
     const supprimer = (id) => {
         axios
-            .delete("http://localhost:3001/transAerienne/" + id)
+            .delete("http://localhost:3001/marchandiseHWB/" + id)
             .then((res) => {
-                allTransAerienne();
+                allMarchandiseHWB();
             })
             .catch((err) => alert(err));
     };
@@ -57,7 +57,7 @@ const TransportAerienne = () => {
 
 
     useEffect(() => {
-        allTransAerienne();
+        allMarchandiseHWB();
     }, []);
 
     const handleClickOpen = () => {
@@ -76,20 +76,23 @@ const TransportAerienne = () => {
     const itemsPerPage = 7;
 
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idTransAerienne === person.idTransAerienne) {
+        if (selectedPerson && selectedPerson.idMarchandiseHWB === person.idMarchandiseHWB) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
     const filteredData = data.filter(item =>
-        item.numVol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.nomCompagnie.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.paysChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.numConteneur.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.typeConteneur.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.numPlomb.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.villeChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.paysDechargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.villeDechargement.toLowerCase().includes(searchTerm.toLowerCase())
+        item.nature.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.nbColis.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.poid.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.volume.toLowerCase().includes(searchTerm.toLowerCase())||
+        item.HWB.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Pagination logic
@@ -102,9 +105,9 @@ const TransportAerienne = () => {
         setCurrentPage(pageNumber);
     };
 
-    return (
-        <div className={`client-container ${theme}`}>
-            <h3 className="title">LISTE DE TOUT LES TRANSPORTS AERIENNE</h3>
+  return (
+    <div className={`client-container ${theme}`}>
+            <h3 className="title">LISTE DE TOUT LES MARCHANDISE HWB</h3>
             <div className="flex flex-col space-y-6">
                 <div className="actionsContainer">
                     <div className="searchContainer">
@@ -126,9 +129,9 @@ const TransportAerienne = () => {
                     <button className="addButton" onClick={handleClickOpen}>
                         <MdAdd /> Ajouter
                     </button>
-                    <AjoutTransA
+                    <AjoutMarchHWB
                         open={open}
-                        allTransAerienne={allTransAerienne}
+                        allMarchandiseHWB={allMarchandiseHWB}
                         handleClose={handleClose}
                         isEditMode={isEditMode}
                         selectedPerson={selectedPerson} />
@@ -140,21 +143,21 @@ const TransportAerienne = () => {
                     <thead>
                         <tr >
                             <th>#</th>
-                            <th>ID</th>
-                            <th>N° Vol</th>
-                            <th>Nom Compagnie</th>
-                            <th>Date de chargement</th>
-                            <th>Pays de chargement</th>
-                            <th>Pays de déchargement</th>
-                            <th>Ville de chargement</th>
-                            <th>Ville de déchargement</th>
-                            <th>Action</th>
+                            <th>Description</th>
+                            <th>N° Conteneur</th>
+                            <th>Type Conteneur</th>
+                            <th>N° Plomb</th>
+                            <th>Nature</th>
+                            <th>Nombre colis</th>
+                            <th>Poids</th>
+                            <th>Volume</th>
+                            <th>HWB</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentData.map(item => (
                             <tr
-                                key={item.idTransAerienne}
+                                key={item.idMarchandiseHWB}
                                 onClick={() => handleSelect(item)}
                                 className={item === selectedPerson ? 'selectedRow' : ''}
                             >
@@ -165,19 +168,22 @@ const TransportAerienne = () => {
                                         readOnly
                                     />
                                 </td>
-                                <td>{item.idTransAerienne}</td>
-                                <td>{item.numVol}</td>
-                                <td>{item.nomCompagnie}</td>
-                                <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
-                                <td>{item.paysChargement}</td>
-                                <td>{item.paysDechargement}</td>
+                                <td>{item.idMarchandiseHWB}</td>
+                                <td>{item.description}</td>
+                                <td>{item.numConteneur}</td>
+                                <td>{item.typeConteneur}</td>
+                                <td>{item.numPlomb}</td>
+                                <td>{item.nature}</td>
                                 <td>{item.villeChargement}</td>
-                                <td>{item.villeDechargement}</td>
+                                <td>{item.nbColis}</td>
+                                <td>{item.poid}</td>
+                                <td>{item.volume}</td>
+                                <td>{item.HWB}</td>
                                 <td className="dt-cell-action">
                                     <AreaTableAction
                                         id={item.id}
-                                        onEditClick={() => handleEditClickOpen(item.idTransAerienne)}
-                                        onDeleteClick={() => handleDeleteClick(item.idTransAerienne)}
+                                        onEditClick={() => handleEditClickOpen(item.idMarchandiseHWB)}
+                                        onDeleteClick={() => handleDeleteClick(item.idMarchandiseHWB)}
                                     />
                                 </td>
                             </tr>
@@ -199,7 +205,7 @@ const TransportAerienne = () => {
 
             </div>
         </div>
-    );
+  )
 }
 
-export default TransportAerienne
+export default MarchandiseHwb
