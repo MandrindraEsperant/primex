@@ -213,9 +213,8 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                             </div>
 
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                                {i === 0 && 'INFORMATION MARCHANDISE'}
-                                {i === 1 && 'INFORMATION CONTENEUR'}
-                                {i === 2 && 'TRANSACTION AERIENNE HWB'}
+                                {i === 1 && 'INFORMATION MARCHANDISE'}
+                                {i === 0 && 'TRANSACTION AERIENNE HWB'}
                             </div>
                         </div>
 
@@ -237,202 +236,165 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
             {/* Form Step 1 */}
             {formNo === 2 && (
                 <div className="flex flex-row gap-4">
-                <div className="w-1/2">
-
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="numPlomb"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            N° Conteneur
-                        </label>
-                        <input
-                            value={state.numConteneur}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="text"
-                            name="numConteneur"
-                            placeholder="Numéro Conteneur"
-                            id="numConteneur"
-                        />
-                    </div>
-
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="numPlomb"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Type Conteneur
-                        </label>
-                        <input
-                            value={state.typeConteneur}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="text"
-                            name="typeConteneur"
-                            placeholder="Type Conteneur"
-                            id="typeConteneur"
-                        />
-                    </div>
-
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="numPlomb"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            N° Plomb
-                        </label>
-                        <input
-                            value={state.numPlomb}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="text"
-                            name="numPlomb"
-                            placeholder="Numéro Plomb"
-                            id="numPlomb"
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3 ">
-                        <label htmlFor="description" className='text-lg font-semibold mb-2'>Description</label>
-                        <input
-                            value={state.description}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="text"
-                            name="description"
-                            placeholder="Description"
-                            id="description"
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="nature"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Nature
-                        </label>
-                        <input
-                            value={state.nature}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="text"
-                            name="nature"
-                            placeholder="Nature"
-                            id="nature"
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="poid"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Poids
-                        </label>
-                        <input
-                            value={state.poid}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="number"
-                            name="poid"
-                            placeholder="Poids"
-                            id="poid"
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="volume"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Volume
-                        </label>
-                        <input
-                            value={state.volume}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="number"
-                            name="volume"
-                            placeholder="Volume"
-                            id="volume"
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="nbColis"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Nombre de Colis
-                        </label>
-                        <input
-                            value={state.nbColis}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
-                            type="number"
-                            name="nbColis"
-                            placeholder="Nombre Colis"
-                            id="nbColis"
-                        />
-                    </div>
-
-                    <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-                        {/* Previous button */}
-                        <button
-                            onClick={pre}
-                            className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
-                        >
-                            Previous
-                        </button>
-                        {/* Final Submit button */}
-                        <button
-                            onClick={finalSubmit}
-                            disabled={!isStep2Valid()}
-                            className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid()
-                                ? "bg-blue-500"
-                                : "bg-blue-100 cursor-not-allowed"
-                                }`}
-                        >
-
-                            {isEditMode ? "Modifier" : "Ajouter"}
-                        </button>
-                    </div>
-
-                </div>
-                <div className="w-1/2">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Liste des Marchandise</h2>
-
-                        <div className="searchContainer">
-                            <MdSearch className="searchIcon" />
+                    <div className="w-1/2">
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="numPlomb"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                N° Conteneur
+                            </label>
                             <input
+                                value={state.numConteneur}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                                 type="text"
-                                placeholder="Recherche..."
-                                value={searchTermT}
-                                onChange={(e) => setSearchTermT(e.target.value)}
-                                className="searchInput mb-4"
+                                name="numConteneur"
+                                placeholder="Numéro Conteneur"
+                                id="numConteneur"
                             />
-                            {searchTermT && (
-                                <MdClear
-                                    className="clearIcon"
-                                    onClick={() => setSearchTermT("")}
-                                />
-                            )}
                         </div>
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="numPlomb"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                Type Conteneur
+                            </label>
+                            <input
+                                value={state.typeConteneur}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                                type="text"
+                                name="typeConteneur"
+                                placeholder="Type Conteneur"
+                                id="typeConteneur"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="numPlomb"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                N° Plomb
+                            </label>
+                            <input
+                                value={state.numPlomb}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                                type="text"
+                                name="numPlomb"
+                                placeholder="Numéro Plomb"
+                                id="numPlomb"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-3 ">
+                            <label htmlFor="description" className='text-lg font-semibold mb-2'>Description</label>
+                            <input
+                                value={state.description}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+                                type="text"
+                                name="description"
+                                placeholder="Description"
+                                id="description"
+                            />
+                        </div>                       
 
-                        <div className="overflow-auto" style={{ maxHeight: '300px' }}>
-                            <table className="table-auto w-full text-left border-collapse">
-                                <thead className="text-white bg-blue-200">
-                                    <tr>
-                                        <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">N° Vol</th>
-                                        <th className="py-2 px-4 text-left">Compagnie</th>
-                                        <th className="py-2 px-4 text-left">Pays Départ</th>
-                                        <th className="py-2 px-4 text-left">Pays Arrivé</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="space-y-2">
-                                </tbody>
-                            </table>
+                    </div>
+                    <div className="w-1/2">
+                    <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="nature"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                Nature
+                            </label>
+                            <input
+                                value={state.nature}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                                type="text"
+                                name="nature"
+                                placeholder="Nature"
+                                id="nature"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="poid"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                Poids
+                            </label>
+                            <input
+                                value={state.poid}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                                type="number"
+                                name="poid"
+                                placeholder="Poids"
+                                id="poid"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="volume"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                Volume
+                            </label>
+                            <input
+                                value={state.volume}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                                type="number"
+                                name="volume"
+                                placeholder="Volume"
+                                id="volume"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="nbColis"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                Nombre de Colis
+                            </label>
+                            <input
+                                value={state.nbColis}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                                type="number"
+                                name="nbColis"
+                                placeholder="Nombre Colis"
+                                id="nbColis"
+                            />
+                        </div>
+                        <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+                            {/* Previous button */}
+                            <button
+                                onClick={pre}
+                                className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
+                            >
+                                Previous
+                            </button>
+                            {/* Final Submit button */}
+                            <button
+                                onClick={finalSubmit}
+                                disabled={!isStep2Valid()}
+                                className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid()
+                                    ? "bg-blue-500"
+                                    : "bg-blue-100 cursor-not-allowed"
+                                    }`}
+                            >
+
+                                {isEditMode ? "Modifier" : "Ajouter"}
+                            </button>
                         </div>
 
                     </div>
+
 
                 </div>
             )}

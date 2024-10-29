@@ -19,6 +19,7 @@ import AgentP from "./AgentP";
 import TransactionA from "./TransactionA";
 import TransactionM from "./TransactionM";
 import MarchandiseHWB from "./MarchandiseHwb";
+import TransactionP from "./Transaction";
 const AdminRouter = () => {
   return (
     <Routes>
@@ -36,6 +37,7 @@ const AdminRouter = () => {
         <Route path="marchandise" element={<MarchandisePage />} />
         <Route path="suivi" element={<SuiviExp />} />
         <Route path="agent" element={<AgentP />} />
+        <Route path="transaction" element={<TransactionP />} />
         <Route path="transactionaerienne" element={<TransactionA />} />
         <Route path="transactionmaritime" element={<TransactionM />} />
         <Route path="marchandisehwb" element={<MarchandiseHWB />} />
