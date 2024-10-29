@@ -136,12 +136,12 @@ const TransactionMaritime = () => {
                     <th>#</th>
                     <th>N° MBL</th>
                     <th>N° IMO</th>
-                    <th>Nom de l'armateur</th>
+                    <th>Armateur</th>
                     <th>date de chargement</th>
                     <th>Pays de chargement</th>
                     <th>Pays de déchargement</th>
-                    <th>Nom d'agent destinataire</th>
-                    <th>Nom d'agent expediteur</th>
+                    <th>Agent destinataire</th>
+                    <th>Agent expediteur</th>
                     <th>Date Emission </th>
                     <th>Date d'arriver prevue</th>
                     <th>Action</th>

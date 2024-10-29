@@ -134,12 +134,12 @@ const TransactionAerien = () => {
                     <th>#</th>
                     <th>N° MWL</th>
                     <th>N° de vol</th>
-                    <th>Nom de compagnie</th>
+                    <th>Compagnie</th>
                     <th>date de chargement</th>
                     <th>Pays de chargement</th>
                     <th>Pays de déchargement</th>
-                    <th>Nom d'agent destinataire</th>
-                    <th>Nom d'agent expediteur</th>
+                    <th>Agent destinataire</th>
+                    <th>Agent expediteur</th>
                     <th>Date Emission </th>
                     <th>Date d'arriver prevue</th>
                     <th>Action</th>
