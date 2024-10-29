@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
-const AjoutMarchandisehwb = () => {
+const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selectedPerson }) => {
 
     const [transAeriennes, setTransAeriennes] = useState([]);
     const [agentOptions, setAgentOptions] = useState([]);
@@ -19,78 +19,49 @@ const AjoutMarchandisehwb = () => {
 
 
 
-    const formArray = [1, 2, 3];
+    const formArray = [1, 2];
     const [formNo, setFormNo] = useState(formArray[0]);
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
     const idEmploye = decodedToken.id;
     const [state, setState] = useState({
         description: '',
-        idTransport: '',
-        idAgentDest: "",
-        idAgentExp: "",
-        dateEmission: "",
-        dateDestination: "",
+        idMarchandiseHWB: '',
+        numConteneur: "",
+        typeConteneur: "",
+        numPlomb: "",
+        nature: "",
+        poid: "",
+        volume: "",
+        nbColis: "",
+        HWB: "",
         creerPar: idEmploye,
         modifierPAr: idEmploye
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/transAerienne/");
+        const response = await fetch("http://localhost:3001/transactionAerienne/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
         return await response.json();
     };
     const handleSelectA = (trans) => {
-        if (selectedAerienne && selectedAerienne.idTransAerienne === trans.idTransAerienne) {
+        if (selectedAerienne && selectedAerienne.idTransactionAerienne === trans.idTransactionAerienne) {
             setSelectedAerienne(null); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedAerienne(trans); // Sélectionner un nouveau transport
             setState(prevState => ({
                 ...prevState,
-                idTransport: trans.idTransAerienne,
-                idTransAerienne: trans.idTransAerienne,
-                nomCompagnie: trans.nomCompagnie,
-                paysChargement: trans.paysChargement,
-                paysDechargement: trans.paysDechargement,
-                numVol: trans.numVol,
+                HWB: trans.idTransactionAerienne,
+                idTransactionAerienne: trans.idTransactionAerienne,
+                numMWL: trans.numMWL,
+                idAgentDest: trans.idAgentDest,
+                idAgentExp: trans.idAgentExp,
+                dateEmission: trans.dateEmission,
+                dateDestination: trans.dateDestination,
 
             }));
-        }
-    };
-    const fetchAgent = async () => {
-        const response = await fetch("http://localhost:3001/agent/");
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données');
-        }
-        return await response.json();
-    };
-    const handleSelectAg = (agent) => {
-        if (selectedAgent && selectedAgent.idAgent === agent.idAgent) {
-            setSelectedAgent(null); // Désélectionner si le même agent est déjà sélectionné
-        } else {
-            setSelectedAgent(agent);
-
-            if (activeField === "expediteur") {
-                setState(prevState => ({
-                    ...prevState,
-                    idAgentExp: agent.idAgent,
-                    nomAgen: agent.nomAgent,
-                    paysAgent: agent.paysAgent,
-                    contactAgent: agent.contactAgent,
-                    adresseAgent: agent.adresseAgent,
-                }));
-            } else if (activeField === "destinataire") {
-                setState(prevState => ({
-                    ...prevState,
-                    idAgentDest: agent.idAgent,
-                    nomAgen: agent.nomAgent,
-                    paysAgent: agent.paysAgent,
-                    contactAgent: agent.contactAgent,
-                    adresseAgent: agent.adresseAgent,
-                }));
-            }
         }
     };
     useEffect(() => {
@@ -103,27 +74,22 @@ const AjoutMarchandisehwb = () => {
             }
         };
         getTransAeriennes();
-        const getAgent = async () => {
-            try {
-                const data = await fetchAgent();
-                setAgentOptions(data);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-        getAgent();
-    }, []);
 
+    }, []);
     useEffect(() => {
         if (isEditMode && selectedPerson) {
             // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
             setState({
                 description: selectedPerson.description || '',
-                idTransport: selectedPerson.idTransport || '',
-                idAgentDest: selectedPerson.idAgentDest || '',
-                idAgentExp: selectedPerson.idAgentExp || '',
-                dateEmission: selectedPerson.dateEmission || '',
-                dateDestination: selectedPerson.dateDestination || '',
+                idMarchandiseHWB: selectedPerson.idMarchandiseHWB || '',
+                numConteneur: selectedPerson.numConteneur || '',
+                typeConteneur: selectedPerson.typeConteneur || '',
+                numPlomb: selectedPerson.numPlomb || '',
+                nature: selectedPerson.nature || '',
+                nbColis: selectedPerson.nbColis || '',
+                volume: selectedPerson.volume || '',
+                poid: selectedPerson.poid || '',
+                HWB: selectedPerson.HWB || '',
                 creerPar: selectedPerson.creerPar || idEmploye,
                 modifierPar: idEmploye,
             });
@@ -131,70 +97,61 @@ const AjoutMarchandisehwb = () => {
             // Sinon, réinitialiser les champs
             setState({
                 description: '',
-                idTransport: '',
-                idAgentDest: "",
-                idAgentExp: "",
-                dateEmission: "",
-                dateDestination: "",
+                idMarchandiseHWB: '',
+                numConteneur: "",
+                typeConteneur: "",
+                numPlomb: "",
+                nature: "",
+                poid: "",
+                volume: "",
+                nbColis: "",
+                HWB: "",
                 creerPar: idEmploye,
                 modifierPAr: idEmploye
             });
         }
     }, [isEditMode, selectedPerson, idEmploye]);
-
-
     const inputHandle = (e) => {
         setState({
             ...state,
             [e.target.name]: e.target.value
         });
     };
-
-    const isStep1Valid = () => {
-        return state.description;
-    };
-
     const isStep2Valid = () => {
-        return state.idTransport;
+        return state.description && state.nature && state.poid && state.volume && state.nbColis && state.numConteneur && state.typeConteneur && state.numPlomb;
     };
-    const isStep3Valid = () => {
-        return state.idAgentExp && state.idAgentDest;
+    const isStep1Valid = () => {
+        return state.HWB;
     };
-
     const next = () => {
         if (formNo === 1 && isStep1Valid()) {
             setFormNo(formNo + 1);
         } else if (formNo === 2 && isStep2Valid()) {
-            setFormNo(formNo + 1);
-        } else if (formNo === 3 && isStep3Valid()) {
-            finalSubmit(); // Appeler finalSubmit ici
+            finalSubmit();
         } else {
             toast.error('Please fill in all the required fields');
         }
     };
-
     const pre = () => {
         if (formNo > 1) {
             setFormNo(formNo - 1);
         }
     };
-
     const finalSubmit = (e) => {
         e.preventDefault();
-
         if (isEditMode) {
             axios
-                .put(`http://localhost:3001/transactionAerienne/${selectedPerson.idTransactionAerienne}`, state)
+                .put(`http://localhost:3001/marchandiseHWB/${selectedPerson.idMarchandiseHWB}`, state)
                 .then((res) => {
-                    toast.success("Transaction modifié avec succès");
+                    toast.success("Marchandise modifié avec succès");
                     Swal.fire({
                         title: 'Modifié!',
-                        text: 'Le Transaction a été modifié.',
+                        text: 'Le Marchandise a été modifié.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allTransactionAerienne();
+                    allMarchandiseHwb();
                     handleClose();
                 })
                 .catch((err) => {
@@ -205,18 +162,17 @@ const AjoutMarchandisehwb = () => {
                     }
                 });
         } else {
-
             axios
-                .post("http://localhost:3001/transactionAerienne/", state)
+                .post("http://localhost:3001/marchandiseHWB/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
-                        text: 'Le Transaction a été ajouté.',
+                        text: 'Le Marchandise a été ajouté.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allTransactionAerienne();
+                    allMarchandiseHwb();
                     handleClose();
                 })
                 .catch((err) => {
@@ -228,27 +184,17 @@ const AjoutMarchandisehwb = () => {
                 });
         }
     };
-
-
-    const filteredData = agentOptions.filter(
-        (item) =>
-            item.nomAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.paysAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.adresseAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.contactAgent.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-const filteredAerienne = transAeriennes.filter(
+    const filteredAerienne = transAeriennes.filter(
         (trans) =>
-            trans.nomCompagnie.toLowerCase().includes(searchTermT.toLowerCase()) ||
-        trans.paysChargement.toLowerCase().includes(searchTermT.toLowerCase()) ||
-        trans.paysDechargement.toLowerCase().includes(searchTermT.toLowerCase()) ||
-        trans.numVol.toLowerCase().includes(searchTermT.toLowerCase())
+            trans.numMWL.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.dateEmission.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.dateDestination.toLowerCase().includes(searchTermT.toLowerCase())
     );
 
-  return (
-    <div className="car w-full rounded-md shadow-md bg-white p-5">
+    return (
+        <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction" : "Ajouter un Transaction"}
+                {isEditMode ? "Modifier une Marchandise" : "Ajouter une Marchandise"}
             </h2>
             <div className="flex items-center w-full mb-4">
                 {formArray.map((v, i) => (
@@ -267,9 +213,9 @@ const filteredAerienne = transAeriennes.filter(
                             </div>
 
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                                {i === 0 && 'INFORMATION TRANSACTION'}
-                                {i === 1 && 'INFORMATION TRANSPORT'}
-                                {i === 2 && 'AGENT'}
+                                {i === 0 && 'INFORMATION MARCHANDISE'}
+                                {i === 1 && 'INFORMATION CONTENEUR'}
+                                {i === 2 && 'TRANSACTION AERIENNE HWB'}
                             </div>
                         </div>
 
@@ -288,48 +234,170 @@ const filteredAerienne = transAeriennes.filter(
                     </React.Fragment>
                 ))}
             </div>
-
             {/* Form Step 1 */}
             {formNo === 2 && (
                 <div className="flex flex-row gap-4">
-                    <div className="w-1/2">
+                <div className="w-1/2">
 
-                        <div className="flex flex-col mb-3">
-                            <label htmlFor="idTransport" className='text-lg font-semibold mb-2'>ID Transport</label>
-                            <input
-                                value={state.idTransport}
-                                onChange={inputHandle}
-                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                                type="text"
-                                name="idTransport"
-                                placeholder="Transport"
-                                id="idTransport"
-                                readOnly
-                            />
-                        </div>
-                        <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-                            {/* Previous button */}
-                            <button
-                                onClick={pre}
-                                className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
-                            >
-                                Previous
-                            </button>
-                            {/* Final Submit button */}
-                            <button
-                                onClick={next}
-                                disabled={!isStep2Valid()}
-                                className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid()
-                                    ? "bg-blue-500"
-                                    : "bg-blue-100 cursor-not-allowed"
-                                    }`}
-                            >
-                                Suivant
-                            </button>
-                        </div>
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="numPlomb"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            N° Conteneur
+                        </label>
+                        <input
+                            value={state.numConteneur}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="text"
+                            name="numConteneur"
+                            placeholder="Numéro Conteneur"
+                            id="numConteneur"
+                        />
                     </div>
-                    <div className="w-1/2">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transport aérienne disponible</h2>
+
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="numPlomb"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            Type Conteneur
+                        </label>
+                        <input
+                            value={state.typeConteneur}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="text"
+                            name="typeConteneur"
+                            placeholder="Type Conteneur"
+                            id="typeConteneur"
+                        />
+                    </div>
+
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="numPlomb"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            N° Plomb
+                        </label>
+                        <input
+                            value={state.numPlomb}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="text"
+                            name="numPlomb"
+                            placeholder="Numéro Plomb"
+                            id="numPlomb"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-3 ">
+                        <label htmlFor="description" className='text-lg font-semibold mb-2'>Description</label>
+                        <input
+                            value={state.description}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+                            type="text"
+                            name="description"
+                            placeholder="Description"
+                            id="description"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="nature"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            Nature
+                        </label>
+                        <input
+                            value={state.nature}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="text"
+                            name="nature"
+                            placeholder="Nature"
+                            id="nature"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="poid"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            Poids
+                        </label>
+                        <input
+                            value={state.poid}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="number"
+                            name="poid"
+                            placeholder="Poids"
+                            id="poid"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="volume"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            Volume
+                        </label>
+                        <input
+                            value={state.volume}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="number"
+                            name="volume"
+                            placeholder="Volume"
+                            id="volume"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <label
+                            htmlFor="nbColis"
+                            className="text-lg font-semibold mb-2 "
+                        >
+                            Nombre de Colis
+                        </label>
+                        <input
+                            value={state.nbColis}
+                            onChange={inputHandle}
+                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
+                            type="number"
+                            name="nbColis"
+                            placeholder="Nombre Colis"
+                            id="nbColis"
+                        />
+                    </div>
+
+                    <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+                        {/* Previous button */}
+                        <button
+                            onClick={pre}
+                            className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
+                        >
+                            Previous
+                        </button>
+                        {/* Final Submit button */}
+                        <button
+                            onClick={finalSubmit}
+                            disabled={!isStep2Valid()}
+                            className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid()
+                                ? "bg-blue-500"
+                                : "bg-blue-100 cursor-not-allowed"
+                                }`}
+                        >
+
+                            {isEditMode ? "Modifier" : "Ajouter"}
+                        </button>
+                    </div>
+
+                </div>
+                <div className="w-1/2">
+                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Liste des Marchandise</h2>
 
                         <div className="searchContainer">
                             <MdSearch className="searchIcon" />
@@ -360,9 +428,90 @@ const filteredAerienne = transAeriennes.filter(
                                     </tr>
                                 </thead>
                                 <tbody className="space-y-2">
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            )}
+            {formNo === 1 && (
+                <div className="flex flex-row gap-4">
+                    <div className="w-1/2">
+                        <div className="flex flex-col mb-3">
+                            <label
+                                htmlFor="HWB"
+                                className="text-lg font-semibold mb-2 "
+                            >
+                                HWB
+                            </label>
+                            <input
+                                value={state.HWB}
+                                onChange={inputHandle}
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+                                type="number"
+                                name="HWB"
+                                placeholder="HWB"
+                                id="HWB"
+                                readOnly
+                            />
+                        </div>
+
+                        <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+                            {/* Previous button (disabled on the first step) */}
+                            <button
+                                onClick={pre}
+                                disabled={formNo === 1}
+                                className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? 'bg-blue-100 cursor-not-allowed' : 'bg-blue-500'
+                                    }`}
+                            >
+                                Précedent
+                            </button>
+                            {/* Next button */}
+                            <button
+                                onClick={next}
+                                disabled={!isStep1Valid()}
+                                className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep1Valid() ? 'bg-blue-500' : 'bg-blue-100 cursor-not-allowed'
+                                    }`}
+                            >
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                    <div className="w-1/2">
+                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transaction Aérienne disponible</h2>
+                        {/* FILTRE */}
+                        <div className="searchContainer">
+                            <MdSearch className="searchIcon" />
+                            <input
+                                type="text"
+                                placeholder="Recherche..."
+                                value={searchTermT}
+                                onChange={(e) => setSearchTermT(e.target.value)}
+                                className="searchInput mb-4"
+                            />
+                            {searchTermT && (
+                                <MdClear
+                                    className="clearIcon"
+                                    onClick={() => setSearchTermT("")}
+                                />
+                            )}
+                        </div>
+
+                        <div className="overflow-auto" style={{ maxHeight: '300px' }}>
+                            <table className="table-auto w-full text-left border-collapse">
+                                <thead className="text-white bg-blue-200">
+                                    <tr>
+                                        <th className="py-2 px-2 text-left">#</th>
+                                        <th className="py-2 mx-8 text-left">Num  MWL</th>
+                                        <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Destination</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="space-y-2">
                                     {filteredAerienne.map((trans, index) => (
                                         <tr
-                                            key={trans.idTransAerienne}
+                                            key={trans.idAgent}
                                             onClick={() => handleSelectA(trans)}
                                             className={`hover:bg-blue-200 ${trans === selectedAerienne ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${trans === selectedAerienne ? 'selectedRow' : ''}`}
                                         ><td>
@@ -372,208 +521,9 @@ const filteredAerienne = transAeriennes.filter(
                                                     readOnly
                                                 />
                                             </td>
-                                            <td className="py-2 px-4">{trans.numVol}</td>
-                                            <td className="py-2 px-4">{trans.nomCompagnie}</td>
-                                            <td className="py-2 px-4">{trans.paysChargement}</td>
-                                            <td className="py-2 px-4">{trans.paysDechargement}</td>
-                                        </tr>
-                                    ))}
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-            )}
-
-            {/* Form Step 1 */}
-            {formNo === 1 && (
-                <div>
-
-                    <div className="flex flex-col mb-3 ">
-                        <label htmlFor="description" className='text-lg font-semibold mb-2'>N° MWL</label>
-                        <input
-                            value={state.description}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="text"
-                            name="description"
-                            placeholder="N° MWL"
-                            id="description"
-                        />
-                    </div>
-
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="dateDestination"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Date Destination
-                        </label>
-                        <input
-                            value={state.dateDestination ? new Date(state.dateDestination).toISOString().split('T')[0]
-                                : ''}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="date"
-                            name="dateDestination"
-                            placeholder="Date de desination"
-                            id="dateDestination" // Ajout de l'ID manquant
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="dateEmission"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Date Emission
-                        </label>
-                        <input
-                            value={state.dateEmission ? new Date(state.dateEmission).toISOString().split('T')[0]
-                                : ''}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="date"
-                            name="dateEmission"
-                            placeholder="Date d'emission"
-                            id="dateEmission" // Ajout de l'ID manquant
-                        />
-                    </div>
-
-                    <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-                        {/* Previous button (disabled on the first step) */}
-                        <button
-                            onClick={pre}
-                            disabled={formNo === 1}
-                            className={`px-3 py-2 text-lg rounded-md w-full text-white ${formNo === 1 ? 'bg-blue-100 cursor-not-allowed' : 'bg-blue-500'
-                                }`}
-                        >
-                            Précedent
-                        </button>
-                        {/* Next button */}
-                        <button
-                            onClick={next}
-                            disabled={!isStep1Valid()}
-                            className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep1Valid() ? 'bg-blue-500' : 'bg-blue-100 cursor-not-allowed'
-                                }`}
-                        >
-                            Suivant
-                        </button>
-                    </div>
-
-                </div>
-            )}
-            {formNo === 3 && (
-                <div className="flex flex-row gap-4">
-                    <div className="w-1/2">
-                        <div className="flex flex-col mb-3">
-                            <label htmlFor="idAgentDest" className="text-lg font-semibold mb-2">
-                                ID Agent Destinataire
-                            </label>
-                            <input
-                                value={state.idAgentDest}
-                                onFocus={() => setActiveField("destinataire")}
-                                onChange={inputHandle}
-                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                                type="number"
-                                name="idAgentDest"
-                                placeholder="Agent destinataire"
-                                id="idAgentDest"
-                                readOnly
-                            />
-                        </div>
-
-                        <div className="flex flex-col mb-3">
-                            <label
-                                htmlFor="idAgentExp"
-                                className="text-lg font-semibold mb-2 "
-                            >
-                                ID Agent Expediteur
-                            </label>
-                            <input
-                                value={state.idAgentExp}
-                                onFocus={() => setActiveField("expediteur")}
-                                onChange={inputHandle}
-                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                                type="number"
-                                name="idAgentExp"
-                                placeholder="Agent expediteur"
-                                id="idAgentExp"
-                                readOnly
-                            />
-                        </div>
-
-                        <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-                            {/* Previous button */}
-                            <button
-                                onClick={pre}
-                                className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
-                            >
-                                Previous
-                            </button>
-                            {/* Final Submit button */}
-                            <button
-                                onClick={finalSubmit}
-                                disabled={!isStep3Valid()}
-                                className={`px-3 py-2 text-lg rounded-md w-full text-white ${isStep3Valid()
-                                    ? "bg-blue-500"
-                                    : "bg-blue-100 cursor-not-allowed"
-                                    }`}
-                            >
-
-                                {isEditMode ? "Modifier" : "Ajouter"}
-                            </button>
-                        </div>
-                    </div>
-                    <div className="w-1/2">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Agent disponible</h2>
-                        {/* FILTRE */}
-                        <div className="searchContainer">
-                            <MdSearch className="searchIcon" />
-                            <input
-                                type="text"
-                                placeholder="Recherche..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="searchInput mb-4"
-                            />
-                            {searchTerm && (
-                                <MdClear
-                                    className="clearIcon"
-                                    onClick={() => setSearchTerm("")}
-                                />
-                            )}
-                        </div>
-                        
-                        <div className="overflow-auto" style={{ maxHeight: '300px' }}>
-                            <table className="table-auto w-full text-left border-collapse">
-                                <thead className="text-white bg-blue-200">
-                                    <tr>
-                                        <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">Nom Agent</th>
-                                        <th className="py-2 px-4 text-left">Pays</th>
-                                        <th className="py-2 px-4 text-left">Contact</th>
-                                        <th className="py-2 px-4 text-left">Adresse</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="space-y-2">
-                                    {filteredData.map((agent, index) => (
-                                        <tr
-                                            key={agent.idAgent}
-                                            onClick={() => handleSelectAg(agent)}
-                                            className={`hover:bg-blue-200 ${agent === selectedAgent ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${agent === selectedAgent ? 'selectedRow' : ''}`}
-                                        ><td>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={agent === selectedAgent}
-                                                    readOnly
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">{agent.nomAgent}</td>
-                                            <td className="py-2 px-4">{agent.paysAgent}</td>
-                                            <td className="py-2 px-4">{agent.contactAgent}</td>
-                                            <td className="py-2 px-4">{agent.adresseAgent}</td>
+                                            <td className="py-2 px-4">{trans.numMWL}</td>
+                                            <td>{new Date(trans.dateDestination).toLocaleDateString('fr-FR')}</td>
+                                            <td>{new Date(trans.dateEmission).toLocaleDateString('fr-FR')}</td>
                                         </tr>
                                     ))}
 
@@ -593,7 +543,7 @@ const filteredAerienne = transAeriennes.filter(
             {/* Container for Toast notifications */}
             <ToastContainer />
         </div>
-  )
+    )
 }
 
 export default AjoutMarchandisehwb

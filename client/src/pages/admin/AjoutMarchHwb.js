@@ -1,6 +1,9 @@
 import React from 'react'
 import AjoutMarchandisehwb from '../../components/admin/marchandises/HWB/ajout/AjoutMarchandisehwb'
-const AjoutMarchHWB = () => {
+import { Dialog, IconButton, DialogContent } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { ToastContainer } from 'react-toastify';
+const AjoutMarchHWB = ({ handleClose,open, allMarchandiseHwb, isEditMode, selectedPerson }) => {
   return (
     <Dialog
             open={open}
