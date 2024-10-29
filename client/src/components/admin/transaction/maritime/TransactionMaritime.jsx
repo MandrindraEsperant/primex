@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
-import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
+import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
@@ -17,7 +17,7 @@ const TransactionMaritime = () => {
         try {
             const response = await axios.get("http://localhost:3001/transactionMaritime/");
             setData(response.data);
-            // console.log(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
@@ -135,11 +135,15 @@ const TransactionMaritime = () => {
                 <tr >
                     <th>#</th>
                     <th>N° MBL</th>
-                    <th>ID Transport</th>
-                    <th>ID Agent Destinataire</th>
-                    <th>ID Agent EXpediteur</th>
-                    <th>Date destination</th>
-                    <th>Date Emission</th>
+                    <th>N° IMO</th>
+                    <th>Nom de l'armateur</th>
+                    <th>date de chargement</th>
+                    <th>Pays de chargement</th>
+                    <th>Pays de déchargement</th>
+                    <th>Nom d'agent destinataire</th>
+                    <th>Nom d'agent expediteur</th>
+                    <th>Date Emission </th>
+                    <th>Date d'arriver prevue</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -158,9 +162,13 @@ const TransactionMaritime = () => {
                             />
                         </td>
                         <td>{item.numMBL}</td>
-                        <td>{item.idTransport}</td>
-                        <td>{item.idAgentDest}</td>
-                        <td>{item.idAgentExp}</td>
+                        <td>{item.TransMaritime.numIMO}</td>
+                        <td>{item.TransMaritime.armateur}</td>
+                        <td>{ new Date(item.TransMaritime.dateChargement).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.TransMaritime.paysChargement}</td>
+                        <td>{item.TransMaritime.paysDechargement}</td>
+                        <td>{item.agentDest.nomAgent}</td>
+                        <td>{item.agentExp.nomAgent}</td>
                         <td>{new Date(item.dateDestination).toLocaleDateString('fr-FR')}</td>
                         <td>{new Date(item.dateEmission).toLocaleDateString('fr-FR')}</td>
                         <td className="dt-cell-action">

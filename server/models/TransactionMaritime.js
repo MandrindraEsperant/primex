@@ -80,4 +80,9 @@ TransactionMaritime.init(
   }
 );
 
+TransactionMaritime.belongsTo(Agent, { as: 'agentExp', foreignKey: 'idAgentExp' });
+TransactionMaritime.belongsTo(Agent, { as: 'agentDest', foreignKey: 'idAgentDest' });
+
+TransactionMaritime.belongsTo(TransportMaritime, { foreignKey: 'idTransport' });
+
 module.exports = TransactionMaritime;

@@ -79,5 +79,9 @@ TransactionAerienne.init(
     }, 
   }
 );
+TransactionAerienne.belongsTo(Agent, { as: 'agentExp', foreignKey: 'idAgentExp' });
+TransactionAerienne.belongsTo(Agent, { as: 'agentDest', foreignKey: 'idAgentDest' });
+
+TransactionAerienne.belongsTo(TransportAerienne, { foreignKey: 'idTransport' });
 
 module.exports = TransactionAerienne;

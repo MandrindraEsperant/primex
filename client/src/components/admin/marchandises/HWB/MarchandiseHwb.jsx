@@ -6,7 +6,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-import AjoutMarchHWB from '../../../../pages/admin/AjoutMarchHwb';
 const MarchandiseHwb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -129,12 +128,7 @@ const MarchandiseHwb = () => {
                     <button className="addButton" onClick={handleClickOpen}>
                         <MdAdd /> Ajouter
                     </button>
-                    <AjoutMarchHWB
-                        open={open}
-                        allMarchandiseHWB={allMarchandiseHWB}
-                        handleClose={handleClose}
-                        isEditMode={isEditMode}
-                        selectedPerson={selectedPerson} />
+                    
 
                 </div>
                 <section className="content-area-table pd-5">

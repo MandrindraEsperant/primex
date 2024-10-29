@@ -1,4 +1,6 @@
 const TransactionAerienne = require("../models/TransactionAerienne");
+const Agent = require("../models/Agent");
+const TransAerienne = require("../models/TransAerienne");
 const IRepository = require("../interfaces/IRepository");
 
 class TransactionAerienneRepository extends IRepository {
@@ -15,7 +17,38 @@ class TransactionAerienneRepository extends IRepository {
     return await TransactionAerienne.findOne({ where: { numMWL: mwl } });
   }
   async findAll() {
-    return await TransactionAerienne.findAll();
+    return await TransactionAerienne.findAll({
+      attributes: [
+        'numMWL',
+        'dateEmission',
+        'dateDestination',
+      ],
+      include: [
+        {
+          model: TransAerienne,
+          attributes: [
+            'numVol',
+            'nomCompagnie',
+            'dateChargement',
+            'paysChargement',
+            'paysDechargement',
+          ],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Agent,
+          as: 'agentExp', // alias pour l'agent expéditeur
+          attributes: ['nomAgent'],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Agent,
+          as: 'agentDest', // alias pour l'agent destinataire
+          attributes: ['nomAgent'],
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
   }
   async update(id, TransactionData) {
     const transaction = await this.findById(id);
