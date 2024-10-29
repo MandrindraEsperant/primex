@@ -18,6 +18,7 @@ import SuiviExp from "./SuiviExp";
 import AgentP from "./AgentP";
 import TransactionA from "./TransactionA";
 import TransactionM from "./TransactionM";
+import MarchandiseHWB from "./MarchandiseHwb";
 const AdminRouter = () => {
   return (
     <Routes>
@@ -37,6 +38,7 @@ const AdminRouter = () => {
         <Route path="agent" element={<AgentP />} />
         <Route path="transactionaerienne" element={<TransactionA />} />
         <Route path="transactionmaritime" element={<TransactionM />} />
+        <Route path="marchandisehwb" element={<MarchandiseHWB />} />
 
         <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />
