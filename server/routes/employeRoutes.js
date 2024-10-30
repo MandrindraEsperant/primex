@@ -15,5 +15,6 @@ router.get('/', (req, res) => employeController.getAllEmployes(req, res));
 router.put('/:id', (req, res) => employeController.updateEmploye(req, res));
 router.delete('/:id', (req, res) => employeController.deleteEmploye(req, res));
 router.post('/login', (req, res) => employeController.authentification(req, res));
+router.post('/reset', (req, res) => employeController.resetPassword(req, res));
 
 module.exports = router;

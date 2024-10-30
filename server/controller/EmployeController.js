@@ -2,7 +2,6 @@ class EmployeController {
   constructor(employeService) {
     this.employeService = employeService;
   }
-
   async createEmploye(req, res) {
     try {
       const employe = await this.employeService.createEmploye(req.body);
@@ -11,7 +10,6 @@ class EmployeController {
       res.status(500).send(error.message);
     }
   }
-
   async authentification(req, res) {
     try {
       const { email, password } = req.body;
@@ -26,7 +24,20 @@ class EmployeController {
       }
     }
   }
-
+  async resetPassword(req, res) {
+    try {
+        const { email } = req.body;
+        // Appel au service pour envoyer l'email avec le code temporaire
+        const message = await this.employeService.resetPwd(email);
+        res.status(200).send({ message: "Code d'accès temporaire envoyé avec succès." });
+    } catch (error) {
+        if (error.message) {
+            res.status(401).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: "Erreur lors de l'envoi du code temporaire." });
+        }
+    }
+}
   async getEmploye(req, res) {
     try {
       const employe = await this.employeService.getEmployeById(req.params.id);
@@ -39,7 +50,6 @@ class EmployeController {
       res.status(500).send(error.message);
     }
   }
-
   async getAllEmployes(req, res) {
     try {
       const employes = await this.employeService.getAllEmployes();
@@ -48,7 +58,6 @@ class EmployeController {
       res.status(500).send(error.message);
     }
   }
-
   async updateEmploye(req, res) {
     try {
       const employe = await this.employeService.updateEmploye(
@@ -60,7 +69,6 @@ class EmployeController {
       res.status(500).send(error.message);
     }
   }
-
   async deleteEmploye(req, res) {
     try {
       await this.employeService.deleteEmploye(req.params.id);
