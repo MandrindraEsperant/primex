@@ -5,9 +5,8 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
-const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selectedPerson }) => {
-
-    const [transAeriennes, setTransAeriennes] = useState([]);
+const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPerson }) => {
+  const [transAeriennes, setTransAeriennes] = useState([]);
     const [error, setError] = useState();
     const [selectedAerienne, setSelectedAerienne] = useState(null);
     const [searchTermT, setSearchTermT] = useState("");
@@ -27,13 +26,13 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
         poid: "",
         volume: "",
         nbColis: "",
-        HWB: "",
+        HBL: "",
         creerPar: idEmploye,
         modifierPAr: idEmploye
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/hwbTransaction/");
+        const response = await fetch("http://localhost:3001/hblTransaction/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -46,12 +45,12 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
             setSelectedAerienne(trans); // Sélectionner un nouveau transport
             setState(prevState => ({
                 ...prevState,
-                HWB: trans.numHWB,
-                idHWBTransaction: trans.idHWBTransaction,
-                numHWB: trans.numHWB,
+                HBL: trans.numHBL,
+                idHBLTransaction: trans.idHBLTransaction,
+                numHBL: trans.numHBL,
                 idExpediteur: trans.idExpediteur,
                 idDestinataire: trans.idDestinataire,
-                dateHWBTransaction: trans.dateHWBTransaction,
+                dateHBLTransaction: trans.dateHBLTransaction,
             }));
         }
     };
@@ -79,7 +78,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                 nbColis: selectedPerson.nbColis || '',
                 volume: selectedPerson.volume || '',
                 poid: selectedPerson.poid || '',
-                HWB: selectedPerson.HWB || '',
+                HBL: selectedPerson.HBL || '',
                 creerPar: selectedPerson.creerPar || idEmploye,
                 modifierPar: idEmploye,
             });
@@ -94,7 +93,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                 poid: "",
                 volume: "",
                 nbColis: "",
-                HWB: "",
+                HBL: "",
                 creerPar: idEmploye,
                 modifierPAr: idEmploye
             });
@@ -110,7 +109,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
         return state.description && state.nature && state.poid && state.volume && state.nbColis && state.numConteneur && state.typeConteneur && state.numPlomb;
     };
     const isStep1Valid = () => {
-        return state.HWB;
+        return state.HBL;
     };
     const next = () => {
         if (formNo === 1 && isStep1Valid()) {
@@ -130,7 +129,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
         e.preventDefault();
         if (isEditMode) {
             axios
-                .put(`http://localhost:3001/marchandiseHWB/${selectedPerson.idMarchandiseHWB}`, state)
+                .put(`http://localhost:3001/marchandiseHBL/${selectedPerson.idMarchandiseHBL}`, state)
                 .then((res) => {
                     toast.success("Marchandise modifié avec succès");
                     Swal.fire({
@@ -140,7 +139,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allMarchandiseHwb();
+                    allMarchandiseHBL();
                     handleClose();
                 })
                 .catch((err) => {
@@ -152,7 +151,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                 });
         } else {
             axios
-                .post("http://localhost:3001/marchandiseHWB/", state)
+                .post("http://localhost:3001/marchandiseHBL/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
@@ -161,7 +160,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allMarchandiseHwb();
+                    allMarchandiseHBL();
                     handleClose();
                 })
                 .catch((err) => {
@@ -175,8 +174,8 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
     };
     const filteredAerienne = transAeriennes.filter(
         (trans) =>
-            trans.numHWB.toLowerCase().includes(searchTermT.toLowerCase()) ||
-            trans.dateHWBTransaction.toLowerCase().includes(searchTermT.toLowerCase())
+            trans.numHBL.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.dateHBLTransaction.toLowerCase().includes(searchTermT.toLowerCase())
     );
 
     return (
@@ -202,7 +201,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
 
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
                                 {i === 1 && 'INFORMATION MARCHANDISE'}
-                                {i === 0 && 'TRANSACTION AERIENNE HWB'}
+                                {i === 0 && 'TRANSACTION AERIENNE HBL'}
                             </div>
                         </div>
 
@@ -391,19 +390,19 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                     <div className="w-1/2">
                         <div className="flex flex-col mb-3">
                             <label
-                                htmlFor="HWB"
+                                htmlFor="HBL"
                                 className="text-lg font-semibold mb-2 "
                             >
-                                HWB
+                                HBL
                             </label>
                             <input
-                                value={state.HWB}
+                                value={state.HBL}
                                 onChange={inputHandle}
                                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
                                 type="number"
-                                name="HWB"
-                                placeholder="HWB"
-                                id="HWB"
+                                name="HBL"
+                                placeholder="HBL"
+                                id="HBL"
                                 readOnly
                             />
                         </div>
@@ -471,9 +470,9 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                                                     readOnly
                                                 />
                                             </td>
-                                            <td className="py-2 px-4">{trans.numHWB}</td>
+                                            <td className="py-2 px-4">{trans.numHBL}</td>
                                             <td>{trans.idExpediteur}</td>
-                                            <td>{new Date(trans.dateHWBTransaction).toLocaleDateString('fr-FR')}</td>
+                                            <td>{new Date(trans.dateHBLTransaction).toLocaleDateString('fr-FR')}</td>
                                         </tr>
                                     ))}
 
@@ -484,16 +483,10 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                     </div>
                 </div>
             )}
-
-
-
-
-
-
             {/* Container for Toast notifications */}
             <ToastContainer />
         </div>
     )
 }
 
-export default AjoutMarchandisehwb
+export default AjoutMarchHbl

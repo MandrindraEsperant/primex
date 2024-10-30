@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
@@ -5,33 +6,33 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-import AjoutTransactionAe from '../../../../pages/admin/AjoutTransactionA';
-
-const TransactionAerien = () => {
+import AjoutTransHwbP from '../../../../pages/admin/AjoutTransHwbP';
+const TransactionHwb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
 
-    const allTransactionAerienne = async () => {
+    const allTransactionHwb = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/transactionAerienne/");
+            const response = await axios.get("http://localhost:3001/hwbTransaction/");
             setData(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
     };
 
-    const handleEditClickOpen = (transactionAerienne) => {
-        setSelectedPerson(transactionAerienne);
+    const handleEditClickOpen = (transactionHbl) => {
+        setSelectedPerson(transactionHbl);
         setIsEditMode(true); // Mode modification
         setOpen(true);
     };
    // SUPPRESSION
     const supprimer = (id) => {
         axios
-            .delete("http://localhost:3001/transactionAerienne/" + id)
+            .delete("http://localhost:3001/hwbTransaction/" + id)
             .then((res) => {
-                allTransactionAerienne();
+                allTransactionHwb();
             })
             .catch((err) => alert(err));
     };
@@ -53,7 +54,7 @@ const TransactionAerien = () => {
         });
     };
   useEffect(() => {
-        allTransactionAerienne();
+        allTransactionHwb();
     }, []);
     const handleClickOpen = () => {
         setSelectedPerson(null);
@@ -70,19 +71,19 @@ const TransactionAerien = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 7;
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idtransactionAerienne === person.idtransactionAerienne) {
+        if (selectedPerson && selectedPerson.idHWBTransaction === person.idHWBTransaction) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
     const filteredData = data.filter(item =>
-        item.numMWL.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idTransport.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.numHWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.idMWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idAgentDest.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentExp.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateEmission.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateDestination.toLowerCase().includes(searchTerm.toLowerCase()) 
+        item.idExpediteur.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.dateHWBTransaction.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.idDestinataire.toLowerCase().includes(searchTerm.toLowerCase()) 
     );
 
     // Pagination logic
@@ -96,7 +97,7 @@ const TransactionAerien = () => {
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="title">LISTE DE TOUT LES TRANSACTIONS AERIENNE</h3>
+    <h3 className="title">LISTE DE TOUT LES TRANSACTIONS HWB</h3>
     <div className="flex flex-col space-y-6">
         <div className="actionsContainer">
             <div className="searchContainer">
@@ -118,9 +119,9 @@ const TransactionAerien = () => {
             <button className="addButton" onClick={handleClickOpen}>
                 <MdAdd /> Ajouter
             </button>
-            <AjoutTransactionAe
+            <AjoutTransHwbP
                 open={open}
-                allTransactionAerienne={allTransactionAerienne}
+                allTransactionHwb={allTransactionHwb}
                 handleClose={handleClose}
                 isEditMode={isEditMode}
                 selectedPerson={selectedPerson} />
@@ -132,23 +133,18 @@ const TransactionAerien = () => {
             <thead>
                 <tr >
                     <th>#</th>
-                    <th>N° MWL</th>
-                    <th>N° de vol</th>
-                    <th>Compagnie</th>
-                    <th>date de chargement</th>
-                    <th>Pays de chargement</th>
-                    <th>Pays de déchargement</th>
-                    <th>Agent destinataire</th>
-                    <th>Agent expediteur</th>
-                    <th>Date Emission </th>
-                    <th>Date d'arriver prevue</th>
+                    <th>N° HWB</th>
+                    <th>ID MWB</th>
+                    <th>Date Transaction</th>
+                    <th> Destinataire</th>
+                    <th>Expediteur</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {currentData.map(item => (
                     <tr
-                        key={item.idTransactionAerienne}
+                        key={item.idHWBTransaction}
                         onClick={() => handleSelect(item)}
                         className={item === selectedPerson ? 'selectedRow' : ''}
                     >
@@ -159,21 +155,16 @@ const TransactionAerien = () => {
                                 readOnly
                             />
                         </td>
-                        <td>{item.numMWL}</td>
-                        <td>{item.TransAerienne.numVol}</td>
-                        <td>{item.TransAerienne.nomCompagnie}</td>
-                        <td>{ new Date(item.TransAerienne.dateChargement).toLocaleDateString('fr-FR')}</td>
-                        <td>{item.TransAerienne.paysChargement}</td>
-                        <td>{item.TransAerienne.paysDechargement}</td>
-                        <td>{item.agentDest.nomAgent}</td>
-                        <td>{item.agentExp.nomAgent}</td>
-                        <td>{new Date(item.dateEmission).toLocaleDateString('fr-FR')}</td>
-                        <td>{new Date(item.dateDestination).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.numHWB}</td>
+                        <td>{item.idMWB}</td>
+                        <td>{ new Date(item.dateHWBTransaction).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.idExpediteur}</td>
+                        <td>{item.idDestinataire}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}
-                                onEditClick={() => handleEditClickOpen(item.idTransactionAerienne)}
-                                onDeleteClick={() => handleDeleteClick(item.idTransactionAerienne)}
+                                onEditClick={() => handleEditClickOpen(item.idHWBTransaction)}
+                                onDeleteClick={() => handleDeleteClick(item.idHWBTransaction)}
                             />
                         </td>
                     </tr>
@@ -200,4 +191,4 @@ const TransactionAerien = () => {
   )
 }
 
-export default TransactionAerien
+export default TransactionHwb

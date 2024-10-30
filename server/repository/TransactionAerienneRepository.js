@@ -19,6 +19,7 @@ class TransactionAerienneRepository extends IRepository {
   async findAll() {
     return await TransactionAerienne.findAll({
       attributes: [
+        'idTransactionAerienne',
         'numMWL',
         'dateEmission',
         'dateDestination',

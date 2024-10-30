@@ -2,7 +2,7 @@ const HBLTransaction = require('../models/HBLTransaction');
 const IRepository = require('../interfaces/IRepository');
 
 // const { Op } = require('sequelize');
-
+ 
 class HBLTransactionRepository extends IRepository {
   async create(Data) {
     return await HBLTransaction.create(Data);

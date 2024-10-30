@@ -1,21 +1,17 @@
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
-import AjoutTransA from '../../../../pages/admin/AjoutTransA';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-<<<<<<< HEAD
 import AjoutMarchHWB from '../../../../pages/admin/AjoutMarchHwb';
-=======
->>>>>>> origin/main
 const MarchandiseHwb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
 
-    const allMarchandiseHWB = async () => {
+    const allMarchandiseHwb = async () => {
         try {
             const response = await axios.get("http://localhost:3001/marchandiseHWB/");
             setData(response.data);
@@ -36,7 +32,7 @@ const MarchandiseHwb = () => {
         axios
             .delete("http://localhost:3001/marchandiseHWB/" + id)
             .then((res) => {
-                allMarchandiseHWB();
+                allMarchandiseHwb();
             })
             .catch((err) => alert(err));
     };
@@ -60,7 +56,7 @@ const MarchandiseHwb = () => {
 
 
     useEffect(() => {
-        allMarchandiseHWB();
+        allMarchandiseHwb();
     }, []);
 
     const handleClickOpen = () => {
@@ -134,7 +130,7 @@ const MarchandiseHwb = () => {
                     </button>
                     <AjoutMarchHWB
                         open={open}
-                        allMarchandiseHWB={allMarchandiseHWB}
+                        allMarchandiseHwb={allMarchandiseHwb}
                         handleClose={handleClose}
                         isEditMode={isEditMode}
                         selectedPerson={selectedPerson} />
@@ -155,6 +151,7 @@ const MarchandiseHwb = () => {
                             <th>Poids</th>
                             <th>Volume</th>
                             <th>HWB</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -171,13 +168,11 @@ const MarchandiseHwb = () => {
                                         readOnly
                                     />
                                 </td>
-                                <td>{item.idMarchandiseHWB}</td>
                                 <td>{item.description}</td>
                                 <td>{item.numConteneur}</td>
                                 <td>{item.typeConteneur}</td>
                                 <td>{item.numPlomb}</td>
                                 <td>{item.nature}</td>
-                                <td>{item.villeChargement}</td>
                                 <td>{item.nbColis}</td>
                                 <td>{item.poid}</td>
                                 <td>{item.volume}</td>

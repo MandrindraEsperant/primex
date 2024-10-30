@@ -14,13 +14,9 @@ import {
   MdFlightLand,
   MdDirectionsBoat,
   MdDeliveryDining,
-<<<<<<< HEAD
   MdAttachMoney,
   MdContactMail,
 
-=======
-  MdContactMail
->>>>>>> origin/main
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -158,28 +154,7 @@ const Sidebar = () => {
                 </span>
                 <span className="menu-link-text">Importation</span>
               </Link>
-            </li> */}
-            <li className="menu-item">
-              <Link to="/admin/transactionHouse"
-                className={`menu-link ${location.pathname === '/admin/transactionHouse' ? 'active' : ''}`}
-              >
-                <span className="menu-link-icon">
-                  <MdFlightLand size={20} />
-                </span>
-                <span className="menu-link-text">Transaction fils</span>
-              </Link>
             </li>
-            {/* <li className="menu-item">
-              <Link to="/admin/exportation"
-
-                className={`menu-link ${location.pathname === '/admin/exportation' ? 'active' : ''}`}
-              >
-                <span className="menu-link-icon">
-                  <MdFlightLand size={20} />
-                </span>
-                <span className="menu-link-text">Exportation</span>
-              </Link>
-            </li> */}
              <li className="menu-item">
               <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transportaerienne' || location.pathname === '/admin/transportmaritime' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
@@ -211,26 +186,8 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdDirectionsBoat size={20} />
                 </span>
-                <span className="menu-link-text">Marchandise</span>
+                <Link to="/admin/marchandise"><span className="menu-link-text">Marchandise</span></Link>
               </div>
-              <ul className="submenu">
-                <li className="submenu-item">
-                  <Link to="/admin/marchandiseHBL" className="menu-link">
-                    <span className="menu-link-icon">
-                      <MdDirectionsBoat size={18} />
-                    </span>
-                    <span className="menu-link-text">HBL</span>
-                  </Link>
-                </li>
-                <li className="submenu-item">
-                  <Link to="/admin/marchandiseHWB" className="menu-link">
-                    <span className="menu-link-icon">
-                      <MdFlightLand size={18} />
-                    </span>
-                    <span className="menu-link-text">HWB</span>
-                  </Link>
-                </li>
-              </ul>
             </li>
             <li className="menu-item">
               <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transactionaerienne' || location.pathname === '/admin/transactionmaritime' ? 'active' : ''}`}>
@@ -239,24 +196,6 @@ const Sidebar = () => {
                   <Link to="/admin/transaction"><span className="menu-link-text">Transaction</span></Link>
                 </span>                
               </div>
-             {/*  <ul className="submenu">
-                <li className="submenu-item">
-                  <Link to="/admin/transactionmaritime" className="menu-link">
-                    <span className="menu-link-icon">
-                      <MdDirectionsBoat size={18} />
-                    </span>
-                    <span className="menu-link-text">Maritime</span>
-                  </Link>
-                </li>
-                <li className="submenu-item">
-                  <Link to="/admin/transactionaerienne" className="menu-link">
-                    <span className="menu-link-icon">
-                      <MdFlightLand size={18} />
-                    </span>
-                    <span className="menu-link-text">Aérienne</span>
-                  </Link>
-                </li>
-              </ul> */}
             </li>
 
 

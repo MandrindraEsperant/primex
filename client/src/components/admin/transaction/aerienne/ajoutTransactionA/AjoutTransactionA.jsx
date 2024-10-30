@@ -19,8 +19,6 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     const [searchTermT, setSearchTermT] = useState("");
     const [data, setData] = useState([]);
 
-
-
     const formArray = [1, 2, 3];
     const [formNo, setFormNo] = useState(formArray[0]);
     const token = localStorage.getItem("token");

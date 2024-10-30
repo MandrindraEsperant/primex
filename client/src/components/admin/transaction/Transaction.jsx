@@ -2,6 +2,8 @@ import { useState } from "react"
 import React from 'react'
 import TransactionAerien from "./aerienne/TransactionAerien";
 import TransactionMaritime from "./maritime/TransactionMaritime";
+import TransactionHbl from "./hbl/TransactionHbl";
+import TransactionHwb from "./hwb/TransactionHwb";
 
 const Transaction = () => {
     const [activeTab, setActiveTab] = useState('maritime'); // Onglet par défaut: Maritime
@@ -30,7 +32,7 @@ const Transaction = () => {
           Transaction Aérienne
         </div>
         <div
-          onClick={() => setActiveTab('maritime')}
+          onClick={() => setActiveTab('hbl')}
           className={`px-4 py-2 cursor-pointer transition-colors duration-300 rounded-t-lg ${
             activeTab === 'hbl'
               ? 'bg-white text-blue-600  border-x border-t border-blue-500 -mb-0.5'
@@ -40,7 +42,7 @@ const Transaction = () => {
           Transaction HBL
         </div>
         <div
-          onClick={() => setActiveTab('aerienne')}
+          onClick={() => setActiveTab('hwb')}
           className={`px-4 py-2 cursor-pointer transition-colors duration-300 rounded-t-lg ${
             activeTab === 'hwb'
               ? 'bg-white text-blue-600 border-x border-t border-blue-500 -mb-0.5'
@@ -55,8 +57,8 @@ const Transaction = () => {
         <div className="p-4">
           {activeTab === 'maritime' && <TransactionMaritime />}
           {activeTab === 'aerienne' && <TransactionAerien />}
-          {activeTab === 'hbl' && <TransactionMaritime />}
-          {activeTab === 'hwb' && <TransactionAerien />}
+          {activeTab === 'hbl' && <TransactionHbl />}
+          {activeTab === 'hwb' && <TransactionHwb />}
         </div>
       </div>
     );
