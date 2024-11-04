@@ -78,8 +78,6 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
     }
   };
 
-
-
   const inputHandle = (e) => {
     setState({
       ...state,
@@ -99,7 +97,7 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
     if (formNo === 1 && isStep1Valid()) {
       setFormNo(formNo + 1);
     } else if (formNo === 2 && isStep2Valid()) {
-      finalSubmit(); // Appeler finalSubmit ici
+      finalSubmit(); 
     } else {
       toast.error('Please fill in all the required fields');
     }
@@ -128,8 +126,6 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
         }
       });
   };
-
-
 
   // POUR LE TABLEAU AERIENNE 
 
@@ -161,29 +157,25 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
 
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
-      <div className="flex items-center w-full mb-4"> {/* Ajout d'une marge en bas ici */}
+      <div className="flex items-center w-full mb-4"> 
         {formArray.map((v, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center w-full">
-              {/* Étape actuelle avec icône ou numéro */}
-              <div
+                <div
                 className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
-                  ? 'bg-green-500' // Étape terminée
+                  ? 'bg-green-500' 
                   : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
-                    ? 'bg-green-500' // Étape en cours
-                    : 'bg-slate-400' // Étape non atteinte
+                    ? 'bg-green-500' 
+                    : 'bg-slate-400'
                   } flex justify-center items-center`}
               >
-                {formNo - 1 > i ? '✓' : v} {/* Icône de validation ou numéro */}
+                {formNo - 1 > i ? '✓' : v} 
               </div>
-              {/* Informations sous l'étape, stylisées en bleu ciel */}
-              <div className="text-sm mt-1 text-center text-green-500 font-semibold">
+                 <div className="text-sm mt-1 text-center text-green-500 font-semibold">
                 {i === 0 && 'EXPORTATION'}
                 {i === 1 && 'TRANSPORT'}
               </div>
             </div>
-
-            {/* Trait de liaison entre les étapes, collé aux étapes */}
             {i !== formArray.length - 1 && (
               <div
                 className={`h-[2px] w-full ${formNo - 1 > i
@@ -192,14 +184,12 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
                     ? 'bg-green-500'
                     : 'bg-slate-400'
                   }`}
-                style={{ marginLeft: '0px', marginRight: '0px' }} // Colle la ligne aux étapes
+                style={{ marginLeft: '0px', marginRight: '0px' }} 
               ></div>
             )}
           </React.Fragment>
         ))}
       </div>
-
-      {/* Form Step 1 */}
       {formNo === 1 && (
         <div>
           <div className="flex flex-col mb-3">
@@ -240,7 +230,6 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
               <option value="maritime">Maritime</option>
             </select>
           </div>
-
           <div className="mt-4 gap-3 flex justify-center items-center mt-8">
             {/* Previous button (disabled on the first step) */}
             <button
@@ -263,8 +252,6 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
           </div>
         </div>
       )}
-
-      {/* Form Step 2 */}
       {formNo === 2 && (
         <div className="flex flex-row gap-4">
           <div className="w-2/3">
@@ -420,8 +407,6 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
               </div>
             )}
           </div>
-
-          {/* Tableau Details*/}
           <div className="w-1/3 p-6" style={{ maxHeight: '400px' }}>
             <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">
               {state.modeTransport === "aerienne" ? "Transport aérienne disponible" : "Transport maritime disponible"}
@@ -488,10 +473,10 @@ function AjoutExportation(handleClose, allClient, isEditMode, selectedPerson) {
                 </table>
               )}</div>
 
-          </div></div>
+          </div>
+          </div>
 
       )}
-      {/* Container for Toast notifications */}
       <ToastContainer />
     </div>
   );

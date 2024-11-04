@@ -22,6 +22,9 @@ import MarchandiseHWB from "./MarchandiseHwb";
 import TransactionP from "./Transaction";
 import TransactionHblP from "./TransactionHblP";
 import TransactioHwb from "./TransactionHwb";
+import SuiviP from "./Suivi";
+import Profil from "./Profil";
+import EditProfilP from "./EditProfil";
 const AdminRouter = () => {
   return (
     <Routes>
@@ -44,6 +47,11 @@ const AdminRouter = () => {
         <Route path="transactionHwb" element={<TransactioHwb />} />
 
         <Route path="marchandisehwb" element={<MarchandiseHWB />} />
+        <Route path="suivi" element={<SuiviP />} />
+        <Route path="profil" element={<Profil />} />
+        <Route path="profiledit" element={<EditProfilP />} />
+
+
 
         <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />

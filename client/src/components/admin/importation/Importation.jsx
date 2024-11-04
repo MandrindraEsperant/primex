@@ -33,8 +33,7 @@ const Importation = () => {
       })
       .catch((err) => alert(err));
   };
-
-   const handleDeleteClick = (id) => {
+  const handleDeleteClick = (id) => {
     Swal.fire({
       title: "Êtes-vous sûr?",
       text: "De supprimmer ?",
@@ -50,7 +49,6 @@ const Importation = () => {
       }
     });
   };
-
   useEffect(() => {
     allImportation();
   }, []);
@@ -96,22 +94,19 @@ const Importation = () => {
         <div className="tableContainer">
           <div className="actionsContainer">
             <div className="searchContainer">
-              <MdSearch className="searchIcon" />
-              <input
+              <MdSearch className="searchIcon" /><input
                 type="text"
                 placeholder="Recherche..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="searchInput"
-              />
-              {searchTerm && (
+              />              {searchTerm && (
                 <MdClear
                   className="clearIcon"
                   onClick={() => setSearchTerm("")}
                 />
               )}
-            </div>
-            <button className="addButton" onClick={handleClickOpen}>
+            </div> <button className="addButton" onClick={handleClickOpen}>
               <MdAdd /> Ajouter
             </button>
             <AjoutImportPage open={open} handleClose={handleClose} />
@@ -164,9 +159,8 @@ const Importation = () => {
               (pageNumber) => (
                 <button
                   key={pageNumber}
-                  className={`pageButton ${
-                    currentPage === pageNumber ? "activePage" : ""
-                  }`}
+                  className={`pageButton ${currentPage === pageNumber ? "activePage" : ""
+                    }`}
                   onClick={() => handlePageChange(pageNumber)}
                 >
                   {pageNumber}

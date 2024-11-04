@@ -5,15 +5,16 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-import AjoutMarchHblP from '../../../../pages/admin/AjoutMarchHblP';
-const MarchandiseHbl = () => {
-  const [open, setOpen] = useState(false);
+import AjoutSuivHbl from '../../../../pages/admin/AjoutSuivHbl';
+import AjoutSuiviHbl from './AjoutSuiviHbl';
+const SuiviHbl = () => {
+    const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
 
-    const allMarchandiseHBL = async () => {
+    const allsuiviHBL = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/marchandiseHBL/");
+            const response = await axios.get("http://localhost:3001/suiviHBL/");
             setData(response.data);
             // console.log(response.data);
         } catch (error) {
@@ -21,8 +22,8 @@ const MarchandiseHbl = () => {
         }
     };
 
-    const handleEditClickOpen = (marchandiseHBL) => {
-        setSelectedPerson(marchandiseHBL);
+    const handleEditClickOpen = (suiviHBL) => {
+        setSelectedPerson(suiviHBL);
         setIsEditMode(true); // Mode modification
         setOpen(true);
     };
@@ -30,9 +31,9 @@ const MarchandiseHbl = () => {
     // SUPPRESSION
     const supprimer = (id) => {
         axios
-            .delete("http://localhost:3001/marchandiseHBL/" + id)
+            .delete("http://localhost:3001/suiviHBL/" + id)
             .then((res) => {
-                allMarchandiseHBL();
+                allsuiviHBL();
             })
             .catch((err) => alert(err));
     };
@@ -56,7 +57,7 @@ const MarchandiseHbl = () => {
 
 
     useEffect(() => {
-        allMarchandiseHBL();
+        allsuiviHBL();
     }, []);
 
     const handleClickOpen = () => {
@@ -75,23 +76,17 @@ const MarchandiseHbl = () => {
     const itemsPerPage = 7;
 
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idMarchandiseHBL === person.idMarchandiseHBL) {
+        if (selectedPerson && selectedPerson.idSuiviHBL === person.idSuiviHBL) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
     const filteredData = data.filter(item =>
-        item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.numConteneur.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.typeConteneur.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.numPlomb.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.villeChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.nature.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.nbColis.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.poid.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.volume.toLowerCase().includes(searchTerm.toLowerCase())||
-        item.HBL.toLowerCase().includes(searchTerm.toLowerCase())
+        item.numHBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.etape.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.dateEtape.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.status.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Pagination logic
@@ -106,7 +101,7 @@ const MarchandiseHbl = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-            <h3 className="title">LISTE DE TOUT LES MARCHANDISE HBL</h3>
+            <h3 className="title">SUIVIS HBL</h3>
             <div className="flex flex-col space-y-6">
                 <div className="actionsContainer">
                     <div className="searchContainer">
@@ -128,13 +123,6 @@ const MarchandiseHbl = () => {
                     <button className="addButton" onClick={handleClickOpen}>
                         <MdAdd /> Ajouter
                     </button>
-                    <AjoutMarchHblP
-                        open={open}
-                        allMarchandiseHBL={allMarchandiseHBL}
-                        handleClose={handleClose}
-                        isEditMode={isEditMode}
-                        selectedPerson={selectedPerson}/>
-
                 </div>
                 <section className="content-area-table pd-5">
                 <div className="data-table-diagram">
@@ -142,22 +130,18 @@ const MarchandiseHbl = () => {
                     <thead>
                         <tr >
                             <th>#</th>
-                            <th>Description</th>
-                            <th>N° Conteneur</th>
-                            <th>Type Conteneur</th>
-                            <th>N° Plomb</th>
-                            <th>Nature</th>
-                            <th>Nombre colis</th>
-                            <th>Poids</th>
-                            <th>Volume</th>
-                            <th>HBL</th>
+                            <th>N° HBL</th>
+                            <th>Etape</th>
+                            <th>Date etape</th>
+                            <th>Status</th>
+                            <th>Commentaire</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentData.map(item => (
                             <tr
-                                key={item.idMarchandiseHBL}
+                                key={item.idSuiviHBL}
                                 onClick={() => handleSelect(item)}
                                 className={item === selectedPerson ? 'selectedRow' : ''}
                             >
@@ -168,27 +152,23 @@ const MarchandiseHbl = () => {
                                         readOnly
                                     />
                                 </td>
-                                <td>{item.description}</td>
-                                <td>{item.numConteneur}</td>
-                                <td>{item.typeConteneur}</td>
-                                <td>{item.numPlomb}</td>
-                                <td>{item.nature}</td>
-                                <td>{item.nbColis}</td>
-                                <td>{item.poid}</td>
-                                <td>{item.volume}</td>
-                                <td>{item.HBL}</td>
+                                <td>{item.numHBL}</td>
+                                <td>{item.etape}</td>
+                                <td>{ new Date(item.dateEtape).toLocaleDateString('fr-FR') }</td>
+                                <td>{item.status}</td>
+                                <td>{item.commentaire}</td>
                                 <td className="dt-cell-action">
                                     <AreaTableAction
                                         id={item.id}
-                                        onEditClick={() => handleEditClickOpen(item.idMarchandiseHBL)}
-                                        onDeleteClick={() => handleDeleteClick(item.idMarchandiseHBL)}
+                                        onEditClick={() => handleEditClickOpen(item.idSuiviHBL)}
+                                        onDeleteClick={() => handleDeleteClick(item.idSuiviHBL)}
                                     />
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table></div></section>
-                <div className="pagination">
+                <div className="pagination pb-2">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
                         <button
                             key={pageNumber}
@@ -202,8 +182,9 @@ const MarchandiseHbl = () => {
 
 
             </div>
+            <AjoutSuiviHbl className="pt-2"/>
         </div>
   )
 }
 
-export default MarchandiseHbl
+export default SuiviHbl

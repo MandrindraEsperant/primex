@@ -146,6 +146,16 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
+              <Link to="/admin/exportation"
+
+                className={`menu-link ${location.pathname === '/admin/exportation' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdLocalShipping size={18} />
+                </span>
+                <span className="menu-link-text">Exportation</span>
+              </Link>
+            </li>
+            <li className="menu-item">
               <Link to="/admin/importation"
 
                 className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
@@ -182,7 +192,7 @@ const Sidebar = () => {
               </ul>
             </li>
             <li className="menu-item">
-              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/marchandiseHBL' || location.pathname === '/admin/marchandiseHWB' ? 'active' : ''}`}>
+              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/marchandise' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdDirectionsBoat size={20} />
                 </span>
@@ -190,7 +200,7 @@ const Sidebar = () => {
               </div>
             </li>
             <li className="menu-item">
-              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transactionaerienne' || location.pathname === '/admin/transactionmaritime' ? 'active' : ''}`}>
+              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transaction'? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdDirectionsBoat size={20} />
                   <Link to="/admin/transaction"><span className="menu-link-text">Transaction</span></Link>
