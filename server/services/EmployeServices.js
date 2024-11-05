@@ -41,7 +41,6 @@ class EmployeService {
       // Vérification si l'utilisateur existe dans la base de données
       const employe = await this.employeRepository.findByEmail(emailEmploye);
       if (!employe) {
-        // Si l'utilisateur n'est pas trouvé, on renvoie une erreur gérée
         throw new Error("Utilisateur non trouvé");
       }
 
@@ -66,10 +65,10 @@ class EmployeService {
 
   async resetPwd(email) {
     const user = await this.employeRepository.findByEmail(email);
-    if(!user){
+    if (!user) {
       throw new Error("Utilisateur non trouvé");
     }
-    
+
     const temporaryCode = crypto.randomBytes(3).toString("hex");
 
     const transporter = nodemailer.createTransport({
@@ -97,6 +96,24 @@ class EmployeService {
     return await this.employeRepository.findAll();
   }
   async updateEmploye(id, employeData) {
+    if (employeData.newPwd, employeData.oldPwd) {
+      const verification = await this.getEmployeById(id);
+
+      const isPasswordValid = await bcrypt.compare(
+        employeData.oldPwd,
+        verification.motDePasse
+      );
+      if (!isPasswordValid) {
+        throw new Error("Mot de passe invalide");
+      }
+      employeData.motDePasse = employeData.newPwd;
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      employeData.motDePasse,
+      SALT_ROUNDS
+    );
+    employeData.motDePasse = hashedPassword;
     return await this.employeRepository.update(id, employeData);
   }
   async deleteEmploye(id) {

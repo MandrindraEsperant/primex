@@ -15,6 +15,7 @@ import {
   MdDeliveryDining,
   MdAttachMoney,
   MdContactMail,
+  MdLocalShipping,
 
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
