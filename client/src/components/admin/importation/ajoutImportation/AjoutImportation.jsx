@@ -47,46 +47,41 @@ function AjoutImportation() {
 
   const inputHandle = (e) => {
     const { name, value } = e.target;
-
-    // Vérifiez si le champ appartient à DestinateurData
     if (["nomClient", "CINClient", "emailClient"].includes(name)) {
       setState((prevState) => ({
         ...prevState,
         DestinateurData: {
           ...prevState.DestinateurData,
-          [name]: value, // Met à jour uniquement le champ dans DestinateurData
+          [name]: value, 
         },
       }));
     }
-    // Vérifiez si le champ appartient à ExpediteurData
     else if (["nomClientE", "CINClientE", "emailClientE"].includes(name)) {
       setState((prevState) => ({
         ...prevState,
         ExpediteurData: {
           ...prevState.ExpediteurData,
-          [name]: value, // Met à jour uniquement le champ dans ExpediteurData
+          [name]: value, 
         },
       }));
     }
-    // Vérifiez si le champ appartient à TransportAerienneData
+    
     else if (["nomCompagnie", "numVol"].includes(name)) {
       setState((prevState) => ({
         ...prevState,
         TransportAerienneData: {
           ...prevState.TransportAerienneData,
-          [name]: value, // Met à jour uniquement le champ dans TransportAerienneData
+          [name]: value, 
         },
       }));
-    }
-    // Gestion des champs de type date pour TransportAerienneData
+    }  
     else if (["dateDepart", "dateArriver"].includes(name)) {
-      // Si value est une date ISO, formatons-la correctement
-      const formattedDate = new Date(value).toISOString().split('T')[0]; // Format "yyyy-MM-dd"
+      const formattedDate = new Date(value).toISOString().split('T')[0]; 
       setState((prevState) => ({
         ...prevState,
         TransportAerienneData: {
           ...prevState.TransportAerienneData,
-          [name]: formattedDate, // Utiliser la valeur formatée
+          [name]: formattedDate, 
         },
       }));
     }
@@ -360,24 +355,21 @@ function AjoutImportation() {
       </h2>
       <div className="flex items-center w-full mb-4">
         {" "}
-        {/* Ajout d'une marge en bas ici */}
         {formArray.map((v, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center w-full">
-              {/* Étape actuelle avec icône ou numéro */}
               <div
                 className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
-                  ? "bg-green-500" // Étape terminée
+                  ? "bg-green-500"
                   : formNo - 1 === i ||
                     formNo - 1 === i + 1 ||
                     formNo === formArray.length
-                    ? "bg-green-500" // Étape en cours
-                    : "bg-slate-400" // Étape non atteinte
+                    ? "bg-green-500" 
+                    : "bg-slate-400" 
                   } flex justify-center items-center`}
               >
-                {formNo - 1 > i ? "✓" : v} {/* Icône de validation ou numéro */}
+                {formNo - 1 > i ? "✓" : v} 
               </div>
-              {/* Informations sous l'étape, stylisées en bleu ciel */}
               <div className="text-sm mt-1 text-center text-green-500 font-semibold">
                 {i === 0 && "IMPORTATION"}
                 {i === 1 && "TRANSPORT"}
@@ -385,8 +377,6 @@ function AjoutImportation() {
                 {i === 3 && "EXPEDITEUR"}
               </div>
             </div>
-
-            {/* Trait de liaison entre les étapes, collé aux étapes */}
             {i !== formArray.length - 1 && (
               <div
                 className={`h-[2px] w-full ${formNo - 1 > i
@@ -401,8 +391,6 @@ function AjoutImportation() {
           </React.Fragment>
         ))}
       </div>
-
-      {/* Form Step 1 */}
       {formNo === 1 && (
         <div>
           <div className="flex flex-col mb-3">
@@ -469,7 +457,6 @@ function AjoutImportation() {
           </div>
         </div>
       )}
-
       {/* Form Step 2 */}
       {formNo === 2 && (
         <div className="flex flex-row gap-4">
@@ -640,7 +627,6 @@ function AjoutImportation() {
               </div>
             )}
           </div>
-
           {/* Tableau Details*/}
           <div className="w-1/2 p-6" style={{ maxHeight: '400px' }}>
             <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">
@@ -727,10 +713,8 @@ function AjoutImportation() {
           </div></div>
 
       )}
-
       {/* Form Step 3 */}
       {formNo === 3 && (
-
         <div className="flex flex-row gap-4">
           <div className="w-1/2 pt-14 mr-2">
 
@@ -836,7 +820,6 @@ function AjoutImportation() {
           </div>
         </div>
       )}
-
       {/* Form Step 4 */}
       {formNo === 4 && (
         <div className="flex flex-row gap-4">
@@ -945,9 +928,6 @@ function AjoutImportation() {
         </div>
       )}
 
-
-
-      {/* Container for Toast notifications */}
       <ToastContainer />
     </div>
   );

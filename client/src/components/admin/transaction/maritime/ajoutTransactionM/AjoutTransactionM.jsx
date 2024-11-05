@@ -16,7 +16,6 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
     const [searchTerm, setSearchTerm] = useState("");
     const [searchTermT, setSearchTermT] = useState("");
 
-
     const formArray = [1, 2, 3];
     const [formNo, setFormNo] = useState(formArray[0]);
     const token = localStorage.getItem("token");
@@ -229,8 +228,6 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                 });
         }
     };
-
-
     const filteredData = agentOptions.filter(
         (item) =>
             item.nomAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -238,12 +235,12 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
             item.adresseAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.contactAgent.toLowerCase().includes(searchTerm.toLowerCase())
     );
-const filteredAerienne = transportOptions.filter(
+    const filteredAerienne = transportOptions.filter(
         (trans) =>
             trans.numIMO.toLowerCase().includes(searchTermT.toLowerCase()) ||
-        trans.paysChargement.toLowerCase().includes(searchTermT.toLowerCase()) ||
-        trans.paysDechargement.toLowerCase().includes(searchTermT.toLowerCase()) ||
-        trans.nomNavire.toLowerCase().includes(searchTermT.toLowerCase())
+            trans.paysChargement.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.paysDechargement.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.nomNavire.toLowerCase().includes(searchTermT.toLowerCase())
     );
 
     return (
@@ -364,7 +361,7 @@ const filteredAerienne = transportOptions.filter(
                 </div>
             )}
 
-{formNo === 2 && (
+            {formNo === 2 && (
                 <div className="flex flex-row gap-4">
                     <div className="w-1/2">
 
@@ -543,7 +540,7 @@ const filteredAerienne = transportOptions.filter(
                                 />
                             )}
                         </div>
-                        
+
                         <div className="overflow-auto" style={{ maxHeight: '300px' }}>
                             <table className="table-auto w-full text-left border-collapse">
                                 <thead className="text-white bg-blue-200">

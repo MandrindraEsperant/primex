@@ -24,10 +24,6 @@ const GridService = () => {
           }
           )
         }
-
-
-
-
       </div>
     </div>
   )

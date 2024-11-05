@@ -20,6 +20,7 @@ class TransactionMaritimeRepository extends IRepository {
     return await TransactionMaritime.findAll(
       {
         attributes: [
+          'idTransactionMaritime',
           'numMBL',
           'dateEmission',
           'dateDestination',

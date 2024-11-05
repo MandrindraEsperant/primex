@@ -5,34 +5,31 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-import AjoutMarchHblP from '../../../../pages/admin/AjoutMarchHblP';
-const MarchandiseHbl = () => {
-  const [open, setOpen] = useState(false);
+import AjoutSuiviHwb from './AjoutSuiviHwb';
+import DetailsSuiviHwb from './DetailsSuiviHwb';
+
+const SuiviHwb = () => {
+    const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
-
-    const allMarchandiseHBL = async () => {
+    const allsuiviHWB = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/marchandiseHBL/");
+            const response = await axios.get("http://localhost:3001/suiviHWB/");
             setData(response.data);
-            // console.log(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
     };
-
-    const handleEditClickOpen = (marchandiseHBL) => {
-        setSelectedPerson(marchandiseHBL);
-        setIsEditMode(true); // Mode modification
+    const handleEditClickOpen = (suiviHWB) => {
+        setSelectedPerson(suiviHWB);
+        setIsEditMode(true); 
         setOpen(true);
     };
-
-    // SUPPRESSION
     const supprimer = (id) => {
         axios
-            .delete("http://localhost:3001/marchandiseHBL/" + id)
+            .delete("http://localhost:3001/suiviHWB/" + id)
             .then((res) => {
-                allMarchandiseHBL();
+                allsuiviHWB();
             })
             .catch((err) => alert(err));
     };
@@ -56,45 +53,30 @@ const MarchandiseHbl = () => {
 
 
     useEffect(() => {
-        allMarchandiseHBL();
+        allsuiviHWB();
     }, []);
-
     const handleClickOpen = () => {
         setSelectedPerson(null);
         setIsEditMode(false);
         setOpen(true);
     };
-    const handleClose = () => {
-        setOpen(false);
-        setSelectedPerson(null);
-    };
     const { theme } = useContext(ThemeContext);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
 
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idMarchandiseHBL === person.idMarchandiseHBL) {
+        if (selectedPerson && selectedPerson.idSuiviHWB === person.idSuiviHWB) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
     const filteredData = data.filter(item =>
-        item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.numConteneur.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.typeConteneur.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.numPlomb.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.villeChargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.nature.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.nbColis.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.poid.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.volume.toLowerCase().includes(searchTerm.toLowerCase())||
-        item.HBL.toLowerCase().includes(searchTerm.toLowerCase())
+        item.numHWB.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    // Pagination logic
+    const selectedData = filteredData.length > 0 ? filteredData[0] : null;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -106,14 +88,14 @@ const MarchandiseHbl = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-            <h3 className="title">LISTE DE TOUT LES MARCHANDISE HBL</h3>
+            <h3 className="title">SUIVIS HWB</h3>
             <div className="flex flex-col space-y-6">
                 <div className="actionsContainer">
                     <div className="searchContainer">
                         <MdSearch className="searchIcon" />
                         <input
                             type="text"
-                            placeholder="Recherche..."
+                            placeholder="Entrez votre numéro de suivi..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="searchInput"
@@ -126,15 +108,8 @@ const MarchandiseHbl = () => {
                         )}
                     </div>
                     <button className="addButton" onClick={handleClickOpen}>
-                        <MdAdd /> Ajouter
+                        <MdAdd /> Suivre
                     </button>
-                    <AjoutMarchHblP
-                        open={open}
-                        allMarchandiseHBL={allMarchandiseHBL}
-                        handleClose={handleClose}
-                        isEditMode={isEditMode}
-                        selectedPerson={selectedPerson}/>
-
                 </div>
                 <section className="content-area-table pd-5">
                 <div className="data-table-diagram">
@@ -142,22 +117,18 @@ const MarchandiseHbl = () => {
                     <thead>
                         <tr >
                             <th>#</th>
-                            <th>Description</th>
-                            <th>N° Conteneur</th>
-                            <th>Type Conteneur</th>
-                            <th>N° Plomb</th>
-                            <th>Nature</th>
-                            <th>Nombre colis</th>
-                            <th>Poids</th>
-                            <th>Volume</th>
-                            <th>HBL</th>
+                            <th>N° HWB</th>
+                            <th>Etape</th>
+                            <th>Date etape</th>
+                            <th>Status</th>
+                            <th>Commentaire</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentData.map(item => (
                             <tr
-                                key={item.idMarchandiseHBL}
+                                key={item.idSuiviHWB}
                                 onClick={() => handleSelect(item)}
                                 className={item === selectedPerson ? 'selectedRow' : ''}
                             >
@@ -168,27 +139,23 @@ const MarchandiseHbl = () => {
                                         readOnly
                                     />
                                 </td>
-                                <td>{item.description}</td>
-                                <td>{item.numConteneur}</td>
-                                <td>{item.typeConteneur}</td>
-                                <td>{item.numPlomb}</td>
-                                <td>{item.nature}</td>
-                                <td>{item.nbColis}</td>
-                                <td>{item.poid}</td>
-                                <td>{item.volume}</td>
-                                <td>{item.HBL}</td>
+                                <td>{item.numHWB}</td>
+                                <td>{item.etape}</td>
+                                <td>{ new Date(item.dateEtape).toLocaleDateString('fr-FR') }</td>
+                                <td>{item.status}</td>
+                                <td>{item.commentaire}</td>
                                 <td className="dt-cell-action">
                                     <AreaTableAction
                                         id={item.id}
-                                        onEditClick={() => handleEditClickOpen(item.idMarchandiseHBL)}
-                                        onDeleteClick={() => handleDeleteClick(item.idMarchandiseHBL)}
+                                        onEditClick={() => handleEditClickOpen(item.idSuiviHWB)}
+                                        onDeleteClick={() => handleDeleteClick(item.idSuiviHWB)}
                                     />
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table></div></section>
-                <div className="pagination">
+                <div className="pagination pb-2">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
                         <button
                             key={pageNumber}
@@ -202,8 +169,10 @@ const MarchandiseHbl = () => {
 
 
             </div>
+            <DetailsSuiviHwb selectedData={selectedData} />
+            <AjoutSuiviHwb className="pt-2"/>
         </div>
   )
 }
 
-export default MarchandiseHbl
+export default SuiviHwb
