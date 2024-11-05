@@ -76,6 +76,7 @@ const SuiviHwb = () => {
     const filteredData = data.filter(item =>
         item.numHWB.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    const selectedData = filteredData.length > 0 ? filteredData[0] : null;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -168,7 +169,7 @@ const SuiviHwb = () => {
 
 
             </div>
-            <DetailsSuiviHwb/>
+            <DetailsSuiviHwb selectedData={selectedData} />
             <AjoutSuiviHwb className="pt-2"/>
         </div>
   )

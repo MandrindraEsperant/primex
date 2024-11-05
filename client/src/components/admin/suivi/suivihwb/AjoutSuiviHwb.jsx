@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
-const AjoutSuiviHwb = ( {handleClose, allsuiviHWB, isEditMode, selectedPerson }) => {
+const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson }) => {
     const [transAeriennes, setTransAeriennes] = useState([]);
     const [error, setError] = useState();
     const [selectedAerienne, setSelectedAerienne] = useState(null);
@@ -182,27 +182,33 @@ const AjoutSuiviHwb = ( {handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 placeholder="Selectionnez HWB"
                                 id="HWB"
                                 readOnly
-                                
+
                             />
                         </div>
                         <div className="flex flex-col mb-3">
                             <label
                                 htmlFor="etape"
-                                className="text-lg font-semibold mb-2 "
+                                className="text-lg font-semibold mb-2"
                             >
-                                Etape
+                                Étape
                             </label>
-                            <input
+                            <select
                                 value={state.etape}
                                 onChange={inputHandle}
-                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                                type="text"
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                                 name="etape"
-                                placeholder="etape"
                                 id="etape"
-                                
-                            />
+                            >
+                                <option value="" disabled>Choisissez une étape</option>
+                                <option value="validation">Validation</option>
+                                <option value="préparation">Préparation</option>
+                                <option value="douane">Douane</option>
+                                <option value="expédition">Expédition</option>
+                                <option value="arrivee_au_port">Arrivé au port</option>
+                                <option value="livraison">Livraison</option>
+                            </select>
                         </div>
+
                         <div className="flex flex-col mb-3">
                             <label
                                 htmlFor="dateEtape"
@@ -218,7 +224,7 @@ const AjoutSuiviHwb = ( {handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 name="dateEtape"
                                 placeholder="dateEtape"
                                 id="dateEtape"
-                                
+
                             />
                         </div>
                     </div>
@@ -238,7 +244,7 @@ const AjoutSuiviHwb = ( {handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 name="status"
                                 placeholder="status"
                                 id="status"
-                                
+
                             />
                         </div>
                         <div className="flex flex-col mb-3">
@@ -256,7 +262,7 @@ const AjoutSuiviHwb = ( {handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 name="commentaire"
                                 placeholder="commentaire"
                                 id="commentaire"
-                                
+
                             />
                         </div>
                         <div className=" pt-8 gap-3 mb-3 flex justify-center items-center mb-3">
@@ -278,59 +284,59 @@ const AjoutSuiviHwb = ( {handleClose, allsuiviHWB, isEditMode, selectedPerson })
 
                         </div>
                     </div></div>
-                    <div className="mt-8">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transaction Aérienne disponible</h2>
-                        {/* FILTRE */}
-                        <div className="searchContainer">
-                            <MdSearch className="searchIcon" />
-                            <input
-                                type="text"
-                                placeholder="Recherche..."
-                                value={searchTermT}
-                                onChange={(e) => setSearchTermT(e.target.value)}
-                                className="searchInput mb-4"
+                <div className="mt-8">
+                    <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transaction Aérienne disponible</h2>
+                    {/* FILTRE */}
+                    <div className="searchContainer">
+                        <MdSearch className="searchIcon" />
+                        <input
+                            type="text"
+                            placeholder="Recherche..."
+                            value={searchTermT}
+                            onChange={(e) => setSearchTermT(e.target.value)}
+                            className="searchInput mb-4"
+                        />
+                        {searchTermT && (
+                            <MdClear
+                                className="clearIcon"
+                                onClick={() => setSearchTermT("")}
                             />
-                            {searchTermT && (
-                                <MdClear
-                                    className="clearIcon"
-                                    onClick={() => setSearchTermT("")}
-                                />
-                            )}
-                        </div>
+                        )}
+                    </div>
 
-                        <div className="overflow-auto" style={{ maxHeight: '300px' }}>
-                            <table className="table-auto w-full text-left border-collapse">
-                                <thead className="text-white bg-blue-200">
-                                    <tr>
-                                        <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">Num  HWB</th>
-                                        <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Destination</th>
+                    <div className="overflow-auto" style={{ maxHeight: '300px' }}>
+                        <table className="table-auto w-full text-left border-collapse">
+                            <thead className="text-white bg-blue-200">
+                                <tr>
+                                    <th className="py-2 px-2 text-left">#</th>
+                                    <th className="py-2 mx-8 text-left">Num  HWB</th>
+                                    <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Destination</th>
+                                </tr>
+                            </thead>
+                            <tbody className="space-y-2">
+                                {filteredAerienne.map((trans, index) => (
+                                    <tr
+                                        key={trans.idAgent}
+                                        onClick={() => handleSelectA(trans)}
+                                        className={`hover:bg-blue-200 ${trans === selectedAerienne ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${trans === selectedAerienne ? 'selectedRow' : ''}`}
+                                    ><td>
+                                            <input
+                                                type="checkbox"
+                                                checked={trans === selectedAerienne}
+
+                                            />
+                                        </td>
+                                        <td className="py-2 px-4">{trans.numHWB}</td>
+                                        <td>{trans.idExpediteur}</td>
+                                        <td>{new Date(trans.dateHWBTransaction).toLocaleDateString('fr-FR')}</td>
                                     </tr>
-                                </thead>
-                                <tbody className="space-y-2">
-                                    {filteredAerienne.map((trans, index) => (
-                                        <tr
-                                            key={trans.idAgent}
-                                            onClick={() => handleSelectA(trans)}
-                                            className={`hover:bg-blue-200 ${trans === selectedAerienne ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${trans === selectedAerienne ? 'selectedRow' : ''}`}
-                                        ><td>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={trans === selectedAerienne}
-                                                    
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4">{trans.numHWB}</td>
-                                            <td>{trans.idExpediteur}</td>
-                                            <td>{new Date(trans.dateHWBTransaction).toLocaleDateString('fr-FR')}</td>
-                                        </tr>
-                                    ))}
+                                ))}
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    
+
                 </div></form>
             {/* Container for Toast notifications */}
             <ToastContainer />
