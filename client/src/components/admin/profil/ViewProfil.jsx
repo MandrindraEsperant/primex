@@ -4,6 +4,13 @@ import Profil from "../../../assets/images/profil.jpg";
 import { Link } from 'react-router-dom';
 
 function ViewProfil() {
+  const getMyInfo = ()=>{
+    try {
+      // const res = 
+    } catch (error) {
+      
+    }
+  }
   const profile = {
     profilePhoto: Profil,
     name: 'Mino Prisca',

@@ -60,6 +60,9 @@ const Navbar = () => {
         <button className="text-white hover:text-gray-300">
           <FaBell size={20} />
         </button>
+        <button className="text-white hover:text-gray-300">
+          <MdSettings size={25} />
+        </button>
 
         {/* Icone de profil */}
         <div className="relative" ref={profileMenuRef}>
@@ -82,13 +85,7 @@ const Navbar = () => {
                 <FaEdit className="mr-2 text-gray-400" />
                 Modifier profil
               </Link>
-              <Link to="/admin/profil"
-                className="flex items-center px-4 py-2 text-sm hover:bg-gray-100"
-              >
-                <MdSettings className="mr-2 text-gray-400" />
-                Parametre
-              </Link>
-              <li
+               <li
                 onClick={Deconnection}
                 className="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
               >
