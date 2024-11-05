@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { AccountService } from "../../../_services/Account.service";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from './../../../axiosInstance';
 
 const Formulaire = () => {
   const [login, setLogin] = useState({
@@ -23,11 +23,7 @@ const Formulaire = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/employe/login",
-        login
-      );
-
+      const res = await api.post("/employe/login", login);
       if (res.status === 200) {
         const token = res.data.token;
         AccountService.saveToken(token);

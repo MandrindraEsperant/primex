@@ -27,6 +27,13 @@ class EmployeRepository extends IRepository {
     }
     return null;
   }
+  async resetpwd(email, employeData) {
+    const employe = await Employe.findOne({ where: { emailEmploye: email } });
+    if (employe) {
+      return await employe.update(employeData);
+    }
+    return null;
+  }
 
   async delete(id) {
     const employe = await this.findById(id);

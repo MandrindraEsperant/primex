@@ -10,7 +10,6 @@ import {
   MdOutlineSettings,
   MdGroups,
   MdBuild,
-  MdLocalShipping,
   MdFlightLand,
   MdDirectionsBoat,
   MdDeliveryDining,
