@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCamera, FaEye, FaEyeSlash, FaBriefcase, FaSchool, FaMapMarkerAlt, FaUser, FaEnvelope, FaPhone, FaBirthdayCake, FaLock } from 'react-icons/fa';
 import Profil from "../../../assets/images/profil.jpg";
+import idUserConnected from '../../../constants/idUserConnected';
+import api from '../../../axiosInstance';
 
 function EditProfil() {
+  const id= idUserConnected();
   const [profile, setProfile] = useState({
     profilePhoto: Profil,
     name: 'Mino Prisca',
@@ -16,15 +19,68 @@ function EditProfil() {
     birthdate: '1990-01-01',
   });
 
+  const [profil, setProfil] = useState([]);
+  const [state, setState] = useState({
+    nomEmploye: "",
+    emailEmploye: "",
+    typeEmploye: "",
+    newPwd: "",
+    oldPwd: "",
+    creerPar: id,
+    modifierPar: id,
+  });
+  const getMyInfo = async () => {
+    try {
+      const res = await api.get(`/employe/${id}`);
+      const {
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      } = res.data;
+      setProfil({
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      });
+
+      console.log(res);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des informations :", error);
+    }
+  }
+  const updateInfo = async () => {
+    try {
+      const res = await api.put(`/employe/${id}`);
+      const {
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      } = res.data;
+      setProfil({
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      });
+
+      console.log(res);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des informations :", error);
+    }
+  }
+
+  useEffect(()=>{
+    getMyInfo();
+  })
+
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
-    newPassword: '',
+    oldPwd: '',
+    newPwd: '',
     confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState({
-    currentPassword: false,
-    newPassword: false,
+    oldPwd: false,
+    newPwd: false,
     confirmPassword: false,
   });
 
@@ -82,7 +138,7 @@ function EditProfil() {
         <input
           type="text"
           name="name"
-          value={profile.name}
+          value={profil.nomEmploye}
           onChange={handleInputChange}
           className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b-2 border-gray-300 text-center w-full"
         />
@@ -95,7 +151,7 @@ function EditProfil() {
           <input
             type="email"
             name="email"
-            value={profile.email}
+            value={profil.emailEmploye}
             onChange={handleInputChange}
             placeholder="Email"
             className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
@@ -127,7 +183,6 @@ function EditProfil() {
           />
         </div>
 
-        {/* Bio */}
         <div>
           <h3 className="text-xs sm:text-sm font-medium text-gray-700">Biographie</h3>
           <textarea
@@ -139,7 +194,6 @@ function EditProfil() {
           />
         </div>
 
-        {/* Additional Details */}
         <div className="mt-4 space-y-4">
           <div className="flex items-center space-x-2">
             <FaBriefcase className="text-blue-600" />
@@ -178,34 +232,33 @@ function EditProfil() {
           </div>
         </div>
 
-        {/* Password Update Section */}
-{showPasswordFields && (
-  <div className="mt-4 space-y-4">
-    {['currentPassword', 'newPassword', 'confirmPassword'].map((field, index) => (
-      <div key={index} className="relative flex items-center space-x-2">
-        <FaLock className="text-blue-600" />
-        <input
-          type={showPassword[field] ? 'text' : 'password'}
-          name={field}
-          value={passwordData[field]}
-          onChange={handlePasswordChange}
-          placeholder={
-            field === 'currentPassword' ? 'Mot de passe actuel' :
-            field === 'newPassword' ? 'Nouveau mot de passe' :
-            'Confirmer le nouveau mot de passe'
-          }
-          className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-        />
-        <span
-          onClick={() => toggleShowPassword(field)}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
-        >
-          {showPassword[field] ? <FaEyeSlash /> : <FaEye />}
-        </span>
-      </div>
-    ))}
-  </div>
-)}
+        {showPasswordFields && (
+          <div className="mt-4 space-y-4">
+            {['oldPwd', 'newPwd', 'confirmPassword'].map((field, index) => (
+              <div key={index} className="relative flex items-center space-x-2">
+                <FaLock className="text-blue-600" />
+                <input
+                  type={showPassword[field] ? 'text' : 'password'}
+                  name={field}
+                  value={passwordData[field]}
+                  onChange={handlePasswordChange}
+                  placeholder={
+                    field === 'oldPwd' ? 'Mot de passe actuel' :
+                      field === 'newPwd' ? 'Nouveau mot de passe' :
+                        'Confirmer le nouveau mot de passe'
+                  }
+                  className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
+                />
+                <span
+                  onClick={() => toggleShowPassword(field)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                >
+                  {showPassword[field] ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
 
         <div className="flex justify-center mt-4">
@@ -218,7 +271,7 @@ function EditProfil() {
         </div>
 
         <div className="flex justify-center mt-6">
-          <button
+          <button onClick={updateInfo}
             type="button"
             className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
           >

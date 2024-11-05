@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCamera, FaEnvelope, FaUser, FaBirthdayCake, FaPhone, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa'; // Ajoutez plus d'icônes
 import Profil from "../../../assets/images/profil.jpg";
 import { Link } from 'react-router-dom';
+import api from '../../../axiosInstance';
+import idUserConnected from '../../../constants/idUserConnected';
 
 function ViewProfil() {
-  const getMyInfo = ()=>{
+  const [profil, setProfil] = useState([]);
+  const id = idUserConnected()
+  useEffect(() => {
+    getMyInfo();
+  }, [])
+  const getMyInfo = async () => {
     try {
-      // const res = 
+      const res = await api.get(`/employe/${id}`);
+      const {
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      } = res.data;
+      setProfil({
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      });
+
+      console.log(res);
     } catch (error) {
-      
+      console.error("Erreur lors de la récupération des informations :", error);
     }
   }
   const profile = {
@@ -39,8 +58,8 @@ function ViewProfil() {
             <FaCamera className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2">{profile.name}</h2>
-        <p className="text-sm sm:text-base text-gray-600 italic">{profile.bio}</p>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2">{profil.nomEmploye}</h2>
+        <p className="text-sm sm:text-base text-gray-600 italic">{profil.typeEmploye}</p>
       </div>
 
       <div className="space-y-4 mt-4 text-left">
@@ -48,7 +67,7 @@ function ViewProfil() {
           <FaUser className="text-blue-500 mr-2" />
           <div>
             <h3 className="text-xs font-medium text-gray-700">Nom d'utilisateur</h3>
-            <p className="text-base text-gray-900">{profile.username}</p>
+            <p className="text-base text-gray-900">{profil.emailEmploye}</p>
           </div>
         </div>
 
@@ -56,7 +75,7 @@ function ViewProfil() {
           <FaEnvelope className="text-blue-500 mr-2" />
           <div>
             <h3 className="text-xs font-medium text-gray-700">Adresse Email</h3>
-            <p className="text-base text-gray-900">{profile.email}</p>
+            <p className="text-base text-gray-900">{profil.emailEmploye}</p>
           </div>
         </div>
 
