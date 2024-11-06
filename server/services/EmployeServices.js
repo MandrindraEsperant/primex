@@ -43,7 +43,6 @@ class EmployeService {
       if (!employe) {
         throw new Error("Utilisateur non trouvé");
       }
-
       // Vérification du mot de passe
       const isPasswordValid = await bcrypt.compare(
         motDePasse,
@@ -62,15 +61,17 @@ class EmployeService {
       throw error;
     }
   }
-
-  async resetPwd(email) {
+  async forgotPwd(email) {
     const user = await this.employeRepository.findByEmail(email);
     if (!user) {
       throw new Error("Utilisateur non trouvé");
     }
-
     const temporaryCode = crypto.randomBytes(3).toString("hex");
 
+    // Générer un token JWT avec le code temporaire qui expire dans 10 minutes
+    const token = jwt.sign({ id: user.idEmployer, temporaryCode }, SECRET_KEY, {
+      expiresIn: "10m",
+    });
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -78,17 +79,37 @@ class EmployeService {
         pass: process.env.EMAIL_PASS,
       },
     });
-
-    // Message à envoyer
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Votre code d'accès temporaire",
       text: `Votre code d'accès temporaire est : ${temporaryCode}`,
     };
-    return await transporter.sendMail(mailOptions);
-  }
 
+    await transporter.sendMail(mailOptions);
+    return { token };
+  }
+  async resetPwd(token,newPassword,email,codeTemp) {
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);      
+      
+      if (decoded.temporaryCode !=codeTemp) {
+        throw new Error('Code de réinitialisation incorrect.')
+      }
+      // Réinitialise le mot de passe
+      const verification = await this.employeRepository.findByEmailAndId(email,decoded.id)
+      if(!verification){
+        throw new Error("Employé non trouvé")
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+    const employeData = { motDePasse:hashedPassword  }
+      return await this.employeRepository.update(decoded.id, employeData);
+    } catch (error) {
+      throw error;
+    }
+    
+  
+  }
   async getEmployeById(id) {
     return await this.employeRepository.findById(id);
   }
@@ -96,7 +117,7 @@ class EmployeService {
     return await this.employeRepository.findAll();
   }
   async updateEmploye(id, employeData) {
-    if (employeData.newPwd, employeData.oldPwd) {
+    if ((employeData.newPwd!="" && employeData.oldPwd!="")) {
       const verification = await this.getEmployeById(id);
 
       const isPasswordValid = await bcrypt.compare(
@@ -108,7 +129,6 @@ class EmployeService {
       }
       employeData.motDePasse = employeData.newPwd;
     }
-
     const hashedPassword = await bcrypt.hash(
       employeData.motDePasse,
       SALT_ROUNDS
