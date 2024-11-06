@@ -82,9 +82,23 @@ class EmployeService {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Votre code d'accès temporaire",
-      text: `Votre code d'accès temporaire est : ${temporaryCode}`,
+      subject: "Votre code de vérification",
+      html: `
+    <p>Bonjour,</p>
+    <p>Nous vous envoyons ce message pour vous fournir votre code de vérification temporaire.</p>
+    <p><strong>Votre code de vérification est :</strong></p>
+    <p style="font-size: 24px; font-weight: bold; color: #4CAF50;">${temporaryCode}</p>
+    <p>Veuillez utiliser ce code pour compléter votre connexion. Pour des raisons de sécurité, ce code expirera dans 10 min.</p>
+    <p>Si vous n'avez pas initié cette demande, veuillez ignorer cet e-mail ou contacter notre support.</p>
+    <br />
+    <p>Merci,<br/>L'équipe de PRIMEX LOGISTICS</p>
+  `,
+  headers: {
+    'Content-Type': 'text/html; charset=UTF-8',  // Spécifie que l'email est en HTML
+  },
     };
+    
+    
 
     await transporter.sendMail(mailOptions);
     return { token };

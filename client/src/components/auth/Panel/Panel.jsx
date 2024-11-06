@@ -6,26 +6,24 @@ const Panel = () => {
     <div className="panels-container">
       <div className="panel left-panel">
         <div className="content">
-          <h3>New here ?</h3>
+          <h3>Primex Logistics</h3>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-            ex ratione. Aliquid!
+          Accédez à votre compte et profitez de fonctionnalités sur mesure ! Connectez-vous pour gérer vos préférences, suivre vos activités, et bénéficier d’une navigation simplifiée et enrichissante.
           </p>
-          <button className="btn transparent" id="sign-up-btn">
-            Sign up
+          <button className="btn transparent">
+            
           </button>
         </div>
         <img src="/img/log.svg"  className="image" alt="" />
       </div>
       <div className="panel right-panel">
         <div className="content">
-          <h3>One of us ?</h3>
+          <h3>Primex Logistics?</h3>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-            laboriosam ad deleniti.
+          Reconnectez-vous pour profiter d'une expérience entièrement adaptée à vos besoins. Entrez vos identifiants et accédez à votre espace personnel en toute sécurité. Bienvenue chez vous
           </p>
           <button className="btn transparent" id="sign-in-btn">
-            Sign in
+            S'authentifier
           </button>
         </div>
         <img src="/img/register.svg" className="image" alt="" />

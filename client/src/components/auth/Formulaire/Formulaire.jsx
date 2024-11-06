@@ -15,6 +15,7 @@ import {
 import { AccountService } from "../../../_services/Account.service";
 import { useNavigate } from "react-router-dom";
 import api from './../../../axiosInstance';
+import Swal from 'sweetalert2'
 
 const Formulaire = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,39 +30,51 @@ const Formulaire = () => {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/forgot', { email });
-      setToken(response.token);
+      const response = await api.post('/employe/forgot', { email });
+      setToken(response.data.token);
+      console.log("Email envoyé avec succès");
+    console.log(response);
+    
       setStep(2);
+      
     } catch (error) {
-      alert(error.response|| "Erreur lors de l'envoi de l'email");
-    }
-  };
-  // Vérification du code de réinitialisation
-  const handleCodeSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await api.post('/reset', {
-        token,
-        codeTemp: code,
-        email,
-      });
-      setStep(3);
-    } catch (error) {
-      alert(error.response.data.error || "Code invalide");
-    }
-  };
-  //ENvoi de nouveau MDP
+      const errorMessage = error.response?.data?.error || "Erreur lors de l'envoi de l'email";
+      
+      if (errorMessage === "Utilisateur non trouvé") {
+        // Afficher le message "Utilisateur non trouvé" avec SweetAlert
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Utilisateur non trouvé', 
+          timer: 3000,
+          
+        });
+      } else {
+        // Afficher un message générique pour d'autres erreurs
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: errorMessage,
+        });
+      }
+    
+  };}
+  //Envoi de nouveau MDP
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     if (newPassword === confirmPassword) {
       try {
-        await api.post('/reset', {
+        await api.post('/employe/reset', {
           token,
           newPassword,
           email,
           codeTemp: code,
         });
-        alert("Mot de passe réinitialisé avec succès !");
+        Swal.fire({
+          icon:"success",
+          title:"Modifié",
+          text:"Mot de passe changé avec succès"
+        })
       } catch (error) {
         alert(error.response.data.error || "Erreur lors de la réinitialisation");
       }
@@ -104,56 +117,7 @@ const Formulaire = () => {
   return (
     <div className="forms-container">
       <div className="signin-signup">
-
-        {/* <form action="#" className="sign-in-form" onSubmit={handleLogin}>
-          <h2 className="title">Sign in</h2>
-          <div className="input-field"> 
-            <i>
-              <FaEnvelope />
-            </i>
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={(e) => setLogin({ ...login, email: e.target.value })}
-            />
-          </div>
-          <div className="input-field">
-            <i>
-              <FaLock />
-            </i>
-            <input
-              type="password"
-              onChange={(e) => setLogin({ ...login, password: e.target.value })}
-              placeholder="Password"
-            />
-          </div>
-          <input type="submit" value="Login" className="btn solid" />
-          <p className="social-text">Or Sign in with social platforms</p>
-          <div className="social-media">
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaFacebookF />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaTwitter />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaGoogle />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaLinkedinIn />
-              </i>
-            </button>
-          </div>
-        </form> */}
+        
         <form action="#" className="sign-in-form" onSubmit={handleLogin}>
           <h2 className="title">Authentification</h2>
 
@@ -188,7 +152,7 @@ const Formulaire = () => {
           </div>
 
           <div style={{ textAlign: 'right', marginBottom: '10px', color: "blue" }}>
-            <a href="#" className="forgot-password">Mot de passe oublié?</a>
+            <a href="#" className="forgot-password" id="sign-up-btn">Mot de passe oublié?</a>
           </div>
 
           <input type="submit" value="Connexion" className="btn solid" />
@@ -219,136 +183,74 @@ const Formulaire = () => {
         </form>
 
         <form action="#" className="sign-up-form">
-          <h2 className="title">Mot de passe oublié</h2>
-          {/* Formulaire d'e-mail */}
-          {step === 1 && (
-            <div className="input-field">
-              <i><FaEnvelope /></i>
-              <input
-                type="email"
-                placeholder="E-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button className="btn" onClick={handleEmailSubmit}>Envoyer</button>
-            </div>
-          )}
+  <h2 className="title">Mot de passe oublié</h2>
 
-          {/* Formulaire de code de réinitialisation */}
-          {step === 2 && (
-            <div className="input-field">
-              <i><FaCheckCircle /></i>
-              <input
-                type="text"
-                placeholder="Code de réinitialisation"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-              <button className="btn" onClick={handleCodeSubmit}>Vérifier le code</button>
-            </div>
-          )}
+  {/* Formulaire d'e-mail */}
+  {step === 1 && (
+    <>
+      <div className="input-field">
+        <i><FaEnvelope /></i>
+        <input
+          type="email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <button className="btn" onClick={handleEmailSubmit}>Envoyer</button>
+    </>
+  )}
 
-          {/* Formulaire de nouveau mot de passe */}
-          {step === 3 && (
-            <>
-              <div className="input-field">
-                <i><FaLock /></i>
-                <input
-                  type="password"
-                  placeholder="Nouveau mot de passe"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
-              <div className="input-field">
-                <i><FaLock /></i>
-                <input
-                  type="password"
-                  placeholder="Confirmer nouveau mot de passe"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-              <button className="btn" onClick={handlePasswordSubmit}>Réinitialiser le mot de passe</button>
-            </>
-          )}
+  {/* Formulaire de code de réinitialisation et mot de passe */}
+  {step === 2 && (
+    <>
+      <div className="input-field">
+        <i><FaCheckCircle /></i>
+        <input
+          type="text"
+          placeholder="Code de réinitialisation"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        />
+      </div>
+      <div className="input-field">
+        <i><FaLock /></i>
+        <input
+          type="password"
+          placeholder="Nouveau mot de passe"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+      </div>
+      <div className="input-field">
+        <i><FaLock /></i>
+        <input
+          type="password"
+          placeholder="Confirmer nouveau mot de passe"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </div>
+      <button className="btn" onClick={handlePasswordSubmit}>Valider</button>
+    </>
+  )}
 
+  <div className="social-media">
+    <button type="button" className="social-icon">
+      <i><FaFacebookF /></i>
+    </button>
+    <button type="button" className="social-icon">
+      <i><FaTwitter /></i>
+    </button>
+    <button type="button" className="social-icon">
+      <i><FaGoogle /></i>
+    </button>
+    <button type="button" className="social-icon">
+      <i><FaLinkedinIn /></i>
+    </button>
+  </div>
+</form>
 
-          <div className="social-media">
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaFacebookF />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaTwitter />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaGoogle />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaLinkedinIn />
-              </i>
-            </button>
-          </div>
-        </form>
-
-        {/*  <form action="#" className="sign-up-form">
-          <h2 className="title">Sign up</h2>
-          <div className="input-field">
-            <i>
-              <FaUser />
-            </i>
-            <input type="text" placeholder="Username" />
-          </div>
-          <div className="input-field">
-            <i>
-              {" "}
-              <FaEnvelope />
-            </i>
-            <input type="email" placeholder="Email" />
-          </div>
-          <div className="input-field">
-            <i>
-              {" "}
-              <FaLock />
-            </i>
-            <input type="password" placeholder="Password" />
-          </div>
-          <input type="submit" className="btn" value="Sign up" />
-          <p className="social-text">Or Sign up with social platforms</p>
-          <div className="social-media">
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaFacebookF />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaTwitter />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaGoogle />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaLinkedinIn />
-              </i>
-            </button>
-          </div>
-        </form> */}
       </div>
     </div>
   );
