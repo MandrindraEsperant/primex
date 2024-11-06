@@ -106,9 +106,7 @@ class EmployeService {
       return await this.employeRepository.update(decoded.id, employeData);
     } catch (error) {
       throw error;
-    }
-    
-  
+    }  
   }
   async getEmployeById(id) {
     return await this.employeRepository.findById(id);

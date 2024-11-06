@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Formulaire.css";
 import {
+  FaCheckCircle,
   FaEnvelope,
   FaEye,
   FaFacebookF,
@@ -17,43 +18,94 @@ import api from './../../../axiosInstance';
 
 const Formulaire = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [step, setStep] = useState(1); // 1: Email, 2: Code, 3: Password
+  const [token, setToken] = useState("");
+
+  //Envoi de notification sur l'email
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post('/forgot', { email });
+      setToken(response.token);
+      setStep(2);
+    } catch (error) {
+      alert(error.response|| "Erreur lors de l'envoi de l'email");
+    }
+  };
+  // Vérification du code de réinitialisation
+  const handleCodeSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post('/reset', {
+        token,
+        codeTemp: code,
+        email,
+      });
+      setStep(3);
+    } catch (error) {
+      alert(error.response.data.error || "Code invalide");
+    }
+  };
+  //ENvoi de nouveau MDP
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (newPassword === confirmPassword) {
+      try {
+        await api.post('/reset', {
+          token,
+          newPassword,
+          email,
+          codeTemp: code,
+        });
+        alert("Mot de passe réinitialisé avec succès !");
+      } catch (error) {
+        alert(error.response.data.error || "Erreur lors de la réinitialisation");
+      }
+    } else {
+      alert("Les mots de passe ne correspondent pas.");
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-    const [login, setLogin] = useState({
-      email: "",
-      password: "",
-    });
-    const navigate = useNavigate();
-    const handleLogin = async (e) => {
-      e.preventDefault();
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-      try {
-        const res = await api.post("/employe/login", login);
-        if (res.status === 200) {
-          const token = res.data.token;
-          AccountService.saveToken(token);
-          navigate("/admin/dashboard");
-        }
-      } catch (err) {
-        if (err.response) {
-          alert(err.response.data.error);
-        } else {
-          // Si c'est une autre erreur (ex. problème de réseau)
-          console.error("Erreur :", err.message);
-          alert(
-            "Erreur lors de la connexion. Veuillez vérifier votre connexion réseau."
-          );
-        }
+    try {
+      const res = await api.post("/employe/login", login);
+      if (res.status === 200) {
+        const token = res.data.token;
+        AccountService.saveToken(token);
+        navigate("/admin/dashboard");
       }
-    };
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.error);
+      } else {
+        // Si c'est une autre erreur (ex. problème de réseau)
+        console.error("Erreur :", err.message);
+        alert(
+          "Erreur lors de la connexion. Veuillez vérifier votre connexion réseau."
+        );
+      }
+    }
+  };
 
-    return (
-      <div className="forms-container">
-        <div className="signin-signup">
+  return (
+    <div className="forms-container">
+      <div className="signin-signup">
 
-          {/* <form action="#" className="sign-in-form" onSubmit={handleLogin}>
+        {/* <form action="#" className="sign-in-form" onSubmit={handleLogin}>
           <h2 className="title">Sign in</h2>
           <div className="input-field"> 
             <i>
@@ -103,121 +155,203 @@ const Formulaire = () => {
           </div>
         </form> */}
         <form action="#" className="sign-in-form" onSubmit={handleLogin}>
-      <h2 className="title">Authentification</h2>
+          <h2 className="title">Authentification</h2>
 
-      <div className="input-field">
-        <i>
-          <FaEnvelope />
-        </i>
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setLogin({ ...login, email: e.target.value })}
-        />
-      </div>
+          <div className="input-field">
+            <i>
+              <FaEnvelope />
+            </i>
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setLogin({ ...login, email: e.target.value })}
+            />
+          </div>
 
-      <div className="input-field">
-        <i>
-          <FaLock />
-        </i>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          placeholder="Mot de passe"
-          onChange={(e) => setLogin({ ...login, password: e.target.value })}
-        />
-        <button
-          type="button"
-          className="password-toggle"
-          onClick={togglePasswordVisibility}
-          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-        >
-          {showPassword ? <FaRegEyeSlash /> : <FaEye />}
-        </button>
-      </div>
+          <div className="input-field">
+            <i>
+              <FaLock />
+            </i>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Mot de passe"
+              onChange={(e) => setLogin({ ...login, password: e.target.value })}
+            />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={togglePasswordVisibility}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              {showPassword ? <FaRegEyeSlash /> : <FaEye />}
+            </button>
+          </div>
 
-      <div style={{ textAlign: 'right', marginBottom: '10px', color:"blue" }}>
-        <a href="#" className="forgot-password">Mot de passe oublié?</a>
-      </div>
+          <div style={{ textAlign: 'right', marginBottom: '10px', color: "blue" }}>
+            <a href="#" className="forgot-password">Mot de passe oublié?</a>
+          </div>
 
-      <input type="submit" value="Connexion" className="btn solid" />
+          <input type="submit" value="Connexion" className="btn solid" />
 
-      <p className="social-text">Ou se connecter avec autre réseau sociaux</p>
-      <div className="social-media">
-        <button type="button" className="social-icon">
-          <i>
-            <FaFacebookF />
-          </i>
-        </button>
-        <button type="button" className="social-icon">
-          <i>
-            <FaTwitter />
-          </i>
-        </button>
-        <button type="button" className="social-icon">
-          <i>
-            <FaGoogle />
-          </i>
-        </button>
-        <button type="button" className="social-icon">
-          <i>
-            <FaLinkedinIn />
-          </i>
-        </button>
-      </div>
-    </form>
-
-          <form action="#" className="sign-up-form">
-            <h2 className="title">Sign up</h2>
-            <div className="input-field">
+          <p className="social-text">Ou se connecter avec autre réseau sociaux</p>
+          <div className="social-media">
+            <button type="button" className="social-icon">
               <i>
-                <FaUser />
+                <FaFacebookF />
               </i>
-              <input type="text" placeholder="Username" />
-            </div>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaTwitter />
+              </i>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaGoogle />
+              </i>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaLinkedinIn />
+              </i>
+            </button>
+          </div>
+        </form>
+
+        <form action="#" className="sign-up-form">
+          <h2 className="title">Mot de passe oublié</h2>
+          {/* Formulaire d'e-mail */}
+          {step === 1 && (
             <div className="input-field">
+              <i><FaEnvelope /></i>
+              <input
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button className="btn" onClick={handleEmailSubmit}>Envoyer</button>
+            </div>
+          )}
+
+          {/* Formulaire de code de réinitialisation */}
+          {step === 2 && (
+            <div className="input-field">
+              <i><FaCheckCircle /></i>
+              <input
+                type="text"
+                placeholder="Code de réinitialisation"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              <button className="btn" onClick={handleCodeSubmit}>Vérifier le code</button>
+            </div>
+          )}
+
+          {/* Formulaire de nouveau mot de passe */}
+          {step === 3 && (
+            <>
+              <div className="input-field">
+                <i><FaLock /></i>
+                <input
+                  type="password"
+                  placeholder="Nouveau mot de passe"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+              <div className="input-field">
+                <i><FaLock /></i>
+                <input
+                  type="password"
+                  placeholder="Confirmer nouveau mot de passe"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <button className="btn" onClick={handlePasswordSubmit}>Réinitialiser le mot de passe</button>
+            </>
+          )}
+
+
+          <div className="social-media">
+            <button type="button" className="social-icon">
               <i>
                 {" "}
-                <FaEnvelope />
+                <FaFacebookF />
               </i>
-              <input type="email" placeholder="Email" />
-            </div>
-            <div className="input-field">
+            </button>
+            <button type="button" className="social-icon">
               <i>
                 {" "}
-                <FaLock />
+                <FaTwitter />
               </i>
-              <input type="password" placeholder="Password" />
-            </div>
-            <input type="submit" className="btn" value="Sign up" />
-            <p className="social-text">Or Sign up with social platforms</p>
-            <div className="social-media">
-              <button type="button" className="social-icon">
-                <i>
-                  {" "}
-                  <FaFacebookF />
-                </i>
-              </button>
-              <button type="button" className="social-icon">
-                <i>
-                  {" "}
-                  <FaTwitter />
-                </i>
-              </button>
-              <button type="button" className="social-icon">
-                <i>
-                  <FaGoogle />
-                </i>
-              </button>
-              <button type="button" className="social-icon">
-                <i>
-                  <FaLinkedinIn />
-                </i>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    );
-  };
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaGoogle />
+              </i>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaLinkedinIn />
+              </i>
+            </button>
+          </div>
+        </form>
 
-  export default Formulaire;
+        {/*  <form action="#" className="sign-up-form">
+          <h2 className="title">Sign up</h2>
+          <div className="input-field">
+            <i>
+              <FaUser />
+            </i>
+            <input type="text" placeholder="Username" />
+          </div>
+          <div className="input-field">
+            <i>
+              {" "}
+              <FaEnvelope />
+            </i>
+            <input type="email" placeholder="Email" />
+          </div>
+          <div className="input-field">
+            <i>
+              {" "}
+              <FaLock />
+            </i>
+            <input type="password" placeholder="Password" />
+          </div>
+          <input type="submit" className="btn" value="Sign up" />
+          <p className="social-text">Or Sign up with social platforms</p>
+          <div className="social-media">
+            <button type="button" className="social-icon">
+              <i>
+                {" "}
+                <FaFacebookF />
+              </i>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                {" "}
+                <FaTwitter />
+              </i>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaGoogle />
+              </i>
+            </button>
+            <button type="button" className="social-icon">
+              <i>
+                <FaLinkedinIn />
+              </i>
+            </button>
+          </div>
+        </form> */}
+      </div>
+    </div>
+  );
+};
+
+export default Formulaire;
