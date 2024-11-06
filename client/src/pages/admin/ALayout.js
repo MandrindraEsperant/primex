@@ -19,7 +19,7 @@ const ALayout = () => {
       <Sidebar />
       {/* right side/content of the page */}
       <div className="content-wrapper">
-      {/* <Navbar /> */}
+      <Navbar />
         
         <Outlet />
       </div>

@@ -96,7 +96,7 @@ class EmployeService {
     return await this.employeRepository.findAll();
   }
   async updateEmploye(id, employeData) {
-    if (employeData.newPwd, employeData.oldPwd) {
+    if (employeData.newPwd!="" && employeData.oldPwd!="") {
       const verification = await this.getEmployeById(id);
 
       const isPasswordValid = await bcrypt.compare(
@@ -116,7 +116,7 @@ class EmployeService {
     employeData.motDePasse = hashedPassword;
     return await this.employeRepository.update(id, employeData);
   }
-  async deleteEmploye(id) {
+    async deleteEmploye(id) {
     return await this.employeRepository.delete(id);
   }
 }

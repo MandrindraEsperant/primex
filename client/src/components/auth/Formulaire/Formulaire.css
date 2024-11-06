@@ -82,7 +82,17 @@ form.sign-in-form {
   color: #aaa;
   font-weight: 500;
 }
-
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #acacac;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
 .social-text {
   padding: 0.7rem 0;
   font-size: 1rem;

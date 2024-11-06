@@ -1,77 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { FaCamera, FaEye, FaEyeSlash, FaBriefcase, FaSchool, FaMapMarkerAlt, FaUser, FaEnvelope, FaPhone, FaBirthdayCake, FaLock } from 'react-icons/fa';
+import { FaCamera, FaEye, FaEyeSlash, FaEnvelope, FaPhone, FaLock } from 'react-icons/fa';
 import Profil from "../../../assets/images/profil.jpg";
 import idUserConnected from '../../../constants/idUserConnected';
 import api from '../../../axiosInstance';
 
 function EditProfil() {
-  const id= idUserConnected();
+  const id = idUserConnected();
   const [profile, setProfile] = useState({
     profilePhoto: Profil,
-    name: 'Mino Prisca',
-    email: 'example@example.com',
-    username: 'minoprisca12',
-    bio: 'Développeur passionné et voyageur.',
-    work: 'Développeur chez PRIMEX Logistics',
-    education: 'École Nationale d’Informatique de Fianarantsoa',
-    location: 'Fianarantsoa, Madagascar',
-    contact: '+261 34 12 345 67',
-    birthdate: '1990-01-01',
   });
 
-  const [profil, setProfil] = useState([]);
-  const [state, setState] = useState({
-    nomEmploye: "",
-    emailEmploye: "",
-    typeEmploye: "",
-    newPwd: "",
-    oldPwd: "",
-    creerPar: id,
-    modifierPar: id,
-  });
-  const getMyInfo = async () => {
-    try {
-      const res = await api.get(`/employe/${id}`);
-      const {
-        nomEmploye,
-        emailEmploye,
-        typeEmploye
-      } = res.data;
-      setProfil({
-        nomEmploye,
-        emailEmploye,
-        typeEmploye
-      });
-
-      console.log(res);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des informations :", error);
-    }
-  }
-  const updateInfo = async () => {
-    try {
-      const res = await api.put(`/employe/${id}`);
-      const {
-        nomEmploye,
-        emailEmploye,
-        typeEmploye
-      } = res.data;
-      setProfil({
-        nomEmploye,
-        emailEmploye,
-        typeEmploye
-      });
-
-      console.log(res);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des informations :", error);
-    }
-  }
-
-  useEffect(()=>{
-    getMyInfo();
-  })
-
+  const [profil, setProfil] = useState({});
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [passwordData, setPasswordData] = useState({
     oldPwd: '',
@@ -83,11 +22,98 @@ function EditProfil() {
     newPwd: false,
     confirmPassword: false,
   });
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState(true);
+
+  useEffect(() => {
+    getMyInfo();
+  }, []);
+
+  const getMyInfo = async () => {
+    try {
+      const res = await api.get(`/employe/${id}`);
+      const { nomEmploye, emailEmploye, typeEmploye, motDePasse } = res.data;
+      setProfil({
+        nomEmploye,
+        emailEmploye,
+        typeEmploye
+      });
+    } catch (error) {
+      console.error("Erreur lors de la récupération des informations :", error);
+    }
+  };
+
+  const updateInfo = async () => {
+    await api.put(`/employe/${id}`, {
+      nomEmploye: profil.nomEmploye,
+      emailEmploye: profil.emailEmploye,
+      typeEmploye: profil.typeEmploye,
+      newPwd: passwordData.newPwd,
+      oldPwd: passwordData.oldPwd
+    })
+      .then((res) => {
+        console.log("Mise à jour réussie :", res);
+      })
+      .catch((err) => {
+        console.log(err);
+
+        if (err.response) {
+          console.error("Erreur du serveur :", err.response.status, err.response.data);
+          alert(err.response.data.error || "Erreur lors de la mise à jour des informations.");
+        } else {
+          // Si c'est une autre erreur (ex. problème de réseau)
+          console.error("Erreur :", err.message);
+          alert("Erreur lors de la connexion. Veuillez vérifier votre connexion réseau.");
+        }
+
+
+        console.error("Erreur lors de la mise à jour des informations :",
+          err.response?.data || err.message
+        );
+      });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
+    setProfil({ ...profil, [name]: value });
   };
+
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordData({ ...passwordData, [name]: value });
+
+    if (name === "newPwd") {
+      evaluatePasswordStrength(value);
+    } else if (name === "confirmPassword") {
+      setPasswordMatch(value === passwordData.newPwd);
+    }
+  };
+
+
+  const evaluatePasswordStrength = (password) => {
+    const hasLetters = /[a-zA-Z]/.test(password);
+    const hasNumbers = /[0-9]/.test(password);
+    const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < 6) {
+      setPasswordStrength("faible");
+      setPasswordMessage("Le mot de passe doit comporter au moins 6 caractères.");
+    } else {
+      setPasswordMessage("");
+
+      if (hasLetters && !hasNumbers && !hasSpecialChars) {
+        setPasswordStrength("faible");
+      } else if (hasLetters && hasNumbers && !hasSpecialChars) {
+        setPasswordStrength("moyen");
+      } else if (hasLetters && hasNumbers && hasSpecialChars) {
+        setPasswordStrength("fort");
+      } else {
+        setPasswordStrength("faible");
+      }
+    }
+  };
+
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -98,11 +124,6 @@ function EditProfil() {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordData({ ...passwordData, [name]: value });
   };
 
   const togglePasswordFields = () => {
@@ -137,7 +158,7 @@ function EditProfil() {
         </div>
         <input
           type="text"
-          name="name"
+          name="nomEmploye"
           value={profil.nomEmploye}
           onChange={handleInputChange}
           className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b-2 border-gray-300 text-center w-full"
@@ -145,91 +166,16 @@ function EditProfil() {
       </div>
 
       <div className="space-y-4 text-left">
-        {/* Email */}
         <div className="flex items-center space-x-2">
           <FaEnvelope className="text-blue-600" />
           <input
             type="email"
-            name="email"
+            name="emailEmploye"
             value={profil.emailEmploye}
             onChange={handleInputChange}
             placeholder="Email"
             className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
           />
-        </div>
-
-        {/* Date of Birth */}
-        <div className="flex items-center space-x-2">
-          <FaBirthdayCake className="text-blue-600" />
-          <input
-            type="date"
-            name="birthdate"
-            value={profile.birthdate}
-            onChange={handleInputChange}
-            className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-          />
-        </div>
-
-        {/* Contact */}
-        <div className="flex items-center space-x-2">
-          <FaPhone className="text-blue-600" />
-          <input
-            type="text"
-            name="contact"
-            value={profile.contact}
-            onChange={handleInputChange}
-            placeholder="Contact"
-            className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <h3 className="text-xs sm:text-sm font-medium text-gray-700">Biographie</h3>
-          <textarea
-            name="bio"
-            value={profile.bio}
-            onChange={handleInputChange}
-            className="mt-1 text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-            rows="2"
-          />
-        </div>
-
-        <div className="mt-4 space-y-4">
-          <div className="flex items-center space-x-2">
-            <FaBriefcase className="text-blue-600" />
-            <input
-              type="text"
-              name="work"
-              value={profile.work}
-              onChange={handleInputChange}
-              placeholder="Travail"
-              className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <FaSchool className="text-blue-600" />
-            <input
-              type="text"
-              name="education"
-              value={profile.education}
-              onChange={handleInputChange}
-              placeholder="Éducation"
-              className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <FaMapMarkerAlt className="text-blue-600" />
-            <input
-              type="text"
-              name="location"
-              value={profile.location}
-              onChange={handleInputChange}
-              placeholder="Localisation"
-              className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
-            />
-          </div>
         </div>
 
         {showPasswordFields && (
@@ -257,16 +203,29 @@ function EditProfil() {
                 </span>
               </div>
             ))}
+
+            {/* Indicateur de force du mot de passe */}
+            {passwordData.newPwd && (
+              <div className={`text-sm font-semibold ${passwordStrength === "faible" ? "text-red-500" : passwordStrength === "moyen" ? "text-yellow-500" : "text-green-500"}`}>
+                Mot de passe {passwordStrength.charAt(0).toUpperCase() + passwordStrength.slice(1)}
+              </div>
+            )}
+
+            {/* Message d'erreur pour confirmation de mot de passe */}
+            {!passwordMatch && (
+              <div className="text-red-500 text-sm font-semibold">
+                Les mots de passe ne correspondent pas.
+              </div>
+            )}
           </div>
         )}
-
 
         <div className="flex justify-center mt-4">
           <button
             onClick={togglePasswordFields}
             className="text-blue-600 hover:underline text-sm sm:text-base"
           >
-            {showPasswordFields ? "Ne pas changer le mot de passe" : "Modifier le mot de passe"}
+            {showPasswordFields ? "Annuler le changement de mot de passe" : "Changer le mot de passe"}
           </button>
         </div>
 

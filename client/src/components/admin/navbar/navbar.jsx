@@ -52,7 +52,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-blue-300 p-4 flex justify-between items-center border-4 border-red-800">
+    <nav className="bg-blue-300 p-4 flex justify-between items-center">
       <h1 className="text-white text-lg font-semibold">Ma Navbar</h1>
 
       <div className="flex items-center space-x-4">
