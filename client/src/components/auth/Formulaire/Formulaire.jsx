@@ -10,7 +10,6 @@ import {
   FaLock,
   FaRegEyeSlash,
   FaTwitter,
-  FaUser,
 } from "react-icons/fa";
 import { AccountService } from "../../../_services/Account.service";
 import { useNavigate } from "react-router-dom";
@@ -252,6 +251,8 @@ const Formulaire = () => {
 </form>
 
       </div>
+      {/* Container for Toast notifications */}
+      <ToastContainer />
     </div>
   );
 };

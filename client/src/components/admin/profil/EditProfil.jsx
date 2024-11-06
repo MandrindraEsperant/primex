@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { FaCamera, FaEye, FaEyeSlash, FaEnvelope, FaPhone, FaLock } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import {
+  FaCamera,
+  FaEye,
+  FaEyeSlash,
+  FaEnvelope,
+  FaLock,
+} from "react-icons/fa";
 import Profil from "../../../assets/images/profil.jpg";
-import idUserConnected from '../../../constants/idUserConnected';
-import api from '../../../axiosInstance';
-
+import idUserConnected from "../../../constants/idUserConnected";
+import api from "../../../axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
 function EditProfil() {
   const id = idUserConnected();
   const [profile, setProfile] = useState({
@@ -13,14 +19,14 @@ function EditProfil() {
   const [profil, setProfil] = useState({});
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [passwordData, setPasswordData] = useState({
-    oldPwd: '',
-    newPwd: '',
-    confirmPassword: '',
+    oldPwd: "",
+    newPwd: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState({
-    oldPwd: false,
-    newPwd: false,
-    confirmPassword: false,
+    oldPwd: "",
+    newPwd: "",
+    confirmPassword: "",
   });
   const [passwordStrength, setPasswordStrength] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
@@ -37,7 +43,7 @@ function EditProfil() {
       setProfil({
         nomEmploye,
         emailEmploye,
-        typeEmploye
+        typeEmploye,
       });
     } catch (error) {
       console.error("Erreur lors de la récupération des informations :", error);
@@ -45,33 +51,29 @@ function EditProfil() {
   };
 
   const updateInfo = async () => {
-    await api.put(`/employe/${id}`, {
-      nomEmploye: profil.nomEmploye,
-      emailEmploye: profil.emailEmploye,
-      typeEmploye: profil.typeEmploye,
-      newPwd: passwordData.newPwd,
-      oldPwd: passwordData.oldPwd
-    })
-      .then((res) => {
-        console.log("Mise à jour réussie :", res);
-      })
-      .catch((err) => {
-        console.log(err);
 
-        if (err.response) {
-          console.error("Erreur du serveur :", err.response.status, err.response.data);
-          alert(err.response.data.error || "Erreur lors de la mise à jour des informations.");
-        } else {
-          // Si c'est une autre erreur (ex. problème de réseau)
-          console.error("Erreur :", err.message);
-          alert("Erreur lors de la connexion. Veuillez vérifier votre connexion réseau.");
-        }
-
-
-        console.error("Erreur lors de la mise à jour des informations :",
-          err.response?.data || err.message
-        );
+    try {
+      const res = await api.put(`/employe/${id}`, {
+        nomEmploye: profil.nomEmploye,
+        emailEmploye: profil.emailEmploye,
+        typeEmploye: profil.typeEmploye,
+        newPwd: passwordData.newPwd,
+        oldPwd: passwordData.oldPwd,
       });
+      // Affiche un toast de succès si la mise à jour est réussie
+      toast.success("Profil mis à jour avec succès!");
+      console.log(res.data);
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour :", err);
+      if (err.response) {
+        toast.error(
+          err.response.data.error ||
+            "Erreur lors de la mise à jour des informations."
+        );
+      } else {
+        toast.error("Erreur de connexion réseau. Veuillez réessayer.");
+      }
+    }
   };
 
   const handleInputChange = (e) => {
@@ -90,7 +92,6 @@ function EditProfil() {
     }
   };
 
-
   const evaluatePasswordStrength = (password) => {
     const hasLetters = /[a-zA-Z]/.test(password);
     const hasNumbers = /[0-9]/.test(password);
@@ -98,7 +99,9 @@ function EditProfil() {
 
     if (password.length < 6) {
       setPasswordStrength("faible");
-      setPasswordMessage("Le mot de passe doit comporter au moins 6 caractères.");
+      setPasswordMessage(
+        "Le mot de passe doit comporter au moins 6 caractères."
+      );
     } else {
       setPasswordMessage("");
 
@@ -114,7 +117,6 @@ function EditProfil() {
     }
   };
 
-
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -128,6 +130,11 @@ function EditProfil() {
 
   const togglePasswordFields = () => {
     setShowPasswordFields(!showPasswordFields);
+    setPasswordData({
+      oldPwd: "",
+      newPwd: "",
+      confirmPassword: "",
+    });
   };
 
   const toggleShowPassword = (field) => {
@@ -180,18 +187,20 @@ function EditProfil() {
 
         {showPasswordFields && (
           <div className="mt-4 space-y-4">
-            {['oldPwd', 'newPwd', 'confirmPassword'].map((field, index) => (
+            {["oldPwd", "newPwd", "confirmPassword"].map((field, index) => (
               <div key={index} className="relative flex items-center space-x-2">
                 <FaLock className="text-blue-600" />
                 <input
-                  type={showPassword[field] ? 'text' : 'password'}
+                  type={showPassword[field] ? "text" : "password"}
                   name={field}
                   value={passwordData[field]}
                   onChange={handlePasswordChange}
                   placeholder={
-                    field === 'oldPwd' ? 'Mot de passe actuel' :
-                      field === 'newPwd' ? 'Nouveau mot de passe' :
-                        'Confirmer le nouveau mot de passe'
+                    field === "oldPwd"
+                      ? "Mot de passe actuel"
+                      : field === "newPwd"
+                      ? "Nouveau mot de passe"
+                      : "Confirmer le nouveau mot de passe"
                   }
                   className="text-base sm:text-lg text-gray-900 border-b-2 border-gray-300 w-full focus:outline-none"
                 />
@@ -206,8 +215,18 @@ function EditProfil() {
 
             {/* Indicateur de force du mot de passe */}
             {passwordData.newPwd && (
-              <div className={`text-sm font-semibold ${passwordStrength === "faible" ? "text-red-500" : passwordStrength === "moyen" ? "text-yellow-500" : "text-green-500"}`}>
-                Mot de passe {passwordStrength.charAt(0).toUpperCase() + passwordStrength.slice(1)}
+              <div
+                className={`text-sm font-semibold ${
+                  passwordStrength === "faible"
+                    ? "text-red-500"
+                    : passwordStrength === "moyen"
+                    ? "text-yellow-500"
+                    : "text-green-500"
+                }`}
+              >
+                Mot de passe{" "}
+                {passwordStrength.charAt(0).toUpperCase() +
+                  passwordStrength.slice(1)}
               </div>
             )}
 
@@ -225,12 +244,15 @@ function EditProfil() {
             onClick={togglePasswordFields}
             className="text-blue-600 hover:underline text-sm sm:text-base"
           >
-            {showPasswordFields ? "Annuler le changement de mot de passe" : "Changer le mot de passe"}
+            {showPasswordFields
+              ? "Annuler le changement de mot de passe"
+              : "Changer le mot de passe"}
           </button>
         </div>
 
         <div className="flex justify-center mt-6">
-          <button onClick={updateInfo}
+          <button
+            onClick={updateInfo}
             type="button"
             className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
           >
@@ -238,6 +260,8 @@ function EditProfil() {
           </button>
         </div>
       </div>
+      {/* Container for Toast notifications */}
+      <ToastContainer />
     </div>
   );
 }
