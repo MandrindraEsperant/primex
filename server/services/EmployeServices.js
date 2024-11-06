@@ -117,7 +117,9 @@ class EmployeService {
   async updateEmploye(id, employeData) {
     if (employeData.newPwd!="" && employeData.oldPwd!="") {
       const verification = await this.getEmployeById(id);
-
+if(!verification){
+  throw new Erro("Employé non trouvé");
+}
       const isPasswordValid = await bcrypt.compare(
         employeData.oldPwd,
         verification.motDePasse
