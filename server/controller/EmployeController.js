@@ -24,20 +24,40 @@ class EmployeController {
       }
     }
   }
+  async forgotPassword(req, res) {
+    try {
+      const { email } = req.body;
+      const { token } = await this.employeService.forgotPwd(email);
+      res.status(200).send({
+        token,
+        message: "Code d'accès temporaire envoyé avec succès.",
+      });
+    } catch (error) {
+      if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        res
+          .status(500)
+          .json({ error: "Erreur lors de l'envoi du code temporaire." });
+      }
+    }
+  }
   async resetPassword(req, res) {
     try {
-        const { email } = req.body;
-        // Appel au service pour envoyer l'email avec le code temporaire
-        const message = await this.employeService.resetPwd(email);
-        res.status(200).send({ message: "Code d'accès temporaire envoyé avec succès." });
+      const { token, newPwd, email,codeTemp } = req.body;
+      await this.employeService.resetPwd(token, newPwd, email, codeTemp);
+      res.status(200).send({ token });
     } catch (error) {
-        if (error.message) {
-            res.status(401).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: "Erreur lors de l'envoi du code temporaire." });
-        }
+      if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        res
+          .status(500)
+          .json({ error: "Erreur lors de l'envoi du code temporaire." });
+      }
     }
-}
+  }
+
   async getEmploye(req, res) {
     try {
       const employe = await this.employeService.getEmployeById(req.params.id);

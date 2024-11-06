@@ -15,6 +15,9 @@ class EmployeRepository extends IRepository {
   async findByEmail(email) {
     return await Employe.findOne({ where: { emailEmploye: email } });
   }
+  async findByEmailAndId(email, id) {
+    return await Employe.findOne({ where: { emailEmploye: email ,idEmployer:id} });
+  }
   
   async findAll() {
     return await Employe.findAll();
