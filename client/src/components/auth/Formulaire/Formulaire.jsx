@@ -10,11 +10,12 @@ import {
   FaLock,
   FaRegEyeSlash,
   FaTwitter,
-  FaUser,
 } from "react-icons/fa";
 import { AccountService } from "../../../_services/Account.service";
 import { useNavigate } from "react-router-dom";
 import api from './../../../axiosInstance';
+import { ToastContainer, toast } from "react-toastify";
+
 
 const Formulaire = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -104,56 +105,6 @@ const Formulaire = () => {
   return (
     <div className="forms-container">
       <div className="signin-signup">
-
-        {/* <form action="#" className="sign-in-form" onSubmit={handleLogin}>
-          <h2 className="title">Sign in</h2>
-          <div className="input-field"> 
-            <i>
-              <FaEnvelope />
-            </i>
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={(e) => setLogin({ ...login, email: e.target.value })}
-            />
-          </div>
-          <div className="input-field">
-            <i>
-              <FaLock />
-            </i>
-            <input
-              type="password"
-              onChange={(e) => setLogin({ ...login, password: e.target.value })}
-              placeholder="Password"
-            />
-          </div>
-          <input type="submit" value="Login" className="btn solid" />
-          <p className="social-text">Or Sign in with social platforms</p>
-          <div className="social-media">
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaFacebookF />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                {" "}
-                <FaTwitter />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaGoogle />
-              </i>
-            </button>
-            <button type="button" className="social-icon">
-              <i>
-                <FaLinkedinIn />
-              </i>
-            </button>
-          </div>
-        </form> */}
         <form action="#" className="sign-in-form" onSubmit={handleLogin}>
           <h2 className="title">Authentification</h2>
 
@@ -350,6 +301,8 @@ const Formulaire = () => {
           </div>
         </form> */}
       </div>
+      {/* Container for Toast notifications */}
+      <ToastContainer />
     </div>
   );
 };

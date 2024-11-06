@@ -86,7 +86,13 @@ class EmployeController {
       );
       res.status(200).json(employe);
     } catch (error) {
-      res.status(500).send(error.message);
+      if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        res
+          .status(500)
+          .json({ error: "Erreur lors de l'envoi du code temporaire." });
+      }
     }
   }
   async deleteEmploye(req, res) {

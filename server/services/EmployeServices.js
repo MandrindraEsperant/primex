@@ -89,24 +89,27 @@ class EmployeService {
     await transporter.sendMail(mailOptions);
     return { token };
   }
-  async resetPwd(token,newPassword,email,codeTemp) {
+  async resetPwd(token, newPassword, email, codeTemp) {
     try {
-      const decoded = jwt.verify(token, SECRET_KEY);      
-      
-      if (decoded.temporaryCode !=codeTemp) {
-        throw new Error('Code de réinitialisation incorrect.')
+      const decoded = jwt.verify(token, SECRET_KEY);
+
+      if (decoded.temporaryCode != codeTemp) {
+        throw new Error("Code de réinitialisation incorrect.");
       }
       // Réinitialise le mot de passe
-      const verification = await this.employeRepository.findByEmailAndId(email,decoded.id)
-      if(!verification){
-        throw new Error("Employé non trouvé")
+      const verification = await this.employeRepository.findByEmailAndId(
+        email,
+        decoded.id
+      );
+      if (!verification) {
+        throw new Error("Employé non trouvé");
       }
       const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
-    const employeData = { motDePasse:hashedPassword  }
+      const employeData = { motDePasse: hashedPassword };
       return await this.employeRepository.update(decoded.id, employeData);
     } catch (error) {
       throw error;
-    }  
+    }
   }
   async getEmployeById(id) {
     return await this.employeRepository.findById(id);
@@ -115,28 +118,28 @@ class EmployeService {
     return await this.employeRepository.findAll();
   }
   async updateEmploye(id, employeData) {
-    if (employeData.newPwd!="" && employeData.oldPwd!="") {
+    if (employeData.newPwd != "" && employeData.oldPwd != "") {
       const verification = await this.getEmployeById(id);
-if(!verification){
-  throw new Erro("Employé non trouvé");
-}
-      const isPasswordValid = await bcrypt.compare(
-        employeData.oldPwd,
-        verification.motDePasse
-      );
-      if (!isPasswordValid) {
-        throw new Error("Mot de passe invalide");
-      }
-      employeData.motDePasse = employeData.newPwd;
+        if (!verification) {
+            throw new Error("Employé non trouvé");
+        }
+        const isPasswordValid = await bcrypt.compare(
+            employeData.oldPwd,
+            verification.motDePasse
+        );
+      
+        if (!isPasswordValid) {
+            throw new Error("Mot de passe invalide");
+        }
+        employeData.motDePasse = await bcrypt.hash(employeData.newPwd, SALT_ROUNDS);
     }
-    const hashedPassword = await bcrypt.hash(
-      employeData.motDePasse,
-      SALT_ROUNDS
-    );
-    employeData.motDePasse = hashedPassword;
+    else {
+      delete employeData.motDePasse;
+  }
+
     return await this.employeRepository.update(id, employeData);
   }
-    async deleteEmploye(id) {
+  async deleteEmploye(id) {
     return await this.employeRepository.delete(id);
   }
 }
