@@ -15,6 +15,7 @@ import { AccountService } from "../../../_services/Account.service";
 import { useNavigate } from "react-router-dom";
 import api from './../../../axiosInstance';
 import Swal from 'sweetalert2'
+import { ToastContainer, toast } from "react-toastify";
 
 const Formulaire = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -70,13 +71,27 @@ const Formulaire = () => {
           codeTemp: code,
         });
         Swal.fire({
-          icon:"success",
-          title:"Modifié",
-          text:"Mot de passe changé avec succès"
-        })
+          icon: "success",
+          title: "Modifié",
+          text: "Mot de passe changé avec succès",
+        });
       } catch (error) {
-        alert(error.response.data.error || "Erreur lors de la réinitialisation");
+        const errorMessage = error.response.data.error || "Erreur lors de la réinitialisation";
+        if (errorMessage === "CodeTempIncorrect") {
+          Swal.fire({
+            icon: "error",
+            title: "Erreur",
+            text: "Code de vérification incorrect",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Erreur",
+            text: errorMessage,
+          });
+        }
       }
+    
     } else {
       alert("Les mots de passe ne correspondent pas.");
     }

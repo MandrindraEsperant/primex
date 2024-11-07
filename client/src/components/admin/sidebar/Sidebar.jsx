@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { ThemeContext } from "./../../../context/ThemeContext";
 import { LIGHT_THEME } from "./../../../constants/themeConstants";
 import LogoBlue from "./../../../assets/images/logo_blue.svg";
@@ -21,7 +21,7 @@ import {
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
 import "./Sidebar.scss";
-// import { SidebarContext } from "./../../../context/SidebarContext";
+import { SidebarContext } from "../../../context/SidebarContext";
 import { AccountService } from './../../../_services/Account.service';
 
 const Sidebar = () => {
@@ -36,26 +36,26 @@ const Sidebar = () => {
 
   const location = useLocation(); // Récupérer l'URL actuelle
   const { theme } = useContext(ThemeContext);
-  // const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
+  const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const navbarRef = useRef(null);
 
   // closing the navbar when clicked outside the sidebar area
-  // const handleClickOutside = (event) => {
-  //   if (
-  //     navbarRef.current &&
-  //     !navbarRef.current.contains(event.target) &&
-  //     event.target.className !== "sidebar-oepn-btn"
-  //   ) {
-  //     closeSidebar();
-  //   }
-  // };
+  const handleClickOutside = (event) => {
+    if (
+      navbarRef.current &&
+      !navbarRef.current.contains(event.target) &&
+      event.target.className !== "sidebar-oepn-btn"
+    ) {
+      closeSidebar();
+    }
+  };
 
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const navigate = useNavigate()
 
@@ -97,7 +97,7 @@ const Sidebar = () => {
           <span className="sidebar-brand-text">Primex Logistics</span>
         </div>
         <button className="sidebar-close-btn"
-        // onClick={closeSidebar}
+        onClick={closeSidebar}
         >
           <MdOutlineClose size={24} />
         </button>
