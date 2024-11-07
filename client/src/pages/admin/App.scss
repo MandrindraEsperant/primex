@@ -125,11 +125,11 @@ button {
 .content-wrapper {
   background-color: var(--background-color);
   min-height: 100vh;
-  padding: 50px 58px;
+  padding: 0;
   margin-left: 260px;
 
   @media (max-width: 1400px) {
-    padding: 32px;
+    padding:32px;
   }
 
   @media (max-width: 1200px) {
