@@ -126,7 +126,9 @@ button {
   background-color: var(--background-color);
   min-height: 100vh;
   padding: 50px 58px;
-  margin-left: 260px;
+  margin-left: 200px;
+  flex-grow:1;
+  overflow-y: auto;
 
   @media (max-width: 1400px) {
     padding: 32px;

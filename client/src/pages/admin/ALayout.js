@@ -33,7 +33,7 @@ const ALayout = () => {
       <SidebarProvider>
       <Sidebar />
       <div className="content-wrapper">
-      <Navbar />
+      {/* <Navbar /> */}
         
         <Outlet />
       </div>
