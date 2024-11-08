@@ -97,7 +97,7 @@ const Sidebar = () => {
           <span className="sidebar-brand-text">Primex Logistics</span>
         </div>
         <button className="sidebar-close-btn"
-        onClick={closeSidebar}
+          onClick={closeSidebar}
         >
           <MdOutlineClose size={24} />
         </button>
@@ -145,67 +145,35 @@ const Sidebar = () => {
                 <span className="menu-link-text">Agent</span>
               </Link>
             </li>
+            
             <li className="menu-item">
-              <Link to="/admin/exportation"
-
-                className={`menu-link ${location.pathname === '/admin/exportation' ? 'active' : ''}`}>
-                <span className="menu-link-icon">
-                  <MdLocalShipping size={18} />
-                </span>
-                <span className="menu-link-text">Exportation</span>
+              <Link to="/admin/transport">
+                <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transport' ? 'active' : ''}`}>
+                  <span className="menu-link-icon">
+                    <MdDirectionsBoat size={20} />
+                    <span className="menu-link-text">Transport</span>
+                  </span>
+                </div>
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/admin/importation"
-
-                className={`menu-link ${location.pathname === '/admin/importation' ? 'active' : ''}`}>
-                <span className="menu-link-icon">
-                  <MdLocalShipping size={18} />
-                </span>
-                <span className="menu-link-text">Importation</span>
+              <Link to="/admin/marchandise">
+                <div className={`menu-link ${location.pathname === '/admin/marchandise' ? 'active' : ''}`}>
+                  <span className="menu-link-icon">
+                    <MdDirectionsBoat size={20} />
+                  </span><span className="menu-link-text">Marchandise</span>
+                </div>
               </Link>
             </li>
-             <li className="menu-item">
-              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transportaerienne' || location.pathname === '/admin/transportmaritime' ? 'active' : ''}`}>
-                <span className="menu-link-icon">
-                  <MdDirectionsBoat size={20} />
-                </span>
-                <span className="menu-link-text">Transport</span>
-              </div>
-              <ul className="submenu">
-                <li className="submenu-item">
-                  <Link to="/admin/transportmaritime" className="menu-link">
-                    <span className="menu-link-icon">
-                      <MdDirectionsBoat size={18} />
-                    </span>
-                    <span className="menu-link-text">Maritime</span>
-                  </Link>
-                </li>
-                <li className="submenu-item">
-                  <Link to="/admin/transportaerienne" className="menu-link">
-                    <span className="menu-link-icon">
-                      <MdFlightLand size={18} />
-                    </span>
-                    <span className="menu-link-text">Aérienne</span>
-                  </Link>
-                </li>
-              </ul>
-            </li>
             <li className="menu-item">
-              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/marchandise' ? 'active' : ''}`}>
-                <span className="menu-link-icon">
-                  <MdDirectionsBoat size={20} />
-                </span>
-                <Link to="/admin/marchandise"><span className="menu-link-text">Marchandise</span></Link>
-              </div>
-            </li>
-            <li className="menu-item">
-              <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transaction'? 'active' : ''}`}>
-                <span className="menu-link-icon">
-                  <MdDirectionsBoat size={20} />
-                  <Link to="/admin/transaction"><span className="menu-link-text">Transaction</span></Link>
-                </span>                
-              </div>
+              <Link to="/admin/transaction">
+                <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transaction' ? 'active' : ''}`}>
+                  <span className="menu-link-icon">
+                    <MdDirectionsBoat size={20} />
+                    <span className="menu-link-text">Transaction</span>
+                  </span>
+                </div>
+              </Link>
             </li>
 
 

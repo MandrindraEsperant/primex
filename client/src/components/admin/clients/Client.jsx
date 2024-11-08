@@ -11,8 +11,11 @@ import {
 } from "react-icons/md";
 import "./Client.scss";
 import AjoutCLi from "../../../pages/admin/AjoutCLi";
+import "../Dashboard/areaTable/AreaTable.scss"
+import "../Dashboard/areaTable/AreaTableAction"
 import Swal from "sweetalert2";
 import axios from "axios";
+import AreaTableAction from "../Dashboard/areaTable/AreaTableAction";
 
 const Client = () => {
   const [open, setOpen] = useState(false);
@@ -67,7 +70,7 @@ const Client = () => {
   };
   const handleSelect = (person) => {
     if (selectedPerson && selectedPerson.idClient === person.idClient) {
-      setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
+      setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
@@ -88,7 +91,7 @@ const Client = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Supprimer!",
       cancelButtonText: "Annuler",
-      reverseButtons:true
+      reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
         supprimer(id); // Appeler la fonction de suppression si confirmé
@@ -140,60 +143,53 @@ const Client = () => {
             />
           </div>
           <section className="content-area-table pd-5">
-                <div className="data-table-diagram">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>CNI</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData.map((item) => (
-                //   initialData.map((item) =>
-                <tr
-                  key={item.idClient}
-                  onClick={() => handleSelect(item)}
-                  className={item === selectedPerson ? "selectedRow" : ""}
-                >
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={item === selectedPerson}
-                      readOnly
-                    />
-                  </td>
-                  <td>{item.nomClient}</td>
-                  <td>{item.emailClient}</td>
-                  <td>{item.CINClient}</td>
-                  <td>
-                    <span className="actionIcons">
-                      <MdEdit
-                        className="editIcon"
-                        onClick={() => handleEditClickOpen(item)}
-                      />
-                      <MdDelete
-                        className="deleteIcon"
-                        onClick={() => handleDeleteClick(item.idClient)}
-                      />
-                      <MdVisibility className="viewIcon" />
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table></div></section>
+            <div className="data-table-diagram">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>CNI</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentData.map((item) => (
+                    
+                    <tr
+                      key={item.idClient}
+                      onClick={() => handleSelect(item)}
+                      className={item === selectedPerson ? "selectedRow" : ""}
+                    >
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={item === selectedPerson}
+                          readOnly
+                        />
+                      </td>
+                      <td>{item.nomClient}</td>
+                      <td>{item.emailClient}</td>
+                      <td>{item.CINClient}</td>
+                      <td className="dt-cell-action">
+                        <AreaTableAction
+                          id={item.id}
+                          onEditClick={() => handleEditClickOpen(item.idClient)}
+                          onDeleteClick={() => handleDeleteClick(item.idClient)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table></div></section>
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNumber) => (
                 <button
                   key={pageNumber}
-                  className={`pageButton ${
-                    currentPage === pageNumber ? "activePage" : ""
-                  }`}
+                  className={`pageButton ${currentPage === pageNumber ? "activePage" : ""
+                    }`}
                   onClick={() => handlePageChange(pageNumber)}
                 >
                   {pageNumber}

@@ -32,11 +32,6 @@ const AreaTableAction = ({ idTransMaritime, onEditClick, onDeleteClick }) => {
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
               <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
-                  Voir
-                </Link>
-              </li>
-              <li className="dropdown-menu-item">
               <button
                   onClick={onEditClick}
                   className="dropdown-menu-link"

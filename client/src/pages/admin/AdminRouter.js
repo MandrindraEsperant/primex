@@ -4,9 +4,7 @@ import ALayout from "./ALayout";
 
 import Dashboard from "./Dashboard";
 import ClientPage from "./ClientPage";
-import ImportationPage from "./ImportationPage";
 import EmployePage from "./EmployePage";
-import ExportationPage from "./ExportationPage";
 import TransportAeriennePage from "./TransportAeriennePage";
 import TransportMaritimePage from "./TransportMaritimePage";
 
@@ -24,20 +22,21 @@ import TransactioHwb from "./TransactionHwb";
 import SuiviP from "./Suivi";
 import Profil from "./Profil";
 import EditProfilP from "./EditProfil";
+import TransportP from "./Transport";
+
 const AdminRouter = () => {
   return (
     <Routes>
       <Route element={<ALayout />}>         
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="client" element={<ClientPage />} />
-        <Route path="importation" element={<ImportationPage />} />
         <Route path="employe" element={<EmployePage />} />
-        <Route path="exportation" element={<ExportationPage />} />
         <Route path="transportaerienne" element={<TransportAeriennePage />} />
         <Route path="transportmaritime" element={<TransportMaritimePage />} />
         <Route path="marchandise" element={<MarchandisePage />} />
         <Route path="suivi" element={<SuiviExp />} />
         <Route path="agent" element={<AgentP />} />
+        <Route path="transport" element={<TransportP />} />
 
         <Route path="transaction" element={<TransactionP />} />
         <Route path="transactionaerienne" element={<TransactionA />} />

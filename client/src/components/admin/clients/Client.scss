@@ -85,14 +85,13 @@ Utilisation du mixin pour le mode sombre
   font-size: 2rem;
   font-weight: bold;
   color: var(--text-color);
-  margin-bottom: 2rem;
-  color: blue;
-  padding: 0.1rem 0.1rem;
+  color: var(--primary-color);
 }
 .container {
   display: flex;
   justify-content: space-between; 
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
+  padding: 0;
 }
 .tableContainer {
   width: 100%;
@@ -226,49 +225,14 @@ Utilisation du mixin pour le mode sombre
 
   // Ajout de la classe pour la ligne sélectionnée
   .selectedRow {
-    background-color: var(--select-tbl-color) !important; // Couleur bleu pour la ligne sélectionnée
+    background-color: var(--primary-color) !important; // Couleur bleu pour la ligne sélectionnée
     color: white;
 
     .checkbox{
       color: var(--primary-color);
     }
-    .editIcon {
-      cursor: pointer;
-      color: #0022e4; // Bl// Optionnel : changer la couleur du texte pour le contrasteeu ciel
-      transition: color 0.3s;
-      width: 16px;
-      height: 18px;
-      border-radius: 15%;
-
-      &:hover {
-        color: #0049b8; // Changement de couleur au survol
-      }
-    }
-
-    .deleteIcon {
-      cursor: pointer;
-      color: #FF4500; // Rouge
-      transition: color 0.3s;
-      width: 16px;
-      height: 18px;
-      border-radius: 15%;
-
-      &:hover {
-        color: #FF6347; // Changement de couleur au survol
-      }
-    }
-
-    .viewIcon {
-      cursor: pointer;
-      color: #74f574; // Couleur verte pour l'icône de visualisation
-      transition: color 0.3s;
-      width: 16px;
-      height: 18px;
-      border-radius: 15%;
-
-      &:hover {
-        color: #3CB371; // Changement de couleur au survol
-      }
+    .dt-cell-action{
+      color:white;
     }
   }
 

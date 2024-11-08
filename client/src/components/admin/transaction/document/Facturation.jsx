@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import html2pdf from 'html2pdf.js';
 
 const Facturation = () => {
