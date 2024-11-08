@@ -22,7 +22,7 @@ import TransactioHwb from "./TransactionHwb";
 import SuiviP from "./Suivi";
 import Profil from "./Profil";
 import EditProfilP from "./EditProfil";
-import TransportP from "./Transport";
+import TransportP from "./TransportP";
 
 const AdminRouter = () => {
   return (
