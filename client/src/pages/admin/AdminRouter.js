@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import ALayout from "./ALayout";
-import User from "./User";
 
 import Dashboard from "./Dashboard";
 import ClientPage from "./ClientPage";
@@ -45,15 +44,10 @@ const AdminRouter = () => {
         <Route path="transactionmaritime" element={<TransactionM />} />
         <Route path="transactionhbl" element={<TransactionHblP />} />
         <Route path="transactionHwb" element={<TransactioHwb />} />
-
         <Route path="marchandisehwb" element={<MarchandiseHWB />} />
         <Route path="suivi" element={<SuiviP />} />
         <Route path="profil" element={<Profil />} />
         <Route path="profiledit" element={<EditProfilP />} />
-
-
-
-        <Route path="user" element={<User />} />
         <Route path="*" element={<Error404/>} />
 
       </Route>

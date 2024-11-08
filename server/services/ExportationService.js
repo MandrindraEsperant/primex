@@ -20,7 +20,6 @@ class ExportationService {
   }
 
   async createExportation(Data) {
-
     // Verification du transport
     let idTransport;
     if (Data.modeTransport === "Maritime") {

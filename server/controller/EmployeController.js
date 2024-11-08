@@ -44,8 +44,10 @@ class EmployeController {
   }
   async resetPassword(req, res) {
     try {
-      const { token, newPwd, email,codeTemp } = req.body;
-      await this.employeService.resetPwd(token, newPwd, email, codeTemp);
+      const { token, newPassword, email,codeTemp } = req.body;
+      if (!token || !newPassword || !email || !codeTemp) {
+        return res.status(400).json({ error: "Tous les infos sont requis." });
+      }
       res.status(200).send({ token });
     } catch (error) {
       if (error.message) {
@@ -57,7 +59,6 @@ class EmployeController {
       }
     }
   }
-
   async getEmploye(req, res) {
     try {
       const employe = await this.employeService.getEmployeById(req.params.id);
