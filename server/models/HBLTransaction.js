@@ -16,7 +16,7 @@ HBLTransaction.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Ce numéro HBL est déjà utilisée.",
+        msg: "Ce numéro HBL est déjà utilisé.",
       },
     },
     idMBL: {
@@ -67,13 +67,18 @@ HBLTransaction.init(
     modelName: "HBLTransaction",
     timestamps: true,
     validate: {
-      expediteurDifferentDeDestinateur() {
-        if (this.idExpediteur === this.idDestinateur) {
-          throw new Error("idExpediteur doit être différent de idDestinateur.");
+      expediteurDifferentDeDestinataire() {
+        if (this.idExpediteur === this.idDestinataire) {
+          throw new Error("idExpediteur doit être différent de idDestinataire.");
         }
       },
     },
   }
 );
+
+// Définir les associations
+HBLTransaction.belongsTo(Client, { as: 'clientExp', foreignKey: 'idExpediteur' });
+HBLTransaction.belongsTo(Client, { as: 'clientDest', foreignKey: 'idDestinataire' });
+HBLTransaction.belongsTo(TransactionMaritime, { foreignKey: 'idMBL' });
 
 module.exports = HBLTransaction;

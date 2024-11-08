@@ -9,8 +9,9 @@ const Document = () => {
 
     return (
         <div className="tabs-container">
+
             <div className="tabs">
-                <div
+                <div 
                     onClick={() => setActiveTab('facturation')}
                     className={`tab button-tab ${activeTab === 'facturation' ? 'active' : ''}`}
                 >

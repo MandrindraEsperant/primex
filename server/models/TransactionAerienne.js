@@ -12,7 +12,7 @@ TransactionAerienne.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    numMWL: {
+    numMWB: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
