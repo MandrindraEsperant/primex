@@ -98,8 +98,9 @@ const TransactionHbl = () => {
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="title">LISTE DE TOUT LES TRANSACTIONS HBL</h3>
-    <div className="flex flex-col space-y-6">
+    <h3 className="titleCli">TRANSACTIONS HBL</h3>
+            <div className="container">
+            <div className="tableContainer">
         <div className="actionsContainer">
             <div className="searchContainer">
                 <MdSearch className="searchIcon" />
@@ -186,7 +187,7 @@ const TransactionHbl = () => {
             ))}
         </div>
 
-
+</div>
     </div>
 </div>
   )

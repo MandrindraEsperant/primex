@@ -60,7 +60,6 @@ const Client = () => {
     setOpen(false);
     setSelectedPerson(null);
   };
-
   const handleEditClickOpen = (client) => {
     setSelectedPerson(client);
     setIsEditMode(true); // Mode modification
@@ -68,7 +67,7 @@ const Client = () => {
   };
   const handleSelect = (person) => {
     if (selectedPerson && selectedPerson.idClient === person.idClient) {
-      setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
+      setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
@@ -96,7 +95,6 @@ const Client = () => {
       }
     });
   };
-
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -110,7 +108,7 @@ const Client = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-      <h3 className="title">LISTE DE TOUT LES CLIENTS</h3>
+      <h3 className="titleCli">LISTE DE TOUT LES CLIENTS</h3>
       <div className="container">
         <div className="tableContainer">
           <div className="actionsContainer">
@@ -141,6 +139,8 @@ const Client = () => {
               selectedPerson={selectedPerson}
             />
           </div>
+          <section className="content-area-table pd-5">
+                <div className="data-table-diagram">
           <table className="table">
             <thead>
               <tr>
@@ -185,8 +185,7 @@ const Client = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
-
+          </table></div></section>
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNumber) => (
@@ -204,33 +203,6 @@ const Client = () => {
           </div>
         </div>
 
-        <div className="detailContainer">
-          <div className="detailHeader">
-            {selectedPerson && (
-              <img
-                src={selectedPerson.imageUrl}
-                alt={selectedPerson.nom}
-                className="detailImage"
-              />
-            )}
-          </div>
-          <p>
-            <strong>Nom :</strong>{" "}
-            {selectedPerson ? selectedPerson.nomClient : ""}
-          </p>
-          <p>
-            <strong>Email :</strong>{" "}
-            {selectedPerson ? selectedPerson.emailClient : ""}
-          </p>
-          <p>
-            <strong>CNI :</strong>{" "}
-            {selectedPerson ? selectedPerson.CINClient : ""}
-          </p>
-
-          <button className="editButton">
-            <MdEdit /> Modifier
-          </button>
-        </div>
       </div>
     </div>
   );

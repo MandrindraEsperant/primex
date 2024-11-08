@@ -77,9 +77,9 @@ const TransportAerienne = () => {
 
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idTransAerienne === person.idTransAerienne) {
-            setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
+            setSelectedPerson(null);
         } else {
-            setSelectedPerson(person); // Sélectionne la personne cliquée
+            setSelectedPerson(person);
         }
     };
     const filteredData = data.filter(item =>
@@ -104,97 +104,98 @@ const TransportAerienne = () => {
 
     return (
         <div className={`client-container ${theme}`}>
-            <h3 className="title">LISTE DE TOUT LES TRANSPORTS AERIENNE</h3>
-            <div className="flex flex-col space-y-6">
-                <div className="actionsContainer">
-                    <div className="searchContainer">
-                        <MdSearch className="searchIcon" />
-                        <input
-                            type="text"
-                            placeholder="Recherche..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="searchInput"
-                        />
-                        {searchTerm && (
-                            <MdClear
-                                className="clearIcon"
-                                onClick={() => setSearchTerm('')}
+            <h3 className="titleCli">LISTE DE TOUT LES TRANSPORTS AERIENNE</h3>
+            <div className="container">
+                <div className="tableContainer">
+                    <div className="actionsContainer">
+                        <div className="searchContainer">
+                            <MdSearch className="searchIcon" />
+                            <input
+                                type="text"
+                                placeholder="Recherche..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="searchInput"
                             />
-                        )}
-                    </div>
-                    <button className="addButton" onClick={handleClickOpen}>
-                        <MdAdd /> Ajouter
-                    </button>
-                    <AjoutTransA
-                        open={open}
-                        allTransAerienne={allTransAerienne}
-                        handleClose={handleClose}
-                        isEditMode={isEditMode}
-                        selectedPerson={selectedPerson} />
-
-                </div>
-                <section className="content-area-table pd-5">
-                <div className="data-table-diagram">
-                <table >
-                    <thead>
-                        <tr >
-                            <th>#</th>
-                            <th>ID</th>
-                            <th>N° Vol</th>
-                            <th>Nom Compagnie</th>
-                            <th>Date de chargement</th>
-                            <th>Pays de chargement</th>
-                            <th>Pays de déchargement</th>
-                            <th>Ville de chargement</th>
-                            <th>Ville de déchargement</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentData.map(item => (
-                            <tr
-                                key={item.idTransAerienne}
-                                onClick={() => handleSelect(item)}
-                                className={item === selectedPerson ? 'selectedRow' : ''}
-                            >
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={item === selectedPerson}
-                                        readOnly
-                                    />
-                                </td>
-                                <td>{item.idTransAerienne}</td>
-                                <td>{item.numVol}</td>
-                                <td>{item.nomCompagnie}</td>
-                                <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
-                                <td>{item.paysChargement}</td>
-                                <td>{item.paysDechargement}</td>
-                                <td>{item.villeChargement}</td>
-                                <td>{item.villeDechargement}</td>
-                                <td className="dt-cell-action">
-                                    <AreaTableAction
-                                        id={item.id}
-                                        onEditClick={() => handleEditClickOpen(item.idTransAerienne)}
-                                        onDeleteClick={() => handleDeleteClick(item.idTransAerienne)}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table></div></section>
-                <div className="pagination">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-                        <button
-                            key={pageNumber}
-                            className={`pageButton ${currentPage === pageNumber ? 'activePage' : ''}`}
-                            onClick={() => handlePageChange(pageNumber)}
-                        >
-                            {pageNumber}
+                            {searchTerm && (
+                                <MdClear
+                                    className="clearIcon"
+                                    onClick={() => setSearchTerm('')}
+                                />
+                            )}
+                        </div>
+                        <button className="addButton" onClick={handleClickOpen}>
+                            <MdAdd /> Ajouter
                         </button>
-                    ))}
-                </div>
+                        <AjoutTransA
+                            open={open}
+                            allTransAerienne={allTransAerienne}
+                            handleClose={handleClose}
+                            isEditMode={isEditMode}
+                            selectedPerson={selectedPerson} />
+
+                    </div>
+                    <section className="content-area-table pd-5">
+                        <div className="data-table-diagram">
+                            <table >
+                                <thead>
+                                    <tr >
+                                        <th>#</th>
+                                        <th>ID</th>
+                                        <th>N° Vol</th>
+                                        <th>Nom Compagnie</th>
+                                        <th>Date de chargement</th>
+                                        <th>Pays de chargement</th>
+                                        <th>Pays de déchargement</th>
+                                        <th>Ville de chargement</th>
+                                        <th>Ville de déchargement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentData.map(item => (
+                                        <tr
+                                            key={item.idTransAerienne}
+                                            onClick={() => handleSelect(item)}
+                                            className={item === selectedPerson ? 'selectedRow' : ''}
+                                        >
+                                            <td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={item === selectedPerson}
+                                                    readOnly
+                                                />
+                                            </td>
+                                            <td>{item.idTransAerienne}</td>
+                                            <td>{item.numVol}</td>
+                                            <td>{item.nomCompagnie}</td>
+                                            <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
+                                            <td>{item.paysChargement}</td>
+                                            <td>{item.paysDechargement}</td>
+                                            <td>{item.villeChargement}</td>
+                                            <td>{item.villeDechargement}</td>
+                                            <td className="dt-cell-action">
+                                                <AreaTableAction
+                                                    id={item.id}
+                                                    onEditClick={() => handleEditClickOpen(item.idTransAerienne)}
+                                                    onDeleteClick={() => handleDeleteClick(item.idTransAerienne)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table></div></section>
+                    <div className="pagination">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+                            <button
+                                key={pageNumber}
+                                className={`pageButton ${currentPage === pageNumber ? 'activePage' : ''}`}
+                                onClick={() => handlePageChange(pageNumber)}
+                            >
+                                {pageNumber}
+                            </button>
+                        ))}
+                    </div></div>
 
 
             </div>

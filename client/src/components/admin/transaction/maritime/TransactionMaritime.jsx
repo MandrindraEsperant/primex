@@ -98,8 +98,9 @@ const TransactionMaritime = () => {
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="title">LISTE DE TOUT LES TRANSACTIONS MARITIME</h3>
-    <div className="flex flex-col space-y-6">
+    <h3 className="titleCli">TRANSACTIONS MARITIME</h3>
+            <div className="container">
+            <div className="tableContainer">
         <div className="actionsContainer">
             <div className="searchContainer">
                 <MdSearch className="searchIcon" />
@@ -195,7 +196,7 @@ const TransactionMaritime = () => {
                 </button>
             ))}
         </div>
-
+</div>
 
     </div>
 </div>

@@ -121,105 +121,106 @@ const TransportMaritime = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-      <h3 className="title">LISTE DE TOUT LES TRANSPORTS MARITIME</h3>
-      <div className="flex flex-col space-y-6">
-        <div className="actionsContainer flex items-center space-x-4">
-          <div className="searchContainer">
-            <MdSearch className="searchIcon" />
-            <input
-              type="text"
-              placeholder="Recherche..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="searchInput"
-            />
-            {searchTerm && (
-              <MdClear
-                className="clearIcon"
-                onClick={() => setSearchTerm("")}
+      <h3 className="titleCli">LISTE DE TOUT LES TRANSPORTS MARITIME</h3>
+      <div className="container">
+        <div className="tableContainer">
+          <div className="actionsContainer">
+            <div className="searchContainer">
+              <MdSearch className="searchIcon" />
+              <input
+                type="text"
+                placeholder="Recherche..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="searchInput"
               />
+              {searchTerm && (
+                <MdClear
+                  className="clearIcon"
+                  onClick={() => setSearchTerm("")}
+                />
+              )}
+            </div>
+            <button className="addButton" onClick={handleClickOpen}>
+              <MdAdd /> Ajouter
+            </button>
+            <AjoutTransM
+              open={open}
+              handleClose={handleClose}
+              allTransMaritime={allTransMaritime}
+              isEditMode={isEditMode}
+              selectedPerson={selectedPerson}
+            />
+          </div>
+
+          <section className="content-area-table pd-5">
+            <div className="data-table-diagram">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>N° IMO</th>
+                    <th>Nom Navire</th>
+                    <th>Armateur</th>
+                    <th>Date de chargement</th>
+                    <th>Pays de chargement</th>
+                    <th>Pays de déchargement</th>
+                    <th>Ville de chargement</th>
+                    <th>Ville de déchargement</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentData.map((item) => (
+                    <tr
+                      key={item.idTransMaritime}
+                      onClick={() => handleSelect(item)}
+                      className={item === selectedPerson ? "selectedRow" : ""}
+                    >
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={item === selectedPerson}
+                          readOnly
+                        />
+                      </td>
+                      <td>{item.numIMO}</td>
+                      <td>{item.nomNavire}</td>
+                      <td>{item.armateur}</td>
+                      <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
+                      <td>{item.paysChargement}</td>
+                      <td>{item.paysDechargement}</td>
+                      <td>{item.villeChargement}</td>
+                      <td>{item.villeDechargement}</td>
+                      <td className="dt-cell-action">
+                        <AreaTableAction
+                          id={item.id}
+                          onEditClick={() => handleEditClickOpen(item.idTransMaritime)}
+                          onDeleteClick={() => handleDeleteClick(item.idTransMaritime)}
+                        />
+                      </td>
+                    </tr>
+
+                  ))}
+                </tbody>
+              </table></div></section>
+
+
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (pageNumber) => (
+                <button
+                  key={pageNumber}
+                  className={`pageButton ${currentPage === pageNumber ? "activePage" : ""
+                    }`}
+                  onClick={() => handlePageChange(pageNumber)}
+                >
+                  {pageNumber}
+                </button>
+              )
             )}
           </div>
-          <button className="addButton" onClick={handleClickOpen}>
-            <MdAdd /> Ajouter
-          </button>
-          <AjoutTransM
-            open={open}
-            handleClose={handleClose}
-            allTransMaritime={allTransMaritime}
-            isEditMode={isEditMode}
-            selectedPerson={selectedPerson}
-          />
-        </div>
-
-        <section className="content-area-table pd-5">
-          <div className="data-table-diagram">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>N° IMO</th>
-                  <th>Nom Navire</th>
-                  <th>Armateur</th>
-                  <th>Date de chargement</th>
-                  <th>Pays de chargement</th>
-                  <th>Pays de déchargement</th>
-                  <th>Ville de chargement</th>
-                  <th>Ville de déchargement</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.map((item) => (
-                  <tr
-                    key={item.idTransMaritime}
-                    onClick={() => handleSelect(item)}
-                    className={item === selectedPerson ? "selectedRow" : ""}
-                  >
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={item === selectedPerson}
-                        readOnly
-                      />
-                    </td>
-                    <td>{item.numIMO}</td>
-                    <td>{item.nomNavire}</td>
-                    <td>{item.armateur}</td>
-                    <td>{new Date(item.dateChargement).toLocaleDateString('fr-FR')}</td>
-                    <td>{item.paysChargement}</td>
-                    <td>{item.paysDechargement}</td>
-                    <td>{item.villeChargement}</td>
-                    <td>{item.villeDechargement}</td>
-                    <td className="dt-cell-action">
-                      <AreaTableAction
-                        id={item.id}
-                        onEditClick={() => handleEditClickOpen(item.idTransMaritime)}
-                        onDeleteClick={() => handleDeleteClick(item.idTransMaritime)}
-                      />
-                    </td>
-                  </tr>
-
-                ))}
-              </tbody>
-            </table></div></section>
-
-
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-            (pageNumber) => (
-              <button
-                key={pageNumber}
-                className={`pageButton ${currentPage === pageNumber ? "activePage" : ""
-                  }`}
-                onClick={() => handlePageChange(pageNumber)}
-              >
-                {pageNumber}
-              </button>
-            )
-          )}
-        </div>
-      </div>
+        </div></div>
     </div>
   );
 };
