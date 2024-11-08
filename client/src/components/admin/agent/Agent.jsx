@@ -13,6 +13,7 @@ import axios from "axios";
 import "../clients/Client.scss"
 import "../Dashboard/areaTable/AreaTable.scss"
 import AjoutAgentP from "../../../pages/admin/AjoutAgentP";
+import AreaTableAction from "../Dashboard/areaTable/AreaTableAction";
 
 const Agent = () => {
 
@@ -69,7 +70,7 @@ const Agent = () => {
     };
     const handleSelect = (person) => {
       if (selectedPerson && selectedPerson.idAgent === person.idAgent) {
-        setSelectedPerson(null); 
+        setSelectedPerson(person); 
       } else {
         setSelectedPerson(person);
       }
@@ -173,19 +174,13 @@ const Agent = () => {
                 <td>{item.paysAgent}</td>
                 <td>{item.adresseAgent}</td>
                 <td>{item.contactAgent}</td>
-                <td>
-                  <span className="actionIcons">
-                    <MdEdit
-                      className="editIcon"
-                      onClick={() => handleEditClickOpen(item)}
-                    />
-                    <MdDelete
-                      className="deleteIcon"
-                      onClick={() => handleDeleteClick(item.idAgent)}
-                    />
-                    <MdVisibility className="viewIcon" />
-                  </span>
-                </td>
+                <td className="dt-cell-action">
+                                    <AreaTableAction
+                                        id={item.id}
+                                        onEditClick={() => handleEditClickOpen(item.idAgent)}
+                                        onDeleteClick={() => handleDeleteClick(item.idAgent)}
+                                    />
+                                </td>
               </tr>
             ))}
           </tbody>

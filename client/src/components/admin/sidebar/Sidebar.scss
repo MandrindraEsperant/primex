@@ -154,33 +154,6 @@
     }
   }
 
-  // Sous-menu pour l'élément "Transport"
-  .submenu {
-    display: none;
-    flex-direction: column;
-    margin-left: 20px; // Décalage pour le sous-menu
-    background-color: var(--submenu-bg-color); // Vous pouvez ajuster la couleur ici
-    border-radius: 8px;
-
-    .submenu-item {
-      margin-bottom: 8px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      .menu-link {
-        font-size: 0.9rem;
-        padding: 8px 15px;
-        color: var(--side-text-color);
-
-        &:hover {
-          background-color: var(--side-link-hover-color);
-        }
-      }
-    }
-  }
-
   .sidebar-body {
     flex: 1;
     display: flex;
