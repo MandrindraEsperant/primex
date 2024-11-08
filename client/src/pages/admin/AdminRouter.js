@@ -22,7 +22,7 @@ import TransactioHwb from "./TransactionHwb";
 import SuiviP from "./Suivi";
 import Profil from "./Profil";
 import EditProfilP from "./EditProfil";
-import TransportP from "./TransportP";
+import TransportPage from "./TransportPage";
 
 const AdminRouter = () => {
   return (
@@ -36,7 +36,7 @@ const AdminRouter = () => {
         <Route path="marchandise" element={<MarchandisePage />} />
         <Route path="suivi" element={<SuiviExp />} />
         <Route path="agent" element={<AgentP />} />
-        <Route path="transport" element={<TransportP />} />
+        <Route path="transport" element={<TransportPage />} />
 
         <Route path="transaction" element={<TransactionP />} />
         <Route path="transactionaerienne" element={<TransactionA />} />

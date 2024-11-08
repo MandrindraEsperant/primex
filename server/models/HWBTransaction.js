@@ -75,5 +75,8 @@ HWBTransaction.init(
     },
   }
 );
+HWBTransaction.belongsTo(Client, { as: 'clientExp', foreignKey: 'idExpediteur' });
+HWBTransaction.belongsTo(Client, { as: 'clientDest', foreignKey: 'idDestinataire' });
+HWBTransaction.belongsTo(TransactionAerienne, { foreignKey: 'idMWB' });
 
 module.exports = HWBTransaction;

@@ -1,5 +1,7 @@
 const HWBTransaction = require('../models/HWBTransaction');
 const IRepository = require('../interfaces/IRepository');
+const TransactionAerienne = require('../models/TransactionAerienne');
+const Client = require('../models/Client');
 
 // const { Op } = require('sequelize');
 
@@ -25,7 +27,34 @@ class HWBTransactionRepository extends IRepository {
   //   }
   // }
   async findAll() {
-    return await HWBTransaction.findAll();
+    return await HWBTransaction.findAll({
+      attributes: [
+        'idHWBTransaction',
+        'numHWB',
+        'dateHWBTransaction'
+        ],
+      include: [
+        {
+          model: TransactionAerienne,
+          attributes: [
+            'numMWB',        
+          ],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientExp', // alias pour l'agent expéditeur
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientDest', // alias pour l'agent destinataire
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
   }
   async update(id, HWBTransactionData) {
     const hwbTransaction = await this.findById(id);

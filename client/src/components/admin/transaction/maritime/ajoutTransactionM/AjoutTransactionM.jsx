@@ -424,8 +424,9 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                                 <thead className="text-white bg-blue-200">
                                     <tr>
                                         <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">N° Vol</th>
-                                        <th className="py-2 px-4 text-left">Compagnie</th>
+                                        <th className="py-2 mx-8 text-left">N° IMO</th>
+                                        <th className="py-2 mx-8 text-left">Nom de navire</th>
+                                        <th className="py-2 px-4 text-left">Armateur</th>
                                         <th className="py-2 px-4 text-left">Pays Départ</th>
                                         <th className="py-2 px-4 text-left">Pays Arrivé</th>
                                     </tr>
@@ -445,6 +446,7 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                                             </td>
                                             <td className="py-2 px-4">{trans.numIMO}</td>
                                             <td className="py-2 px-4">{trans.nomNavire}</td>
+                                            <td className="py-2 px-4">{trans.armateur}</td>
                                             <td className="py-2 px-4">{trans.paysChargement}</td>
                                             <td className="py-2 px-4">{trans.paysDechargement}</td>
                                         </tr>
