@@ -57,7 +57,7 @@ const Employe = () => {
   
     return (
       <div className={`client-container ${theme}`}>
-              <h3 className="title">LISTE DE TOUT LES EMPLOYES</h3>
+              <h3 className="titleCli">LISTE DE TOUT LES EMPLOYES</h3>
               <div className="container">
                   <div className="tableContainer">
                       <div className="actionsContainer">

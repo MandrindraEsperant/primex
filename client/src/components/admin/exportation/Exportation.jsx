@@ -26,7 +26,6 @@ const Exportation = () => {
       console.error("Error submitting data:", error);
     }
   };
-
   const supprimer = (id) => {
     axios
       .delete("http://localhost:3001/exportation/" + id)
@@ -35,7 +34,6 @@ const Exportation = () => {
       })
       .catch((err) => alert(err));
   };
-
   // SUPPRESSION
   const handleDeleteClick = (id) => {
     Swal.fire({
@@ -53,16 +51,12 @@ const Exportation = () => {
       }
     });
   };
-
-
   useEffect(() => {
     allExportation();
   }, []);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -98,7 +92,7 @@ const Exportation = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-      <h3 className="title">LISTE DE TOUT LES EXPORTATIONS</h3>
+      <h3 className="titleCli">LISTE DE TOUT LES EXPORTATIONS</h3>
       <div className="container">
         <div className="tableContainer">
           <div className="actionsContainer">
@@ -182,39 +176,7 @@ const Exportation = () => {
             )}
           </div>
         </div>
-        <div className="detailContainer">
-          <div className="detailHeader">
-            {selectedPerson && (
-              <img
-                src=""
-                alt={selectedPerson.modeTransport}
-                className="detailImage"
-              />
-            )}
-            <h3>
-              Détails : {selectedPerson ? selectedPerson.modeTransport : ""}
-            </h3>
-          </div>
-          <p>
-            <strong>Date :</strong>{" "}
-            {selectedPerson ? selectedPerson.dateExportation : ""}
-          </p>
-          <p>
-            <strong>Num MBL :</strong>{" "}
-            {selectedPerson ? selectedPerson.numMBL : ""}
-          </p>
-          <p>
-            <strong>Mode Transport :</strong>{" "}
-            {selectedPerson ? selectedPerson.modeTransport : ""}
-          </p>
-          <p>
-            <strong>Id Transport :</strong>{" "}
-            {selectedPerson ? selectedPerson.idTransport : ""}
-          </p>
-          <button className="editButton">
-            <MdEdit /> Modifier
-          </button>
-        </div>
+       
       </div>
     </div>
   );

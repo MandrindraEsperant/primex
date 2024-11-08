@@ -2,42 +2,34 @@ import { useState } from "react";
 import React from 'react';
 import TransactionAerien from "../aerienne/TransactionAerien";
 import Facturation from "./Facturation";
+import "../../marchandises/Marchandise.scss"
 
 const Document = () => {
-    const [activeTab, setActiveTab] = useState('facturation'); // Onglet par défaut: Facturation
+    const [activeTab, setActiveTab] = useState('facturation');
 
     return (
-        <div className="p-4">
-            <div className="flex flex-wrap space-x-4 justify-center mb-4 gap-2 md:gap-4">
-                <button
+        <div className="tabs-container">
+            <div className="tabs">
+                <div
                     onClick={() => setActiveTab('facturation')}
-                    className={`px-6 py-2 font-semibold rounded-full transition duration-300 ease-in-out transform ${
-                        activeTab === 'facturation'
-                            ? 'bg-blue-600 text-white scale-105 shadow-lg'
-                            : 'bg-gray-200 text-gray-700 hover:bg-blue-500 hover:text-white'
-                    }`}
+                    className={`tab button-tab ${activeTab === 'facturation' ? 'active' : ''}`}
                 >
                     Facturation
-                </button>
-                <button
+                </div>
+                <div
                     onClick={() => setActiveTab('docHbl')}
-                    className={`px-6 py-2 font-semibold rounded-full transition duration-300 ease-in-out transform ${
-                        activeTab === 'docHbl'
-                            ? 'bg-blue-600 text-white scale-105 shadow-lg'
-                            : 'bg-gray-200 text-gray-700 hover:bg-blue-500 hover:text-white'
-                    }`}
+                    className={`tab button-tab ${activeTab === 'docHbl' ? 'active' : ''}`}
                 >
                     Lettre de transport
-                </button>
+                </div>
             </div>
 
-            {/* Contenu affiché selon l'onglet sélectionné */}
-            <div className="p-4 border rounded-lg shadow-md">
+            <div className="tab-content">
                 {activeTab === 'facturation' && <Facturation />}
                 {activeTab === 'docHbl' && <TransactionAerien />}
             </div>
         </div>
     );
-}
+};
 
 export default Document;

@@ -10,6 +10,8 @@ import {
 } from "react-icons/md";
 import Swal from "sweetalert2";
 import axios from "axios";
+import "../clients/Client.scss"
+import "../Dashboard/areaTable/AreaTable.scss"
 import AjoutAgentP from "../../../pages/admin/AjoutAgentP";
 
 const Agent = () => {
@@ -67,9 +69,9 @@ const Agent = () => {
     };
     const handleSelect = (person) => {
       if (selectedPerson && selectedPerson.idAgent === person.idAgent) {
-        setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
+        setSelectedPerson(null); 
       } else {
-        setSelectedPerson(person); // Sélectionne la personne cliquée
+        setSelectedPerson(person);
       }
     };
     const filteredData = data.filter(
@@ -96,7 +98,6 @@ const Agent = () => {
         }
       });
     };
-  
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -108,14 +109,13 @@ const Agent = () => {
       setCurrentPage(pageNumber);
     };
   
-
-
-
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="title">LISTE DE TOUT LES AGENTS</h3>
-    <div className="flex flex-col space-y-6">
-        <div className="actionsContainer flex items-center space-x-4">
+    <h3 className="titleCli">LISTE DE TOUT LES AGENTS</h3>
+    <div className="container">
+
+    <div className="tableContainer">
+        <div className="actionsContainer">
           <div className="searchContainer">
             <MdSearch className="searchIcon" />
             <input
@@ -143,6 +143,8 @@ const Agent = () => {
             selectedPerson={selectedPerson}
           />
         </div>
+        <section className="content-area-table pd-5">
+        <div className="data-table-diagram">
         <table className="table">
           <thead>
             <tr>
@@ -187,7 +189,7 @@ const Agent = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div></section>
 
         <div className="pagination">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(
@@ -203,7 +205,7 @@ const Agent = () => {
               </button>
             )
           )}
-        </div>
+        </div></div>
       </div>
 
     </div>

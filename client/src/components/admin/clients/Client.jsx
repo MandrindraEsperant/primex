@@ -67,7 +67,7 @@ const Client = () => {
   };
   const handleSelect = (person) => {
     if (selectedPerson && selectedPerson.idClient === person.idClient) {
-      setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
+      setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
@@ -139,6 +139,8 @@ const Client = () => {
               selectedPerson={selectedPerson}
             />
           </div>
+          <section className="content-area-table pd-5">
+                <div className="data-table-diagram">
           <table className="table">
             <thead>
               <tr>
@@ -183,8 +185,7 @@ const Client = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
-
+          </table></div></section>
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNumber) => (

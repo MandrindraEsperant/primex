@@ -1,79 +1,60 @@
-import { useState } from "react"
-import React from 'react'
+// Transaction.jsx
+import { useState } from "react";
 import TransactionAerien from "./aerienne/TransactionAerien";
 import TransactionMaritime from "./maritime/TransactionMaritime";
 import TransactionHbl from "./hbl/TransactionHbl";
 import TransactionHwb from "./hwb/TransactionHwb";
 import DocumentP from "../../../pages/admin/Document";
+import "../marchandises/Marchandise.scss"
 
 const Transaction = () => {
-    const [activeTab, setActiveTab] = useState('maritime'); // Onglet par défaut: Maritime
+  const [activeTab, setActiveTab] = useState("maritime");
 
-    return (
-        <div className="p-4">
-           <div className="flex space-x-2 relative border-b-2 border-blue-500">
+  return (
+    <div className="tabs-container">
+      <div className="tabs">
         <div
-          onClick={() => setActiveTab('maritime')}
-          className={`px-4 py-2 font-semibold text-sm cursor-pointer transition-all duration-300 rounded-t-lg  ${
-            activeTab === 'maritime'
-              ? 'bg-white text-blue-600  border-x border-t border-blue-500 -mb-0.5'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
+          onClick={() => setActiveTab("maritime")}
+          className={`tab ${activeTab === "maritime" ? "active" : ""}`}
         >
           Transaction Maritime
         </div>
         <div
-          onClick={() => setActiveTab('aerienne')}
-          className={`px-4 py-2 font-semibold text-sm cursor-pointer transition-all duration-300 rounded-t-lg  ${
-            activeTab === 'aerienne'
-              ? 'bg-white text-blue-600 border-x border-t border-blue-500 -mb-0.5'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
+          onClick={() => setActiveTab("aerienne")}
+          className={`tab ${activeTab === "aerienne" ? "active" : ""}`}
         >
           Transaction Aérienne
         </div>
         <div
-          onClick={() => setActiveTab('hbl')}
-          className={`px-4 py-2 font-semibold text-sm cursor-pointer transition-all duration-300 rounded-t-lg  ${
-            activeTab === 'hbl'
-              ? 'bg-white text-blue-600  border-x border-t border-blue-500 -mb-0.5'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
+          onClick={() => setActiveTab("hbl")}
+          className={`tab ${activeTab === "hbl" ? "active" : ""}`}
         >
           Transaction HBL
         </div>
         <div
-          onClick={() => setActiveTab('hwb')}
-          className={`px-4 py-2 font-semibold text-sm cursor-pointer transition-all duration-300 rounded-t-lg  ${
-            activeTab === 'hwb'
-              ? 'bg-white text-blue-600 border-x border-t border-blue-500 -mb-0.5'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
+          onClick={() => setActiveTab("hwb")}
+          className={`tab ${activeTab === "hwb" ? "active" : ""}`}
         >
           Transaction HWB
         </div>
         <div
-          onClick={() => setActiveTab('document')}
-          className={`px-4 py-2 font-semibold text-sm cursor-pointer transition-all duration-300 rounded-t-lg  ${
-            activeTab === 'document'
-              ? 'bg-white text-blue-600 border-x border-t border-blue-500 -mb-0.5'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
+          onClick={() => setActiveTab("document")}
+          className={`tab ${activeTab === "document" ? "active" : ""}`}
         >
           Document
         </div>
-        </div>
-  
-        {/* Contenu affiché selon l'onglet sélectionné */}
-        <div className="p-4">
-          {activeTab === 'maritime' && <TransactionMaritime />}
-          {activeTab === 'aerienne' && <TransactionAerien />}
-          {activeTab === 'hbl' && <TransactionHbl />}
-          {activeTab === 'hwb' && <TransactionHwb />}
-          {activeTab === 'document' && <DocumentP />}
-        </div>
       </div>
-    );
-}
 
-export default Transaction
+      {/* Contenu affiché selon l'onglet sélectionné */}
+      <div className="tab-content">
+        {activeTab === "maritime" && <TransactionMaritime />}
+        {activeTab === "aerienne" && <TransactionAerien />}
+        {activeTab === "hbl" && <TransactionHbl />}
+        {activeTab === "hwb" && <TransactionHwb />}
+        {activeTab === "document" && <DocumentP />}
+      </div>
+    </div>
+  );
+};
+
+export default Transaction;

@@ -80,9 +80,6 @@ Utilisation du mixin pour le mode sombre
     color: var(--base-text-color);
   }
 } */
-
-
-
 .titleCli {
   text-align: center;
   font-size: 2rem;
@@ -90,7 +87,7 @@ Utilisation du mixin pour le mode sombre
   color: var(--text-color);
   margin-bottom: 2rem;
   color: blue;
-  padding: 0.5rem 1rem;
+  padding: 0.1rem 0.1rem;
 }
 .container {
   display: flex;
@@ -100,25 +97,18 @@ Utilisation du mixin pour le mode sombre
 .tableContainer {
   width: 100%;
   overflow-x: auto;
-  min-width: 300px;
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 5px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #007bff; // Couleur bleue pour le scroll thumb
-    border-radius: 10px; // Coins arrondis pour le scroll thumb
-  }
-  &::-webkit-scrollbar-track {
-    background-color: #f1f1f1; // Couleur pour la piste (track) du scrollbar
-  }
+  // min-width: 300px;
 }
 .actionsContainer {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espacement entre les éléments */
-  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+  gap: 10px;
+  flex-wrap: wrap; 
   margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 10px 0;
 }
 .searchContainer {
   display: flex;
@@ -188,15 +178,29 @@ Utilisation du mixin pour le mode sombre
   }
 }
 
-.table {
+.tableContainer .table {
   width: 100%;
   border-color: var(--tbl-border-color);
-  border-collapse: collapse;
-  background-color: var(--table-bg); // Utilise la variable de couleur
+  min-width: 600px; // Taille minimale pour éviter que les colonnes deviennent trop étroites sur les petits écrans
+    border-collapse: collapse;
+    background-color: var(--table-bg);
+    border: 1px solid var(--tbl-border-color);
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color:  #007bff;
+  }
 
   th,
   td {
-    padding: 18px;
+    padding: 16px;
     text-align: left;
 
     &:first-child {
@@ -314,37 +318,6 @@ Utilisation du mixin pour le mode sombre
   }
 }
 
-.detailContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: var(--detail-bg); // Utilise la variable de couleur
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-left: 20px;
-  width: 300px; // Largeur fixe
-  height: 400px; // Hauteur fixe
-  overflow: auto;
-
-  p {
-    margin: 20px 0;
-  }
-
-  .detailHeader {
-    align-items: center;
-    margin-bottom: 10px;
-
-    .detailImage {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%; // Rendre l'image ronde
-      margin-right: 10px;
-    }
-  }
-}
-
 @media (max-width: 500px) {
   .container {
     flex-direction: column;
@@ -369,14 +342,18 @@ Utilisation du mixin pour le mode sombre
   }
 
   .tableContainer {
-    width: 100%;
-    margin-bottom: 20px; 
-    min-height: 300px;
+    padding: 0 10px;
   }
+  .table {
+    font-size: 0.9rem; // Réduit la taille du texte pour les petits écrans
 
-  .detailContainer {
-    width: 100%;
-    margin-left: 0;
+    th, td {
+      padding: 10px;
+    }
+
+    .actionIcons {
+      gap: 10px;
+    }
   }
 }
 @media (max-width: 480px) {
@@ -395,17 +372,19 @@ Utilisation du mixin pour le mode sombre
 
 .pageButton {
   background-color:var(--primary-color);
-  border: 1px solid var(--white-bg);
+  border: 1px solid var(--secondary-color);
+  border-radius: 10px;
+  color: var(--secondary-color);
   padding: 8px 12px;
   margin: 0 5px;
   cursor: pointer;
 
   &.active {
-    background-color: #007bff;
-    color: white; // Texte en blanc pour le bouton actif
+    background-color: #e1e1e1;
+    color: white; 
   }
 
   &:hover:not(.active) {
-    background-color: #e1e1e1; // Couleur de fond au survol
+    background-color: #007bff;
   }
 }
