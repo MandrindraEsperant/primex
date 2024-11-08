@@ -55,6 +55,8 @@ class EmployeService {
         { id: employe.idEmployer, nom: employe.nomEmploye },
         SECRET_KEY,
         { expiresIn: "1h" }
+        // { expiresIn: "7d" }
+
       );
       return { token };
     } catch (error) {
