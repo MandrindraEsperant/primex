@@ -9,7 +9,6 @@ const Document = () => {
 
     return (
         <div className="tabs-container">
-
             <div className="tabs">
                 <div 
                     onClick={() => setActiveTab('facturation')}
@@ -24,13 +23,11 @@ const Document = () => {
                     Lettre de transport
                 </div>
             </div>
-
             <div className="tab-content">
                 {activeTab === 'facturation' && <Facturation />}
-                {activeTab === 'docHbl' && <TransactionAerien />}
+                {activeTab === 'docHbl' && <Facturation />}
             </div>
         </div>
     );
 };
-
 export default Document;

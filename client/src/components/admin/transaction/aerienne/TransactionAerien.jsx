@@ -68,7 +68,7 @@ const TransactionAerien = () => {
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idtransactionAerienne === person.idtransactionAerienne) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
@@ -77,7 +77,7 @@ const TransactionAerien = () => {
         }
     };
     const filteredData = data.filter(item =>
-        item.numMWL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.numMWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idTransport.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idAgentDest.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idAgentExp.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -133,7 +133,7 @@ const TransactionAerien = () => {
             <thead>
                 <tr >
                     <th>#</th>
-                    <th>N° MWL</th>
+                    <th>N° MWB</th>
                     <th>N° de vol</th>
                     <th>Compagnie</th>
                     <th>date de chargement</th>
@@ -160,7 +160,7 @@ const TransactionAerien = () => {
                                 readOnly
                             />
                         </td>
-                        <td>{item.numMWL}</td>
+                        <td>{item.numMWB}</td>
                         <td>{item.TransAerienne.numVol}</td>
                         <td>{item.TransAerienne.nomCompagnie}</td>
                         <td>{ new Date(item.TransAerienne.dateChargement).toLocaleDateString('fr-FR')}</td>

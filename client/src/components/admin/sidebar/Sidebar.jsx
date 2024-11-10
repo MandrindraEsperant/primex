@@ -128,14 +128,14 @@ const Sidebar = () => {
                 <span className="menu-link-text">Client</span>
               </Link>
             </li>
-            <li className="menu-item">
+            {/* <li className="menu-item">
               <Link to="/admin/employe" className={`menu-link ${location.pathname === '/admin/employe' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                   <MdBuild size={20} />
                 </span>
                 <span className="menu-link-text">Employé</span>
               </Link>
-            </li>
+            </li> */}
             <li className="menu-item">
               <Link to="/admin/agent"
                 className={`menu-link ${location.pathname === '/admin/agent' ? 'active' : ''}`}>
@@ -175,8 +175,6 @@ const Sidebar = () => {
                 </div>
               </Link>
             </li>
-
-
             <li className="menu-item">
               <Link to="/admin/suivi"
                 className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>

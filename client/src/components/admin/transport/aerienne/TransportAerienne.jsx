@@ -54,12 +54,9 @@ const TransportAerienne = () => {
             }
         });
     };
-
-
     useEffect(() => {
         allTransAerienne();
     }, []);
-
     const handleClickOpen = () => {
         setSelectedPerson(null);
         setIsEditMode(false);
@@ -73,11 +70,11 @@ const TransportAerienne = () => {
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
 
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idTransAerienne === person.idTransAerienne) {
-            setSelectedPerson(null);
+            setSelectedPerson(person);
         } else {
             setSelectedPerson(person);
         }
@@ -137,7 +134,7 @@ const TransportAerienne = () => {
                     </div>
                     <section className="content-area-table pd-5">
                         <div className="data-table-diagram">
-                            <table >
+                            <table className='table'>
                                 <thead>
                                     <tr >
                                         <th>#</th>

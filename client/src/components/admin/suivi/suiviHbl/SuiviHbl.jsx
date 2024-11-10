@@ -73,7 +73,7 @@ const SuiviHbl = () => {
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
 
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idSuiviHBL === person.idSuiviHBL) {

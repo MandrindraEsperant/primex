@@ -70,7 +70,7 @@ const TransactionHbl = () => {
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idHBLTransaction === person.idHBLTransaction) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
@@ -158,10 +158,10 @@ const TransactionHbl = () => {
                             />
                         </td>
                         <td>{item.numHBL}</td>
-                        <td>{item.idMBL}</td>
+                        <td>{item.TransactionMaritime.numMBL}</td>
                         <td>{ new Date(item.dateHBLTransaction).toLocaleDateString('fr-FR')}</td>
-                        <td>{item.idExpediteur}</td>
-                        <td>{item.idDestinataire}</td>
+                        <td>{item.clientDest.nomClient}</td>
+                        <td>{item.clientExp.nomClient}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}

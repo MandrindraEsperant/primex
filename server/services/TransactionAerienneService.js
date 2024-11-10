@@ -5,7 +5,7 @@ class TransactionAerienneService {
     }
     async createTransactionAerienne(Data) {
       // Validation des données 
-      if (!Data.numMWL
+      if (!Data.numMWB
         || !Data.idTransport
         || !Data.idAgentDest
         || !Data.idAgentExp 

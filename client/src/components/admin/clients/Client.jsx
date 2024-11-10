@@ -24,7 +24,7 @@ const Client = () => {
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 5;
   const [data, setData] = useState([]);
 
   const allClient = async () => {

@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
+import { MdClear, MdSearch } from 'react-icons/md';
 
 const Facturation = () => {
     const componentRef = useRef();
-
+    const [searchTerm, setSearchTerm] = useState('');
     const handlePrint = () => {
         const element = componentRef.current;
         const options = {
@@ -19,14 +20,12 @@ const Facturation = () => {
             .set(options)
             .save();
     };
-
     // Obtenir la date actuelle
     const currentDate = new Date().toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     });
-
     return (
         <div>
             <button
@@ -35,10 +34,26 @@ const Facturation = () => {
             >
                 Exporter en PDF
             </button>
+            <div className="searchContainer">
+                <MdSearch className="searchIcon" />
+                <input
+                    type="text"
+                    placeholder="Entrez le numéro ou selectionnez..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="searchInput"
+                />
+                {searchTerm && (
+                    <MdClear
+                        className="clearIcon"
+                        onClick={() => setSearchTerm('')}
+                    />
+                )}
+            </div>
 
             <div ref={componentRef} className="bg-white p-8 rounded-lg shadow-md border">
                 <div className="flex flex-wrap justify-between items-start border-b-2 border-black pb-4">
-                    <div className="mb-4 sm:mb-0">
+                    <div className="mb-2 sm:mb-0">
                         <h1 className="text-xl sm:text-2xl font-bold text-blue-700">PRIMEX Logistics</h1>
                         <p className="text-blue-700 font-semibold text-sm sm:text-base">Premium Import Export Logistics</p>
                         <p className="text-blue-700 text-sm sm:text-base">47 rue Pasteur Rabary Ankadivato</p>
@@ -50,23 +65,23 @@ const Facturation = () => {
                     </div>
                 </div>
 
-                <div className="text-center border-t-2 border-black pt-2">
+                <div className="text-center border-t-1 border-black pt-1">
                     <p className="font-semibold text-sm sm:text-base">doit:</p>
                     <p className="font-bold text-lg sm:text-xl">OCEAN TRADE</p>
                     <p className="text-sm sm:text-base">BP 21 BIS RUE DR RASSETA ANDRAHARO</p>
                     <p className="text-sm sm:text-base">ANTANANARIVO MADAGASCAR</p>
                 </div>
 
-                <div className="text-right mb-2">
+                <div className="text-right mb-1">
                     <p className="text-sm sm:text-base">Antananarivo, {currentDate}</p>
                     <p className="text-sm sm:text-base">Facture N°2405182/AR</p>
                 </div>
 
-                <div className="my-4">
+                <div className="my-2 ">
                     <div className="w-full">
-                        <h2 className="font-bold text-lg sm:text-xl text-left mb-2">Détails de la Facture</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <p className="font-bold text-sm sm:text-base">DOSSIER:</p>
+                        <h2 className="font-bold text-lg sm:text-xl text-left mb-">Détails de la Facture</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                            <p className="font-bold text-sm sm:text-base ">DOSSIER:</p>
                             <p className="text-sm sm:text-base">IGM 24182</p>
 
                             <p className="font-bold text-sm sm:text-base">NATURE DES MARCHANDISES:</p>
@@ -100,20 +115,20 @@ const Facturation = () => {
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full border-collapse mb-2">
+                    <table className="w-full border-collapse mb-1">
                         <thead>
                             <tr>
-                                <th className="border px-4 py-2 bg-blue-200 font-semibold text-sm sm:text-base">LIBELLE</th>
-                                <th className="border px-4 py-2 bg-blue-200 font-semibold text-sm sm:text-base">MONTANT TOTAL</th>
+                                <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">LIBELLE</th>
+                                <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">MONTANT TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="border px-4 py-1 text-sm sm:text-base">DECONSOLIDATION FEE</td>
-                                <td className="border px-4 py-2 text-sm sm:text-base text-right">---</td>
+                                <td className="border px-2 py-1 text-sm sm:text-base">DECONSOLIDATION FEE</td>
+                                <td className="border px-2 py-2 text-sm sm:text-base text-right">---</td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2 text-sm sm:text-base">DOCUMENTATION FEE</td>
+                                <td className="border px-2 py-1 text-sm sm:text-base">DOCUMENTATION FEE</td>
                                 <td className="border px-4 py-2 text-sm sm:text-base text-right">---</td>
                             </tr>
                             <tr>

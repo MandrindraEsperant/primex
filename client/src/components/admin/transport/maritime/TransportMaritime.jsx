@@ -18,7 +18,6 @@ const TransportMaritime = () => {
   const [open, setOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [data, setData] = useState([]);
-
   const allTransMaritime = async () => {
     try {
       const response = await axios.get("http://localhost:3001/transMaritime/");
@@ -28,7 +27,6 @@ const TransportMaritime = () => {
       console.error("Error submitting data:", error);
     }
   };
-
   const supprimer = (id) => {
     axios
       .delete("http://localhost:3001/transMaritime/" + id)
@@ -37,7 +35,6 @@ const TransportMaritime = () => {
       })
       .catch((err) => alert(err));
   };
-
   // SUPPRESSION
   const handleDeleteClick = (id) => {
     Swal.fire({
@@ -56,26 +53,19 @@ const TransportMaritime = () => {
       }
     });
   };
-
-
   useEffect(() => {
     allTransMaritime();
   }, []);
-
-
   const handleEditClickOpen = (transmaritime) => {
     setSelectedPerson(transmaritime);
     setIsEditMode(true); // Mode modification
     setOpen(true);
   };
-
-
   const handleClickOpen = () => {
     setSelectedPerson(null);
     setIsEditMode(false);
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
     setSelectedPerson(null);
@@ -84,8 +74,7 @@ const TransportMaritime = () => {
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
-
+  const itemsPerPage = 5;
   const handleSelect = (person) => {
     if (
       selectedPerson && selectedPerson.idTransMaritime === person.idTransMaritime
@@ -95,7 +84,6 @@ const TransportMaritime = () => {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
   };
-
   const filteredData = data.filter(
     (item) =>
       item.numIMO.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -107,14 +95,11 @@ const TransportMaritime = () => {
       item.paysDechargement.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.villeDechargement.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -155,7 +140,7 @@ const TransportMaritime = () => {
 
           <section className="content-area-table pd-5">
             <div className="data-table-diagram">
-              <table>
+              <table className="table">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -200,12 +185,11 @@ const TransportMaritime = () => {
                         />
                       </td>
                     </tr>
-
                   ))}
                 </tbody>
-              </table></div></section>
-
-
+              </table>
+              </div>
+              </section>
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNumber) => (

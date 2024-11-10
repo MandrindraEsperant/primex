@@ -13,14 +13,14 @@ class TransactionAerienneRepository extends IRepository {
   async findById(id) {
     return await TransactionAerienne.findByPk(id);
   }
-  async findByMWL(mwl) {
-    return await TransactionAerienne.findOne({ where: { numMWL: mwl } });
+  async findByMWB(mwb) {
+    return await TransactionAerienne.findOne({ where: { numMWB: mwb } });
   }
   async findAll() {
     return await TransactionAerienne.findAll({
       attributes: [
         'idTransactionAerienne',
-        'numMWL',
+        'numMWB',
         'dateEmission',
         'dateDestination',
       ],

@@ -454,7 +454,8 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
                                     <tr>
                                         <th className="py-2 px-2 text-left">#</th>
                                         <th className="py-2 mx-8 text-left">Num  MWL</th>
-                                        <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Destination</th>
+                                        <th className="py-2 px-4 text-left">Date Emission</th>
+                                        <th className="py-2 px-4 text-left">Destination</th>
                                     </tr>
                                 </thead>
                                 <tbody className="space-y-2">
