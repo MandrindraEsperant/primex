@@ -10,6 +10,7 @@ import { AccountService } from "../../../_services/Account.service";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdSettings } from "react-icons/md";
+import { nameUserConnected } from "../../../constants/idUserConnected";
 
 const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -74,10 +75,12 @@ const Navbar = () => {
         <div className="relative" ref={profileMenuRef}>
           <button
             onClick={toggleProfileMenu}
-            className="text-white hover:text-gray-300"
+            className="text-white hover:text-gray-300 flex gap-1"
           >
             <FaUserCircle size={24} />
+            <p>{nameUserConnected()}</p>
           </button>
+          
 
           {/* Menu déroulant du profil */}
           {isProfileMenuOpen && (

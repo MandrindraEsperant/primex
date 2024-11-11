@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
+import api from './../../../../axiosInstance';
 const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPerson }) => {
   const [transAeriennes, setTransAeriennes] = useState([]);
     const [error, setError] = useState();
@@ -32,7 +33,8 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await z("http://localhost:3001/hblTransaction/");
+        const response = await api.get('/hblTransaction/')   
+        // const response = await fetch("http://localhost:3001/hblTransaction/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -401,7 +403,7 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
                                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
                                 type="number"
                                 name="HBL"
-                                placeholder="HBL"
+                                placeholder="HBL  vvvv"
                                 id="HBL"
                                 readOnly
                             />
