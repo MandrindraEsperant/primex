@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
 import axios from "axios";
+import api from "../../../axiosInstance";
 
 const AjoutAgent = ({ handleClose, allAgent, isEditMode, selectedPerson }) => {
 
@@ -64,8 +65,8 @@ const AjoutAgent = ({ handleClose, allAgent, isEditMode, selectedPerson }) => {
         if (isEditMode) {
             // Mode modification
             delete state['creerPar'];
-            axios
-                .put(`http://localhost:3001/agent/${selectedPerson.idAgent}`, agentData)
+            api
+                .put(`/agent/${selectedPerson.idAgent}`, agentData)
                 .then((res) => {
                     toast.success("agent modifié avec succès");
                     Swal.fire({
@@ -87,8 +88,8 @@ const AjoutAgent = ({ handleClose, allAgent, isEditMode, selectedPerson }) => {
                 });
         } else {
             // Mode ajout      
-            axios
-                .post("http://localhost:3001/agent/", agentData)
+            api
+                .post("/agent/", agentData)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',

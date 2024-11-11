@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import api from '../../../../../axiosInstance';
 
 function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selectedPerson }) {
   const formArray = [1, 2];
@@ -90,8 +91,8 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
     e.preventDefault();
 
     if (isEditMode) {
-      axios
-        .put(`http://localhost:3001/transAerienne/${selectedPerson.idTransAerienne}`, state)
+      api
+        .put(`/transAerienne/${selectedPerson.idTransAerienne}`, state)
         .then((res) => {
           toast.success("Tansport modifié avec succès");
           Swal.fire({
@@ -113,8 +114,8 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
         });
     } else {
 
-      axios
-        .post("http://localhost:3001/transAerienne/", state)
+      api
+        .post("/transAerienne/", state)
         .then((res) => {
           Swal.fire({
             title: 'Ajouté!',

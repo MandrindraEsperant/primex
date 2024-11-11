@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutTransHwbP from '../../../../pages/admin/AjoutTransHwbP';
+import api from '../../../../axiosInstance';
 const TransactionHwb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -14,7 +15,7 @@ const TransactionHwb = () => {
 
     const allTransactionHwb = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/hwbTransaction/");
+            const response = await api.get("/hwbTransaction/");
             setData(response.data);
             console.log(response.data);
         } catch (error) {
@@ -28,8 +29,8 @@ const TransactionHwb = () => {
     };
    // SUPPRESSION
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/hwbTransaction/" + id)
+        api
+            .delete("/hwbTransaction/" + id)
             .then((res) => {
                 allTransactionHwb();
             })

@@ -54,7 +54,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
                 dateHWBTransaction: trans.dateHWBTransaction,
             }));
         }
-    };
+    };zz
     useEffect(() => {
         const getTransAeriennes = async () => {
             try {

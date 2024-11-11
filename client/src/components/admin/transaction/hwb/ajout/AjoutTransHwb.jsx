@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
+import api from '../../../../../axiosInstance';
 const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPerson }) => {
     const [clientOption, setclientOption] = useState([]);
     const [aerienneOption, setaerienneOption] = useState([]);
@@ -55,14 +56,14 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
         }
     };
     const fetchClients = async () => {
-        const response = await fetch("http://localhost:3001/client/");
+        const response = await api.get("/client/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
         return await response.json();
     };
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/transactionAerienne/");
+        const response = await api.get("/transactionAerienne/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -164,8 +165,8 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
         e.preventDefault();
 
         if (isEditMode) {
-            axios
-                .put(`http://localhost:3001/hwbTransaction/${selectedPerson.idHWBTransaction}`, state)
+            api
+                .put(`/hwbTransaction/${selectedPerson.idHWBTransaction}`, state)
                 .then((res) => {
                     toast.success("Transaction modifié avec succès");
                     Swal.fire({
@@ -187,8 +188,8 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                 });
         } else {
 
-            axios
-                .post("http://localhost:3001/hwbTransaction/", state)
+            api
+                .post("/hwbTransaction/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',

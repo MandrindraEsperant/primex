@@ -32,7 +32,7 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/hblTransaction/");
+        const response = await z("http://localhost:3001/hblTransaction/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }

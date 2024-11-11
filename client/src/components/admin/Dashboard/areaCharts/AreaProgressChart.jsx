@@ -1,5 +1,5 @@
 "use client"
-import axios from "axios";
+import api from "../../../../axiosInstance";
 import { useEffect, useState } from "react";
 
 const AreaProgressChart = () => {
@@ -7,7 +7,7 @@ const AreaProgressChart = () => {
   const [isLoading, setIsLoading] = useState(true); 
   const plusExpedier= async ()=>{
     try {
-      const response = await axios.get("http://localhost:3001/marchandise/plus/");
+      const response = await api.get("/marchandise/plus/");
       setData(response.data);
       setIsLoading(false);
     } catch (error) {

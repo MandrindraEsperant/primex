@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import api from "../../../../axiosInstance";
 import idUserConnected from "../../../../constants/idUserConnected";
 import Swal from "sweetalert2";
 
@@ -89,8 +89,8 @@ function AjoutTransMaritime({ handleClose, isEditMode, selectedPerson, allTransM
     e.preventDefault();
 
 if (isEditMode) {
-  axios
-    .put(`http://localhost:3001/transMaritime/${selectedPerson.idTransMaritime}`, state)
+  api
+    .put(`/transMaritime/${selectedPerson.idTransMaritime}`, state)
     .then((res) => {
       toast.success("Tansport modifié avec succès");
      Swal.fire({
@@ -111,8 +111,8 @@ if (isEditMode) {
       }
     });
 } else {
-    axios
-      .post("http://localhost:3001/transMaritime/", state)
+    api
+      .post("/transMaritime/", state)
       .then((res) => {
         Swal.fire({
           title: "Ajouté!",

@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
+import api from '../../../../../axiosInstance';
 
 
 const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, selectedPerson }) => {
@@ -36,7 +37,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/transAerienne/");
+        const response = await api.get("/transAerienne/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -60,7 +61,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         }
     };
     const fetchAgent = async () => {
-        const response = await fetch("http://localhost:3001/agent/");
+        const response = await api.get("/agent/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -181,8 +182,8 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         e.preventDefault();
 
         if (isEditMode) {
-            axios
-                .put(`http://localhost:3001/transactionAerienne/${selectedPerson.idTransactionAerienne}`, state)
+            api
+                .put(`/transactionAerienne/${selectedPerson.idTransactionAerienne}`, state)
                 .then((res) => {
                     toast.success("Transaction modifié avec succès");
                     Swal.fire({
@@ -204,8 +205,8 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
                 });
         } else {
 
-            axios
-                .post("http://localhost:3001/transactionAerienne/", state)
+            api
+                .post("/transactionAerienne/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',

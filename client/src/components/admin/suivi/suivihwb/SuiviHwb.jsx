@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutSuiviHwb from './AjoutSuiviHwb';
 import DetailsSuiviHwb from './DetailsSuiviHwb';
+import api from '../../../../axiosInstance';
 
 const SuiviHwb = () => {
     const [open, setOpen] = useState(false);
@@ -14,7 +14,7 @@ const SuiviHwb = () => {
     const [data, setData] = useState([]);
     const allsuiviHWB = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/suiviHWB/");
+            const response = await api.get("/suiviHWB/");
             setData(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
@@ -26,8 +26,8 @@ const SuiviHwb = () => {
         setOpen(true);
     };
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/suiviHWB/" + id)
+        api
+            .delete("/suiviHWB/" + id)
             .then((res) => {
                 allsuiviHWB();
             })
