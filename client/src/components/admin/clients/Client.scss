@@ -235,51 +235,6 @@ Utilisation du mixin pour le mode sombre
       color:white;
     }
   }
-
-  .actionIcons {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-  }
-
-  .editIcon {
-    cursor: pointer;
-    color: #00BFFF; // Bleu ciel
-    transition: color 0.3s;
-    width: 16px;
-    height: 18px;
-    border-radius: 15%;
-
-    &:hover {
-      color: #1E90FF; // Changement de couleur au survol
-    }
-  }
-
-  .deleteIcon {
-    cursor: pointer;
-    color: #FF4500; // Rouge
-    transition: color 0.3s;
-    width: 16px;
-    height: 18px;
-    border-radius: 15%;
-
-    &:hover {
-      color: #FF6347; // Changement de couleur au survol
-    }
-  }
-
-  .viewIcon {
-    cursor: pointer;
-    color: #32CD32; // Couleur verte pour l'icône de visualisation
-    transition: color 0.3s;
-    width: 16px;
-    height: 18px;
-    border-radius: 15%;
-
-    &:hover {
-      color: #3CB371; // Changement de couleur au survol
-    }
-  }
 }
 
 @media (max-width: 500px) {
