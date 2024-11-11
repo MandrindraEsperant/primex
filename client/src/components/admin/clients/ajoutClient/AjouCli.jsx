@@ -1,3 +1,4 @@
+// AjoutCli.jsx
 "use client";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -5,8 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert2';
 import axios from "axios";
 import idUserConnected from './../../../../constants/idUserConnected';
+import './AjoutCli.scss'; // Importez le fichier SCSS
 
-const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
+const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
   const idEmploye = idUserConnected();
   const [state, setState] = useState({
     nomClient: "",
@@ -17,9 +19,7 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
   });
 
   useEffect(() => {
-    
     if (isEditMode && selectedPerson) {
-      // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
       setState({
         nomClient: selectedPerson.nomClient || '',
         CINClient: selectedPerson.CINClient || '',
@@ -27,7 +27,6 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
         modifierPar: idEmploye,
       });
     } else {
-      // Sinon, réinitialiser les champs
       setState({
         nomClient: "",
         CINClient: "",
@@ -55,53 +54,25 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
       creerPar: state.creerPar
     };
 
-    if (isEditMode) {
-      // Mode modification
-      delete state['creerPar'];
-      axios
-        .put(`http://localhost:3001/client/${selectedPerson.idClient}`, clientData)
-        .then((res) => {
-          toast.success("Client modifié avec succès");
-         Swal.fire({
-          title: 'Modifié!',
-          text: 'Le client a été modifié.',
+    const request = isEditMode 
+      ? axios.put(`http://localhost:3001/client/${selectedPerson.idClient}`, clientData)
+      : axios.post("http://localhost:3001/client/", clientData);
+
+    request
+      .then(() => {
+        Swal.fire({
+          title: isEditMode ? 'Modifié!' : 'Ajouté!',
+          text: `Le client a été ${isEditMode ? 'modifié' : 'ajouté'}.`,
           icon: 'success',
           timer: 3000,
           showConfirmButton: false, 
         });
-          allClient();
-          handleClose();
-        })
-        .catch((err) => {
-          if (err.response) {
-            toast.error(err.response.data.error);
-          } else {
-            toast.error(err.message);
-          }
-        });
-    } else {
-      // Mode ajout      
-      axios
-        .post("http://localhost:3001/client/", clientData)
-        .then((res) => {
-          Swal.fire({
-          title: 'Ajouté!',
-          text: 'Le client a été ajouté.',
-          icon: 'success',
-          timer: 3000,
-          showConfirmButton: false, 
-        });
-          allClient();
-          handleClose();
-        })
-        .catch((err) => {
-          if (err.response) {
-            toast.error(err.response.data.error);
-          } else {
-            toast.error(err.message);
-          }
-        });
-    }
+        allClient();
+        handleClose();
+      })
+      .catch((err) => {
+        toast.error(err.response?.data.error || err.message);
+      });
   };
 
   const isFormValid = () => {
@@ -120,22 +91,19 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
+    <div className="ajout-cli-container">
+      <h2 className="ajout-cli-title">
         {isEditMode ? "Modifier un Client" : "Ajouter un Client"}
       </h2>
-      <form onSubmit={handleSubmit} className="w-full h-full flex flex-col">
-        <div className="flex w-full flex-col mb-4 flex-grow">
-          <label
-            htmlFor="nomClient"
-            className="text-lg font-semibold mb-2 text-blue-400"
-          >
+      <form onSubmit={handleSubmit} className="ajout-cli-form">
+        <div className="form-group">
+          <label htmlFor="nomClient" className="form-label">
             Nom Client
           </label>
           <input
             value={state.nomClient}
             onChange={inputHandle}
-            className="p-2 border border-slate-400 mt-1 rounded-md focus:border-sky-400 focus:outline-none w-full"
+            className="form-input"
             type="text"
             name="nomClient"
             placeholder="Nom du Client"
@@ -143,17 +111,14 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
           />
         </div>
 
-        <div className="flex w-full flex-col mb-4 flex-grow">
-          <label
-            htmlFor="CINClient"
-            className="text-lg font-semibold mb-2 text-blue-400"
-          >
+        <div className="form-group">
+          <label htmlFor="CINClient" className="form-label">
             CIN
           </label>
           <input
             value={state.CINClient}
             onChange={inputHandle}
-            className="p-2 border border-slate-400 mt-1 rounded-md focus:border-sky-400 focus:outline-none w-full"
+            className="form-input"
             type="text"
             name="CINClient"
             placeholder="Numéro CIN"
@@ -161,17 +126,14 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
           />
         </div>
 
-        <div className="flex w-full flex-col mb-4 flex-grow">
-          <label
-            htmlFor="emailClient"
-            className="text-lg font-semibold mb-2 text-blue-400"
-          >
+        <div className="form-group">
+          <label htmlFor="emailClient" className="form-label">
             Adresse email
           </label>
           <input
             value={state.emailClient}
             onChange={inputHandle}
-            className="p-2 border border-slate-400 mt-1 rounded-md focus:border-sky-400 focus:outline-none w-full"
+            className="form-input"
             type="email"
             name="emailClient"
             placeholder="Email"
@@ -179,20 +141,11 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson })=> {
           />
         </div>
 
-        <div className="w-full mt-4 flex justify-between space-x-2">
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="px-4 py-2 bg-blue-100 text-gray-700 rounded-md flex-1 mr-2"
-          >
+        <div className="form-actions">
+          <button type="button" onClick={handleCancel} className="btn-cancel">
             Annuler
           </button>
-          <button
-            type="submit"
-            disabled={!isFormValid()}
-            className={`px-4 py-2 text-white rounded-md flex-1 ${isFormValid() ? "bg-blue-500" : "bg-gray-300 cursor-not-allowed"
-              }`}
-          >
+          <button type="submit" disabled={!isFormValid()} className={`btn-submit ${isFormValid() ? "active" : ""}`}>
             {isEditMode ? "Modifier" : "Ajouter"}
           </button>
         </div>

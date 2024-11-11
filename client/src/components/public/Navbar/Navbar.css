@@ -132,7 +132,7 @@ nav .langue select {
         padding: 0.5rem;
     }
     nav ul.toggle {
-        right: 0;
+        /* right: 0; */
     }  
     nav ul li .menu {
         font-size: 20px;

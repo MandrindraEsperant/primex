@@ -25,7 +25,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     const decodedToken = jwtDecode(token);
     const idEmploye = decodedToken.id;
     const [state, setState] = useState({
-        numMWL: '',
+        numMWB: '',
         idTransport: '',
         idAgentDest: "",
         idAgentExp: "",
@@ -76,7 +76,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
                 setState(prevState => ({
                     ...prevState,
                     idAgentExp: agent.idAgent,
-                    nomAgen: agent.nomAgent,
+                    nomAgent: agent.nomAgent,
                     paysAgent: agent.paysAgent,
                     contactAgent: agent.contactAgent,
                     adresseAgent: agent.adresseAgent,
@@ -85,7 +85,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
                 setState(prevState => ({
                     ...prevState,
                     idAgentDest: agent.idAgent,
-                    nomAgen: agent.nomAgent,
+                    nomAgent: agent.nomAgent,
                     paysAgent: agent.paysAgent,
                     contactAgent: agent.contactAgent,
                     adresseAgent: agent.adresseAgent,
@@ -118,7 +118,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         if (isEditMode && selectedPerson) {
             // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
             setState({
-                numMWL: selectedPerson.numMWL || '',
+                numMWB: selectedPerson.numMWB || '',
                 idTransport: selectedPerson.idTransport || '',
                 idAgentDest: selectedPerson.idAgentDest || '',
                 idAgentExp: selectedPerson.idAgentExp || '',
@@ -130,7 +130,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         } else {
             // Sinon, réinitialiser les champs
             setState({
-                numMWL: '',
+                numMWB: '',
                 idTransport: '',
                 idAgentDest: "",
                 idAgentExp: "",
@@ -151,7 +151,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     };
 
     const isStep1Valid = () => {
-        return state.numMWL;
+        return state.numMWB;
     };
 
     const isStep2Valid = () => {
@@ -160,7 +160,6 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     const isStep3Valid = () => {
         return state.idAgentExp && state.idAgentDest;
     };
-
     const next = () => {
         if (formNo === 1 && isStep1Valid()) {
             setFormNo(formNo + 1);
@@ -178,7 +177,6 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
             setFormNo(formNo - 1);
         }
     };
-
     const finalSubmit = (e) => {
         e.preventDefault();
 
@@ -228,8 +226,6 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
                 });
         }
     };
-
-
     const filteredData = agentOptions.filter(
         (item) =>
             item.nomAgent.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -386,21 +382,20 @@ const filteredAerienne = transAeriennes.filter(
                     </div>
                 </div>
             )}
-
             {/* Form Step 1 */}
             {formNo === 1 && (
                 <div>
 
                     <div className="flex flex-col mb-3 ">
-                        <label htmlFor="numMWL" className='text-lg font-semibold mb-2'>N° MWL</label>
+                        <label htmlFor="numMWB" className='text-lg font-semibold mb-2'>N° MWB</label>
                         <input
-                            value={state.numMWL}
+                            value={state.numMWB}
                             onChange={inputHandle}
                             className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
                             type="text"
-                            name="numMWL"
-                            placeholder="N° MWL"
-                            id="numMWL"
+                            name="numMWB"
+                            placeholder="N° MWB"
+                            id="numMWB"
                         />
                     </div>
 

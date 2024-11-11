@@ -61,8 +61,6 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
         }
         return await response.json();
     };
-
-
     const fetchTransAeriennes = async () => {
         const response = await fetch("http://localhost:3001/transactionAerienne/");
         if (!response.ok) {
@@ -79,7 +77,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                 ...prevState,
                 idMWB: trans.idTransactionAerienne,
                 idTransAerienne: trans.idTransAerienne,
-                numMWL: trans.numMWL,
+                numMWB: trans.numMWB,
                 idAgentDest: trans.idAgentDest,
                 idAgentExp: trans.idAgentExp,
                 dateEmission: trans.dateEmission,
@@ -88,9 +86,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
 
             }));
         }
-    };
-
-    
+    };    
     useEffect(() => {
         const getClients = async () => {
             try {
@@ -223,7 +219,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
 
     const filteredAerienne = aerienneOption.filter(
         (trans) =>
-            trans.numMWL.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.numMWB.toLowerCase().includes(searchTermT.toLowerCase()) ||
             trans.idAgentDest.toLowerCase().includes(searchTermT.toLowerCase()) ||
             trans.idAgentExp.toLowerCase().includes(searchTermT.toLowerCase())
     );
@@ -344,7 +340,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                         </div>
                     </div>
                     <div className="w-1/2">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Numéro MWB Disponible</h2>
+                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">MWB Disponible</h2>
                         {/* FILTRE */}
                         <div className="searchContainer">
                             <MdSearch className="searchIcon" />
@@ -368,7 +364,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                                 <thead className="text-white bg-blue-200">
                                     <tr>
                                         <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">N° HWB</th>
+                                        <th className="py-2 mx-8 text-left">N° MWB</th>
                                         <th className="py-2 px-4 text-left">Agent Destinataire</th>
                                         <th className="py-2 px-4 text-left">Agent Expediteur</th>
                                         <th className="py-2 px-4 text-left">Date Emission</th>
@@ -388,7 +384,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                                                     readOnly
                                                 />
                                             </td>
-                                            <td className="py-2 px-4">{aerienne.numMWL}</td>
+                                            <td className="py-2 px-4">{aerienne.numMWB}</td>
                                             <td className="py-2 px-4">{aerienne.agentDest.nomAgent}</td>
                                             <td className="py-2 px-4">{aerienne.agentExp.nomAgent}</td>
 

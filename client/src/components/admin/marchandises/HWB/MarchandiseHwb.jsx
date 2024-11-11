@@ -72,7 +72,7 @@ const MarchandiseHwb = () => {
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
 
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idMarchandiseHWB === person.idMarchandiseHWB) {
@@ -139,7 +139,7 @@ const MarchandiseHwb = () => {
                 </div>
                 <section className="content-area-table pd-5">
                 <div className="data-table-diagram">
-                <table >
+                <table className='table'>
                     <thead>
                         <tr >
                             <th>#</th>

@@ -21,7 +21,6 @@ const TransactionHwb = () => {
             console.error("Error submitting data:", error);
         }
     };
-
     const handleEditClickOpen = (transactionHbl) => {
         setSelectedPerson(transactionHbl);
         setIsEditMode(true); // Mode modification
@@ -69,7 +68,7 @@ const TransactionHwb = () => {
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const itemsPerPage = 5;
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idHWBTransaction === person.idHWBTransaction) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
@@ -80,7 +79,7 @@ const TransactionHwb = () => {
     const filteredData = data.filter(item =>
         item.numHWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idMWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentDest.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.idDestinataire.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idExpediteur.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.dateHWBTransaction.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idDestinataire.toLowerCase().includes(searchTerm.toLowerCase()) 
@@ -135,7 +134,7 @@ const TransactionHwb = () => {
                 <tr >
                     <th>#</th>
                     <th>N° HWB</th>
-                    <th>ID MWB</th>
+                    <th>N° MWB</th>
                     <th>Date Transaction</th>
                     <th> Destinataire</th>
                     <th>Expediteur</th>
@@ -157,10 +156,10 @@ const TransactionHwb = () => {
                             />
                         </td>
                         <td>{item.numHWB}</td>
-                        <td>{item.idMWB}</td>
+                        <td>{item.TransactionAerienne.numMWB}</td>
                         <td>{ new Date(item.dateHWBTransaction).toLocaleDateString('fr-FR')}</td>
-                        <td>{item.idExpediteur}</td>
-                        <td>{item.idDestinataire}</td>
+                        <td>{item.clientDest.nomClient}</td>
+                        <td>{item.clientExp.nomClient}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}
