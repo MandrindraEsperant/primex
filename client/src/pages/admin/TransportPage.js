@@ -1,12 +1,12 @@
-import React from 'react'
-import Transport from '../../components/admin/transport/Transport'
+import React from "react";
+import Transport from "../../components/admin/transport/Transport";
 
 const TransportPage = () => {
   return (
     <>
-<Transport/>
+      <Transport />
     </>
-  )
-}
+  );
+};
 
-export default TransportPage
+export default TransportPage;
