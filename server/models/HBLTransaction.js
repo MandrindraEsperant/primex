@@ -18,7 +18,7 @@ HBLTransaction.init(
       unique: {
         msg: "Ce numéro HBL est déjà utilisé.",
       },
-    },
+    }, 
     idMBL: {
       type: DataTypes.INTEGER,
       allowNull: false,

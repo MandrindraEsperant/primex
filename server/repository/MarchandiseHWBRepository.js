@@ -26,6 +26,13 @@ class MarchandiseRepository extends IRepository {
   async findAll() {
     return await Marchandise.findAll();
   }
+  async findAll_suivi(num) {
+    return await Marchandise.findAll({
+      where :{
+        HWB: num
+      }
+    });
+  }
   async update(id, MarchandiseData) {
     const marchandise = await this.findById(id);
     if (marchandise) {

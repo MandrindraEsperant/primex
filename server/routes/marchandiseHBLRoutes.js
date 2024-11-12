@@ -15,5 +15,6 @@ router.get('/', (req, res) => marchandiseController.getAllMarchandises(req, res)
 router.get('/:id', (req, res) =>marchandiseController.getOneMarchandise(req, res));
 router.put('/:id', (req, res) => marchandiseController.updateMarchandise(req, res));
 router.delete('/:id', (req, res) => marchandiseController.deleteMarchandise(req, res));
+router.get('/suivre/:num', (req, res) => marchandiseController.findAll_suivi(req, res));
 
 module.exports = router;

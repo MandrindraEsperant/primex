@@ -37,6 +37,20 @@ class HouseTransactionController {
         res.status(500).send(error.message);
       }
     }
+    async getOneHouseTransactionByNum(req, res) {
+      try {
+        const HouseTransaction = await this.HouseTransactionService.getHouseTransactionByNum(
+          req.params.num
+        );
+        if (HouseTransaction) {
+          res.status(200).json(HouseTransaction);
+        } else {
+          res.status(404).send("HouseTransaction not found");
+        }
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
     async getAllHouseTransactions(req, res) {
       try {
         const HouseTransactions = await this.HouseTransactionService.getAllHouseTransactions();

@@ -73,8 +73,16 @@ class MarchandiseController {
     }
     async deleteMarchandise(req, res) {
       try {
-        await this.MarchandiseService.deleteMarchandise(req.params.id);
+        await this.MarchandiseService.deleteMarchandise(req.params.num);
         res.status(204).send();
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
+    async findAll_suivi(req,res) {
+      try {
+        const Marchandises=  await this.MarchandiseService.findAll_suivi(req.params.num);
+        res.status(200).json(Marchandises); 
       } catch (error) {
         res.status(500).send(error.message);
       }

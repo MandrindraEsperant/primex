@@ -2,7 +2,7 @@ const express = require('express');
 const HouseTransactionRepository = require('../repository/HBLTransactionRepository');
 const HouseTransactionService = require('../services/HouseTransactionService');
 const HouseTransactionController = require('../controller/HouseTransactionController');
-
+ 
 const router = express.Router(); 
 
 const houseTransactionRepository = new HouseTransactionRepository();
@@ -15,6 +15,7 @@ router.get('/', (req, res) => houseTransactionController.getAllHouseTransactions
 router.get('/:id', (req, res) =>houseTransactionController.getOneHouseTransaction(req, res));
 router.put('/:id', (req, res) => houseTransactionController.updateHouseTransaction(req, res));
 router.delete('/:id', (req, res) => houseTransactionController.deleteHouseTransaction(req, res));
+router.get('/get/:num', (req, res) => houseTransactionController.getOneHouseTransactionByNum(req, res));
 router.get('/doc/:id', (req, res) => houseTransactionController.getAllHouseTransactionsMere(req, res));
 
 

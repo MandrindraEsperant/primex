@@ -8,6 +8,9 @@ class HouseTransactionService {
   async getHouseTransactionById(id) {
     return await this.HouseTransactionRepository.findById(id);
   }
+  async getHouseTransactionByNum(num) {
+    return await this.HouseTransactionRepository.findByNum(num);
+  }
   async getAllHouseTransactions() {
     return await this.HouseTransactionRepository.findAll();
   }

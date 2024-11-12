@@ -1,7 +1,8 @@
 const HBLTransaction = require('../models/HBLTransaction');
 const IRepository = require('../interfaces/IRepository');
 const TransactionMaritime = require('../models/TransactionMaritime')
-const Client = require('../models/Client')
+const Client = require('../models/Client');
+const { where } = require('sequelize');
 // const { Op } = require('sequelize');
  
 class HBLTransactionRepository extends IRepository {
@@ -10,6 +11,40 @@ class HBLTransactionRepository extends IRepository {
   }
   async findById(id) {
     return await HBLTransaction.findByPk(id);
+  }
+  async findByNum(num) {
+    return await HBLTransaction.findOne({
+      where:{
+        numHBL : num
+      },
+      attributes: [
+        'idHBLTransaction',
+        'numHBL',
+        'dateHBLTransaction',
+        'idMBL'
+        ],
+      include: [
+        {
+          model: TransactionMaritime,
+          attributes: [
+            'numMBL',        
+          ],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientExp', // alias pour l'agent expéditeur
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientDest', // alias pour l'agent destinataire
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
   }
 
   async findAll() {

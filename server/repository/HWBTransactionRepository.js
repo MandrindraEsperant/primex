@@ -2,6 +2,7 @@ const HWBTransaction = require('../models/HWBTransaction');
 const IRepository = require('../interfaces/IRepository');
 const TransactionAerienne = require('../models/TransactionAerienne');
 const Client = require('../models/Client');
+const { Where } = require('sequelize/lib/utils');
 
 // const { Op } = require('sequelize');
 
@@ -11,6 +12,9 @@ class HWBTransactionRepository extends IRepository {
   }
   async findById(id) {
     return await HWBTransaction.findByPk(id);
+  }
+  async findByNum(num) {
+    return await HWBTransaction.findOne({Where:{numHWB:num}});
   }
   // async countAll() {
   //   try {
