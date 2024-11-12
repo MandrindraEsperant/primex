@@ -17,7 +17,6 @@ const SuiviHbl = () => {
         try {
             const response = await api.get("/suiviHBL/");
             setData(response.data);
-            // console.log(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }

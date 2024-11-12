@@ -17,6 +17,9 @@ class SuiviService {
     async deleteSuivi(id) {
       return await this.SuiviRepository.delete(id);
     }
+    async suivi(num) {
+      return await this.SuiviRepository.suivi(num);
+    }
   }
   
   module.exports = SuiviService;

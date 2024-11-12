@@ -1,6 +1,6 @@
 const Suivi = require("../models/SuiviHBL");
 const IRepository = require("../interfaces/IRepository");
-const { Sequelize, literal } = require('sequelize');
+const { Sequelize, literal, where } = require('sequelize');
 
 class SuiviRepository extends IRepository {
   async create(Data) {
@@ -41,6 +41,13 @@ class SuiviRepository extends IRepository {
       return await Suivi.destroy({ where: { idSuiviHBL: id } });
     }
     return null;
+  }
+  async suivi(numHBL){
+    return await Suivi.findAll({
+      where:{
+        numHBL : numHBL
+      }
+    })
   }
 }
 

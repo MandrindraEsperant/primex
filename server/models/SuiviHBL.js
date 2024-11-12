@@ -15,7 +15,7 @@ SuiviHBL.init(
       references: {
         model: HBLTransaction,
         key: "numHBL",
-      },
+      }, 
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },

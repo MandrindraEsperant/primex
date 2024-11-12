@@ -42,6 +42,13 @@ class SuiviRepository extends IRepository {
     }
     return null;
   }
+  async suivi(numHWB){
+    return await Suivi.findAll({
+      where:{
+        numHWB : numHWB
+      }
+    })
+  }
 }
 
 module.exports = SuiviRepository;

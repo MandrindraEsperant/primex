@@ -75,6 +75,14 @@ class SuiviController {
         res.status(500).send(error.message);
       }
     }
+    async getSuivi(req,res){
+      try {
+        const Suivis = await this.SuiviService.suivi(req.params.num);
+        res.status(200).json(Suivis);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
   }
   
   module.exports = SuiviController;
