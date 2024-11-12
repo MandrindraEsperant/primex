@@ -15,8 +15,6 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
     const [activeField, setActiveField] = useState(null);
     const [searchTermT, setSearchTermT] = useState("");
     const [searchTermA, setSearchTermA] = useState("");
-
-
     const formArray = [1, 2];
     const [formNo, setFormNo] = useState(formArray[0]);
     const token = localStorage.getItem("token");

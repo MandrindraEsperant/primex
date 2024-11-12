@@ -1,24 +1,50 @@
 import React, { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MdSearch, MdClear } from 'react-icons/md';
+import { MdSearch, MdClear, MdAdd } from 'react-icons/md';
 
 const DetailsSuiviHwb = ({ selectedData }) => {
+/*   if (!selectedData) {
+    return <div>Loading...</div>; 
+  } */
   const formArray = [1, 2, 3, 4, 5, 6];
   const [formNo, setFormNo] = useState(formArray[0]);
 
-  // Vérification de selectedData
-  if (!selectedData) {
-    return <div>Loading...</div>; // Ou un message d'erreur approprié
-  }
+  const [searchTerm, setSearchTerm] = useState('');
+  const handleClickOpen = () => {
+    // setSelectedPerson(null);
+    // setIsEditMode(false);
+    // setOpen(true);
+};
 
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
+      <div className="actionsContainer">
+                    <div className="searchContainer">
+                        <MdSearch className="searchIcon" />
+                        <input
+                            type="text"
+                            placeholder="Entrez votre numéro de suivi..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="searchInput"
+                        />
+                        {searchTerm && (
+                            <MdClear
+                                className="clearIcon"
+                                onClick={() => setSearchTerm('')}
+                            />
+                        )}
+                    </div>
+                    <button className="addButton" onClick={handleClickOpen}>
+                        <MdAdd /> Suivre
+                    </button>
+                </div>
       <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-        Suivi de colis N°: {selectedData.numHWB || 'Inconnu'}
+        Suivi de colis N°: 
+        {/* {selectedData.numHWB || 'Inconnu'} */}
       </h2>
       <div>
-        {/* Section Détails Agent */}
         <div className="flex justify-between py-1">
           <p><strong>Nom Agent :</strong></p>
           <p className="text-right">Nom de l'agent</p>
@@ -28,8 +54,6 @@ const DetailsSuiviHwb = ({ selectedData }) => {
           <p className="text-right">Canada</p>
         </div>
         <hr className="my-2" />
-
-        {/* Section Détails Expéditeur */}
         <div className="flex justify-between py-1">
           <p><strong>Nom Expéditeur :</strong></p>
           <p className="text-right">Nom de l'expéditeur</p>
@@ -47,8 +71,6 @@ const DetailsSuiviHwb = ({ selectedData }) => {
           <p className="text-right">022145878</p>
         </div>
         <hr className="my-2" />
-
-        {/* Section Détails Destinataire */}
         <div className="flex justify-between py-1">
           <p><strong>Nom Destinataire :</strong></p>
           <p className="text-right">Mino</p>
@@ -66,8 +88,6 @@ const DetailsSuiviHwb = ({ selectedData }) => {
           <p className="text-right">022145878</p>
         </div>
         <hr className="my-2" />
-
-        {/* Section Détails Colis */}
         <div className="flex justify-between py-1">
           <p><strong>Poids :</strong></p>
           <p className="text-right">10 kg</p>
@@ -93,14 +113,28 @@ const DetailsSuiviHwb = ({ selectedData }) => {
             <div className="flex flex-col items-center w-full">
               <div
                 className={`w-[35px] h-[35px] my-3 text-white rounded-full ${formNo - 1 > i
-                  ? 'bg-green-500'
+                  ? 'bg-blue-500'
                   : formNo - 1 === i || formNo - 1 === i + 1 || formNo === formArray.length
-                    ? 'bg-green-500'
-                    : 'bg-slate-400'
+                    ? 'bg-blue-500'
+                    : 'bg-slate-300'
                   } flex justify-center items-center`}
               >
                 {formNo - 1 > i ? '✓' : v}
               </div>
+              <div className="text-xs sm:text-sm mt-1 text-center text-blue-500 font-semibold">
+                            {i === 0 && 'VALIDATION'}                          {i === 1 && 'PREPARATION'}
+                            {i === 2 &&'DOUANE'}
+                            {i === 3 && 'EXPEDITION'}
+                            {i === 4 && 'ARRIVÉE'}
+                            {i === 5 && 'LIVRAISON'}
+                        </div>
+                        <div className="text-xs sm:text-sm mt-1 text-center text-blue-300">
+                            {i === 0 && 'Pris en main par PRIMEX'}                          {i === 1 && 'En cours de préparation'}
+                            {i === 2 &&'Chargement'}
+                            {i === 3 && 'Colis en cours d\'acheminement'}
+                            {i === 4 && 'Colis arrivé au port'}
+                            {i === 5 && 'Colis en cours de livraison'}
+                        </div>
             </div>
             {i !== formArray.length - 1 && (
               <div
@@ -108,9 +142,9 @@ const DetailsSuiviHwb = ({ selectedData }) => {
                   ? 'bg-green-500'
                   : formNo === i + 2 || formNo === formArray.length
                     ? 'bg-green-500'
-                    : 'bg-slate-400'
+                    : 'bg-slate-300'
                   }`}
-                style={{ marginLeft: '0px', marginRight: '0px' }}
+                style={{ marginLeft: '-25px', marginRight: '-25px', marginBottom:'45px' }}
               ></div>
             )}
           </React.Fragment>
@@ -127,8 +161,12 @@ const DetailsSuiviHwb = ({ selectedData }) => {
         </thead>
         <tbody>
           <tr>
-              <td className="py-2 px-4 border-b border-gray-200">{selectedData.dateEtape}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{selectedData.etape}</td>
+              <td className="py-2 px-4 border-b border-gray-200">
+                {/* {selectedData.dateEtape} */}
+                </td>
+              <td className="py-2 px-4 border-b border-gray-200">
+                {/* {selectedData.etape} */}
+                </td>
             </tr>
         
         </tbody>
