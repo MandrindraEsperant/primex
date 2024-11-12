@@ -50,8 +50,6 @@ const SuiviHwb = () => {
             }
         });
     };
-
-
     useEffect(() => {
         allsuiviHWB();
     }, []);
@@ -65,7 +63,6 @@ const SuiviHwb = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-
     const handleSelect = (person) => {
         if (selectedPerson && selectedPerson.idSuiviHWB === person.idSuiviHWB) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
@@ -85,10 +82,9 @@ const SuiviHwb = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
   return (
     <div className={`client-container ${theme}`}>
-            <h3 className="title">SUIVIS HWB</h3>
+            <h3 className="titleCli">SUIVIS HWB</h3>
             <div className="flex flex-col space-y-6">
                 <div className="actionsContainer">
                     <div className="searchContainer">
@@ -113,7 +109,7 @@ const SuiviHwb = () => {
                 </div>
                 <section className="content-area-table pd-5">
                 <div className="data-table-diagram">
-                <table >
+                <table className='table'>
                     <thead>
                         <tr >
                             <th>#</th>
@@ -169,7 +165,7 @@ const SuiviHwb = () => {
 
 
             </div>
-            <DetailsSuiviHwb selectedData={selectedData} />
+            {/* <DetailsSuiviHwb selectedData={selectedData} /> */}
             <AjoutSuiviHwb className="pt-2"/>
         </div>
   )

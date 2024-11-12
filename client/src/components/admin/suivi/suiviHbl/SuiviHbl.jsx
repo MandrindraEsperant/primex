@@ -101,7 +101,7 @@ const SuiviHbl = () => {
 
   return (
     <div className={`client-container ${theme}`}>
-            <h3 className="title">SUIVIS HBL</h3>
+            <h3 className="titleCli">SUIVIS HBL</h3>
             <div className="flex flex-col space-y-6">
                 <div className="actionsContainer">
                     <div className="searchContainer">
@@ -126,7 +126,7 @@ const SuiviHbl = () => {
                 </div>
                 <section className="content-area-table pd-5">
                 <div className="data-table-diagram">
-                <table >
+                <table className='table'>
                     <thead>
                         <tr >
                             <th>#</th>
