@@ -7,6 +7,7 @@ import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutSuivHbl from '../../../../pages/admin/AjoutSuivHbl';
 import AjoutSuiviHbl from './AjoutSuiviHbl';
+import api from '../../../../axiosInstance';
 const SuiviHbl = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -14,7 +15,7 @@ const SuiviHbl = () => {
 
     const allsuiviHBL = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/suiviHBL/");
+            const response = await api.get("/suiviHBL/");
             setData(response.data);
             // console.log(response.data);
         } catch (error) {
@@ -30,8 +31,8 @@ const SuiviHbl = () => {
 
     // SUPPRESSION
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/suiviHBL/" + id)
+        api
+            .delete("/suiviHBL/" + id)
             .then((res) => {
                 allsuiviHBL();
             })

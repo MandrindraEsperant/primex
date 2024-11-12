@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutTransactionAe from '../../../../pages/admin/AjoutTransactionA';
+import api from '../../../../axiosInstance';
 
 const TransactionAerien = () => {
     const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ const TransactionAerien = () => {
 
     const allTransactionAerienne = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/transactionAerienne/");
+            const response = await api.get("/transactionAerienne/");
             setData(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
@@ -28,8 +29,8 @@ const TransactionAerien = () => {
     };
    // SUPPRESSION
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/transactionAerienne/" + id)
+        api
+            .delete("/transactionAerienne/" + id)
             .then((res) => {
                 allTransactionAerienne();
             })

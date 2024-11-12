@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
+import api from '../../../../../axiosInstance';
 
 const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, selectedPerson }) => {
     const [transportOptions, setTransportOptions] = useState([]);
@@ -49,7 +50,7 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
         }
     };
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/transMaritime/");
+        const response = await api.get("/transMaritime/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -57,7 +58,7 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
     };
 
     const fetchAgent = async () => {
-        const response = await fetch("http://localhost:3001/agent/");
+        const response = await api.get("/agent/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -183,8 +184,8 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
         e.preventDefault();
 
         if (isEditMode) {
-            axios
-                .put(`http://localhost:3001/transactionMaritime/${selectedPerson.idtransactionMaritime}`, state)
+            api
+                .put(`/transactionMaritime/${selectedPerson.idtransactionMaritime}`, state)
                 .then((res) => {
                     toast.success("Transaction modifié avec succès");
                     Swal.fire({
@@ -206,8 +207,8 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                 });
         } else {
 
-            axios
-                .post("http://localhost:3001/transactionMaritime/", state)
+            api
+                .post("/transactionMaritime/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',

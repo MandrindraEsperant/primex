@@ -16,6 +16,7 @@ import "../Dashboard/areaTable/AreaTableAction"
 import Swal from "sweetalert2";
 import axios from "axios";
 import AreaTableAction from "../Dashboard/areaTable/AreaTableAction";
+import api from "../../../axiosInstance";
 
 const Client = () => {
   const [open, setOpen] = useState(false);
@@ -29,15 +30,14 @@ const Client = () => {
 
   const allClient = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/client/");
+      const response = await api.get("/client/");
       setData(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
   const supprimer = (id) => {
-    axios
-      .delete("http://localhost:3001/client/" + id)
+    api.delete("/client/" + id)
       .then((res) => {
         console.log(res);
         Swal.fire({
@@ -156,7 +156,7 @@ const Client = () => {
                 </thead>
                 <tbody>
                   {currentData.map((item) => (
-                    
+
                     <tr
                       key={item.idClient}
                       onClick={() => handleSelect(item)}
@@ -184,19 +184,18 @@ const Client = () => {
                 </tbody>
               </table></div></section>
           <div className="pagination">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-              (pageNumber) => (
-                <button
-                  key={pageNumber}
-                  className={`pageButton ${currentPage === pageNumber ? "activePage" : ""
-                    }`}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </button>
-              )
-            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+              <button
+                key={pageNumber}
+                className={`pageButton ${currentPage === pageNumber ? "activePage" : ""}`}
+                onClick={() => handlePageChange(pageNumber)}
+              >
+                {pageNumber}
+              </button>
+            ))}
           </div>
+
+
         </div>
 
       </div>

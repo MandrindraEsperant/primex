@@ -6,6 +6,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
+import api from '../../../../axiosInstance';
 
 const TransportAerienne = () => {
     const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ const TransportAerienne = () => {
 
     const allTransAerienne = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/transAerienne/");
+            const response = await api.get("/transAerienne/");
             setData(response.data);
             // console.log(response.data);
         } catch (error) {
@@ -30,8 +31,8 @@ const TransportAerienne = () => {
 
     // SUPPRESSION
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/transAerienne/" + id)
+        api
+            .delete("/transAerienne/" + id)
             .then((res) => {
                 allTransAerienne();
             })

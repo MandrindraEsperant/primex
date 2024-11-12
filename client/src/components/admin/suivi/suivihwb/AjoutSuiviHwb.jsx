@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
+import api from '../../../../axiosInstance';
+
+
 const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson }) => {
     const [transAeriennes, setTransAeriennes] = useState([]);
     const [error, setError] = useState();
@@ -25,7 +27,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/hwbTransaction/");
+        const response = await api.get("/hwbTransaction/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -96,8 +98,8 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     const finalSubmit = (e) => {
         e.preventDefault();
         if (isEditMode) {
-            axios
-                .put(`http://localhost:3001/suiviHWB/${selectedPerson.idSuiviHWB}`, state)
+            api
+                .put(`/suiviHWB/${selectedPerson.idSuiviHWB}`, state)
                 .then((res) => {
                     toast.success("Marchandise modifié avec succès");
                     Swal.fire({
@@ -118,8 +120,8 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                     }
                 });
         } else {
-            axios
-                .post("http://localhost:3001/SuiviHWB/", state)
+            api
+                .post("/SuiviHWB/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',

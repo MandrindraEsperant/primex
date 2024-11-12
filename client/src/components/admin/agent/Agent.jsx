@@ -14,6 +14,7 @@ import "../clients/Client.scss"
 import "../Dashboard/areaTable/AreaTable.scss"
 import AjoutAgentP from "../../../pages/admin/AjoutAgentP";
 import AreaTableAction from "../Dashboard/areaTable/AreaTableAction";
+import api from "../../../axiosInstance";
 
 const Agent = () => {
 
@@ -28,15 +29,15 @@ const Agent = () => {
   
     const allAgent = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/agent/");
+        const response = await api.get("/agent/");
         setData(response.data);
       } catch (error) {
         console.error("Error submitting data:", error);
       }
     };
     const supprimer = (id) => {
-      axios
-        .delete("http://localhost:3001/agent/" + id)
+      api
+        .delete("/agent/" + id)
         .then((res) => {
           console.log(res);
           Swal.fire({

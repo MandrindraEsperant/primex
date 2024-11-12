@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutTransactionMa from '../../../../pages/admin/AjoutTransactionMa';
+import api from '../../../../axiosInstance';
 
 const TransactionMaritime = () => {
     const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const TransactionMaritime = () => {
 
     const allTransactionMaritime = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/transactionMaritime/");
+            const response = await api.get("/transactionMaritime/");
             setData(response.data);
             // console.log(response.data);
         } catch (error) {
@@ -30,8 +31,8 @@ const TransactionMaritime = () => {
     };
    // SUPPRESSION
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/transactionMaritime/" + id)
+        api
+            .delete("/transactionMaritime/" + id)
             .then((res) => {
                 allTransactionMaritime();
             })

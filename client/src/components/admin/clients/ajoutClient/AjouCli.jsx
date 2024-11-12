@@ -6,7 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert2';
 import axios from "axios";
 import idUserConnected from './../../../../constants/idUserConnected';
-import './AjoutCli.scss'; // Importez le fichier SCSS
+import './AjoutCli.scss';
+import api from "../../../../axiosInstance";
 
 const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
   const idEmploye = idUserConnected();
@@ -55,8 +56,8 @@ const AjoutCli = ({ handleClose, allClient, isEditMode, selectedPerson }) => {
     };
 
     const request = isEditMode 
-      ? axios.put(`http://localhost:3001/client/${selectedPerson.idClient}`, clientData)
-      : axios.post("http://localhost:3001/client/", clientData);
+      ? api.put(`/client/${selectedPerson.idClient}`, clientData)
+      : api.post("/client/", clientData);
 
     request
       .then(() => {

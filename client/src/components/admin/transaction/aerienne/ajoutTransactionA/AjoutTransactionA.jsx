@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
+import api from '../../../../../axiosInstance';
 
 
 const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, selectedPerson }) => {
@@ -36,7 +37,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await fetch("http://localhost:3001/transAerienne/");
+        const response = await api.get("/transAerienne/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -60,7 +61,7 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         }
     };
     const fetchAgent = async () => {
-        const response = await fetch("http://localhost:3001/agent/");
+        const response = await api.get("/agent/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
@@ -181,8 +182,8 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         e.preventDefault();
 
         if (isEditMode) {
-            axios
-                .put(`http://localhost:3001/transactionAerienne/${selectedPerson.idTransactionAerienne}`, state)
+            api
+                .put(`/transactionAerienne/${selectedPerson.idTransactionAerienne}`, state)
                 .then((res) => {
                     toast.success("Transaction modifié avec succès");
                     Swal.fire({
@@ -204,8 +205,8 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
                 });
         } else {
 
-            axios
-                .post("http://localhost:3001/transactionAerienne/", state)
+            api
+                .post("/transactionAerienne/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
@@ -284,18 +285,16 @@ const filteredAerienne = transAeriennes.filter(
                     </React.Fragment>
                 ))}
             </div>
-
             {/* Form Step 1 */}
             {formNo === 2 && (
-                <div className="flex flex-row gap-4">
-                    <div className="w-1/2">
-
+                <div className="flex flex-col md:flex-row gap-4">
+                    <div className="w-full md:w-1/3">
                         <div className="flex flex-col mb-3">
-                            <label htmlFor="idTransport" className='text-lg font-semibold mb-2'>ID Transport</label>
+                            <label htmlFor="idTransport" className='text-sm sm:text-lg font-semibold mb-2'>ID Transport</label>
                             <input
                                 value={state.idTransport}
                                 onChange={inputHandle}
-                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md text-xs sm:text-sm" // Changement de la bordure de focus en bleu
                                 type="text"
                                 name="idTransport"
                                 placeholder="Transport"
@@ -303,7 +302,7 @@ const filteredAerienne = transAeriennes.filter(
                                 readOnly
                             />
                         </div>
-                        <div className="mt-4 gap-3 flex justify-center items-center mt-8">
+                        <div className="mt-4 gap-3 flex justify-center items-center">
                             {/* Previous button */}
                             <button
                                 onClick={pre}
@@ -324,21 +323,21 @@ const filteredAerienne = transAeriennes.filter(
                             </button>
                         </div>
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full md:w-2/3">
                         <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transport aérienne disponible</h2>
 
-                        <div className="searchContainer">
+                        <div className="searchContainer flex items-center gap-2">
                             <MdSearch className="searchIcon" />
                             <input
                                 type="text"
                                 placeholder="Recherche..."
                                 value={searchTermT}
                                 onChange={(e) => setSearchTermT(e.target.value)}
-                                className="searchInput mb-4"
+                                className="searchInput earchInput mb-4 w-full p-2 border border-gray-300 rounded-md"
                             />
                             {searchTermT && (
                                 <MdClear
-                                    className="clearIcon"
+                                    className="clearIcon cursor-pointer"
                                     onClick={() => setSearchTermT("")}
                                 />
                             )}

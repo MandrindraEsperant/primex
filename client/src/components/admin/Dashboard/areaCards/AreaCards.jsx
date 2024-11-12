@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AreaCard from "./AreaCard";
 import "./AreaCards.scss";
-import axios from "axios";
+import api from "../../../../axiosInstance";
 
 const AreaCards = () => {
   
@@ -12,8 +12,8 @@ const AreaCards = () => {
 
   const countExpedition = async ()=>{
     try {
-      const expor = await axios.get("http://localhost:3001/exportation/all/");
-      const impor = await axios.get("http://localhost:3001/importation/all/");
+      const expor = await api.get("/exportation/all/");
+      const impor = await api.get("/importation/all/");
       setExpedition(expor.data + impor.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -21,7 +21,7 @@ const AreaCards = () => {
   }
   const countClient= async ()=>{
     try {
-      const response = await axios.get("http://localhost:3001/client/all/");
+      const response = await api.get("/client/all/");
       setClient(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -29,7 +29,7 @@ const AreaCards = () => {
   }
   const countImpor= async ()=>{
     try {
-      const response = await axios.get("http://localhost:3001/importation/all/");
+      const response = await api.get("/importation/all/");
       setImpor(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -37,7 +37,7 @@ const AreaCards = () => {
   }
   const countExportation= async ()=>{
     try {
-      const response = await axios.get("http://localhost:3001/exportation/all/");
+      const response = await api.get("/exportation/all/");
       setExportation(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);

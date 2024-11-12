@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutTransHblP from '../../../../pages/admin/AjoutTransHblP';
+import api from '../../../../axiosInstance';
 
 const TransactionHbl = () => {
     const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const TransactionHbl = () => {
 
     const allTransactionHbl = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/hblTransaction/");
+            const response = await api.get("/hblTransaction/");
             setData(response.data);
             console.log(response.data);
         } catch (error) {
@@ -30,8 +31,8 @@ const TransactionHbl = () => {
     };
    // SUPPRESSION
     const supprimer = (id) => {
-        axios
-            .delete("http://localhost:3001/hblTransaction/" + id)
+        api
+            .delete("/hblTransaction/" + id)
             .then((res) => {
                 allTransactionHbl();
             })

@@ -13,6 +13,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
+import api from "../../../../axiosInstance";
 
 const TransportMaritime = () => {
   const [open, setOpen] = useState(false);
@@ -20,7 +21,7 @@ const TransportMaritime = () => {
   const [data, setData] = useState([]);
   const allTransMaritime = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/transMaritime/");
+      const response = await api.get("/transMaritime/");
       setData(response.data);
       // console.log(response.data);
     } catch (error) {
@@ -28,8 +29,8 @@ const TransportMaritime = () => {
     }
   };
   const supprimer = (id) => {
-    axios
-      .delete("http://localhost:3001/transMaritime/" + id)
+    api
+      .delete("/transMaritime/" + id)
       .then((res) => {
         allTransMaritime();
       })
