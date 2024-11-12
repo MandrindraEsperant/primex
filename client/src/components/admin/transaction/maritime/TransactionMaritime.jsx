@@ -18,7 +18,7 @@ const TransactionMaritime = () => {
         try {
             const response = await api.get("/transactionMaritime/");
             setData(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }

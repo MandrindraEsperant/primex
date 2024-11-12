@@ -11,22 +11,42 @@ class HBLTransactionRepository extends IRepository {
   async findById(id) {
     return await HBLTransaction.findByPk(id);
   }
-  // async countAll() {
-  //   try {
-  //     return await HBLTransaction.count({
-  //       where: {
-  //         dateHBLTransaction: {
-  //           [Op.gte]: new Date(new Date() - 2 * 30 * 24 * 60 * 60 * 1000), // 2 mois en millisecondes
-  //         },
-  //       }, 
-  //     });
-  //   } catch (error) {
-  //     console.error('Error counting HBLTransactions:', error);
-  //     throw new Error('Failed to count HBLTransactions');
-  //   }
-  // }
+
   async findAll() {
     return await HBLTransaction.findAll({
+      attributes: [
+        'idHBLTransaction',
+        'numHBL',
+        'dateHBLTransaction'
+        ],
+      include: [
+        {
+          model: TransactionMaritime,
+          attributes: [
+            'numMBL',        
+          ],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientExp', // alias pour l'agent expéditeur
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientDest', // alias pour l'agent destinataire
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
+  }
+  async findAll_mbl(id) {
+    return await HBLTransaction.findAll({
+      where:{
+        idMBL : id
+      },
       attributes: [
         'idHBLTransaction',
         'numHBL',

@@ -15,5 +15,7 @@ router.get('/', (req, res) => houseTransactionController.getAllHouseTransactions
 router.get('/:id', (req, res) =>houseTransactionController.getOneHouseTransaction(req, res));
 router.put('/:id', (req, res) => houseTransactionController.updateHouseTransaction(req, res));
 router.delete('/:id', (req, res) => houseTransactionController.deleteHouseTransaction(req, res));
+router.get('/doc/:id', (req, res) => houseTransactionController.getAllHouseTransactionsMere(req, res));
+
 
 module.exports = router; 

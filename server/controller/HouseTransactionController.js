@@ -45,6 +45,15 @@ class HouseTransactionController {
         res.status(500).send(error.message);
       }
     }
+    async getAllHouseTransactionsMere(req, res) {
+      
+      try {
+        const HouseTransactions = await this.HouseTransactionService.getAllHouseTransactionsMere(req.params.id);
+        res.status(200).json(HouseTransactions);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
     async updateHouseTransaction(req, res) {
       try {
         const HouseTransaction = await this.HouseTransactionService.updateHouseTransaction(

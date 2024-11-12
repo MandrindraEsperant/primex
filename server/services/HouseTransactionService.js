@@ -11,6 +11,9 @@ class HouseTransactionService {
   async getAllHouseTransactions() {
     return await this.HouseTransactionRepository.findAll();
   }
+  async getAllHouseTransactionsMere(id) {
+    return await this.HouseTransactionRepository.findAll_mbl(id);
+  }
   async updateHouseTransaction(id, Data) {
     return await this.HouseTransactionRepository.update(id, Data);
   }
