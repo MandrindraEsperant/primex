@@ -12,7 +12,6 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     const [error, setError] = useState();
     const [selectedAerienne, setSelectedAerienne] = useState(null);
     const [searchTermT, setSearchTermT] = useState("");
-
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
     const idEmploye = decodedToken.id;
@@ -25,13 +24,14 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
         creerPar: idEmploye,
         modifierPAr: idEmploye
     });
-
     const fetchTransAeriennes = async () => {
-        const response = await api.get("/hwbTransaction/");
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données');
+        try {
+            const response = await api.get("/hwbTransaction/");
+            return response.data;
+        } catch (error) {
+            console.error("Une erreur s'est produite :", error);
+            throw error;
         }
-        return await response.json();
     };
     const handleSelectA = (trans) => {
         if (selectedAerienne && selectedAerienne.idTransactionAerienne === trans.idTransactionAerienne) {
@@ -63,7 +63,6 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     }, []);
     useEffect(() => {
         if (isEditMode && selectedPerson) {
-            // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
             setState({
                 numHWB: selectedPerson.numHWB || '',
                 etape: selectedPerson.etape || '',
@@ -74,18 +73,17 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                 modifierPar: idEmploye,
             });
         } else {
-            // Sinon, réinitialiser les champs
             setState({
                 numHWB: '',
-                etape: "",
-                dateEtape: "",
-                status: "",
-                commentaire: "",
+                etape: '',
+                dateEtape: '',
+                status: '',
+                commentaire: '',
                 creerPar: idEmploye,
-                modifierPAr: idEmploye
+                modifierPar: idEmploye
             });
         }
-    }, [isEditMode, selectedPerson, idEmploye]);
+    }, [isEditMode, selectedPerson, idEmploye]);    
     const inputHandle = (e) => {
         setState({
             ...state,
@@ -110,7 +108,15 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                         showConfirmButton: false,
                     });
                     allsuiviHWB();
-                    handleClose();
+                    setState({
+                        numHWB: '',
+                        etape: '',
+                        dateEtape: '',
+                        status: '',
+                        commentaire: '',
+                        creerPar: idEmploye,
+                        modifierPar: idEmploye
+                    });
                 })
                 .catch((err) => {
                     if (err.response) {
@@ -131,7 +137,16 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                         showConfirmButton: false,
                     });
                     allsuiviHWB();
-                    handleClose();
+                    setState({
+                        numHWB: '',
+                        etape: '',
+                        dateEtape: '',
+                        status: '',
+                        commentaire: '',
+                        creerPar: idEmploye,
+                        modifierPar: idEmploye
+                    });
+                    setSelectedAerienne(null);
                 })
                 .catch((err) => {
                     if (err.response) {
@@ -152,7 +167,6 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
             creerPar: idEmploye,
             modifierPar: idEmploye,
         });
-        handleClose();
     }
     const filteredAerienne = transAeriennes.filter(
         (trans) =>
@@ -176,9 +190,9 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 HWB
                             </label>
                             <input
-                                value={state.HWB}
+                                value={state.numHWB}
                                 onChange={inputHandle}
-                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
+                                className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                                 type="number"
                                 name="HWB"
                                 placeholder="Selectionnez HWB"
@@ -219,7 +233,8 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 Date
                             </label>
                             <input
-                                value={state.dateEtape}
+                                value={state.dateEtape ? new Date(state.dateEtape).toISOString().split('T')[0]
+                                    : ''}
                                 onChange={inputHandle}
                                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
                                 type="date"
@@ -280,7 +295,9 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 disabled={!isStep1Valid()}
                                 className={`px-4 py-2 text-white rounded-md flex-1 ${isStep1Valid() ? "bg-blue-500" : "bg-gray-300 cursor-not-allowed"
                                     }`}
+                                    allsuiviHWB={allsuiviHWB}
                             >
+                                
                                 {isEditMode ? "Modifier" : "Ajouter"}
                             </button>
 
@@ -305,7 +322,6 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                             />
                         )}
                     </div>
-
                     <div className="overflow-auto" style={{ maxHeight: '300px' }}>
                         <table className="table-auto w-full text-left border-collapse">
                             <thead className="text-white bg-blue-200">
@@ -340,7 +356,6 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
 
 
                 </div></form>
-            {/* Container for Toast notifications */}
             <ToastContainer />
         </div>
     )

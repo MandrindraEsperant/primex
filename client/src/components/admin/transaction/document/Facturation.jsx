@@ -29,6 +29,16 @@ const Facturation = () => {
       console.error(error);
     }
   };
+
+  const [selectedTransaction, setSelectedTransaction] = useState("");
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSelectedTransaction(value);
+    gerateMBL(value); // Appelle la fonction de génération
+  };
+
+
   const componentRef = useRef();
   const [searchTerm, setSearchTerm] = useState("");
   const handlePrint = () => {
@@ -52,18 +62,36 @@ const Facturation = () => {
   return (
     <div>
       <div className="">
-        <select
-          onChange={(e) => {
-            gerateMBL(e.target.value);
-          }}
+      <div className="relative inline-block w-80 m-2">
+      <select
+        value={selectedTransaction}
+        onChange={handleChange}
+        className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-150 ease-in-out appearance-none"
+      >
+        <option value="" disabled>
+          Sélectionnez une Transaction
+        </option>
+        {mbl.map((v) => (
+          <option key={v.idTransactionMaritime} value={v.idTransactionMaritime}>
+            {v.numMBL}
+          </option>
+        ))}
+      </select>
+      <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          className="w-5 h-5 text-gray-500"
         >
-          <option value="">Selectionné un Transaction</option>;
-          {mbl.map((v, i) => (
-            <option key={i} value={v.idTransactionMaritime}>
-              {v.numMBL}
-            </option>
-          ))}
-        </select>
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
         <button
           onClick={handlePrint}
           className="mb-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
@@ -71,20 +99,6 @@ const Facturation = () => {
           Exporter en PDF
         </button>
       </div>
-      <div className="searchContainer">
-        <MdSearch className="searchIcon" />
-        <input
-          type="text"
-          placeholder="Entrez le numéro ou selectionnez..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="searchInput"
-        />
-        {searchTerm && (
-          <MdClear className="clearIcon" onClick={() => setSearchTerm("")} />
-        )}
-      </div>
-
       <div
         ref={componentRef}
         className="bg-white p-8 rounded-lg shadow-md border"

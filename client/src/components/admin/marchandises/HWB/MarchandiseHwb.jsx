@@ -129,12 +129,7 @@ const MarchandiseHwb = () => {
                     <button className="addButton" onClick={handleClickOpen}>
                         <MdAdd /> Ajouter
                     </button>
-                    <AjoutMarchHWB
-                        open={open}
-                        allMarchandiseHwb={allMarchandiseHwb}
-                        handleClose={handleClose}
-                        isEditMode={isEditMode}
-                        selectedPerson={selectedPerson} />
+                    <AjoutMarchHWB />
 
                 </div>
                 <section className="content-area-table pd-5">
