@@ -54,18 +54,24 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
         }
     };
     const fetchClients = async () => {
-        const response = await api.get("/client/");
-        if (!response.ok) {
+        try {
+            const response = await api.get("/client/");
+        return response.data;
+            
+        } catch (error) {
             throw new Error('Erreur lors de la récupération des données');
         }
-        return await response.json();
+        
     };
     const fetchTransAeriennes = async () => {
+        try {
+
         const response = await api.get("/transactionAerienne/");
-        if (!response.ok) {
+        return response.data;
+            
+        } catch (error) {            
             throw new Error('Erreur lors de la récupération des données');
         }
-        return await response.json();
     };
     const handleSelectAe = (trans) => {
         if (selectedAerienne && selectedAerienne.idTransactionAerienne === trans.idTransactionAerienne) {

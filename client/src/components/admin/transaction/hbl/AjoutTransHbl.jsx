@@ -57,11 +57,14 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
         }
     };
     const fetchClients = async () => {
-        const response = await api.get("/client/");
-        if (!response.ok) {
+        try {
+            const response = await api.get("/client/");
+        return response.data;
+            
+        } catch (error) {
             throw new Error('Erreur lors de la récupération des données');
         }
-        return await response.json();
+        
     };
     const handleSelectM = (maritime) => {
         if (selectedMaritime && selectedMaritime.idTransactionMaritime === maritime.idTransactionMaritime) {
@@ -81,11 +84,14 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
         }
     }
     const fetchTransMaritime = async () => {
-        const response = await api.get("/transactionMaritime/");
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données');
+        try {
+            const response = await api.get("/transactionMaritime/");
+        return response.data;
+            
+        } catch (error) {
+            throw new Error('Erreur lors de la récupération des données');            
         }
-        return await response.json();
+        
     };
     useEffect(() => {
         const getClients = async () => {

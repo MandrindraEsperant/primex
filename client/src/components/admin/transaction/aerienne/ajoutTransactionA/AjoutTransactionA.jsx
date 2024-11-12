@@ -37,11 +37,13 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
     });
 
     const fetchTransAeriennes = async () => {
+       try {
         const response = await api.get("/transAerienne/");
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données');
-        }
-        return await response.json();
+        return response.data;
+        
+       } catch (error) {
+        throw new Error('Erreur lors de la récupération des données');
+       } 
     };
     const handleSelectA = (trans) => {
         if (selectedAerienne && selectedAerienne.idTransAerienne === trans.idTransAerienne) {
@@ -61,11 +63,15 @@ const AjoutTransactionA = ({ handleClose, allTransactionAerienne, isEditMode, se
         }
     };
     const fetchAgent = async () => {
-        const response = await api.get("/agent/");
-        if (!response.ok) {
+        
+        try {
+            const response = await api.get("/agent/");
+        return response.data;
+            
+        } catch (error) {
             throw new Error('Erreur lors de la récupération des données');
         }
-        return await response.json();
+        
     };
     const handleSelectAg = (agent) => {
         if (selectedAgent && selectedAgent.idAgent === agent.idAgent) {

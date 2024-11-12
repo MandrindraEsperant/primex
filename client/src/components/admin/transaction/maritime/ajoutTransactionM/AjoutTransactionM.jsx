@@ -50,19 +50,24 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
         }
     };
     const fetchTransAeriennes = async () => {
-        const response = await api.get("/transMaritime/");
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données');
+        try {
+            const response = await api.get("/transMaritime/");
+            return response.data;
+            
+        } catch (error) {
+            throw new Error('Erreur lors de la récupération des données');            
         }
-        return await response.json();
+        
     };
 
     const fetchAgent = async () => {
-        const response = await api.get("/agent/");
-        if (!response.ok) {
+        try {
+            const response = await api.get("/agent/");
+        return response.data;
+            
+        } catch (error) {
             throw new Error('Erreur lors de la récupération des données');
         }
-        return await response.json();
     };
     const handleSelectAg = (agent) => {
         if (selectedAgent && selectedAgent.idAgent === agent.idAgent) {
@@ -519,7 +524,6 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                                     : "bg-blue-100 cursor-not-allowed"
                                     }`}
                             >
-
                                 {isEditMode ? "Modifier" : "Ajouter"}
                             </button>
                         </div>
