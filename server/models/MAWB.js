@@ -66,5 +66,8 @@ MAWB.init(
 );
 
 MAWB.belongsTo(TransportAerienne, { foreignKey: 'idTransport' });
+MAWB.belongsTo(Employe, { foreignKey: 'creerPar' });
+MAWB.belongsTo(Employe, { foreignKey: 'modifierPar' });
+
 
 module.exports = MAWB;
