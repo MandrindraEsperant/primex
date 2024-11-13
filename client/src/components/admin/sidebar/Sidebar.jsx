@@ -16,6 +16,10 @@ import {
   MdAttachMoney,
   MdContactMail,
   MdLocalShipping,
+  MdDescription,
+  MdTrackChanges,
+  MdInventory,
+  MdSwapHoriz,
 
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -149,7 +153,7 @@ const Sidebar = () => {
               <Link to="/admin/transport">
                 <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transport' ? 'active' : ''}`}>
                   <span className="menu-link-icon">
-                    <MdDirectionsBoat size={20} />
+                    <MdLocalShipping size={20} />
                     <span className="menu-link-text">Transport</span>
                   </span>
                 </div>
@@ -159,7 +163,7 @@ const Sidebar = () => {
               <Link to="/admin/marchandise">
                 <div className={`menu-link ${location.pathname === '/admin/marchandise' ? 'active' : ''}`}>
                   <span className="menu-link-icon">
-                    <MdDirectionsBoat size={20} />
+                    <MdInventory size={20} />
                   </span><span className="menu-link-text">Marchandise</span>
                 </div>
               </Link>
@@ -168,7 +172,7 @@ const Sidebar = () => {
               <Link to="/admin/transaction">
                 <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transaction' ? 'active' : ''}`}>
                   <span className="menu-link-icon">
-                    <MdDirectionsBoat size={20} />
+                    <MdSwapHoriz size={20} />
                     <span className="menu-link-text">Transaction</span>
                   </span>
                 </div>
@@ -178,15 +182,28 @@ const Sidebar = () => {
               <Link to="/admin/suivi"
                 className={`menu-link ${location.pathname === '/admin/suivi' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
-                  <MdDeliveryDining size={18} />
+                  <MdTrackChanges size={18} />
                 </span>
                 <span className="menu-link-text">Suivi</span>
+              </Link>
+            </li>
+
+            <li className="menu-item">
+              <Link to="/admin/document"
+                className={`menu-link ${location.pathname === '/admin/document' ? 'active' : ''}`}>
+                <span className="menu-link-icon">
+                  <MdDescription size={18} />
+                </span>
+                <span className="menu-link-text">Document</span>
               </Link>
             </li>
 
 
           </ul>
         </div>
+
+
+
 
         <div className="sidebar-menu sidebar-menu2">
           <ul className="menu-list">

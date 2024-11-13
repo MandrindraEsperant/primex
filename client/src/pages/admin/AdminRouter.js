@@ -23,6 +23,7 @@ import SuiviP from "./Suivi";
 import Profil from "./Profil";
 import EditProfilP from "./EditProfil";
 import TransportPage from "./TransportPage";
+import DocumentPage from "./DocumentPage";
 
 const AdminRouter = () => {
   return (
@@ -43,7 +44,11 @@ const AdminRouter = () => {
         <Route path="transactionmaritime" element={<TransactionM />} />
         <Route path="transactionhbl" element={<TransactionHblP />} />
         <Route path="transactionHwb" element={<TransactioHwb />} />
+        <Route path="document" element={<DocumentPage />} />
+
+
         <Route path="marchandisehwb" element={<MarchandiseHWB />} />
+
         <Route path="suivi" element={<SuiviP />} />
         <Route path="profil" element={<Profil />} />
         <Route path="profiledit" element={<EditProfilP />} />
