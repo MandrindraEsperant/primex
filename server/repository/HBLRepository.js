@@ -15,19 +15,19 @@ class HBLRepository  {
       include: [
         {
           model: MBL,
-          attributes: ["numMBL"],
+          attributes: ["idMBL","numMBL"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientExp", // alias pour l'agent expéditeur
-          attributes: ["nomClient"],
+          attributes: ["idClient","nomClient"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientDest", // alias pour l'agent destinataire
-          attributes: ["nomClient"],
+          attributes: ["idClient","nomClient"],
           required: true, // pour forcer la jointure
         },
       ],

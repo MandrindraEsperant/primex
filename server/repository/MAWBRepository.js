@@ -1,7 +1,7 @@
 const MAWB = require("../models/MAWB");
 const TransAerienne = require("../models/TransAerienne");
 
-class MAWBRepository  {
+class MAWBRepository {
   async create(TransactionData) {
     return await MAWB.create(TransactionData);
   }
@@ -15,34 +15,28 @@ class MAWBRepository  {
     return await MAWB.findOne({ where: { numMAWB: mawb } });
   }
   async findAll() {
-    return await MAWB.findAll(
-      {
-        attributes: [ 
-          'idMAWB',
-          'numMAWB',
-          'dateEmission',
-          'dateArrivePrevue',
-        ],   
-        include: [
-            {
-              model: TransAerienne,
-              attributes: [
-                'numVol',
-                'nomCompagnie',
-                'dateChargement',
-                'paysChargement',
-                'paysDechargement',
-              ],
-              required: true, // pour forcer la jointure
-            }
+    return await MAWB.findAll({
+      attributes: ["idMAWB", "numMAWB", "dateEmission", "dateArrivePrevue"],
+      include: [
+        {
+          model: TransAerienne,
+          attributes: [
+            "idTransAerienne",
+            "numVol",
+            "nomCompagnie",
+            "dateChargement",
+            "paysChargement",
+            "paysDechargement",
           ],
-      }
-    );
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
   }
   async update(id, TransactionData) {
     const transaction = await this.findById(id);
     if (transaction) {
-      return await MAWB.update(TransactionData,{where: { idMAWB: id }});
+      return await MAWB.update(TransactionData, { where: { idMAWB: id } });
     }
     return null;
   }
