@@ -5,7 +5,7 @@ class Employe extends Sequelize.Model {}
 
 Employe.init(
   {
-    idEmployer: {
+    idEmploye: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
