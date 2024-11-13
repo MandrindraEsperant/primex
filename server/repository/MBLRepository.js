@@ -27,6 +27,7 @@ class MBLRepository  {
           {
             model: TransMaritime,
             attributes: [
+              "idTransMaritime",
               'numIMO',
               'armateur',
               'dateChargement',

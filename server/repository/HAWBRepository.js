@@ -16,19 +16,19 @@ class HAWBRepository  {
       include: [
         {
           model: MAWB,
-          attributes: ["numMAWB"],
+          attributes: ["idMAWB","numMAWB"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientExp", // alias pour l'agent expéditeur
-          attributes: ["nomClient"],
+          attributes: ["idClient","nomClient"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientDest", // alias pour l'agent destinataire
-          attributes: ["nomClient"],
+          attributes: ["idClient","nomClient"],
           required: true, // pour forcer la jointure
         },
       ],

@@ -34,8 +34,6 @@ app.use('/suiviHBL', suiviHBLRoutes);
 app.use('/suiviHWB', suiviHWBRoutes);   
 app.use('/transMaritime', transMaritimeRoutes); 
 app.use('/transAerienne', transAerienneRoutes);
-
-
 app.use('/mbl', MBLRoutes);  
 app.use('/mawb', MAWBRoutes);  
 app.use('/hbl', HBLRoutes);  
