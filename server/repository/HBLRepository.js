@@ -10,40 +10,6 @@ class HBLRepository extends IRepository {
   async findById(id) {
     return await HBL.findByPk(id);
   }
-  async findByNum(num) {
-    return await HBL.findOne({
-      where:{
-        numHBL : num
-      },
-      attributes: [
-        'idHBL',
-        'numHBL',
-        'dateEmmission',
-        'idMBL'
-        ],
-      include: [
-        {
-          model: TransactionMaritime,
-          attributes: [
-            'numMBL',        
-          ],
-          required: true, // pour forcer la jointure
-        },
-        {
-          model: Client,
-          as: 'clientExp', // alias pour l'agent expéditeur
-          attributes: ['nomClient'],
-          required: true, // pour forcer la jointure
-        },
-        {
-          model: Client,
-          as: 'clientDest', // alias pour l'agent destinataire
-          attributes: ['nomClient'],
-          required: true, // pour forcer la jointure
-        },
-      ],
-    });
-  }
   async findAll() {
     return await HBL.findAll({
       attributes: [
@@ -74,6 +40,41 @@ class HBLRepository extends IRepository {
       ],
     });
   }
+  async findByNum(num) {
+    return await HBL.findOne({
+      where:{
+        numHBL : num
+      },
+      attributes: [
+        'idHBL',
+        'numHBL',
+        'dateEmmission',
+        'idMBL'
+        ],
+      include: [
+        {
+          model: MBL,
+          attributes: [
+            'numMBL',        
+          ],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientExp', // alias pour l'agent expéditeur
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: 'clientDest', // alias pour l'agent destinataire
+          attributes: ['nomClient'],
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
+  }
+
   async findAllByMaster(id) {
     return await HBL.findAll({
       where:{
