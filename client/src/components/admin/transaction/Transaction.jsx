@@ -6,6 +6,7 @@ import TransactionHbl from "./hbl/TransactionHbl";
 import TransactionHwb from "./hwb/TransactionHwb";
 import DocumentP from "../../../pages/admin/Document";
 import "../marchandises/Marchandise.scss"
+import Mawb from "./aerienne/Mawb";
 
 const Transaction = () => {
   const [activeTab, setActiveTab] = useState("maritime");
@@ -22,8 +23,7 @@ const Transaction = () => {
         <div
           onClick={() => setActiveTab("aerienne")}
           className={`tab ${activeTab === "aerienne" ? "active" : ""}`}
-        >
-          Transaction Aérienne
+        >Transaction MAWB 
         </div>
         <div
           onClick={() => setActiveTab("hbl")}
@@ -48,7 +48,7 @@ const Transaction = () => {
       {/* Contenu affiché selon l'onglet sélectionné */}
       <div className="tab-content">
         {activeTab === "maritime" && <TransactionMaritime />}
-        {activeTab === "aerienne" && <TransactionAerien />}
+        {activeTab === "aerienne" && <Mawb />}
         {activeTab === "hbl" && <TransactionHbl />}
         {activeTab === "hwb" && <TransactionHwb />}
         {activeTab === "document" && <DocumentP />}
