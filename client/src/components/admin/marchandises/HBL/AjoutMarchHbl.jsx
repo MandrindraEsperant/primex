@@ -72,7 +72,6 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
     }, []);
     useEffect(() => {
         if (isEditMode && selectedPerson) {
-            // Si en mode édition, remplir les champs avec les informations de la personne sélectionnée
             setState({
                 description: selectedPerson.description || '',
                 numConteneur: selectedPerson.numConteneur || '',
@@ -87,7 +86,6 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
                 modifierPar: idEmploye,
             });
         } else {
-            // Sinon, réinitialiser les champs
             setState({
                 description: '',
                 numConteneur: "",

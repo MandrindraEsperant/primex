@@ -4,34 +4,34 @@ import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-import AjoutTransactionAe from '../../../../pages/admin/AjoutTransactionA';
 import api from '../../../../axiosInstance';
+import AjoutMawbP from '../../../../pages/admin/AjoutMawb';
 
 const Mawb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
 
-    const allTransactionAerienne = async () => {
+    const alltransactionMawb = async () => {
         try {
-            const response = await api.get("/transactionAerienne/");
+            const response = await api.get("/mawb/");
             setData(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
     };
 
-    const handleEditClickOpen = (transactionAerienne) => {
-        setSelectedPerson(transactionAerienne);
+    const handleEditClickOpen = (transactionMawb) => {
+        setSelectedPerson(transactionMawb);
         setIsEditMode(true); // Mode modification
         setOpen(true);
     };
    // SUPPRESSION
     const supprimer = (id) => {
         api
-            .delete("/transactionAerienne/" + id)
+            .delete("/mawb/" + id)
             .then((res) => {
-                allTransactionAerienne();
+                alltransactionMawb();
             })
             .catch((err) => alert(err));
     };
@@ -48,12 +48,12 @@ const Mawb = () => {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                supprimer(id); // Appeler la fonction de suppression si confirmé
+                supprimer(id);
             }
         });
     };
   useEffect(() => {
-        allTransactionAerienne();
+        alltransactionMawb();
     }, []);
     const handleClickOpen = () => {
         setSelectedPerson(null);
@@ -70,19 +70,17 @@ const Mawb = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idtransactionAerienne === person.idtransactionAerienne) {
+        if (selectedPerson && selectedPerson.idMAWB === person.idMAWB) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
     const filteredData = data.filter(item =>
-        item.numMWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.numMAWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idTransport.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentDest.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentExp.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.dateEmission.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateDestination.toLowerCase().includes(searchTerm.toLowerCase()) 
+        item.dateArrivePrevue.toLowerCase().includes(searchTerm.toLowerCase()) 
     );
 
     // Pagination logic
@@ -119,9 +117,9 @@ const Mawb = () => {
             <button className="addButton" onClick={handleClickOpen}>
                 <MdAdd /> Ajouter
             </button>
-            <AjoutTransactionAe
+            <AjoutMawbP
                 open={open}
-                allTransactionAerienne={allTransactionAerienne}
+                alltransactionMawb={alltransactionMawb}
                 handleClose={handleClose}
                 isEditMode={isEditMode}
                 selectedPerson={selectedPerson} />
@@ -129,18 +127,15 @@ const Mawb = () => {
         </div>
         <section className="content-area-table pd-5">
         <div className="data-table-diagram">
-        <table >
+        <table className='table'>
             <thead>
                 <tr >
                     <th>#</th>
-                    <th>N° MWB</th>
-                    <th>N° de vol</th>
+                    <th>N° MAWB</th>
+                    <th>N° Vol</th>
                     <th>Compagnie</th>
-                    <th>date de chargement</th>
-                    <th>Pays de chargement</th>
-                    <th>Pays de déchargement</th>
-                    <th>Agent destinataire</th>
-                    <th>Agent expediteur</th>
+                    <th>Pays chargement</th>
+                    <th>Pays dechargement</th>
                     <th>Date Emission </th>
                     <th>Date d'arriver prevue</th>
                     <th>Action</th>
@@ -149,7 +144,7 @@ const Mawb = () => {
             <tbody>
                 {currentData.map(item => (
                     <tr
-                        key={item.idTransactionAerienne}
+                        key={item.idMAWB}
                         onClick={() => handleSelect(item)}
                         className={item === selectedPerson ? 'selectedRow' : ''}
                     >
@@ -160,21 +155,18 @@ const Mawb = () => {
                                 readOnly
                             />
                         </td>
-                        <td>{item.numMWB}</td>
+                        <td>{item.numMAWB}</td>
                         <td>{item.TransAerienne.numVol}</td>
                         <td>{item.TransAerienne.nomCompagnie}</td>
-                        <td>{ new Date(item.TransAerienne.dateChargement).toLocaleDateString('fr-FR')}</td>
                         <td>{item.TransAerienne.paysChargement}</td>
                         <td>{item.TransAerienne.paysDechargement}</td>
-                        <td>{item.agentDest.nomAgent}</td>
-                        <td>{item.agentExp.nomAgent}</td>
                         <td>{new Date(item.dateEmission).toLocaleDateString('fr-FR')}</td>
-                        <td>{new Date(item.dateDestination).toLocaleDateString('fr-FR')}</td>
+                        <td>{new Date(item.dateArrivePrevue).toLocaleDateString('fr-FR')}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}
-                                onEditClick={() => handleEditClickOpen(item.idTransactionAerienne)}
-                                onDeleteClick={() => handleDeleteClick(item.idTransactionAerienne)}
+                                onEditClick={() => handleEditClickOpen(item.idMAWB)}
+                                onDeleteClick={() => handleDeleteClick(item.idMAWB)}
                             />
                         </td>
                     </tr>

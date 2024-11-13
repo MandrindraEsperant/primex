@@ -108,7 +108,6 @@ const Sidebar = () => {
             <li className="menu-item">
               <Link to="/admin/dashboard"
                 className={`menu-link ${location.pathname === '/admin/dashboard' ? 'active' : ''}`}
-              // className="menu-link"
               >
 
                 <span className="menu-link-icon">

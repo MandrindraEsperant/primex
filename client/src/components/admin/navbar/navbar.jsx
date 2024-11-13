@@ -10,7 +10,7 @@ import { AccountService } from "../../../_services/Account.service";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdSettings } from "react-icons/md";
-import { nameUserConnected } from "../../../constants/idUserConnected";
+import nameUserConnected from "../../../constants/nameUserConnected";
 
 const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);

@@ -54,7 +54,7 @@ app.use('/mbl', MBLRoutes);
 app.use('/mawb', MAWBRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes
-sequelize.sync({ force:true ,alter:true}) 
+sequelize.sync({ force:false ,alter:false}) 
   .then(() => console.log('Database synced'))
   .catch(err => console.log('Error syncing database', err));
 

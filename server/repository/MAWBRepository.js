@@ -28,6 +28,7 @@ class MAWBRepository extends IRepository {
             {
               model: TransAerienne,
               attributes: [
+                'idTransAerienne',
                 'numVol',
                 'nomCompagnie',
                 'dateChargement',
