@@ -29,7 +29,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
         dateArrivePrevue: "",
         nomCompagnie: '',
         paysChargement: '',
-        paysDechargement:'',
+        paysDechargement: '',
         creerPar: idEmploye,
         modifierPAr: idEmploye
     });
@@ -71,13 +71,10 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
     }, []);
     useEffect(() => {
         if (isEditMode && selectedPerson) {
-            // Extraire `TransAerienne` si présent
             const transportData = selectedPerson.TransAerienne || {};
-    
             setState({
                 numMAWB: selectedPerson.numMAWB || '',
-                // Si `idTransport` est en réalité `idTransAerienne`, on le récupère ici
-                idTransport: transportData.idTransAerienne || '', 
+                idTransport: transportData.idTransAerienne || '',
                 dateEmission: selectedPerson.dateEmission || '',
                 dateArrivePrevue: selectedPerson.dateArrivePrevue || '',
                 creerPar: selectedPerson.creerPar || idEmploye,
@@ -87,11 +84,8 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                 paysDechargement: transportData.paysDechargement || '',
                 numVol: transportData.numVol || ''
             });
-            console.log('selectedPerson:', selectedPerson);  // Vérifie la structure complète
-
-            
+            console.log('selectedPerson:', selectedPerson);
         } else {
-            // Réinitialisation des valeurs lorsque `isEditMode` est false
             setState({
                 numMAWB: '',
                 idTransport: '',
@@ -106,7 +100,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
             });
         }
     }, [isEditMode, selectedPerson, idEmploye]);
-    
+
     const inputHandle = (e) => {
         setState({
             ...state,
@@ -135,7 +129,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
     };
     const finalSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);  // Active le chargement (spinner)
+        setLoading(true);
         setTimeout(() => {
             if (isEditMode) {
                 api
@@ -244,34 +238,30 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                         <InfoField label="Pays Chargement:" value={state.paysChargement} />
                         <InfoField label="Pays Chargement:" value={state.paysDechargement} />
                         <div className="mt-4 gap-3 flex justify-center items-center mt-8">
-    <button
-        onClick={pre}
-        className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
-    >
-        Previous
-    </button>
-    <button
-        onClick={finalSubmit}
-        disabled={!isStep2Valid() || loading}
-        className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
-    >
-        {/* Afficher le spinner lorsque le bouton est en chargement */}
-        {loading ? (
-            <div className="flex justify-center items-center">
-               Pantientez...
-            </div>
-        ) : (
-            isEditMode ? "Modifier" : "Ajouter"
-        )}
-    </button>
-</div>
-
-
-
+                            <button
+                                onClick={pre}
+                                className="px-3 py-2 text-lg rounded-md w-full text-white bg-green-500"
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={finalSubmit}
+                                disabled={!isStep2Valid() || loading}
+                                className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
+                            >
+                                {/* Afficher le spinner lorsque le bouton est en chargement */}
+                                {loading ? (
+                                    <div className="flex justify-center items-center">
+                                        Pantientez...
+                                    </div>
+                                ) : (
+                                    isEditMode ? "Modifier" : "Ajouter"
+                                )}
+                            </button>
+                        </div>
                     </div>
                     <div className="w-full md:w-2/3">
                         <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transport aérienne disponible</h2>
-
                         <div className="searchContainer flex items-center gap-2">
                             <MdSearch className="searchIcon" />
                             <input
@@ -288,7 +278,6 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                                 />
                             )}
                         </div>
-
                         <div className="overflow-auto" style={{ maxHeight: '300px' }}>
                             <table className="table-auto w-full text-left border-collapse">
                                 <thead className="text-white bg-blue-200">
@@ -330,18 +319,8 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
             {/* Form Step 1 */}
             {formNo === 1 && (
                 <div>
-                    <div className="flex flex-col mb-3 ">
-                        <label htmlFor="numMAWB" className='text-lg font-semibold mb-2'>N° MAWB</label>
-                        <input
-                            value={state.numMAWB}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="text"
-                            name="numMAWB"
-                            placeholder="N° MWB"
-                            id="numMAWB"
-                        />
-                    </div>
+                    
+                <InputField label="N° MAWB" name="numMAWB" value={state.numMAWB} inputHandle={inputHandle} />
                     <div className="flex flex-col mb-3">
                         <label
                             htmlFor="dateArrivePrevue"
@@ -406,7 +385,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
     )
 }
 
-const InputField = ({ label, name, value, inputHandle, type = "text", readOnly = false }) => (
+const InputField = ({ label, name, value, inputHandle, type = "text", readOnly = false, placeholder = "" }) => (
     <div className="flex flex-col mb-3">
         <label htmlFor={name} className="text-sm sm:text-lg font-semibold mb-2">{label}</label>
         <input
@@ -417,9 +396,11 @@ const InputField = ({ label, name, value, inputHandle, type = "text", readOnly =
             name={name}
             id={name}
             readOnly={readOnly}
+            placeholder={placeholder}  // Ajout du placeholder
         />
     </div>
 );
+
 const InfoField = ({ label, value }) => (
     <div className="flex items-center gap-2 mb-2">
         <span className="font-semibold text-sm sm:text-base">{label}</span>

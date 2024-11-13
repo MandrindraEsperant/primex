@@ -337,7 +337,7 @@ const AjoutMarchHbl = ({ handleClose, allMarchandiseHBL, isEditMode, selectedPer
     </div>
 );
 }
-const InputField = ({ label, name, value, inputHandle, type = "text", readOnly = false }) => (
+const InputField = ({ label, name, value, inputHandle, type = "text", readOnly = false, placeholder = "" }) => (
     <div className="flex flex-col mb-3">
         <label htmlFor={name} className="text-sm sm:text-lg font-semibold mb-2">{label}</label>
         <input
@@ -348,9 +348,11 @@ const InputField = ({ label, name, value, inputHandle, type = "text", readOnly =
             name={name}
             id={name}
             readOnly={readOnly}
+            placeholder={placeholder}  // Ajout du placeholder
         />
     </div>
-    );
+);
+
     const InfoField = ({ label, value }) => (
     <div className="flex items-center gap-2 mb-2">
         <span className="font-semibold text-sm sm:text-base">{label}</span>

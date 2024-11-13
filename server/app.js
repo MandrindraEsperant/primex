@@ -42,7 +42,7 @@ app.use('/hbl', HBLRoutes);
 app.use('/hawb', HAWBRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes
-sequelize.sync({ force:false ,alter:false}) 
+sequelize.sync({ force:false,alter:false}) 
   .then(() => console.log('Database synced'))
   .catch(err => console.log('Error syncing database', err));
 
