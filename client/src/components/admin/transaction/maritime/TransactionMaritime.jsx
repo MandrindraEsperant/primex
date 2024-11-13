@@ -16,7 +16,7 @@ const TransactionMaritime = () => {
 
     const allTransactionMaritime = async () => {
         try {
-            const response = await api.get("/transactionMaritime/");
+            const response = await api.get("/mbl/");
             setData(response.data);
             // console.log(response.data);
         } catch (error) {
@@ -32,7 +32,7 @@ const TransactionMaritime = () => {
    // SUPPRESSION
     const supprimer = (id) => {
         api
-            .delete("/transactionMaritime/" + id)
+            .delete("/mbl/" + id)
             .then((res) => {
                 allTransactionMaritime();
             })
@@ -82,11 +82,7 @@ const TransactionMaritime = () => {
     const filteredData = data.filter(item =>
         item.numMBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.idTransport.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentDest.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentExp.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateEmission.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateDestination.toLowerCase().includes(searchTerm.toLowerCase()) 
-    );
+        item.dateEmission.toLowerCase().includes(searchTerm.toLowerCase())     );
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -142,8 +138,6 @@ const TransactionMaritime = () => {
                     <th>date de chargement</th>
                     <th>Pays de chargement</th>
                     <th>Pays de déchargement</th>
-                    <th>Agent destinataire</th>
-                    <th>Agent expediteur</th>
                     <th>Date Emission </th>
                     <th>Date d'arriver prevue</th>
                     <th>Action</th>
@@ -168,16 +162,14 @@ const TransactionMaritime = () => {
                         <td>{item.TransMaritime.armateur}</td>
                         <td>{ new Date(item.TransMaritime.dateChargement).toLocaleDateString('fr-FR')}</td>
                         <td>{item.TransMaritime.paysChargement}</td>
-                        <td>{item.TransMaritime.paysDechargement}</td>
-                        <td>{item.agentDest.nomAgent}</td>
-                        <td>{item.agentExp.nomAgent}</td>
-                        <td>{new Date(item.dateDestination).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.TransMaritime.paysDechargement}</td>                        
+                        <td>{new Date(item.dateArrivePrevue).toLocaleDateString('fr-FR')}</td>
                         <td>{new Date(item.dateEmission).toLocaleDateString('fr-FR')}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}
-                                onEditClick={() => handleEditClickOpen(item.idtransactionMaritime)}
-                                onDeleteClick={() => handleDeleteClick(item.idtransactionMaritime)}
+                                onEditClick={() => handleEditClickOpen(item.idMBL)}
+                                onDeleteClick={() => handleDeleteClick(item.idMBL)}
                             />
                         </td>
                     </tr>

@@ -34,7 +34,7 @@ const DetailsSuiviHwb = () => {
       setMarchandiseData(DonneMarchandise.data);
 
       const DonneSuivi = await api.get("/suiviHBL/suivre/" + num);
-      // console.log(DonneSuivi.data);
+      console.log(DonneSuivi.data);
       setSuiviData(DonneSuivi.data);
 
 
@@ -67,6 +67,7 @@ const DetailsSuiviHwb = () => {
         Suivi de colis N°:{searchTerm}
       </h2>
       {mblData && suiviData && marchandiseData && (
+        <>
         <div className=" ">
           <div className=" flex justify-between">
             <div className=" ">
@@ -90,7 +91,7 @@ const DetailsSuiviHwb = () => {
               </p>
               <p>
                 <strong>Agent Expediteur :</strong>{" "}
-                {mblData[0].agentDest.nomAgent}
+                {mblData[0].agentExp.nomAgent}
               </p>
             </div>
             <div className="">
@@ -102,6 +103,8 @@ const DetailsSuiviHwb = () => {
           </div>
           <hr className="my-2" />
           <div className="overflow-x-auto">
+          <h2>Les marchises de l'expedition</h2>
+
             <table className="w-full border-collapse mb-1">
               <thead>
                 <tr>
@@ -146,7 +149,50 @@ const DetailsSuiviHwb = () => {
             </table>
           </div>
           <hr className="my-2" />
+          <div className="overflow-x-auto">
+            <h2>Les etapes de l'expedition</h2>
+            <table className="w-full border-collapse mb-1">
+              <thead>
+                <tr>
+                  <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                    Etape
+                  </th>
+                  <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                    Date
+                  </th>
+                  <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                    status
+                  </th>
+                  <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                    commentaire
+                  </th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {suiviData.map((v, i) => (
+                  <tr key={i}>
+                    <td className="border px-2 py-1 text-sm sm:text-base">
+                      {v?.etape}
+                    </td>
+                    <td className="border px-2 py-2 text-sm sm:text-base text-right">
+                      {v.dateEtape}
+                    </td>
+                    <td className="border px-2 py-2 text-sm sm:text-base text-right">
+                      {v.status}
+                    </td>
+                    <td className="border px-2 py-2 text-sm sm:text-base text-right">
+                      {v.commentaire}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <hr className="my-2" />
         </div>
+        </>
+        
       )}
 
       {/* Étapes de Suivi */}

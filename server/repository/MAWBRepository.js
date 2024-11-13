@@ -1,0 +1,59 @@
+const MAWB = require("../models/MAWB");
+const IRepository = require("../interfaces/IRepository");
+const TransAerienne = require("../models/TransAerienne");
+
+class MAWBRepository extends IRepository {
+  async create(TransactionData) {
+    return await MAWB.create(TransactionData);
+  }
+  async countAll() {
+    return await MAWB.count();
+  }
+  async findById(id) {
+    return await MAWB.findByPk(id);
+  }
+  async findByMere(mawb) {
+    return await MAWB.findOne({ where: { numMAWB: mawb } });
+  }
+  async findAll() {
+    return await MAWB.findAll(
+      {
+        attributes: [ 
+          'idMAWB',
+          'numMAWB',
+          'dateEmission',
+          'dateArrivePrevue',
+        ],   
+        include: [
+            {
+              model: TransAerienne,
+              attributes: [
+                'numVol',
+                'nomCompagnie',
+                'dateChargement',
+                'paysChargement',
+                'paysDechargement',
+              ],
+              required: true, // pour forcer la jointure
+            }
+          ],
+      }
+    );
+  }
+  async update(id, TransactionData) {
+    const transaction = await this.findById(id);
+    if (transaction) {
+      return await MAWB.update(TransactionData,{where: { idMAWB: id }});
+    }
+    return null;
+  }
+  async delete(id) {
+    const transaction = await this.findById(id);
+    if (transaction) {
+      return await MAWB.destroy({ where: { idMAWB: id } });
+    }
+    return null;
+  }
+}
+
+module.exports = MAWBRepository;

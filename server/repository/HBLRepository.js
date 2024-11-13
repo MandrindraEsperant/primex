@@ -1,26 +1,24 @@
-const HBLTransaction = require('../models/HBLTransaction');
+const HBL = require('../models/HBL');
 const IRepository = require('../interfaces/IRepository');
-const TransactionMaritime = require('../models/TransactionMaritime')
+const MBL = require('../models/MBL')
 const Client = require('../models/Client');
-const { where } = require('sequelize');
-// const { Op } = require('sequelize');
  
-class HBLTransactionRepository extends IRepository {
+class HBLRepository extends IRepository {
   async create(Data) {
-    return await HBLTransaction.create(Data);
+    return await HBL.create(Data);
   }
   async findById(id) {
-    return await HBLTransaction.findByPk(id);
+    return await HBL.findByPk(id);
   }
   async findByNum(num) {
-    return await HBLTransaction.findOne({
+    return await HBL.findOne({
       where:{
         numHBL : num
       },
       attributes: [
-        'idHBLTransaction',
+        'idHBL',
         'numHBL',
-        'dateHBLTransaction',
+        'dateEmmission',
         'idMBL'
         ],
       include: [
@@ -47,11 +45,11 @@ class HBLTransactionRepository extends IRepository {
     });
   }
   async findAll() {
-    return await HBLTransaction.findAll({
+    return await HBL.findAll({
       attributes: [
-        'idHBLTransaction',
+        'idHBL',
         'numHBL',
-        'dateHBLTransaction'
+        'dateHBL'
         ],
       include: [
         {
@@ -76,15 +74,15 @@ class HBLTransactionRepository extends IRepository {
       ],
     });
   }
-  async findAll_mbl(id) {
-    return await HBLTransaction.findAll({
+  async findAllByMaster(id) {
+    return await HBL.findAll({
       where:{
         idMBL : id
       },
       attributes: [
-        'idHBLTransaction',
+        'idHBL',
         'numHBL',
-        'dateHBLTransaction'
+        'dateHBL'
         ],
       include: [
         {
@@ -109,20 +107,20 @@ class HBLTransactionRepository extends IRepository {
       ],
     });
   }
-  async update(id, HBLTransactionData) {
-    const hblTransaction = await this.findById(id);
-    if (hblTransaction) {
-      return await HBLTransaction.update(HBLTransactionData, { where: { idHBLTransaction: id } });    
+  async update(id, HBLData) {
+    const HBL = await this.findById(id);
+    if (HBL) {
+      return await HBL.update(HBLData, { where: { idHBL: id } });    
     }
     return null;
   }
   async delete(id) {
-    const hblTransaction = await this.findById(id);
-    if (hblTransaction) {
-      return await HBLTransaction.destroy({where: { idHBLTransaction: id }});
+    const HBL = await this.findById(id);
+    if (HBL) {
+      return await HBL.destroy({where: { idHBL: id }});
     }
     return null;
   }
 }
 
-module.exports = HBLTransactionRepository;
+module.exports = HBLRepository;
