@@ -3,24 +3,17 @@ const cors = require('cors');
 
 const sequelize = require('./config/database');
 
-const agentRoutes = require('./routes/agentRoutes');
 const employeRoutes = require('./routes/employeRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const documentRoutes = require('./routes/documentRoutes');
 const suiviHBLRoutes = require('./routes/suiviHBLRoutes');
 const suiviHWBRoutes = require('./routes/suiviHWBRoutes');
-const marchandiseHBLRoutes = require('./routes/marchandiseHBLRoutes');
-const marchandiseHWBRoutes = require('./routes/marchandiseHWBRoutes');
-const hblTransactionRoutes = require('./routes/hblTransactionRoutes');
-const hwbTransactionRoutes = require('./routes/hwbTransactionRoutes');
 const transAerienneRoutes = require('./routes/transAerienneRoutes');
 const transMaritimeRoutes = require('./routes/transMaritimeRoutes');
-
-const transactionMaritimeRoutes = require('./routes/transactionMaritimeRoutes');
-const transactionAerienneRoutes = require('./routes/transactionAerienneRoutes');
-
 const MAWBRoutes = require('./routes/MAWBRoutes');
 const MBLRoutes = require('./routes/MBLRoutes');
+const HAWBRoutes = require('./routes/HAWBRoutes');
+const HBLRoutes = require('./routes/HBLRoutes'); 
 
 const app = express();
 
@@ -34,24 +27,19 @@ app.use((req, res, next) => {
   next();
 }); 
 
-app.use('/agent', agentRoutes);  
 app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
 app.use('/document', documentRoutes); 
 app.use('/suiviHBL', suiviHBLRoutes);  
-app.use('/suiviHWB', suiviHWBRoutes);  
-app.use('/marchandiseHBL', marchandiseHBLRoutes);  
-app.use('/marchandiseHWB', marchandiseHWBRoutes);  
-app.use('/hblTransaction', hblTransactionRoutes);  
-app.use('/hwbTransaction', hwbTransactionRoutes);  
+app.use('/suiviHWB', suiviHWBRoutes);   
 app.use('/transMaritime', transMaritimeRoutes); 
 app.use('/transAerienne', transAerienneRoutes);
 
-app.use('/transactionMaritime', transactionMaritimeRoutes);  
-app.use('/transactionAerienne', transactionAerienneRoutes);  
 
 app.use('/mbl', MBLRoutes);  
 app.use('/mawb', MAWBRoutes);  
+app.use('/hbl', HBLRoutes);  
+app.use('/hawb', HAWBRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes
 sequelize.sync({ force:false ,alter:false}) 

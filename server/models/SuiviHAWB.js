@@ -1,20 +1,20 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const HWBTransaction = require('./HWBTransaction')
-class SuiviHWB extends Sequelize.Model {}
-SuiviHWB.init(
+const HAWB = require('./HAWB')
+class SuiviHAWB extends Sequelize.Model {}
+SuiviHAWB.init(
   {
-    idSuiviHWB: {
+    idSuiviHAWB: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    numHWB: {
+    numHAWB: {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: HWBTransaction,
-        key: "numHWB",
+        model: HAWB,
+        key: "numHAWB",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -51,10 +51,10 @@ SuiviHWB.init(
     indexes: [
       {
         unique: true,
-        fields: ["numHWB", "etape"]
+        fields: ["numHAWB", "etape"]
       }
     ]
   }
 );
 
-module.exports = SuiviHWB;
+module.exports = SuiviHAWB;

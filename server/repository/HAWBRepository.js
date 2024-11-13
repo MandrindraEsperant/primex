@@ -1,9 +1,8 @@
 const MAWB = require("../models/MAWB");
-const IRepository = require("../interfaces/IRepository");
 const HAWB = require("../models/HAWB");
 const Client = require("../models/Client");
 
-class HAWBRepository extends IRepository {
+class HAWBRepository  {
   async create(Data) {
     return await HAWB.create(Data);
   }
@@ -11,11 +10,12 @@ class HAWBRepository extends IRepository {
     return await HAWB.findByPk(id);
   }
   async findAll() {
-    return await HAWB.findAll({
-      attributes: ["idHAWB", "numHAWB", "dateEmmission"],
+    return await HAWB.findAll(
+      {
+      attributes: ["idHAWB", "numHAWB", "dateEmmission","idMAWB"],
       include: [
         {
-          model: HAWB,
+          model: MAWB,
           attributes: ["numMAWB"],
           required: true, // pour forcer la jointure
         },
@@ -32,7 +32,8 @@ class HAWBRepository extends IRepository {
           required: true, // pour forcer la jointure
         },
       ],
-    });
+    }
+  );
   }
   async findByNum(num) {
     return await HAWB.findOne({
@@ -59,17 +60,16 @@ class HAWBRepository extends IRepository {
       ],
     });
   }
-
   async update(id, HAWBData) {
-    const HAWB = await this.findById(id);
-    if (HAWB) {
+    const hAWB = await this.findById(id);
+    if (hAWB) {
       return await HAWB.update(HAWBData, { where: { idHAWB: id } });
     }
     return null;
   }
   async delete(id) {
-    const HAWB = await this.findById(id);
-    if (HAWB) {
+    const hAWB = await this.findById(id);
+    if (hAWB) {
       return await HAWB.destroy({ where: { idHAWB: id } });
     }
     return null;

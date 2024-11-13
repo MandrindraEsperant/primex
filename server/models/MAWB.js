@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const TransportAerienne = require("./TransAerienne");
-const Employe= require("./Employe");
+const Employe = require("./Employe");
 
 class MAWB extends Sequelize.Model {}
 
@@ -16,7 +16,7 @@ MAWB.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Le Numero MBL est déjà appartient au autre MAWB",
+        msg: "Le Numero MAWB est déjà appartient au autre MAWB",
       },
     },
     idTransport: {
@@ -29,15 +29,15 @@ MAWB.init(
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
-    dateEmission:{
-        type:DataTypes.DATE,
-         allowNull:false
-     },
-    dateArrivePrevue:{
-        type:DataTypes.DATE,
-         allowNull:false
-     },
-     creerPar: {
+    dateEmission: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    dateArrivePrevue: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    creerPar: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -65,6 +65,6 @@ MAWB.init(
   }
 );
 
-MAWB.belongsTo(TransportAerienne, { foreignKey: 'idTransport' });
+MAWB.belongsTo(TransportAerienne, { foreignKey: "idTransport" });
 
 module.exports = MAWB;

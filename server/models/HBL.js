@@ -108,6 +108,6 @@ HBL.init(
 // Définir les associations
 HBL.belongsTo(Client, { as: 'clientExp', foreignKey: 'idExpediteur' });
 HBL.belongsTo(Client, { as: 'clientDest', foreignKey: 'idDestinataire' });
-HBL.belongsTo(TransactionMaritime, { foreignKey: 'idMBL' });
+HBL.belongsTo(MBL, { foreignKey: 'idMBL' });
 
 module.exports = HBL;

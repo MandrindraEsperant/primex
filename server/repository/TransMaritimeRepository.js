@@ -1,7 +1,6 @@
 const TransMaritime = require('../models/TransMaritime');
-const IRepository = require('../interfaces/IRepository');
 
-class TransMaritimeRepository extends IRepository {
+class TransMaritimeRepository  {
   async create(Data) {
     return await TransMaritime.create(Data);
   }

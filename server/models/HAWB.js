@@ -17,7 +17,7 @@ HAWB.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Ce numéro HWB est déjà utilisée.",
+        msg: "Ce numéro HAWB est déjà utilisée.",
       },
     },
     nbColis: {

@@ -1,8 +1,7 @@
 const MAWB = require("../models/MAWB");
-const IRepository = require("../interfaces/IRepository");
 const TransAerienne = require("../models/TransAerienne");
 
-class MAWBRepository extends IRepository {
+class MAWBRepository  {
   async create(TransactionData) {
     return await MAWB.create(TransactionData);
   }
