@@ -51,6 +51,7 @@ class EmployeService {
       if (!isPasswordValid) {
         throw new Error("Mot de passe invalide");
       }
+      
       const token = jwt.sign(
         { id: employe.idEmploye, nom: employe.nomEmploye },
         SECRET_KEY,

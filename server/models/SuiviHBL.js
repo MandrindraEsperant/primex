@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const HBLTransaction = require('./HBLTransaction')
+const HBL = require('./HBL')
 class SuiviHBL extends Sequelize.Model {}
 SuiviHBL.init(
   {
@@ -13,7 +13,7 @@ SuiviHBL.init(
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: HBLTransaction,
+        model: HBL,
         key: "numHBL",
       }, 
       onDelete: "CASCADE",

@@ -1,8 +1,7 @@
 const { Op } = require("sequelize");
 const Client = require("../models/Client");
-const IRepository = require("../interfaces/IRepository");
 
-class ClientRepository extends IRepository {
+class ClientRepository  {
   async create(clientData) {
     return await Client.create(clientData);
   }

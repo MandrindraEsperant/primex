@@ -1,8 +1,7 @@
 const Employe = require('../models/Employe');
 
-const IRepository = require('../interfaces/IRepository');
 
-class EmployeRepository extends IRepository {
+class EmployeRepository  {
 
   async create(employeData) {
     return await Employe.create(employeData);

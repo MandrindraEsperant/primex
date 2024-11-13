@@ -26,6 +26,17 @@ Client.init(
         }
       }
     },
+    telClient: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+      unique: {
+        msg: 'ce numéro telephone est déjà utilisée.' 
+      },   
+    },
+    adresseClient: {
+      type: DataTypes.STRING,
+      allowNull: true,    
+    },
     CINClient : {
       type: DataTypes.STRING,
       allowNull: false,

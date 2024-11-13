@@ -1,8 +1,7 @@
-const Suivi = require("../models/SuiviHWB");
-const IRepository = require("../interfaces/IRepository");
+const Suivi = require("../models/SuiviHAWB");
 const { Sequelize, literal } = require('sequelize');
 
-class SuiviRepository extends IRepository {
+class SuiviRepository  {
   async create(Data) {
     return await Suivi.create(Data);
   }

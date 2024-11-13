@@ -16,7 +16,7 @@ MAWB.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Le Numero MBL appartient déjà à un autre MAWB",
+        msg: "Le Numero MAWB est déjà appartient au autre MAWB",
       },
     },
     idTransport: {
@@ -35,7 +35,7 @@ MAWB.init(
     },
     dateArrivePrevue: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     creerPar: {
       type: DataTypes.INTEGER,

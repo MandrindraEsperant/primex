@@ -1,8 +1,7 @@
 const MBL = require("../models/MBL");
-const IRepository = require("../interfaces/IRepository");
 const TransMaritime = require("../models/TransMaritime");
 
-class MBLRepository extends IRepository {
+class MBLRepository  {
   async create(TransactionData) {
     return await MBL.create(TransactionData);
   }

@@ -1,7 +1,6 @@
 const TransAerienne = require('../models/TransAerienne');
-const IRepository = require('../interfaces/IRepository');
 
-class TransAerienneRepository extends IRepository {
+class TransAerienneRepository  {
   async create(Data) {
     return await TransAerienne.create(Data);
   }
