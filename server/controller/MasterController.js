@@ -33,6 +33,18 @@ class MasterController {
         res.status(500).send(error.message);
       }
     }
+    async getOneMasterId(req, res) {
+      try {
+        const Master = await this.MasterService.getWithId(req.params.id);
+        if (Master) {
+          res.status(200).json(Master);
+        } else {
+          res.status(404).send("Master  not found");
+        }
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
     async getAllMasters(req, res) {
       try {
         const Masters = await this.MasterService.getAll();
