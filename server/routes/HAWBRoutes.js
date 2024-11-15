@@ -8,7 +8,7 @@ const router = express.Router();
 const houseTransactionRepository = new HouseTransactionRepository();
 const houseTransactionService = new HouseTransactionService(houseTransactionRepository);
 const houseTransactionController = new HouseTransactionController(houseTransactionService);
-
+ 
 router.post('/', (req, res) => houseTransactionController.createHouseTransaction(req, res));
 router.get('/', (req, res) => houseTransactionController.getAllHouseTransactions(req, res));
 router.get('/:id', (req, res) =>houseTransactionController.getOneHouseTransaction(req, res));

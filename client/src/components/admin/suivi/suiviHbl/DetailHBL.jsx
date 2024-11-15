@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdSearch, MdClear, MdAdd } from "react-icons/md";
 import { IoArrowBack } from "react-icons/io5";
-
 import api from "../../../../axiosInstance";
+
 const DetailHBL = ({ retour }) => {
   const [mblData, setMblData] = useState(null);
   const [suiviData, setSuiviData] = useState([]);
-  const [marchandiseData, setMarchandiseData] = useState([]);
+  const [hblData, setHblData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [find, setFind] = useState(true);
 
   const gerateMBL = async (id) => {
     if (id === "") return;
     try {
-      const resMBL = await api.get("/document/docMBL/" + id);
+      const resMBL = await api.get("/mbl/get/" + id);
       setMblData(resMBL.data);
     } catch (error) {
       console.error(error);
@@ -24,21 +25,17 @@ const DetailHBL = ({ retour }) => {
   const [formNo, setFormNo] = useState(formArray[0]);
 
   const handleTrack = async (num) => {
+    setFind(true);
     if (num === "") return;
     try {
-      const idMBL = await api.get("/hblTransaction/get/" + num);
-      console.log(idMBL.data);
-    //   gerateMBL(idMBL.data.idMBL);
-
-      const DonneMarchandise = await api.get("/marchandiseHBL/suivre/" + num);
-      // console.log(DonneMarchandise.data);
-      setMarchandiseData(DonneMarchandise.data);
+      const idMBL = await api.get("/hbl/get/" + num);
+      gerateMBL(idMBL.data.idMBL);
+      setHblData(idMBL.data);
 
       const DonneSuivi = await api.get("/suiviHBL/suivre/" + num);
-      console.log(DonneSuivi.data);
       setSuiviData(DonneSuivi.data);
     } catch (error) {
-      console.log(error);
+      setFind(false);
     }
   };
 
@@ -51,15 +48,8 @@ const DetailHBL = ({ retour }) => {
       </div>
       <div className="car w-full ">
         <h3 className="titleCli mb-2">SUIVIS EN TEMPS REEL DE HBL</h3>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <div >
+        <div className="actionsContainer">
+          <div className="searchContainer">
             <MdSearch className="searchIcon" />
             <input
               type="text"
@@ -79,138 +69,135 @@ const DetailHBL = ({ retour }) => {
             <MdAdd /> Suivre
           </button>
         </div>
-        <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-          Suivi de colis N°:{searchTerm}
-        </h2>
-        {mblData && suiviData && marchandiseData && (
+        {find ? (
           <>
-            <div className=" ">
-              <div className=" flex justify-between">
+            {mblData && suiviData && (
+              <>
+                <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
+                  Suivi de colis HBL N°:{hblData.numHBL}
+                </h2>
                 <div className=" ">
-                  <p>
-                    <strong>Numéro MBL :</strong>
-                    {mblData[0].numMBL}
-                  </p>
-                  <p>
-                    <strong> Date d'émission du MBL:</strong>
-                    {mblData[0].dateEmission}
-                  </p>
-                  <p>
-                    <strong>Date d'arrivé prevue :</strong>
-                    {mblData[0].dateDestination}
-                  </p>
+                  <div className=" flex justify-between">
+                    <div className=" ">
+                      <p>
+                        <strong>Numéro MBL :</strong>
+                        {mblData.numMBL}
+                      </p>
+                      <p>
+                        <strong> Date d'émission du MBL:</strong>
+                        {mblData.dateEmission}
+                      </p>
+                      <p>
+                        <strong>Nom de l'armateur :</strong>
+                        {mblData.TransMaritime.armateur}
+                      </p>
+                      <p>
+                        <strong>Numero IMO :</strong>
+                        {mblData.TransMaritime.numIMO}
+                      </p>
+                      <p>
+                        <strong>Nom de navire :</strong>
+                        {mblData.TransMaritime.nomNavire}
+                      </p>
+                    </div>
+                    <div className=" ">
+                      <p>
+                        <strong> Date de chargement:</strong>
+                        {mblData.TransMaritime.dateChargement}
+                      </p>
+                      <p>
+                        <strong> Pays de chargement:</strong>
+                        {mblData.TransMaritime.paysChargement}
+                      </p>
+                      <p>
+                        <strong> Ville de chargement:</strong>
+                        {mblData.TransMaritime.villeChargement}
+                      </p>
+                      <p>
+                        <strong>Pays de déchargement :</strong>
+                        {mblData.dateArrivePrevue}
+                      </p>
+                      <p>
+                        <strong>Date d'arrivé prevue :</strong>
+                        {mblData.dateArrivePrevue}
+                      </p>
+                    </div>
+                  </div>
+                  <hr className="my-2 " />
+                  <div className="text-center">
+                    <p>
+                      <strong>Nom Destinataire :</strong>
+                      {hblData.clientDest.nomClient}
+                    </p>
+                    <p>
+                      <strong>Nom Expediteur :</strong>
+                      {hblData.clientExp.nomClient}
+                    </p>
+                    <p>
+                      <strong>Nombre de colis :</strong>
+                      {hblData.nbColis}
+                    </p>
+                    <p>
+                      <strong>Poid :</strong>
+                      {hblData.poid} kg
+                    </p>
+                    <p>
+                      <strong>Volume :</strong>
+                      {hblData.poid} m <sup>3</sup>
+                    </p>
+                  </div>
+                  <hr className="my-2" />
+                  <hr className="my-2" />
+                  <div className="overflow-x-auto">
+                    <h2>Les etapes de l'expedition</h2>
+                    <table className="w-full border-collapse mb-1">
+                      <thead>
+                        <tr>
+                          <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                            Etape
+                          </th>
+                          <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                            Date
+                          </th>
+                          <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                            status
+                          </th>
+                          <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
+                            commentaire
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {suiviData.map((v, i) => (
+                          <tr key={i}>
+                            <td className="border px-2 py-1 text-sm sm:text-base">
+                              {v?.etape}
+                            </td>
+                            <td className="border px-2 py-2 text-sm sm:text-base text-right">
+                              {v.dateEtape}
+                            </td>
+                            <td className="border px-2 py-2 text-sm sm:text-base text-right">
+                              {v.status}
+                            </td>
+                            <td className="border px-2 py-2 text-sm sm:text-base text-right">
+                              {v.commentaire}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr className="my-2" />
                 </div>
-                <div className=" ">
-                  <p>
-                    <strong>Agent destinataire:</strong>{" "}
-                    {mblData[0].agentDest.nomAgent}
-                  </p>
-                  <p>
-                    <strong>Agent Expediteur :</strong>{" "}
-                    {mblData[0].agentExp.nomAgent}
-                  </p>
-                </div>
-                <div className="">
-                  <p>
-                    <strong>Nom Destinataire :</strong>
-                  </p>
-                  <p className="text-right">Mino</p>
-                </div>
-              </div>
-              <hr className="my-2" />
-              <div className="overflow-x-auto">
-                <h2>Les marchises de l'expedition</h2>
-
-                <table className="w-full border-collapse mb-1">
-                  <thead>
-                    <tr>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Description
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Nature
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Poid
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Volume
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Nombre de colis
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {marchandiseData.map((v, i) => (
-                      <tr key={i}>
-                        <td className="border px-2 py-1 text-sm sm:text-base">
-                          {v?.description}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.nature}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.poid}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.volume}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.nbColis}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <hr className="my-2" />
-              <div className="overflow-x-auto">
-                <h2>Les etapes de l'expedition</h2>
-                <table className="w-full border-collapse mb-1">
-                  <thead>
-                    <tr>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Etape
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        Date
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        status
-                      </th>
-                      <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                        commentaire
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {suiviData.map((v, i) => (
-                      <tr key={i}>
-                        <td className="border px-2 py-1 text-sm sm:text-base">
-                          {v?.etape}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.dateEtape}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.status}
-                        </td>
-                        <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                          {v.commentaire}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <hr className="my-2" />
-            </div>
+              </>
+            )}
           </>
+        ) : (
+          <p className="text-center text-xl p-5">Aucun resultat trouvé</p>
         )}
 
         {/* Étapes de Suivi */}
-        <div className="flex items-center w-full mb-4">
+        {/* <div className="flex items-center w-full mb-4">
           {formArray.map((v, i) => (
             <React.Fragment key={i}>
               <div className="flex flex-col items-center w-full">
@@ -261,10 +248,10 @@ const DetailHBL = ({ retour }) => {
               )}
             </React.Fragment>
           ))}
-        </div>
+        </div> */}
 
         {/* Tableau des Détails */}
-        <table className="w-full text-left border border-gray-200 rounded-lg shadow-md mt-4">
+        {/* <table className="w-full text-left border border-gray-200 rounded-lg shadow-md mt-4">
           <thead>
             <tr className="bg-blue-100">
               <th className="py-2 px-4 border-b border-gray-200">Date</th>
@@ -276,14 +263,12 @@ const DetailHBL = ({ retour }) => {
           <tbody>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200">
-                {/* {selectedData.dateEtape} */}
               </td>
               <td className="py-2 px-4 border-b border-gray-200">
-                {/* {selectedData.etape} */}
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> */}
 
         <ToastContainer />
       </div>

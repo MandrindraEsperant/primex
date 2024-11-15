@@ -40,7 +40,7 @@ class SuiviController {
     async getAllSuivis(req, res) {
       try {
         const Suivis = await this.SuiviService.getAllSuivis();
-        res.status(200).json(Suivis);
+         res.status(200).json(Suivis);
       } catch (error) {
         res.status(500).send(error.message);
       }
@@ -76,7 +76,7 @@ class SuiviController {
       }
     }
     async getSuivi(req,res){
-      try {
+      try { 
         const Suivis = await this.SuiviService.suivi(req.params.num);
         res.status(200).json(Suivis);
       } catch (error) {
