@@ -1,6 +1,7 @@
 const HBL = require("../models/HBL");
 const MBL = require("../models/MBL");
 const Client = require("../models/Client");
+const { fn, col } = require("sequelize");
 
 class HBLRepository  {
   async create(Data) {
@@ -65,7 +66,7 @@ class HBLRepository  {
       where: {
         idMBL: id,
       },
-      attributes: ["idHBL", "numHBL", "dateHBL"],
+      attributes: ["idHBL", "numHBL", "dateEmmission","nbColis","poid","volume"],
       include: [
         {
           model: MBL,
@@ -84,6 +85,18 @@ class HBLRepository  {
           attributes: ["nomClient"],
           required: true, // pour forcer la jointure
         },
+      ],
+    });
+  }
+  async totalColis(id) {
+    return await HBL.findAll({
+      where: {
+        idMBL: id,
+      },
+      attributes: [
+        [fn("SUM", col("nbColis")), "totalNbColis"],
+        [fn("SUM", col("poid")), "totalPoid"],
+        [fn("SUM", col("volume")), "totalVolume"],
       ],
     });
   }

@@ -1,13 +1,12 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
-import { MdEdit, MdDelete, MdVisibility, MdAdd, MdSearch, MdClear } from 'react-icons/md';
-import { jwtDecode } from 'jwt-decode';
+import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import AjoutSuiviHwb from './AjoutSuiviHwb';
-import DetailsSuiviHwb from './DetailsSuiviHwb';
 import api from '../../../../axiosInstance';
+import idUserConnected from './../../../../constants/idUserConnected';
 
 const SuiviHwb = () => {
     const [open, setOpen] = useState(false);
@@ -21,9 +20,7 @@ const SuiviHwb = () => {
             console.error("Error submitting data:", error);
         }
     };
-    const token = localStorage.getItem("token");
-    const decodedToken = jwtDecode(token);
-    const idEmploye = decodedToken.id;
+    const idEmploye = idUserConnected();
     const [state, setState] = useState({
         numHWB: '',
         etape: "",
@@ -95,9 +92,7 @@ console.log('state:', state);
         setIsEditMode(false);
         setOpen(true);
     };
-
     const ajoutRef = useRef(null); // Ref pour cibler AjoutSuiviHwb
-
     const handleScrollToAjout = () => {
         if (ajoutRef.current) {
             ajoutRef.current.scrollIntoView({ behavior: 'smooth' }); // Défilement fluide
@@ -133,7 +128,8 @@ console.log('state:', state);
             <div className="container">
                 <div className="tableContainer">
                     <div className="actionsContainer">
-                        <div className="searchContainer">
+                        <h3>A</h3>
+                        {/* <div className="searchContainer">
                             <MdSearch className="searchIcon" />
                             <input
                                 type="text"
@@ -148,10 +144,10 @@ console.log('state:', state);
                                     onClick={() => setSearchTerm('')}
                                 />
                             )}
-                        </div>
-                        <button className="addButton" onClick={handleScrollToAjout}>
+                        </div> */}
+                        {/* <button className="addButton" onClick={handleScrollToAjout}>
                             <MdAdd /> Ajouter
-                        </button>
+                        </button> */}
                     </div>
                     <section className="content-area-table pd-5">
                         <div className="data-table-diagram">
@@ -209,13 +205,13 @@ console.log('state:', state);
                         ))}
                     </div>
                 </div></div>
-            <div ref={ajoutRef} className="pt-2">
+            {/* <div ref={ajoutRef} className="pt-2">
                 <AjoutSuiviHwb
                     allsuiviHWB={allsuiviHWB}
                     isEditMode={isEditMode}
                     selectedPerson={state}
                 />
-            </div>
+            </div> */}
         </div>
 
     )

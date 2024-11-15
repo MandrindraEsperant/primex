@@ -2,9 +2,6 @@
 import { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "./../../../context/ThemeContext";
 import {
-  MdEdit,
-  MdDelete,
-  MdVisibility,
   MdAdd,
   MdSearch,
   MdClear,
@@ -14,7 +11,6 @@ import AjoutCLi from "../../../pages/admin/AjoutCLi";
 import "../Dashboard/areaTable/AreaTable.scss"
 import "../Dashboard/areaTable/AreaTableAction"
 import Swal from "sweetalert2";
-import axios from "axios";
 import AreaTableAction from "../Dashboard/areaTable/AreaTableAction";
 import api from "../../../axiosInstance";
 

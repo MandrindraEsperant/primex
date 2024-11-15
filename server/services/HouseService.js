@@ -1,29 +1,32 @@
 class HouseService {
-    constructor(HouseRepository) {
-      this.HouseRepository = HouseRepository;
-    }
-    async createHouseTransaction(Data) {
-      return await this.HouseRepository.create(Data);
-    }
-    async getHouseTransactionById(id) {
-      return await this.HouseRepository.findById(id);
-    }
-    async getHouseTransactionByNum(num) {
-      return await this.HouseRepository.findByNum(num);
-    }
-    async getAllHouseTransactions() {
-      return await this.HouseRepository.findAll();
-    }
-    async getAllHouseTransactionsMere(id) {
-      return await this.HouseRepository.findAllByMaster(id);
-    }
-    async updateHouseTransaction(id, Data) {
-      return await this.HouseRepository.update(id, Data);
-    }
-    async deleteHouseTransaction(id) {
-      return await this.HouseRepository.delete(id);
-    }
+  constructor(HouseRepository) {
+    this.HouseRepository = HouseRepository;
   }
-  
-  module.exports = HouseService;
-  
+  async createHouseTransaction(Data) {
+    return await this.HouseRepository.create(Data);
+  }
+  async getHouseTransactionById(id) {
+    return await this.HouseRepository.findById(id);
+  }
+  async getHouseTransactionByNum(num) {
+    return await this.HouseRepository.findByNum(num);
+  }
+  async getAllHouseTransactions() {
+    return await this.HouseRepository.findAll();
+  }
+  async getAllHouseTransactionsMere(id) {
+    return await this.HouseRepository.findAllByMaster(id);
+  }
+
+  async getTotalColis(id) {
+    return await this.HouseRepository.totalColis(id);
+  }
+  async updateHouseTransaction(id, Data) {
+    return await this.HouseRepository.update(id, Data);
+  }
+  async deleteHouseTransaction(id) {
+    return await this.HouseRepository.delete(id);
+  }
+}
+
+module.exports = HouseService;

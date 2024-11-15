@@ -35,7 +35,7 @@ class ClientRepository  {
   async update(id, clientData) {
     const client = await this.findById(id);
     if (client) {
-      return await client.update(clientData);
+      return await Client.update(clientData,{ where: { idClient: id } });
     }
     return null;
   }
@@ -43,7 +43,7 @@ class ClientRepository  {
   async delete(id) {
     const client = await this.findById(id);
     if (client) {
-      return await client.destroy({ where: { idClient: id } });
+      return await Client.destroy({ where: { idClient: id } });
     }
     return null;
   }

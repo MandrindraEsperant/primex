@@ -30,6 +30,9 @@ class MasterService {
     async getById(id) {
       return await this.MasterRepository.findById(id);
     }
+    async getWithId(id) {
+      return await this.MasterRepository.getById(id);
+    }
     async getAll() {
       return await this.MasterRepository.findAll(); 
     }

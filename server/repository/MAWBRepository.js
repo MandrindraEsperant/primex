@@ -11,6 +11,35 @@ class MAWBRepository {
   async findById(id) {
     return await MAWB.findByPk(id);
   }
+  async getById(id) {
+    return await MAWB.findOne( {
+      where:{
+        idMAWB : id
+      },
+      attributes: [
+        'idMAWB',
+        'numMAWB',
+        'dateEmission',
+        'dateArrivePrevue',
+      ],
+      include: [
+        {
+          model: TransAerienne,
+          attributes: [
+            'idTransAerienne',
+            'numVol',
+            'nomCompagnie',
+            'dateChargement',
+            'villeChargement',
+            'paysChargement',
+            'paysDechargement',
+            'villeDechargement'
+          ],
+          required: true, // pour forcer la jointure
+        }
+      ],
+    })  
+  }
   async findByMere(mawb) {
     return await MAWB.findOne({ where: { numMAWB: mawb } });
   }

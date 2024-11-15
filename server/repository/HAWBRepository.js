@@ -1,8 +1,9 @@
 const MAWB = require("../models/MAWB");
 const HAWB = require("../models/HAWB");
 const Client = require("../models/Client");
+const { fn, col } = require("sequelize");
 
-class HAWBRepository  {
+class HAWBRepository {
   async create(Data) {
     return await HAWB.create(Data);
   }
@@ -16,24 +17,69 @@ class HAWBRepository  {
       include: [
         {
           model: MAWB,
-          attributes: ["idMAWB","numMAWB"],
+          attributes: ["idMAWB", "numMAWB"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientExp", // alias pour l'agent expéditeur
-          attributes: ["idClient","nomClient"],
+          attributes: ["idClient", "nomClient"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientDest", // alias pour l'agent destinataire
-          attributes: ["idClient","nomClient"],
+          attributes: ["idClient", "nomClient"],
           required: true, // pour forcer la jointure
         },
       ],
-    }
-  );
+    });
+  }
+  async findAllByMaster(id) {
+    return await HAWB.findAll({
+      where: {
+        idMAWB: id,
+      },
+      attributes: [
+        "idHAWB",
+        "numHAWB",
+        "dateEmmission",
+        "nbColis",
+        "poid",
+        "volume",
+      ],
+      include: [
+        {
+          model: MAWB,
+          attributes: ["numMAWB"],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: "clientExp", // alias pour l'agent expéditeur
+          attributes: ["nomClient"],
+          required: true, // pour forcer la jointure
+        },
+        {
+          model: Client,
+          as: "clientDest", // alias pour l'agent destinataire
+          attributes: ["nomClient"],
+          required: true, // pour forcer la jointure
+        },
+      ],
+    });
+  }
+  async totalColis(id) {
+    return await HAWB.findAll({
+      where: {
+        idMAWB: id,
+      },
+      attributes: [
+        [fn("SUM", col("nbColis")), "totalNbColis"],
+        [fn("SUM", col("poid")), "totalPoid"],
+        [fn("SUM", col("volume")), "totalVolume"],
+      ],
+    });
   }
   async findByNum(num) {
     return await HAWB.findOne({

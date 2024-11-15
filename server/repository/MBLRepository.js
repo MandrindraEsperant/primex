@@ -11,6 +11,36 @@ class MBLRepository  {
   async findById(id) {
     return await MBL.findByPk(id);
   }
+  async getById(id) {
+    return await MBL.findOne( {
+      where:{
+        idMBL : id
+      },
+      attributes: [
+        'idMBL',
+        'numMBL',
+        'dateEmission',
+        'dateArrivePrevue',
+      ],
+      include: [
+        {
+          model: TransMaritime,
+          attributes: [
+            'idTransMaritime',
+            'numIMO',
+            'armateur',
+            'nomNavire',
+            'dateChargement',
+            'villeChargement',
+            'paysChargement',
+            'paysDechargement',
+            'villeDechargement'
+          ],
+          required: true, // pour forcer la jointure
+        }
+      ],
+    })  
+  }
   async findByMere(mbl) {
     return await MBL.findOne({ where: { numMBL: mbl } });
   }
