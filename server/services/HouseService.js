@@ -8,7 +8,7 @@ class HouseService {
   async getHouseTransactionById(id) {
     return await this.HouseRepository.findById(id);
   }
-  async getHouseTransactionByNum(num) {
+  async getHouseTransactionByNum(num) { 
     return await this.HouseRepository.findByNum(num);
   }
   async getAllHouseTransactions() {

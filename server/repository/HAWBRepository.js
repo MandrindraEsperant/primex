@@ -1,7 +1,7 @@
 const MAWB = require("../models/MAWB");
 const HAWB = require("../models/HAWB");
 const Client = require("../models/Client");
-const { fn, col } = require("sequelize");
+const { fn, col, where } = require("sequelize");
 
 class HAWBRepository {
   async create(Data) {
@@ -82,9 +82,11 @@ class HAWBRepository {
     });
   }
   async findByNum(num) {
+  
     return await HAWB.findOne({
-      Where: { numHAWB: num },
-      attributes: ["idHAWB", "numHAWB", "dateEmmission", "idMAWB"],
+      where :{
+        numHAWB : num
+      },
       include: [
         {
           model: MAWB,
@@ -106,6 +108,10 @@ class HAWBRepository {
       ],
     });
   }
+
+
+
+
   async update(id, HAWBData) {
     const hAWB = await this.findById(id);
     if (hAWB) {

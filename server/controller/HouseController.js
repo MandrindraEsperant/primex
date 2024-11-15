@@ -39,6 +39,7 @@ class HouseController {
     }
     async getOneHouseTransactionByNum(req, res) {
       try {
+        
         const HouseTransaction = await this.HouseService.getHouseTransactionByNum(
           req.params.num
         );
@@ -105,7 +106,7 @@ class HouseController {
         res.status(500).send(error.message);
       }
     }
-  }
+  } 
   
   module.exports = HouseController;
   

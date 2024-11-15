@@ -245,7 +245,6 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                                 disabled={!isStep2Valid() || loading}
                                 className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
                             >
-                                {/* Afficher le spinner lorsque le bouton est en chargement */}
                                 {loading ? (
                                     <div className="flex justify-center items-center">
                                         Pantientez...

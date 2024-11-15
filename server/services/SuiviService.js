@@ -20,7 +20,7 @@ class SuiviService {
     async suivi(num) {
       return await this.SuiviRepository.suivi(num);
     }
-  }
+  } 
   
   module.exports = SuiviService;
   

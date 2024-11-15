@@ -122,9 +122,14 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
     const isStep3Valid = () => {
         return state.idTransport;
     };
-    const isStepConteneur =()=>{
+    const isStepConteneur = () => {
         return conteneurData.numConteneur && conteneurData.numPlomb && conteneurData.typeConteneur
     }
+    const isConteneurValid = () => {
+        return state.conteneur && state.conteneur.length > 0 && state.conteneur.length <= 2;
+    };
+
+
     const next = () => {
         if (formNo === 1 && isStep1Valid()) {
             setFormNo(formNo + 1);
@@ -170,7 +175,7 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                         setLoading(false);
                     });
             } else {
-                return console.log(state);
+                // return console.log(state);
 
                 api
                     .post("/mbl/", state)
@@ -205,8 +210,8 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
             trans.numIMO.toLowerCase().includes(searchTermT.toLowerCase())
     );
     const addConteneur = async (conteneurVal) => {
-       console.log(conteneurVal);
-       
+        console.log(conteneurVal);
+
 
         setState(prevState => {
             const conteneurArray = Array.isArray(prevState.conteneur) ? prevState.conteneur : [];
@@ -405,15 +410,13 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                             <button
                                 onClick={() => {
                                     // setConteneurData({...conteneurData, numMBL:state.numMBL})
-                                    addConteneur(conteneurData);
+                                    addConteneur({ ...conteneurData, numMBL: state.numMBL });
                                     setConteneurData({ typeConteneur: "", numConteneur: "", numPlomb: "" });
                                 }}
                                 className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isStepConteneur() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
                             >
                                 Ajouter
                             </button>
-
-                           
                         </div>
                     </div>
                     <div className="w-full md:w-1/3">
@@ -447,7 +450,7 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                                                 <td className="py-2 px-4">{trans.numConteneur}</td>
                                                 <td className="py-2 px-4">{trans.typeConteneur}</td>
                                                 <td className="py-2 px-4">{trans.numPlomb}</td>
-                                                <td className="dt-cell-action"> 
+                                                <td className="dt-cell-action">
                                                     <MdRemove onClick={() => deleteConteneur(index)}
                                                         size={50}
                                                         className="text-red-500 cursor-pointer hover:text-red-700 inline-block" />
@@ -459,12 +462,12 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                             </table>
                             <button
                                 onClick={finalSubmit}
-                                disabled={!isStep3Valid() || loading}
-                                className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isStep3Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
+                                disabled={!isConteneurValid() || loading}
+                                className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isConteneurValid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
                             >
                                 {loading ? (
                                     <div className="flex justify-center items-center">
-                                        Pantientez...
+                                        Patientez...
                                     </div>
                                 ) : (
                                     isEditMode ? "Modifier" : "Valider"

@@ -162,7 +162,7 @@ const TransactionHbl = () => {
                         <td>{ new Date(item.dateEmmission).toLocaleDateString('fr-FR')}</td>
                         <td>{item.clientDest.nomClient}</td>
                         <td>{item.clientExp.nomClient}</td>
-                        <td>{item.description}</td>
+                        <td className="description-cell" title={item.description}>{item.description}</td>
                         <td>{item.nbColis}</td>
                         <td>{item.poid}</td>
                         <td>{item.volume}</td>

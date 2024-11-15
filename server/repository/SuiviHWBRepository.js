@@ -8,20 +8,6 @@ class SuiviRepository  {
   async findById(id) {
     return await Suivi.findByPk(id);
   }
-  async plusExpedier() {
-    const totalCount = await Suivi.count();
-
-    return await Suivi.findAll({
-      attributes: [
-        "nature",
-        [Sequelize.fn("COUNT", Sequelize.col("nature")), "nb"],
-        [literal(`(COUNT(nature) / ${totalCount} * 100)`), 'pourcentage']
-      ],
-      group: "nature",
-      order: [[Sequelize.literal("nb"), "DESC"]],
-      limit: 5, // LIMIT 5
-    });
-  }
   async findAll() {
     return await Suivi.findAll();
   }
@@ -44,10 +30,11 @@ class SuiviRepository  {
   async suivi(numHWB){
     return await Suivi.findAll({
       where:{
-        numHWB : numHWB
+        numHAWB : numHWB
       }
     })
   }
 }
 
 module.exports = SuiviRepository;
+ 

@@ -31,7 +31,7 @@ app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
 app.use('/conteneur', conteneurRoutes); 
 app.use('/suiviHBL', suiviHBLRoutes);  
-app.use('/suiviHWB', suiviHWBRoutes);   
+app.use('/suiviHAWB', suiviHWBRoutes);   
 app.use('/transMaritime', transMaritimeRoutes); 
 app.use('/transAerienne', transAerienneRoutes);
 app.use('/mbl', MBLRoutes);  

@@ -39,7 +39,7 @@ class HBLRepository  {
       where: {
         numHBL: num,
       },
-      attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL", 'nbColis'],
+      attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL","nbColis","poid","volume","description"],
       include: [
         {
           model: MBL,

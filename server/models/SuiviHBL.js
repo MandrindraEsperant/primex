@@ -34,15 +34,7 @@ SuiviHBL.init(
     commentaire:{
       type: DataTypes.STRING,
       allowNull: true
-    },
-    creerPar: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    modifierPar: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
+    }
   },
   {
     sequelize,

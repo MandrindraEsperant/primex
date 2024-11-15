@@ -129,6 +129,7 @@ const Mbl = () => {
                                         <th>#</th>
                                         <th>N° MBL</th>
                                         <th>N° IMO</th>
+                                        {/* <th>N° Conteneur</th> */}
                                         <th>Armateur</th>
                                         <th>Navire</th>
                                         <th>Pays chargement</th>
@@ -155,6 +156,7 @@ const Mbl = () => {
                                             <td>{item.numMBL}</td>
                                             <td>{item.TransMaritime.numIMO}</td>
                                             <td>{item.TransMaritime.armateur}</td>
+                                            {/* <td>{item.conteneur.numConteneur}</td> */}
                                             <td>{item.TransMaritime.nomNavire}</td>
                                             <td>{item.TransMaritime.paysChargement}</td>
                                             <td>{item.TransMaritime.paysDechargement}</td>

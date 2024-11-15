@@ -91,7 +91,7 @@ Utilisation du mixin pour le mode sombre
   display: flex;
   justify-content: space-between; 
   flex-wrap: nowrap;
-  // padding: 0;
+  padding: 0;
 }
 .tableContainer {
   width: 100%;
@@ -220,7 +220,6 @@ Utilisation du mixin pour le mode sombre
     }
   }
 }
-
 @media (max-width: 500px) {
   .container {
     flex-direction: column;
