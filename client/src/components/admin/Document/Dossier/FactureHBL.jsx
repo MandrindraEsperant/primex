@@ -11,7 +11,7 @@ const FactureHBL = () => {
     try {
       const res = await api.get("/hbl/");
       setMbl(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

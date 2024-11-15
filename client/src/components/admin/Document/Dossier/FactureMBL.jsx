@@ -18,7 +18,7 @@ const FactureMBL = () => {
   };
   useEffect(() => {
     getNumMBL();
-  }, []);
+  }, []); 
 
   const [idMbl, setIdMbl]= useState("");
   const gerateMBL = async (id) => {

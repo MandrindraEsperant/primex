@@ -5,6 +5,7 @@ const sequelize = require('./config/database');
 
 const employeRoutes = require('./routes/employeRoutes');
 const clientRoutes = require('./routes/clientRoutes');
+const conteneurRoutes = require('./routes/conteneurRoutes');
 const suiviHBLRoutes = require('./routes/suiviHBLRoutes');
 const suiviHWBRoutes = require('./routes/suiviHWBRoutes');
 const transAerienneRoutes = require('./routes/transAerienneRoutes');
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 
 app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
+app.use('/conteneur', conteneurRoutes); 
 app.use('/suiviHBL', suiviHBLRoutes);  
 app.use('/suiviHWB', suiviHWBRoutes);   
 app.use('/transMaritime', transMaritimeRoutes); 
