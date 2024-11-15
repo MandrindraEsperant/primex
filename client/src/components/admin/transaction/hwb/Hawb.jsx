@@ -2,22 +2,22 @@ import React from 'react'
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
-import AjoutTransHblP from '../../../../pages/admin/AjoutTransHblP';
+import AjoutTransHwbP from '../../../../pages/admin/AjoutTransHwbP';
 import api from '../../../../axiosInstance';
-
-const TransactionHbl = () => {
+import AjoutHawbPage from '../../../../pages/admin/AjoutHawbPage';
+const Hawb = () => {
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [data, setData] = useState([]);
-
-    const allTransactionHbl = async () => {
+    const allTransactionHawb = async () => {
         try {
-            const response = await api.get("/hbl/");
+            const response = await api.get("/hawb/");
             setData(response.data);
-            console.log(response);
+            console.log(response.data);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
@@ -30,9 +30,9 @@ const TransactionHbl = () => {
    // SUPPRESSION
     const supprimer = (id) => {
         api
-            .delete("/hbl/" + id)
+            .delete("/hawb/" + id)
             .then((res) => {
-                allTransactionHbl();
+                allTransactionHawb();
             })
             .catch((err) => alert(err));
     };
@@ -54,7 +54,7 @@ const TransactionHbl = () => {
         });
     };
   useEffect(() => {
-        allTransactionHbl();
+        allTransactionHawb();
     }, []);
     const handleClickOpen = () => {
         setSelectedPerson(null);
@@ -71,30 +71,27 @@ const TransactionHbl = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idHBL === person.idHBL) {
+        if (selectedPerson && selectedPerson.idHAWB === person.idHAWB) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
-    const filteredData = data.filter(item =>        
-        item.numHBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.MBL.numMBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.clientDest.nomClient.toLowerCase().includes(searchTerm) ||
-        item.clientExp.nomClient.toLowerCase().includes(searchTerm)
+    const filteredData = data.filter(item =>
+        item.numHAWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.MAWB.numMAWB.toLowerCase().includes(searchTerm.toLowerCase())
     );
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="titleCli">TRANSACTIONS HBL</h3>
+    <h3 className="titleCli">LISTE DE TOUT LES TRANSACTIONS HAWB</h3>
             <div className="container">
             <div className="tableContainer">
         <div className="actionsContainer">
@@ -117,9 +114,9 @@ const TransactionHbl = () => {
             <button className="addButton" onClick={handleClickOpen}>
                 <MdAdd /> Ajouter
             </button>
-            <AjoutTransHblP
+            <AjoutHawbPage
                 open={open}
-                allTransactionHbl={allTransactionHbl}
+                allTransactionHawb={allTransactionHawb}
                 handleClose={handleClose}
                 isEditMode={isEditMode}
                 selectedPerson={selectedPerson} />
@@ -131,8 +128,8 @@ const TransactionHbl = () => {
             <thead>
                 <tr >
                     <th>#</th>
-                    <th>N° HBL</th>
-                    <th>N° MBL</th>
+                    <th>N° HAWB</th>
+                    <th>N° MAWB</th>
                     <th>Date Emission</th>
                     <th> Destinataire</th>
                     <th>Expediteur</th>
@@ -146,7 +143,7 @@ const TransactionHbl = () => {
             <tbody>
                 {currentData.map(item => (
                     <tr
-                        key={item.idHBL}
+                        key={item.idHAWB}
                         onClick={() => handleSelect(item)}
                         className={item === selectedPerson ? 'selectedRow' : ''}
                     >
@@ -157,8 +154,8 @@ const TransactionHbl = () => {
                                 readOnly
                             />
                         </td>
-                        <td>{item.numHBL}</td>
-                        <td>{item.MBL.numMBL}</td>
+                        <td>{item.numHAWB}</td>
+                        <td>{item.MAWB.numMAWB}</td>
                         <td>{ new Date(item.dateEmmission).toLocaleDateString('fr-FR')}</td>
                         <td>{item.clientDest.nomClient}</td>
                         <td>{item.clientExp.nomClient}</td>
@@ -169,8 +166,8 @@ const TransactionHbl = () => {
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}
-                                onEditClick={() => handleEditClickOpen(item.idHBL)}
-                                onDeleteClick={() => handleDeleteClick(item.idHBL)}
+                                onEditClick={() => handleEditClickOpen(item.idHAWB)}
+                                onDeleteClick={() => handleDeleteClick(item.idHAWB)}
                             />
                         </td>
                     </tr>
@@ -190,11 +187,11 @@ const TransactionHbl = () => {
                 </button>
             ))}
         </div>
-
 </div>
+
     </div>
 </div>
   )
 }
 
-export default TransactionHbl
+export default Hawb

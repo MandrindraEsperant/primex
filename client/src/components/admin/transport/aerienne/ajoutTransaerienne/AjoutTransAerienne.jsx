@@ -140,7 +140,7 @@ function AjoutTransAerienne({ handleClose, allTransAerienne, isEditMode, selecte
   return (
     <div className="car w-full rounded-md shadow-md bg-white p-5">
       <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-        {isEditMode ? "Modifier un Client" : "Ajouter un Client"}
+        {isEditMode ? "Modifier un Transport aérienne" : "Ajouter un Transport aérienne"}
       </h2>
       <div className="flex items-center w-full mb-4">
         {formArray.map((v, i) => (

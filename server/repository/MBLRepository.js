@@ -30,6 +30,7 @@ class MBLRepository  {
               "idTransMaritime",
               'numIMO',
               'armateur',
+              'nomNavire',
               'dateChargement',
               'paysChargement',
               'paysDechargement',

@@ -12,7 +12,7 @@ class HAWBRepository  {
   async findAll() {
     return await HAWB.findAll(
       {
-      attributes: ["idHAWB", "numHAWB", "dateEmmission","idMAWB"],
+      attributes: ["idHAWB", "numHAWB", "dateEmmission","idMAWB", 'nbColis','poid', 'volume', 'description'],
       include: [
         {
           model: MAWB,

@@ -5,9 +5,9 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { MdSearch, MdClear } from 'react-icons/md';
-import api from '../../../../axiosInstance';
+import api from '../../../../../axiosInstance';
 
-const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPerson }) => {
+const AjoutHawb = ({ handleClose, allTransactionHawb, isEditMode, selectedPerson }) => {
     const [clientOption, setclientOption] = useState([]);
     const [maritimeOption, setmaritimeOption] = useState([]);
     const [error, setError] = useState();
@@ -16,14 +16,16 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
     const [activeField, setActiveField] = useState(null);
     const [searchTermM, setSearchTermM] = useState("");
     const [searchTermT, setSearchTermT] = useState("");
+
+
     const formArray = [1, 2, 3];
     const [formNo, setFormNo] = useState(formArray[0]);
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
     const idEmploye = decodedToken.id;
     const [state, setState] = useState({
-        numHBL: '',
-        idMBL: '',
+        numHAWB: '',
+        idMAWB: '',
         idExpediteur: "",
         idDestinataire: "",
         dateEmmission: "",
@@ -35,7 +37,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
         modifierPAr: idEmploye
     });
     const handleSelectA = (client) => {
-        if (selectedClient && selectedClient.idHBL === client.idHBL) {
+        if (selectedClient && selectedClient.idHAWB === client.idHAWB) {
             setselectedClient(null); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setselectedClient(client);
@@ -69,15 +71,15 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
 
     };
     const handleSelectM = (maritime) => {
-        if (selectedMaritime && selectedMaritime.idMBL === maritime.idMBL) {
+        if (selectedMaritime && selectedMaritime.idMAWB === maritime.idMAWB) {
             setselectedMaritime(null);
         } else {
             console.log(maritime)
             setselectedMaritime(maritime);
             setState(prevState => ({
                 ...prevState,
-                idMBL: maritime.idMBL,
-                numMBL: maritime.numMBL,
+                idMAWB: maritime.idMAWB,
+                numMAWB: maritime.numMAWB,
                 idTransport: maritime.idTransport,
                 dateEmission: maritime.dateEmission,
                 dateArrivePrevue: maritime.dateArrivePrevue,
@@ -86,7 +88,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
     }
     const fetchTransMaritime = async () => {
         try {
-            const response = await api.get("/mbl/");
+            const response = await api.get("/mawb/");
             return response.data;
 
         } catch (error) {
@@ -97,39 +99,35 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
     useEffect(() => {
         const getClients = async () => {
             try {
-
                 const data = await fetchClients();
                 setclientOption(data);
             } catch (err) {
                 setError(err.message);
             }
         };
-
         const getTransactionM = async () => {
             try {
                 const data = await fetchTransMaritime();
                 setmaritimeOption(data);
                 console.log(data);
-
             } catch (err) {
                 setError(err.message);
             }
         };
         getTransactionM();
         getClients();
-
     }, []);
     useEffect(() => {
         if (isEditMode && selectedPerson) {
             const transportData = selectedPerson.MBL || {};
             // const ClientData = selectedPerson.Client || {};
             setState({
-                numHBL: selectedPerson.numHBL || '',
+                numHAWB: selectedPerson.numHAWB || '',
                 nbColis: selectedPerson.nbColis || '',
                 poid: selectedPerson.poid || '',
                 volume: selectedPerson.volume || '',
                 description: selectedPerson.description || '',
-                idMBL: selectedPerson.idMBL || '',
+                idMAWB: selectedPerson.idMAWB || '',
                 idExpediteur: selectedPerson.idExpediteur || '',
                 idDestinataire: selectedPerson.idDestinataire || '',
                 dateEmmission: selectedPerson.dateEmmission || '',
@@ -139,8 +137,8 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
         } else {
             // Sinon, réinitialiser les champs
             setState({
-                numHBL: '',
-                idMBL: '',
+                numHAWB: '',
+                idMAWB: '',
                 idExpediteur: "",
                 idDestinataire: "",
                 dateEmmission: "",
@@ -160,7 +158,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
         });
     };
     const isStep1Valid = () => {
-        return state.numHBL && state.idMBL && state.dateEmmission;
+        return state.numHAWB && state.idMAWB && state.dateEmmission;
     };
     const isStep2Valid = () => {
         return state.idExpediteur && state.idDestinataire;
@@ -189,7 +187,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
 
         if (isEditMode) {
             api
-                .put(`/hbl/${selectedPerson.idHBL}`, state)
+                .put(`/hawb/${selectedPerson.idHAWB}`, state)
                 .then((res) => {
                     toast.success("Transaction modifié avec succès");
                     Swal.fire({
@@ -199,7 +197,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allTransactionHbl();
+                    allTransactionHawb();
                     handleClose();
                 })
                 .catch((err) => {
@@ -212,7 +210,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
         } else {
 
             api
-                .post("/hbl/", state)
+                .post("/hawb/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
@@ -221,7 +219,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                         timer: 3000,
                         showConfirmButton: false,
                     });
-                    allTransactionHbl();
+                    allTransactionHawb();
                     handleClose();
                 })
                 .catch((err) => {
@@ -241,17 +239,17 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
     );
     const filteredMaritime = maritimeOption.filter(
         (trans) =>
-            trans.numMBL.toLowerCase().includes(searchTermM.toLowerCase()) ||
+            trans.numMAWB.toLowerCase().includes(searchTermM.toLowerCase()) ||
             trans.dateEmission.toLowerCase().includes(searchTermM.toLowerCase()) ||
             trans.dateArrivePrevue.toLowerCase().includes(searchTermM.toLowerCase())
     );
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction HBL" : "Ajouter un Transaction HBL"}
+                {isEditMode ? "Modifier un Transaction HAWB" : "Ajouter un Transaction HAWB"}
             </h2>
             <div className="flex items-center w-full mb-4">
-                 {formArray.map((v, i) => (
+                {formArray.map((v, i) => (
                     <React.Fragment key={i}>
                         <div className="flex flex-col items-center w-full">
                             <div
@@ -265,7 +263,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                                 {formNo - 1 > i ? '✓' : v}
                             </div>
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                            {i === 0 && 'INFORMATION TRANSACTION'}
+                                {i === 0 && 'INFORMATION TRANSACTION'}
                                 {i === 1 && 'INFORMATION CLIENT'}
                                 {i === 2 && 'MARCHANDISE'}
                             </div>
@@ -284,12 +282,13 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                     </React.Fragment>
                 ))}
             </div>
+
             {/* Form Step 1 */}
             {formNo === 1 && (
-                <div className="flex flex-col md:flex-row gap-4">
-                    <div className="w-full md:w-1/3">
-                        <InputField label="N° HBL" name="numHBL" value={state.numHBL} inputHandle={inputHandle} placeholder='N° HBL' />
-                        <InputField label="N° MBL" name="idMBL" value={state.idMBL} inputHandle={inputHandle} placeholder='Selectionnez numéro MBL' />
+                <div className="flex flex-row gap-4">
+                    <div className="w-1/2">
+                        <InputField label="N° HAWB" name="numHAWB" value={state.numHAWB} inputHandle={inputHandle} placeholder='N° HAWB' />
+                        <InputField label="N° MBL" name="idMAWB" value={state.idMAWB} inputHandle={inputHandle} placeholder='Selectionnez numéro MBL' />
                         <InputField label="Date emission" type='date' name="dateEmmission" value={state.dateEmmission ? new Date(state.dateEmmission).toISOString().split('T')[0] : ''} inputHandle={inputHandle} />
                         <div className="mt-4 gap-3 flex justify-center items-center mt-8">
                             <button
@@ -310,8 +309,8 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                             </button>
                         </div>
                     </div>
-                    <div className="w-full md:w-2/3">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Numéro MBL Disponible</h2>
+                    <div className="w-1/2">
+                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Numéro MAWB Disponible</h2>
                         {/* FILTRE */}
                         <div className="searchContainer">
                             <MdSearch className="searchIcon" />
@@ -335,7 +334,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                                 <thead className="text-white bg-blue-200">
                                     <tr>
                                         <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">N° MBL</th>
+                                        <th className="py-2 mx-8 text-left">N° MAWB</th>
                                         <th className="py-2 px-4 text-left">Date Emission</th>
                                         <th className="py-2 px-4 text-left">Date Arrivé</th>
                                     </tr>
@@ -343,7 +342,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                                 <tbody className="space-y-2">
                                     {filteredMaritime.map((maritime, index) => (
                                         <tr
-                                            key={maritime.idMBL}
+                                            key={maritime.idMAWB}
                                             onClick={() => handleSelectM(maritime)}
                                             className={`hover:bg-blue-200 ${maritime === selectedMaritime ? 'bg-blue-500 text-white' : ''} ${index % 2 === 0 ? 'bg-blue-5' : 'bg-blue-50'} ${maritime === selectedMaritime ? 'selectedRow' : ''}`}
                                         ><td>
@@ -353,7 +352,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                                                     readOnly
                                                 />
                                             </td>
-                                            <td className="py-2 px-4">{maritime.numMBL}</td>
+                                            <td className="py-2 px-4">{maritime.numMAWB}</td>
                                             <td>{new Date(maritime.dateEmission).toLocaleDateString('fr-FR')}</td>
                                             <td>{new Date(maritime.dateArrivePrevue).toLocaleDateString('fr-FR')}</td>
                                         </tr>
@@ -368,9 +367,10 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
             )}
             {/* Form Step 2 */}
             {formNo === 2 && (
-                <div className="flex flex-col md:flex-row gap-4">
-                    <div className="w-full md:w-1/3">
-                        <InputField label="Client Expediteur" name="idExpediteur" value={state.idExpediteur} inputHandle={inputHandle} placeholder='Expediteur' onFocus={() => setActiveField("expediteur")} autoFocus={true} readOnly />
+                <div className="flex flex-row gap-4">
+                    <div className="w-1/2">
+                        <InputField label="Client Expediteur" name="idExpediteur" value={state.idExpediteur} inputHandle={inputHandle} placeholder='Expediteur' 
+                                onFocus={() => setActiveField("expediteur")} autoFocus={true} readOnly />
 
                         <InputField label="Client Destinataire" name="idDestinataire" value={state.idDestinataire} inputHandle={inputHandle} placeholder='Destinataire' 
                                 onFocus={() => setActiveField("destinataire")}readOnly />
@@ -395,7 +395,7 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                             </button>
                         </div>
                     </div>
-                    <div className="w-full md:w-2/3">
+                    <div className="w-1/2">
                         <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Client disponible</h2>
                         {/* FILTRE */}
                         <div className="searchContainer">
@@ -480,13 +480,14 @@ const AjoutTransHbl = ({ handleClose, allTransactionHbl, isEditMode, selectedPer
                     </div>
                 </div>
             )}
+
             {/* Container for Toast notifications */}
             <ToastContainer />
         </div>
     )
 }
 
-const InputField = ({ label, name, value, inputHandle, type = "text",onFocus, autoFocus, readOnly = false, placeholder = "" }) => (
+const InputField = ({ label, name, value, inputHandle,autoFocus, type = "text",onFocus, readOnly = false, placeholder = "" }) => (
     <div className="flex flex-col mb-3">
         <label htmlFor={name} className="text-sm sm:text-lg font-semibold mb-2">{label}</label>
         <input
@@ -512,4 +513,4 @@ const InfoField = ({ label, value }) => (
 
 );
 
-export default AjoutTransHbl
+export default AjoutHawb
