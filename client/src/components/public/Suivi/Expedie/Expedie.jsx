@@ -17,7 +17,7 @@ const Expedie = () => {
         <h2 className="primaryText">{t('expedieTitle')}</h2>
         <p className='secondaryText'>{t('expedieText')}</p>
         <div className="btn-container flexSpace">
-          <div className="btn left">{t('track')}</div>
+          {/* <div className="btn left">{t('track')}</div> */}
           <div className="btn">{t('track')}</div>
         </div>
       </motion.div>

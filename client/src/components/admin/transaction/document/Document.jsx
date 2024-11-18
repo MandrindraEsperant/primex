@@ -1,12 +1,10 @@
 import { useState } from "react";
 import React from 'react';
-import TransactionAerien from "../aerienne/TransactionAerien";
 import Facturation from "./Facturation";
 import "../../marchandises/Marchandise.scss"
 
 const Document = () => {
     const [activeTab, setActiveTab] = useState('facturation');
-
     return (
         <div className="tabs-container">
             <div className="tabs">
