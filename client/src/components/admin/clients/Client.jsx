@@ -178,7 +178,9 @@ const Client = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table></div></section>
+              </table>
+              </div>
+              </section>
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
               <button

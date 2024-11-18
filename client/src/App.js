@@ -5,6 +5,7 @@ import PublicRouter from "./pages/public/PublicRouter";
 import AdminRouter from "./pages/admin/AdminRouter";
 import AuthRouter from "./pages/auth/AuthRouter";
 import AuthGuard from "./_helpers/AuthGuard";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
 
@@ -15,14 +16,18 @@ function App() {
         <Route
           path="/admin/*"
           element={
-            <AuthGuard>
+            <ThemeProvider>
+              <AuthGuard>
               <AdminRouter />
-            </AuthGuard>
+            </AuthGuard></ThemeProvider>
+ 
           }
         />
         <Route path="/auth/*" element={<AuthRouter />} />
       </Routes>
+      
     </Router>
+    
   );
 }
 
