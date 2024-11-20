@@ -15,7 +15,7 @@ class HBLRepository  {
   }
   async findAll() {
     return await HBL.findAll({
-      attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL"],
+      attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL", 'nbColis','poid', 'volume', 'description'],
       include: [
         {
           model: MBL,
@@ -47,19 +47,19 @@ class HBLRepository  {
         {
           model: MBL,
           attributes: ["numMBL"],
-          required: true, // pour forcer la jointure
+          required: true,
         },
         {
           model: Client,
-          as: "clientExp", // alias pour l'agent expéditeur
+          as: "clientExp",
           attributes: ["nomClient"],
-          required: true, // pour forcer la jointure
+          required: true,
         },
         {
           model: Client,
-          as: "clientDest", // alias pour l'agent destinataire
+          as: "clientDest",
           attributes: ["nomClient"],
-          required: true, // pour forcer la jointure
+          required: true,
         },
       ],
     });
