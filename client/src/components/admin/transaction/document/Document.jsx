@@ -5,7 +5,6 @@ import "../../marchandises/Marchandise.scss"
 
 const Document = () => {
     const [activeTab, setActiveTab] = useState('facturation');
-
     return (
         <div className="tabs-container">
             <div className="tabs">

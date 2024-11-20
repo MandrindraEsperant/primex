@@ -38,6 +38,7 @@
   background: var(--tertiary);
   color: var(--white);
   transform: scale(1.02);
+  cursor: pointer;
 }
 
 .paddings {
