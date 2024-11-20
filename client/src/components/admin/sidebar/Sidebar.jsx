@@ -1,8 +1,8 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import { ThemeContext } from "./../../../context/ThemeContext";
 import { LIGHT_THEME } from "./../../../constants/themeConstants";
-import LogoBlue from "./../../../assets/images/logo.png";
-import LogoWhite from "./../../../assets/images/logo_white.svg";
+import LogoBlue from "./../../../assets/images/black.png";
+import LogoWhite from "./../../../assets/images/black.png";
 import {
   MdOutlineClose,
   MdOutlineGridView,
@@ -86,7 +86,7 @@ const Sidebar = () => {
     >
       <div className="sidebar-top">
         <div className="sidebar-brand">
-          {/* <img src={theme === LIGHT_THEME ? LogoBlue : LogoBlue} alt="" sizes="24"/> */}
+          <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" sizes="24"/>
           <span className="sidebar-brand-text">Primex Logistics</span>
         </div>
         <button className="sidebar-close-btn"
@@ -118,6 +118,16 @@ const Sidebar = () => {
                   <MdGroups size={20} />
                 </span>
                 <span className="menu-link-text">Client</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/admin/transport">
+                <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transport' ? 'active' : ''}`}>
+                  <span className="menu-link-icon">
+                    <MdLocalShipping size={20} />
+                    <span className="menu-link-text">Transport</span>
+                  </span>
+                </div>
               </Link>
             </li>
             <li className="menu-item">
@@ -153,10 +163,6 @@ const Sidebar = () => {
 
           </ul>
         </div>
-
-
-
-
         <div className="sidebar-menu sidebar-menu2">
           <ul className="menu-list">
             <li className="menu-item">

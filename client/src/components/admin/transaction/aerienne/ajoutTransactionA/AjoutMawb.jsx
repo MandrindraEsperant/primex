@@ -39,9 +39,9 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
     };
     const handleSelectA = (trans) => {
         if (selectedAerienne && selectedAerienne.idTransAerienne === trans.idTransAerienne) {
-            setSelectedAerienne(null); // Désélectionne si la même personne est déjà sélectionnée
+            setSelectedAerienne(null);
         } else {
-            setSelectedAerienne(trans); // Sélectionner un nouveau transport
+            setSelectedAerienne(trans);
             setState(prevState => ({
                 ...prevState,
                 idTransport: trans.idTransAerienne,
@@ -141,7 +141,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                         });
                         alltransactionMawb();
                         handleClose();
-                        setLoading(false);  // Désactive le chargement après la réponse
+                        setLoading(false);
                     })
                     .catch((err) => {
                         if (err.response) {
@@ -149,7 +149,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                         } else {
                             toast.error(err.message);
                         }
-                        setLoading(false);  // Désactive le chargement en cas d'erreur
+                        setLoading(false);  
                     });
             } else {
                 api

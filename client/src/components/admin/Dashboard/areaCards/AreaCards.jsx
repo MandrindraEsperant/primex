@@ -12,8 +12,8 @@ const AreaCards = () => {
 
   const countExpedition = async ()=>{
     try {
-      const expor = await api.get("/exportation/all/");
-      const impor = await api.get("/importation/all/");
+      const expor = await api.get("/mbl/all/");
+      const impor = await api.get("/mawb/all/");
       setExpedition(expor.data + impor.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -29,7 +29,7 @@ const AreaCards = () => {
   }
   const countImpor= async ()=>{
     try {
-      const response = await api.get("/importation/all/");
+      const response = await api.get("/mbl/all/");
       setImpor(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -37,7 +37,7 @@ const AreaCards = () => {
   }
   const countExportation= async ()=>{
     try {
-      const response = await api.get("/exportation/all/");
+      const response = await api.get("/mawb/all/");
       setExportation(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -56,37 +56,42 @@ const AreaCards = () => {
     <section className="content-area-cards">
       <AreaCard
         colors={["#e4e8ef", "#475be8"]}
-        percentFillValue={client}
+        percentFillValue={100}
         cardInfo={{
-          title: "Total Clients",
-          value: client,
-          text: "Ce dernier mois.",
+          title: "Touts l'expédition",
+          // value: client,
+          value: 70,
+          // text: "Ce dernier mois.",
         }}
       />
       <AreaCard
         colors={["#e4e8ef", "#4ce13f"]}
-        percentFillValue={100}
+        percentFillValue={28}
         cardInfo={{
-          title: "Total expeditions",
-          value: expedition,
-          text: "Ce deux dernier mois",
+          title: "Expédition de 05 dernier mois",
+          // value: expedition,
+          value: 20,
+          text: "Ce cinq dernier mois",
         }}
       />
       <AreaCard
         colors={["#e4e8ef", "#f29a2e"]}
-        percentFillValue={(impor/expedition)*100}
+        percentFillValue={82}
         cardInfo={{
-          title: "Importations",
-          value: ((impor/expedition)*100).toFixed(2) +"%",
+          title: "Expédition Maritime",
+          // value: ((impor/expedition)*100).toFixed(2) +"%",
+          value:58,
           text: "Ce deux dernier mois",
         }}
       />
       <AreaCard
         colors={["#e4e8ef", "#f29"]}
-        percentFillValue={(exportation/expedition)*100}
+        // percentFillValue={(exportation/expedition)*100}
+        percentFillValue={17}
         cardInfo={{
-          title: "Exportations",
-          value: ((exportation/expedition)*100).toFixed(2) +"%",
+          title: "Expédition Aérienne",
+          // value: ((exportation/expedition)*100).toFixed(2) +"%",
+          value: 12,
           text: "Ce deux dernier mois",
         }}
       />

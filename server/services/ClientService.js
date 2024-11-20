@@ -46,5 +46,4 @@ class ClientService {
       return await this.clientRepository.delete(id);
     }
   }
-
   module.exports = ClientService ;

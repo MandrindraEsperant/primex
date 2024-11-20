@@ -16,48 +16,48 @@ import "./AreaCharts.scss";
 const data = [
   {
     month: "Jan",
-    loss: 70,
-    profit: 100,
+    Maritime: 70,
+    Aerien: 100,
   },
   {
     month: "Fev",
-    loss: 55,
-    profit: 85,
+    Maritime: 55,
+    Aerien: 85,
   },
   {
     month: "Mar",
-    loss: 35,
-    profit: 90,
+    Maritime: 35,
+    Aerien: 90,
   },
   {
     month: "Avril",
-    loss: 90,
-    profit: 70,
+    Maritime: 90,
+    Aerien: 70,
   },
   {
     month: "Mai",
-    loss: 55,
-    profit: 80,
+    Maritime: 55,
+    Aerien: 80,
   },
   {
     month: "Juin",
-    loss: 30,
-    profit: 50,
+    Maritime: 30,
+    Aerien: 50,
   },
   {
     month: "Juil",
-    loss: 32,
-    profit: 75,
+    Maritime: 32,
+    Aerien: 75,
   },
   {
     month: "Aout",
-    loss: 62,
-    profit: 86,
+    Maritime: 62,
+    Aerien: 86,
   },
   {
     month: "Sep",
-    loss: 55,
-    profit: 78,
+    Maritime: 55,
+    Aerien: 78,
   },
 ];
 
@@ -79,12 +79,11 @@ const AreaBarChart = () => {
   return (
     <div className="bar-chart">
       <div className="bar-chart-info">
-        <h5 className="bar-chart-title">Total Expeditions</h5>
+        <h5 className="bar-chart-title">Total transactions</h5>
         <div className="chart-info-data">
-          <div className="info-data-value">$50.4K</div>
           <div className="info-data-text">
             <FaArrowUpLong />
-            <p>5% ce dernier mois</p>
+            <p>Ce 03 dernier mois</p>
           </div>
         </div>
       </div>
@@ -133,7 +132,7 @@ const AreaBarChart = () => {
               formatter={formatLegendValue}
             />
             <Bar
-              dataKey="profit"
+              dataKey="Aerien"
               fill="#475be8"
               activeBar={false}
               isAnimationActive={false}
@@ -141,7 +140,7 @@ const AreaBarChart = () => {
               radius={[4, 4, 4, 4]}
             />
             <Bar
-              dataKey="loss"
+              dataKey="Maritime"
               fill="#e3e7fc"
               activeBar={false}
               isAnimationActive={false}

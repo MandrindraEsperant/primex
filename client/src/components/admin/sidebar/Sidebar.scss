@@ -50,18 +50,24 @@
     display: flex;
     align-items: center;
     column-gap: 6px;
-  }
-
-  .sidebar-brand-text {
-    text-transform: uppercase;
-    font-weight: 900;
-    color: var(--logo-color);
-    margin-bottom: 8px;
-
-    @media (max-width: 1200px) {
-      display: none;
+  
+    img {
+      width: 60px; // Ajustez la largeur selon vos besoins
+      height: auto; // Maintient le ratio d'aspect
+    }
+  
+    .sidebar-brand-text {
+      text-transform: uppercase;
+      font-weight: 900;
+      color: var(--logo-color);
+      margin-bottom: 8px;
+  
+      @media (max-width: 1200px) {
+        display: none;
+      }
     }
   }
+  
 
   .sidebar-close-btn {
     background-color: var(--toggle-btn-bg-color);

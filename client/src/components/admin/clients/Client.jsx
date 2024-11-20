@@ -23,7 +23,6 @@ const Client = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [data, setData] = useState([]);
-
   const allClient = async () => {
     try {
       const response = await api.get("/client/");
