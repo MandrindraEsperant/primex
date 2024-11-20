@@ -12,14 +12,10 @@ import idUserConnected from '../../../../../constants/idUserConnected';
 const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson }) => {
     const [loading, setLoading] = useState(false);
     const [transAeriennes, setTransAeriennes] = useState([]);
-    const [agentOptions, setAgentOptions] = useState([]);
     const [error, setError] = useState();
     const [selectedAerienne, setSelectedAerienne] = useState(null);
-    const [selectedAgent, setSelectedAgent] = useState(null);
-    const [activeField, setActiveField] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
     const [searchTermT, setSearchTermT] = useState("");
-    const formArray = [1, 2, 3];
+    const formArray = [1, 2];
     const [formNo, setFormNo] = useState(formArray[0]);
     const idEmploye = idUserConnected()
     const [state, setState] = useState({
@@ -43,9 +39,9 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
     };
     const handleSelectA = (trans) => {
         if (selectedAerienne && selectedAerienne.idTransAerienne === trans.idTransAerienne) {
-            setSelectedAerienne(null); // Désélectionne si la même personne est déjà sélectionnée
+            setSelectedAerienne(null);
         } else {
-            setSelectedAerienne(trans); // Sélectionner un nouveau transport
+            setSelectedAerienne(trans);
             setState(prevState => ({
                 ...prevState,
                 idTransport: trans.idTransAerienne,
@@ -145,7 +141,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                         });
                         alltransactionMawb();
                         handleClose();
-                        setLoading(false);  // Désactive le chargement après la réponse
+                        setLoading(false);
                     })
                     .catch((err) => {
                         if (err.response) {
@@ -153,7 +149,7 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                         } else {
                             toast.error(err.message);
                         }
-                        setLoading(false);  // Désactive le chargement en cas d'erreur
+                        setLoading(false);  
                     });
             } else {
                 api
@@ -249,7 +245,6 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
                                 disabled={!isStep2Valid() || loading}
                                 className={`relative px-3 py-2 text-lg rounded-md w-full text-white ${isStep2Valid() ? "bg-blue-500" : "bg-blue-100 cursor-not-allowed"}`}
                             >
-                                {/* Afficher le spinner lorsque le bouton est en chargement */}
                                 {loading ? (
                                     <div className="flex justify-center items-center">
                                         Pantientez...
@@ -318,45 +313,10 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
             )}
             {/* Form Step 1 */}
             {formNo === 1 && (
-                <div>
-                    
-                <InputField label="N° MAWB" name="numMAWB" value={state.numMAWB} inputHandle={inputHandle} />
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="dateArrivePrevue"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Date Arrivée prevue
-                        </label>
-                        <input
-                            value={state.dateArrivePrevue ? new Date(state.dateArrivePrevue).toISOString().split('T')[0]
-                                : ''}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="date"
-                            name="dateArrivePrevue"
-                            placeholder="Date de desination"
-                            id="dateArrivePrevue" // Ajout de l'ID manquant
-                        />
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <label
-                            htmlFor="dateEmission"
-                            className="text-lg font-semibold mb-2 "
-                        >
-                            Date Emission
-                        </label>
-                        <input
-                            value={state.dateEmission ? new Date(state.dateEmission).toISOString().split('T')[0]
-                                : ''}
-                            onChange={inputHandle}
-                            className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
-                            type="date"
-                            name="dateEmission"
-                            placeholder="Date d'emission"
-                            id="dateEmission" // Ajout de l'ID manquant
-                        />
-                    </div>
+                <div>                    
+                <InputField label="N° MAWB" name="numMAWB" value={state.numMAWB} inputHandle={inputHandle} placeholder='N° MAWB'/>
+                <InputField label="Date arrivée prevu" name="dateArrivePrevue" type='date'  value={state.dateArrivePrevue ? new Date(state.dateArrivePrevue).toISOString().split('T')[0]: ''} inputHandle={inputHandle}/>
+                <InputField label="Date emission" name="dateEmission" type='date'  value={state.dateEmission ? new Date(state.dateEmission).toISOString().split('T')[0]: ''} inputHandle={inputHandle}/>
                     <div className="mt-4 gap-3 flex justify-center items-center mt-8">
                         {/* Previous button (disabled on the first step) */}
                         <button
@@ -384,7 +344,6 @@ const AjoutMawb = ({ handleClose, alltransactionMawb, isEditMode, selectedPerson
         </div>
     )
 }
-
 const InputField = ({ label, name, value, inputHandle, type = "text", readOnly = false, placeholder = "" }) => (
     <div className="flex flex-col mb-3">
         <label htmlFor={name} className="text-sm sm:text-lg font-semibold mb-2">{label}</label>

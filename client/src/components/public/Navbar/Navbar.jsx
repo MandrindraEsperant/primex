@@ -8,6 +8,7 @@ import { BsGlobe2 } from "react-icons/bs";
 import { PiPlanetFill } from "react-icons/pi";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useTranslation } from 'react-i18next';
+import logo from "../../../assets/images/black.png"
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -23,8 +24,7 @@ const Navbar = () => {
   return (
     <nav className="pub-nav">
       <NavLink to="/" className={"logo menu"}>
-        <PiPlanetFill className="icon-logo" />
-        <span>PRIME<span className="x">X</span></span>
+        <img src={logo} />
       </NavLink>
       <label className="checkbtn" onClick={handleToggle}>
         <FiAlignJustify className="tiret" />

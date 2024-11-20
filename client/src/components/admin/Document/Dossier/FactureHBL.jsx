@@ -273,7 +273,6 @@ const FactureHBL = () => {
           <br />
         </div>
       )}
-
       <div className="mt-2 text-sm sm:text-base">
         <p className="text-center font-semibold">
           Merci pour votre confiance.

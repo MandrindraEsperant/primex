@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   FaBell,
   FaUserCircle,
@@ -11,11 +11,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdSettings } from "react-icons/md";
 import nameUserConnected from "../../../constants/nameUserConnected";
+import { MdWbSunny } from "react-icons/md";
+import { MdDarkMode } from "react-icons/md";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { DARK_THEME, LIGHT_THEME } from "../../../constants/themeConstants";
 
 const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const profileMenuRef = useRef(null); // Référence pour le menu profil
+  const profileMenuRef = useRef(null);
+   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const Deconnection = () => {
     Swal.fire({
@@ -40,7 +45,6 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
-  // Effet pour fermer le menu lorsque l'on clique en dehors
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -50,11 +54,7 @@ const Navbar = () => {
         setIsProfileMenuOpen(false);
       }
     };
-
-    // Ajouter l'événement de clic lors du montage
     document.addEventListener("mousedown", handleClickOutside);
-
-    // Supprimer l'événement lors du démontage
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -67,10 +67,17 @@ const Navbar = () => {
         <button className="text-white hover:text-gray-300">
           <FaBell size={20} />
         </button>
-        <button className="text-white hover:text-gray-300">
-          <MdSettings size={25} />
+        <button
+          className="text-white hover:text-gray-300"
+          onClick={toggleTheme}
+          title={theme === LIGHT_THEME ? "Activer le mode sombre" : "Activer le mode clair"}
+        >
+          {theme === LIGHT_THEME ? (
+            <MdDarkMode size={25} />
+          ) : (
+            <MdWbSunny size={25} />
+          )}
         </button>
-
         {/* Icone de profil */}
         <div className="relative" ref={profileMenuRef}>
           <button

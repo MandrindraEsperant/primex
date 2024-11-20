@@ -23,7 +23,6 @@ const Client = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [data, setData] = useState([]);
-
   const allClient = async () => {
     try {
       const response = await api.get("/client/");
@@ -178,7 +177,9 @@ const Client = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table></div></section>
+              </table>
+              </div>
+              </section>
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
               <button

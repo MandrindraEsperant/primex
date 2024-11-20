@@ -232,7 +232,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction" : "Ajouter un Transaction"}
+                {isEditMode ? "Modifier un Transaction HWB" : "Ajouter un Transaction HWB"}
             </h2>
             <div className="flex items-center w-full mb-4">
                 {formArray.map((v, i) => (

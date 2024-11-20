@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import {  MdAdd, MdSearch, MdClear } from 'react-icons/md';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
@@ -16,14 +15,13 @@ const TransactionHbl = () => {
 
     const allTransactionHbl = async () => {
         try {
-            const response = await api.get("/hblTransaction/");
+            const response = await api.get("/hbl/");
             setData(response.data);
-            console.log(response.data);
+            console.log(response);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
     };
-
     const handleEditClickOpen = (transactionHbl) => {
         setSelectedPerson(transactionHbl);
         setIsEditMode(true); // Mode modification
@@ -32,7 +30,7 @@ const TransactionHbl = () => {
    // SUPPRESSION
     const supprimer = (id) => {
         api
-            .delete("/hblTransaction/" + id)
+            .delete("/hbl/" + id)
             .then((res) => {
                 allTransactionHbl();
             })
@@ -73,21 +71,18 @@ const TransactionHbl = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const handleSelect = (person) => {
-        if (selectedPerson && selectedPerson.idHBLTransaction === person.idHBLTransaction) {
+        if (selectedPerson && selectedPerson.idHBL === person.idHBL) {
             setSelectedPerson(person); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedPerson(person); // Sélectionne la personne cliquée
         }
     };
-    const filteredData = data.filter(item =>
+    const filteredData = data.filter(item =>        
         item.numHBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idMBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idAgentDest.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idExpediteur.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateHBLTransaction.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idDestinataire.toLowerCase().includes(searchTerm.toLowerCase()) 
+        item.MBL.numMBL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.clientDest.nomClient.toLowerCase().includes(searchTerm) ||
+        item.clientExp.nomClient.toLowerCase().includes(searchTerm)
     );
-
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -132,22 +127,26 @@ const TransactionHbl = () => {
         </div>
         <section className="content-area-table pd-5">
         <div className="data-table-diagram">
-        <table >
+        <table className='table'>
             <thead>
                 <tr >
                     <th>#</th>
                     <th>N° HBL</th>
-                    <th>ID MBL</th>
-                    <th>Date Transaction</th>
+                    <th>N° MBL</th>
+                    <th>Date Emission</th>
                     <th> Destinataire</th>
                     <th>Expediteur</th>
+                    <th> Description</th>
+                    <th> Nombre colis</th>
+                    <th> Poids</th>
+                    <th> Volume</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {currentData.map(item => (
                     <tr
-                        key={item.idHBLTransaction}
+                        key={item.idHBL}
                         onClick={() => handleSelect(item)}
                         className={item === selectedPerson ? 'selectedRow' : ''}
                     >
@@ -159,15 +158,19 @@ const TransactionHbl = () => {
                             />
                         </td>
                         <td>{item.numHBL}</td>
-                        <td>{item.TransactionMaritime.numMBL}</td>
-                        <td>{ new Date(item.dateHBLTransaction).toLocaleDateString('fr-FR')}</td>
+                        <td>{item.MBL.numMBL}</td>
+                        <td>{ new Date(item.dateEmmission).toLocaleDateString('fr-FR')}</td>
                         <td>{item.clientDest.nomClient}</td>
                         <td>{item.clientExp.nomClient}</td>
+                        <td className="description-cell" title={item.description}>{item.description}</td>
+                        <td>{item.nbColis}</td>
+                        <td>{item.poid}</td>
+                        <td>{item.volume}</td>
                         <td className="dt-cell-action">
                             <AreaTableAction
                                 id={item.id}
-                                onEditClick={() => handleEditClickOpen(item.idHBLTransaction)}
-                                onDeleteClick={() => handleDeleteClick(item.idHBLTransaction)}
+                                onEditClick={() => handleEditClickOpen(item.idHBL)}
+                                onDeleteClick={() => handleDeleteClick(item.idHBL)}
                             />
                         </td>
                     </tr>

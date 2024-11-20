@@ -20,7 +20,6 @@ const Mawb = () => {
             console.error("Error submitting data:", error);
         }
     };
-
     const handleEditClickOpen = (transactionMawb) => {
         setSelectedPerson(transactionMawb);
         setIsEditMode(true); // Mode modification
@@ -78,16 +77,12 @@ const Mawb = () => {
     };
     const filteredData = data.filter(item =>
         item.numMAWB.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.idTransport.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateEmission.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.dateArrivePrevue.toLowerCase().includes(searchTerm.toLowerCase()) 
+        item.TransAerienne.numVol.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);

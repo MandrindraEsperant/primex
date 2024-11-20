@@ -1,7 +1,7 @@
 @import '../../../pages/admin/App.scss';
 
-/* .light-mode {
-  .table {
+.light-mode {
+  /* .table {
     background-color: var(--background-color);
 
     th,tr {
@@ -23,29 +23,18 @@
       background-color: var(--primary-color); // Couleur pour le survol
       color: var(--secondary-color); // Couleur du texte au survol
     }
-
-    .selectedRow {
-      background-color: var(--primary-color); // Couleur pour la ligne sélectionnée
-      color: var(--secondary-color);
-    }
-  }
-
-  .detailContainer {
-    background-color: var(--bg-color-inverted);
-    color: var(--base-text-color);
-  }
+  } */
 }
-
-Utilisation du mixin pour le mode sombre
 .dark-mode {
-  .searchContainer {
-    background: var(--background-color);
+  .searchContainer .searchInput{
+    background: var(--background-color); // Fond sombre
+    color: #fff; // Texte clair
   }
 
   h3 {
     color: #ffffff;
   }
-
+/* 
   .table {
     background-color: var(--background-color);
 
@@ -55,31 +44,35 @@ Utilisation du mixin pour le mode sombre
     }
 
     td {
-      background-color: var(--secondary-color); // Couleur par défaut pour les cellules
-      color: #ffffff; // Couleur blanche pour le texte dans les cellules
+      background-color: var(--secondary-color);
+      color: #ffffff; 
     }
-
     tr:nth-child(even) {
       background-color: var(--side-link-hover-color);
     }
-
-    // Ajout de l'effet hover pour les lignes
     tr:hover {
-      background-color: var(--primary-color); // Couleur pour le survol
-      color: var(--secondary-color); // Couleur du texte au survol
+      background-color: var(--primary-color); 
+      color: var(--secondary-color);
     }
+  } */
+  .selectedRow {
+    background-color: var(--selected-row-tbl) !important;
+    color: white;
 
-    .selectedRow {
-      background-color: var(--primary-color) !important;
-      color: var(--text-color-inverted) !important;
+    .checkbox{
+      color: var(--primary-color);
+    }
+    .dt-cell-action{
+      color:white;
     }
   }
-
-  .detailContainer {
-    background-color: var(--background-color);
-    color: var(--base-text-color);
+  .table {
+    th {
+      background-color: var(--secondary-color) !important; // Même couleur que <td> en mode clair
+      color: var(--xl-text-color) !important; // Couleur noire pour le texte dans les cellules
+    }
   }
-} */
+}
 .titleCli {
   text-align: center;
   font-size: 2rem;
@@ -91,7 +84,7 @@ Utilisation du mixin pour le mode sombre
   display: flex;
   justify-content: space-between; 
   flex-wrap: nowrap;
-  // padding: 0;
+  padding: 0;
 }
 .tableContainer {
   width: 100%;
@@ -113,7 +106,7 @@ Utilisation du mixin pour le mode sombre
   display: flex;
   align-items: center;
   position: relative;
-  flex-grow: 1; // Permet à la barre de recherche de prendre le maximum d'espace
+  flex-grow: 1; 
   margin-right: 10px;
   position: relative;
 }
@@ -121,7 +114,7 @@ Utilisation du mixin pour le mode sombre
   padding: 10px 40px 10px 30px;
   border: 0.5px solid #ccc;
   border-radius: 8px;
-  width: 100%; // Prendre 100% de l'espace disponible
+  width: 100%;
   transition: border-color 0.3s;
   &:focus {
     border-color: #4ba8ff;
@@ -131,12 +124,12 @@ Utilisation du mixin pour le mode sombre
 .searchIcon {
   position: absolute;
   left: 10px;
-  color: #aaa; // Couleur de l'icône de recherche
+  color: #aaa;
 }
 .clearIcon {
   position: absolute;
   right: 10px;
-  color: #aaa; // Couleur de l'icône de suppression
+  color: #aaa; 
   cursor: pointer;
   &:hover {
     color: #ff4d4d; // Couleur au survol
@@ -157,14 +150,13 @@ Utilisation du mixin pour le mode sombre
   white-space: nowrap;
   transition: background-color 0.3s;transition: background-color 0.3s;
   &:hover {
-    background-color: #3333cc; // Couleur de fond au survol
+    background-color: #3333cc;
   }
 }
-
 .tableContainer .table {
   width: 100%;
   border-color: var(--tbl-border-color);
-  min-width: 600px; // Taille minimale pour éviter que les colonnes deviennent trop étroites sur les petits écrans
+  min-width: 600px; 
     border-collapse: collapse;
     background-color: var(--table-bg);
     border: 1px solid var(--tbl-border-color);
@@ -191,9 +183,9 @@ Utilisation du mixin pour le mode sombre
     }
   }
 
-  th {
-    background-color: var(--thead-bg-color); // Utilise la variable de couleur
-    color: black; // Texte en blanc pour le contraste
+  th,tr {
+    background-color: var(--secondary-color) !important; // Même couleur que <td> en mode clair
+    color: var(--xl-text-color) !important; // Couleur noire pour le texte dans les cellules
   }
   tr:nth-child(even) {
     background-color: var(--gray-bg); // Ligne paire en gris
@@ -209,7 +201,7 @@ Utilisation du mixin pour le mode sombre
 
   // Ajout de la classe pour la ligne sélectionnée
   .selectedRow {
-    background-color: var(--primary-color) !important; // Couleur bleu pour la ligne sélectionnée
+    background-color: var(--selected-row-tbl) !important;
     color: white;
 
     .checkbox{
@@ -220,7 +212,6 @@ Utilisation du mixin pour le mode sombre
     }
   }
 }
-
 @media (max-width: 500px) {
   .container {
     flex-direction: column;

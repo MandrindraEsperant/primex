@@ -3,6 +3,12 @@
   border-radius: 5px;
   box-shadow: var(--light-shadow1);
   padding: 12px 16px;
+  .description-cell {
+    max-width: 150px; /* Ajustez cette largeur selon vos besoins */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
   @media (max-width: 768px) {
     padding: 12px;
