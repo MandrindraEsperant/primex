@@ -3,10 +3,8 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 require("dotenv").config();
-
 const SECRET_KEY = process.env.SECRET_KEY;
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS, 10);
-
 class EmployeService {
   constructor(employeRepository) {
     this.employeRepository = employeRepository;
@@ -35,7 +33,6 @@ class EmployeService {
 
     return await this.employeRepository.create(employeData);
   }
-
   async authenticate(emailEmploye, motDePasse) {
     try {
       // Vérification si l'utilisateur existe dans la base de données

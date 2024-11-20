@@ -1,27 +1,21 @@
 const Employe = require('../models/Employe');
-
-
 class EmployeRepository  {
 
   async create(employeData) {
     return await Employe.create(employeData);
   }
-
   async findById(id) {
     return await Employe.findByPk(id);
   }
-
   async findByEmail(email) {
     return await Employe.findOne({ where: { emailEmploye: email } });
   }
   async findByEmailAndId(email, id) {
     return await Employe.findOne({ where: { emailEmploye: email ,idEmployer:id} });
   }
-  
   async findAll() {
     return await Employe.findAll();
   }
-
   async update(id, employeData) {
     const employe = await this.findById(id);
     if (employe) {

@@ -81,7 +81,6 @@ class HAWBRepository {
     });
   }
   async findByNum(num) {
-  
     return await HAWB.findOne({
       where :{
         numHAWB : num
@@ -107,10 +106,9 @@ class HAWBRepository {
       ],
     });
   }
-
-
-
-
+  async countAll() {
+    return await HAWB.count();
+  }
   async update(id, HAWBData) {
     const hAWB = await this.findById(id);
     if (hAWB) {

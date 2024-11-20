@@ -10,6 +10,9 @@ class HBLRepository  {
   async findById(id) {
     return await HBL.findByPk(id);
   }
+  async countAll() {
+    return await HBL.count();
+  }
   async findAll() {
     return await HBL.findAll({
       attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL"],
