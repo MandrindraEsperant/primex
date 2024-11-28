@@ -1,7 +1,7 @@
 import React from "react";
 import AreaCards from './../../components/admin/Dashboard/areaCards/AreaCards';
 import AreaCharts from './../../components/admin/Dashboard/areaCharts/AreaCharts';
-import AreaTable from './../../components/admin/Dashboard/areaTable/AreaTable';
+// import AreaTable from './../../components/admin/Dashboard/areaTable/AreaTable';
 import AreaTop from './../../components/admin/Dashboard/areaTop/AreaTop';
 
 const Dashboard = () => {
@@ -11,7 +11,7 @@ const Dashboard = () => {
       <AreaTop />
       <AreaCards/>
       <AreaCharts />
-      <AreaTable />
+      {/* <AreaTable /> */}
     </div>
   );
 };

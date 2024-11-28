@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -12,56 +12,114 @@ import { ThemeContext } from "./../../../../context/ThemeContext";
 import { FaArrowUpLong } from "react-icons/fa6";
 import { LIGHT_THEME } from "./../../../../constants/themeConstants";
 import "./AreaCharts.scss";
+import api from "../../../../axiosInstance";
 
-const data = [
-  {
-    month: "Jan",
-    Maritime: 70,
-    Aerien: 100,
-  },
-  {
-    month: "Fev",
-    Maritime: 55,
-    Aerien: 85,
-  },
-  {
-    month: "Mar",
-    Maritime: 35,
-    Aerien: 90,
-  },
-  {
-    month: "Avril",
-    Maritime: 90,
-    Aerien: 70,
-  },
-  {
-    month: "Mai",
-    Maritime: 55,
-    Aerien: 80,
-  },
-  {
-    month: "Juin",
-    Maritime: 30,
-    Aerien: 50,
-  },
-  {
-    month: "Juil",
-    Maritime: 32,
-    Aerien: 75,
-  },
-  {
-    month: "Aout",
-    Maritime: 62,
-    Aerien: 86,
-  },
-  {
-    month: "Sep",
-    Maritime: 55,
-    Aerien: 78,
-  },
-];
+// const data = [
+//   {
+//     month: "Jan",
+//     Maritime: 70,
+//     Aerien: 100,
+//   },
+//   {
+//     month: "Fev",
+//     Maritime: 55,
+//     Aerien: 85,
+//   },
+//   {
+//     month: "Mar",
+//     Maritime: 35,
+//     Aerien: 90,
+//   },
+//   {
+//     month: "Avril",
+//     Maritime: 90,
+//     Aerien: 70,
+//   },
+//   {
+//     month: "Mai",
+//     Maritime: 55,
+//     Aerien: 80,
+//   },
+//   {
+//     month: "Juin",
+//     Maritime: 30,
+//     Aerien: 50,
+//   },
+//   {
+//     month: "Juil",
+//     Maritime: 32,
+//     Aerien: 75,
+//   },
+//   {
+//     month: "Aout",
+//     Maritime: 62,
+//     Aerien: 86,
+//   },
+//   {
+//     month: "Sep",
+//     Maritime: 55,
+//     Aerien: 78,
+//   },
+// ];
 
 const AreaBarChart = () => {
+
+  const [data, setData] = useState([]);
+  const mergeArrays = (arr1, arr2) => {
+    const merged = [];
+    // Boucle pour ajouter les objets du premier tableau
+    arr1.forEach((item1) => {
+      const month = item1.mois;
+      // Trouver l'objet correspondant dans le deuxième tableau
+      const item2 = arr2.find((item) => item.mois === month);
+
+      if (item2) {
+        // Fusionner les deux objets en un seul
+        merged.push({
+          mois: month,
+          Maritime: item1.Maritime,
+          Aerienne: item2.Aerienne,
+        });
+      } else {
+        // Si aucun objet correspondant, ajouter l'objet du premier tableau seul
+        merged.push({
+          mois: month,
+          Maritime: item1.Maritime,
+        });
+      }
+    });
+
+    // Ajouter les éléments restants du deuxième tableau qui n'ont pas de correspondance dans le premier tableau
+    arr2.forEach((item2) => {
+      const month = item2.mois;
+      if (!merged.some((item) => item.mois === month)) {
+        merged.push({
+          mois: month,
+          Aerienne: item2.Aerienne,
+        });
+      }
+    });
+
+    return merged;
+  };
+
+  const getByMonth = async () => {
+    try {
+      const maritime = await api.get("/hbl/count/byMonth/");
+      const aerienne = await api.get("/hawb/count/byMonth/");
+      // console.log("Maritime");
+      // console.log(maritime.data);
+      // console.log("Aerienne");
+      // console.log(aerienne.data);
+      // console.log("Data");
+      setData(mergeArrays(maritime.data, aerienne.data));
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
+  useEffect(() => {
+    getByMonth();
+  }, []);
   const { theme } = useContext(ThemeContext);
 
   const formatTooltipValue = (value) => {
@@ -83,7 +141,7 @@ const AreaBarChart = () => {
         <div className="chart-info-data">
           <div className="info-data-text">
             <FaArrowUpLong />
-            <p>Ce 03 dernier mois</p>
+            <p>Dans ce année</p>
           </div>
         </div>
       </div>
@@ -102,7 +160,7 @@ const AreaBarChart = () => {
           >
             <XAxis
               padding={{ left: 10 }}
-              dataKey="month"
+              dataKey="mois"
               tickSize={0}
               axisLine={false}
               tick={{
@@ -132,7 +190,7 @@ const AreaBarChart = () => {
               formatter={formatLegendValue}
             />
             <Bar
-              dataKey="Aerien"
+              dataKey="Aerienne"
               fill="#475be8"
               activeBar={false}
               isAnimationActive={false}

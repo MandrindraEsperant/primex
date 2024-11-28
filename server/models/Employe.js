@@ -1,8 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Assure-toi d'avoir la connexion dans ce fichier
-
+const sequelize = require('../config/database'); 
 class Employe extends Sequelize.Model {}
-
 Employe.init(
   {
     idEmploye: {
@@ -19,7 +17,7 @@ Employe.init(
       allowNull: false,
       unique: true,
       validate: {
-        isEmail: true, // Validation pour s'assurer que c'est un email valide
+        isEmail: true,
       },
     },
     motDePasse: {
@@ -34,8 +32,7 @@ Employe.init(
   {
     sequelize,
     modelName: 'Employe',
-    timestamps: true, // Inclut createdAt et updatedAt
+    timestamps: true, 
   }
 );
-
 module.exports = Employe;

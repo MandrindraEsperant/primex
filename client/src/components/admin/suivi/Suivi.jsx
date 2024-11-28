@@ -3,7 +3,6 @@ import React from "react";
 import SuiviHbl from "./suiviHbl/SuiviHbl";
 import SuiviHwb from "./suivihwb/SuiviHwb";
 import "../marchandises/Marchandise.scss";
-import DetailsSuiviHwb from "./suivihwb/DetailsSuiviHwb";
 
 const Suivi = () => {
   const [activeTab, setActiveTab] = useState("hwb"); // Onglet par défaut: Maritime
@@ -23,19 +22,13 @@ const Suivi = () => {
         >
           Suivi HBL
         </div>
-        <div
-          onClick={() => setActiveTab("suivi")}
-          className={`tab ${activeTab === "suivi" ? "active" : ""}`}
-        >
-          Suivi en temps réel
-        </div>
+
       </div>
 
       {/* Contenu affiché selon l'onglet sélectionné */}
       <div className="p-4">
         {activeTab === "hwb" && <SuiviHwb />}
         {activeTab === "hbl" && <SuiviHbl />}
-        {activeTab === "suivi" && <DetailsSuiviHwb />}
       </div>
     </div>
   );

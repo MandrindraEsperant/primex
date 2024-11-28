@@ -36,7 +36,7 @@ app.use('/transMaritime', transMaritimeRoutes);
 app.use('/transAerienne', transAerienneRoutes);
 app.use('/mbl', MBLRoutes);  
 app.use('/mawb', MAWBRoutes);  
-app.use('/hbl', HBLRoutes);  
+app.use('/hbl', HBLRoutes);   
 app.use('/hawb', HAWBRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes

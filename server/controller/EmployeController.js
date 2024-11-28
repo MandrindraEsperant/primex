@@ -105,5 +105,4 @@ class EmployeController {
     }
   }
 }
-
 module.exports = EmployeController;

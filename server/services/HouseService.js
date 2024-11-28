@@ -14,6 +14,15 @@ class HouseService {
   async getAllHouseTransactions() {
     return await this.HouseRepository.findAll();
   }
+  async getAllByMonthHouseTransactions() {
+    return await this.HouseRepository.countByMonth();
+  }
+  async getCountAllHouseTransactions() {
+    return await this.HouseRepository.countAll();
+  }
+  async getCountAllOnYearHouseTransactions() {
+    return await this.HouseRepository.countAllOnYear();
+  }
   async getAllHouseTransactionsMere(id) {
     return await this.HouseRepository.findAllByMaster(id);
   }

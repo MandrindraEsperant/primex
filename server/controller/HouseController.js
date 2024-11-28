@@ -60,6 +60,30 @@ class HouseController {
         res.status(500).send(error.message);
       }
     }
+    async getAllByMonthHouseTransactions(req, res) {
+      try {
+        const HouseTransactions = await this.HouseService.getAllByMonthHouseTransactions();
+        res.status(200).json(HouseTransactions);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
+    async getCountAllOnYearHouseTransactions(req, res) {
+      try {
+        const HouseTransactions = await this.HouseService.getCountAllOnYearHouseTransactions();
+        res.status(200).json(HouseTransactions);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
+    async getCountAllHouseTransactions(req, res) {
+      try {
+        const HouseTransactions = await this.HouseService.getCountAllHouseTransactions();
+        res.status(200).json(HouseTransactions);
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    }
     async getAllHouseTransactionsMere(req, res) {      
       try {
         const HouseTransactions = await this.HouseService.getAllHouseTransactionsMere(req.params.id);
