@@ -6,37 +6,36 @@ import api from "../../../../axiosInstance";
 import { IoArrowBack } from "react-icons/io5";
 
 const DetailsSuiviHwb = ({ retour }) => {
-  const [mblData, setMblData] = useState(null);
-  const [suiviData, setSuiviData] = useState([]);
-  const [hblData, setHblData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [find, setFind] = useState(true);
+  const [mawbData, setMawbData] = useState(null);
+  const [suiviHawbData, setSuiviHawbData] = useState([]);
+  const [hawbData, setHawbData] = useState(null);
+  const [searchHawbTerm, setSearchHawbTerm] = useState("");
+  const [trouve, setTrouve] = useState(true);
 
-  const gerateMBL = async (id) => {
+  const generateMawb = async (id) => {
     if (id === "") return;
     try {
       const resMBL = await api.get("/mawb/get/" + id);
-      setMblData(resMBL.data);
+      setMawbData(resMBL.data);
     } catch (error) {
       console.error(error);
     }
   };
-
-  const handleTracking = async (num) => {
-    setFind(true);
+  const handleHawbTracking = async (num) => {
+    setTrouve(true);
     if (num === "") return;
     try {   
       const idMBL = await api.get("/hawb/get/" + num);
 
-      gerateMBL(idMBL.data.idMAWB);
-      setHblData(idMBL.data);
+      generateMawb(idMBL.data.idMAWB);
+      setHawbData(idMBL.data);
 
       const DonneSuivi = await api.get("/suiviHAWB/suivre/" + num);
-      setSuiviData(DonneSuivi.data);
+      setSuiviHawbData(DonneSuivi.data);
  
       
     } catch (error) {
-      setFind(false);
+      setTrouve(false);
     }
   };
 
@@ -55,69 +54,69 @@ const DetailsSuiviHwb = ({ retour }) => {
             <input
               type="text"
               placeholder="Entrez votre numéro de suivi..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchHawbTerm}
+              onChange={(e) => setSearchHawbTerm(e.target.value)}
               className="searchInput"
             />
-            {searchTerm && (
+            {searchHawbTerm && (
               <MdClear
                 className="clearIcon"
-                onClick={() => setSearchTerm("")}
+                onClick={() => setSearchHawbTerm("")}
               />
             )}
           </div>
-          <button className="addButton" onClick={() => handleTracking(searchTerm)}>
+          <button className="addButton" onClick={() => handleHawbTracking(searchHawbTerm)}>
             <MdAdd /> Suivre
           </button>
         </div>
-        {find ? (
+        {trouve ? (
           <>
-            {mblData && suiviData && (
+            {mawbData && suiviHawbData && (
               <>
                 <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                  Suivi de colis HAWB N°:{hblData.numHAWB}
+                  Suivi de colis HAWB N°:{hawbData.numHAWB}
                 </h2>
                 <div className=" ">
                   <div className=" flex justify-between">
                     <div className=" ">
                       <p>
                         <strong>Numéro MAWB :</strong>
-                        {mblData.numMAWB}
+                        {mawbData.numMAWB}
                       </p>
                       <p>
                         <strong> Date d'émission du MAWB:</strong>
-                        {mblData.dateEmission}
+                        {mawbData.dateEmission}
                       </p>
                       <p>
                         <strong>Nom de compagnie :</strong>
-                        {mblData.TransAerienne.nomCompagnie}
+                        {mawbData.TransAerienne.nomCompagnie}
                       </p>
                       <p>
                         <strong>Numero de vol :</strong>
-                        {mblData.TransAerienne.numVol}
+                        {mawbData.TransAerienne.numVol}
                       </p>
                       
                     </div>
                     <div className=" ">
                       <p>
                         <strong> Date de chargement:</strong>
-                        {mblData.TransAerienne.dateChargement}
+                        {mawbData.TransAerienne.dateChargement}
                       </p>
                       <p>
                         <strong> Pays de chargement:</strong>
-                        {mblData.TransAerienne.paysChargement}
+                        {mawbData.TransAerienne.paysChargement}
                       </p>
                       <p>
                         <strong> Ville de chargement:</strong>
-                        {mblData.TransAerienne.villeChargement}
+                        {mawbData.TransAerienne.villeChargement}
                       </p>
                       <p>
                         <strong>Pays de déchargement :</strong>
-                        {mblData.dateArrivePrevue}
+                        {mawbData.dateArrivePrevue}
                       </p>
                       <p>
                         <strong>Date d'arrivé prevue :</strong>
-                        {mblData.dateArrivePrevue}
+                        {mawbData.dateArrivePrevue}
                       </p>
                     </div>
                   </div>
@@ -125,23 +124,23 @@ const DetailsSuiviHwb = ({ retour }) => {
                   <div className="text-center">
                     <p>
                       <strong>Nom Destinataire :</strong>
-                      {hblData.clientDest.nomClient}
+                      {hawbData.clientDest.nomClient}
                     </p>
                     <p>
                       <strong>Nom Expediteur :</strong>
-                      {hblData.clientExp.nomClient}
+                      {hawbData.clientExp.nomClient}
                     </p>
                     <p>
                       <strong>Nombre de colis :</strong>
-                      {hblData.nbColis}
+                      {hawbData.nbColis}
                     </p>
                     <p>
                       <strong>Poid :</strong>
-                      {hblData.poid} kg
+                      {hawbData.poid} kg
                     </p>
                     <p>
                       <strong>Volume :</strong>
-                      {hblData.poid} m <sup>3</sup>
+                      {hawbData.poid} m <sup>3</sup>
                     </p>
                   </div>
                   <hr className="my-2" />
@@ -166,7 +165,7 @@ const DetailsSuiviHwb = ({ retour }) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {suiviData.map((v, i) => (
+                        {suiviHawbData.map((v, i) => (
                           <tr key={i}>
                             <td className="border px-2 py-1 text-sm sm:text-base">
                               {v?.etape}

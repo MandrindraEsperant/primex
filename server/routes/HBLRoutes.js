@@ -19,6 +19,8 @@ router.get('/get/:num', (req, res) => houseTransactionController.getOneHouseTran
 router.get('/doc/:id', (req, res) => houseTransactionController.getAllHouseTransactionsMere(req, res));
 router.get('/tot/:id', (req, res) => houseTransactionController.getTotalColisMere(req, res));
 router.get('/count/all/', (req, res) => houseTransactionController.getCountAllHouseTransactions(req, res));
+router.get('/count/onYear/', (req, res) => houseTransactionController.getCountAllOnYearHouseTransactions(req, res));
+router.get('/count/byMonth/', (req, res) => houseTransactionController.getAllByMonthHouseTransactions(req, res));
 
 
 module.exports = router; 

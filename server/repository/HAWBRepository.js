@@ -1,7 +1,8 @@
 const MAWB = require("../models/MAWB");
 const HAWB = require("../models/HAWB");
 const Client = require("../models/Client");
-const { fn, col, where } = require("sequelize");
+const sequelize = require('../config/database')
+const { fn, col, where,Sequelize } = require("sequelize");
 
 class HAWBRepository {
   async create(Data) {
@@ -11,9 +12,17 @@ class HAWBRepository {
     return await HAWB.findByPk(id);
   }
   async findAll() {
-    return await HAWB.findAll(
-      {
-      attributes: ["idHAWB", "numHAWB", "dateEmmission","idMAWB", 'nbColis','poid', 'volume', 'description'],
+    return await HAWB.findAll({
+      attributes: [
+        "idHAWB",
+        "numHAWB",
+        "dateEmmission",
+        "idMAWB",
+        "nbColis",
+        "poid",
+        "volume",
+        "description",
+      ],
       include: [
         {
           model: MAWB,
@@ -34,6 +43,31 @@ class HAWBRepository {
         },
       ],
     });
+  }
+  async countAll() {
+    return await HAWB.count();
+  }
+  async countAllOnYear() {
+    return await HAWB.count({
+      where: Sequelize.where(
+        fn("YEAR", col("dateEmmission")),
+        new Date().getFullYear()
+      ),
+    });
+  }
+  async countByMonth() {
+    const results = await sequelize.query(
+      `
+      SELECT 
+        DATE_FORMAT(dateEmmission, '%M') AS mois, 
+        COUNT(*) AS Aerienne
+      FROM hawbs
+      WHERE YEAR(dateEmmission) = YEAR(CURRENT_DATE)
+      GROUP BY mois;
+    `,
+      { type: sequelize.QueryTypes.SELECT }
+    );
+    return results;
   }
   async findAllByMaster(id) {
     return await HAWB.findAll({
@@ -82,10 +116,9 @@ class HAWBRepository {
     });
   }
   async findByNum(num) {
-  
     return await HAWB.findOne({
-      where :{
-        numHAWB : num
+      where: {
+        numHAWB: num,
       },
       include: [
         {
@@ -108,10 +141,6 @@ class HAWBRepository {
       ],
     });
   }
-
-
-
-
   async update(id, HAWBData) {
     const hAWB = await this.findById(id);
     if (hAWB) {

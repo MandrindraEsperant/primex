@@ -1,9 +1,10 @@
 const HBL = require("../models/HBL");
 const MBL = require("../models/MBL");
 const Client = require("../models/Client");
-const { fn, col } = require("sequelize");
+const sequelize = require("../config/database");
+const { fn, col, Sequelize } = require("sequelize");
 
-class HBLRepository  {
+class HBLRepository {
   async create(Data) {
     return await HBL.create(Data);
   }
@@ -13,25 +14,56 @@ class HBLRepository  {
   async countAll() {
     return await HBL.count();
   }
+  async countAllOnYear() {
+    return await HBL.count({
+      where: Sequelize.where(
+        fn("YEAR", col("dateEmmission")),
+        new Date().getFullYear()
+      ),
+    });
+  }
+  async countByMonth() {
+    const results = await sequelize.query(
+      `
+      SELECT 
+        DATE_FORMAT(dateEmmission, '%M') AS mois, 
+        COUNT(*) AS Maritime
+      FROM hbls
+      WHERE YEAR(dateEmmission) = YEAR(CURRENT_DATE)
+      GROUP BY mois;
+    `,
+      { type: sequelize.QueryTypes.SELECT }
+    );
+    return results;
+  }
   async findAll() {
     return await HBL.findAll({
-      attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL", 'nbColis','poid', 'volume', 'description'],
+      attributes: [
+        "idHBL",
+        "numHBL",
+        "dateEmmission",
+        "idMBL",
+        "nbColis",
+        "poid",
+        "volume",
+        "description",
+      ],
       include: [
         {
           model: MBL,
-          attributes: ["idMBL","numMBL"],
+          attributes: ["idMBL", "numMBL"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientExp", // alias pour l'agent expéditeur
-          attributes: ["idClient","nomClient"],
+          attributes: ["idClient", "nomClient"],
           required: true, // pour forcer la jointure
         },
         {
           model: Client,
           as: "clientDest", // alias pour l'agent destinataire
-          attributes: ["idClient","nomClient"],
+          attributes: ["idClient", "nomClient"],
           required: true, // pour forcer la jointure
         },
       ],
@@ -42,7 +74,16 @@ class HBLRepository  {
       where: {
         numHBL: num,
       },
-      attributes: ["idHBL", "numHBL", "dateEmmission", "idMBL","nbColis","poid","volume","description"],
+      attributes: [
+        "idHBL",
+        "numHBL",
+        "dateEmmission",
+        "idMBL",
+        "nbColis",
+        "poid",
+        "volume",
+        "description",
+      ],
       include: [
         {
           model: MBL,
@@ -69,7 +110,14 @@ class HBLRepository  {
       where: {
         idMBL: id,
       },
-      attributes: ["idHBL", "numHBL", "dateEmmission","nbColis","poid","volume"],
+      attributes: [
+        "idHBL",
+        "numHBL",
+        "dateEmmission",
+        "nbColis",
+        "poid",
+        "volume",
+      ],
       include: [
         {
           model: MBL,
