@@ -26,25 +26,25 @@ const AjoutSuiviHbl = ( {handleClose, allsuiviHBL, isEditMode, selectedPerson })
     });
 
     const fetchTransAeriennes = async () => {
-        const response = await api.get("/hblTransaction/");
+        const response = await api.get("/hbl/");
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des données');
         }
         return await response.json();
     };
     const handleSelectA = (trans) => {
-        if (selectedAerienne && selectedAerienne.idTransactionAerienne === trans.idTransactionAerienne) {
+        if (selectedAerienne && selectedAerienne.idHBL === trans.idHBL) {
             setSelectedAerienne(null); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedAerienne(trans); // Sélectionner un nouveau transport
             setState(prevState => ({
                 ...prevState,
                 HBL: trans.numHBL,
-                idHBLTransaction: trans.idHBLTransaction,
+                idHBL: trans.idHBL,
                 numHBL: trans.numHBL,
                 idExpediteur: trans.idExpediteur,
                 idDestinataire: trans.idDestinataire,
-                dateHBLTransaction: trans.dateHBLTransaction,
+                dateEmmission: trans.dateEmmission,
             }));
         }
     };
@@ -100,10 +100,10 @@ const AjoutSuiviHbl = ( {handleClose, allsuiviHBL, isEditMode, selectedPerson })
             api
                 .put(`/suiviHBL/${selectedPerson.idSuiviHBL}`, state)
                 .then((res) => {
-                    toast.success("Marchandise modifié avec succès");
+                    toast.success("Suivi modifié avec succès");
                     Swal.fire({
                         title: 'Modifié!',
-                        text: 'Le Marchandise a été modifié.',
+                        text: 'Le suivi a été modifié.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
@@ -156,7 +156,7 @@ const AjoutSuiviHbl = ( {handleClose, allsuiviHBL, isEditMode, selectedPerson })
     const filteredAerienne = transAeriennes.filter(
         (trans) =>
             trans.numHBL.toLowerCase().includes(searchTermT.toLowerCase()) ||
-            trans.dateHBLTransaction.toLowerCase().includes(searchTermT.toLowerCase())
+            trans.dateEmmission.toLowerCase().includes(searchTermT.toLowerCase())
     );
 
     return (
@@ -279,7 +279,7 @@ const AjoutSuiviHbl = ( {handleClose, allsuiviHBL, isEditMode, selectedPerson })
                         </div>
                     </div></div>
                     <div className="mt-8">
-                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transaction Aérienne disponible</h2>
+                        <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transaction Maritme disponible</h2>
                         {/* FILTRE */}
                         <div className="searchContainer">
                             <MdSearch className="searchIcon" />
@@ -303,8 +303,8 @@ const AjoutSuiviHbl = ( {handleClose, allsuiviHBL, isEditMode, selectedPerson })
                                 <thead className="text-white bg-blue-200">
                                     <tr>
                                         <th className="py-2 px-2 text-left">#</th>
-                                        <th className="py-2 mx-8 text-left">Num  MWL</th>
-                                        <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Destination</th>
+                                        <th className="py-2 mx-8 text-left">Num  HBL</th>
+                                        <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Nombre Colis</th>
                                     </tr>
                                 </thead>
                                 <tbody className="space-y-2">
@@ -321,8 +321,7 @@ const AjoutSuiviHbl = ( {handleClose, allsuiviHBL, isEditMode, selectedPerson })
                                                 />
                                             </td>
                                             <td className="py-2 px-4">{trans.numHBL}</td>
-                                            <td>{trans.idExpediteur}</td>
-                                            <td>{new Date(trans.dateHBLTransaction).toLocaleDateString('fr-FR')}</td>
+                                            <td>{new Date(trans.dateEmmission).toLocaleDateString('fr-FR')}</td><td>{trans.nbColis}</td>
                                         </tr>
                                     ))}
 
