@@ -330,7 +330,8 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                                                     readOnly
                                                 />
                                             </td>
-                                            <td className="py-2 px-4">{trans.numIMO}</td> <td className="py-2 px-4">{trans.nomNavire}</td>
+                                            <td className="py-2 px-4">{trans.numIMO}</td>
+                                             <td className="py-2 px-4">{trans.nomNavire}</td>
                                             <td className="py-2 px-4">{trans.armateur}</td>
                                             <td className="py-2 px-4">{trans.paysChargement}</td>
                                             <td className="py-2 px-4">{trans.paysDechargement}</td>

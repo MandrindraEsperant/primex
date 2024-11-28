@@ -15,7 +15,7 @@ const SuiviHwb = () => {
   const [data, setData] = useState([]);
   const allsuiviHWB = async () => {
     try {
-      const response = await api.get("/suiviHWB/");
+      const response = await api.get("/suiviHAWB/");
       setData(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -23,7 +23,7 @@ const SuiviHwb = () => {
   };
   const idEmploye = idUserConnected();
   const [state, setState] = useState({
-    numHWB: "",
+    numHAWB: "",
     etape: "",
     dateEtape: "",
     status: "",
@@ -32,14 +32,14 @@ const SuiviHwb = () => {
     modifierPAr: idEmploye,
   });
   const handleEditClickOpen = (suiviHWB) => {
-    const selectedData = data.find((item) => item.idSuiviHWB === suiviHWB);
+    const selectedData = data.find((item) => item.idSuiviHAWB === suiviHWB);
     setSelectedPerson(selectedData);
     setIsEditMode(true);
     setOpen(true);
 
     // Mettre à jour le state avec les informations sélectionnées
     setState({
-      numHWB: selectedData.numHWB || "",
+      numHAWB: selectedData.numHAWB || "",
       etape: selectedData.etape || "",
       dateEtape: selectedData.dateEtape || "",
       status: selectedData.status || "",
@@ -100,14 +100,14 @@ const SuiviHwb = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const handleSelect = (person) => {
-    if (selectedPerson && selectedPerson.idSuiviHWB === person.idSuiviHWB) {
+    if (selectedPerson && selectedPerson.idSuiviHAWB === person.idSuiviHAWB) {
       setSelectedPerson(null); // Désélectionne si la même personne est déjà sélectionnée
     } else {
       setSelectedPerson(person); // Sélectionne la personne cliquée
     }
   };
   const filteredData = data.filter((item) =>
-    item.numHWB.toLowerCase().includes(searchTerm.toLowerCase())
+    item.numHAWB.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const selectedData = filteredData.length > 0 ? filteredData[0] : null;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -171,7 +171,7 @@ const SuiviHwb = () => {
                 <tbody>
                   {currentData.map((item) => (
                     <tr
-                      key={item.idSuiviHWB}
+                      key={item.idSuiviHAWB}
                       onClick={() => handleSelect(item)}
                       className={item === selectedPerson ? "selectedRow" : ""}
                     >
@@ -182,7 +182,7 @@ const SuiviHwb = () => {
                           readOnly
                         />
                       </td>
-                      <td>{item.numHWB}</td>
+                      <td>{item.numHAWB}</td>
                       <td>{item.etape}</td>
                       <td>
                         {new Date(item.dateEtape).toLocaleDateString("fr-FR")}
@@ -193,10 +193,10 @@ const SuiviHwb = () => {
                         <AreaTableAction
                           id={item.id}
                           onEditClick={() =>
-                            handleEditClickOpen(item.idSuiviHWB)
+                            handleEditClickOpen(item.idSuiviHAWB)
                           }
                           onDeleteClick={() =>
-                            handleDeleteClick(item.idSuiviHWB)
+                            handleDeleteClick(item.idSuiviHAWB)
                           }
                         />
                       </td>

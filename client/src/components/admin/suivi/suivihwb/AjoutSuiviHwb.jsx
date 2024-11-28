@@ -16,7 +16,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     const decodedToken = jwtDecode(token);
     const idEmploye = decodedToken.id;
     const [state, setState] = useState({
-        numHWB: '',
+        numHAWB: '',
         etape: "",
         dateEtape: "",
         status: "",
@@ -26,7 +26,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     });
     const fetchTransAeriennes = async () => {
         try {
-            const response = await api.get("/hwbTransaction/");
+            const response = await api.get("/hawb/");
             return response.data;
         } catch (error) {
             console.error("Une erreur s'est produite :", error);
@@ -34,15 +34,15 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
         }
     };
     const handleSelectA = (trans) => {
-        if (selectedAerienne && selectedAerienne.idTransactionAerienne === trans.idTransactionAerienne) {
+        if (selectedAerienne && selectedAerienne.idHAWB === trans.idHAWB) {
             setSelectedAerienne(null); // Désélectionne si la même personne est déjà sélectionnée
         } else {
             setSelectedAerienne(trans); // Sélectionner un nouveau transport
             setState(prevState => ({
                 ...prevState,
-                HWB: trans.numHWB,
-                idHWBTransaction: trans.idHWBTransaction,
-                numHWB: trans.numHWB,
+                HWB: trans.numHAWB,
+                idHAWB: trans.idHAWB,
+                numHAWB: trans.numHAWB,
                 idExpediteur: trans.idExpediteur,
                 idDestinataire: trans.idDestinataire,
                 dateHWBTransaction: trans.dateHWBTransaction,
@@ -64,7 +64,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     useEffect(() => {
         if (isEditMode && selectedPerson) {
             setState({
-                numHWB: selectedPerson.numHWB || '',
+                numHAWB: selectedPerson.numHAWB || '',
                 etape: selectedPerson.etape || '',
                 dateEtape: selectedPerson.dateEtape || '',
                 status: selectedPerson.status || '',
@@ -74,7 +74,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
             });
         } else {
             setState({
-                numHWB: '',
+                numHAWB: '',
                 etape: '',
                 dateEtape: '',
                 status: '',
@@ -91,13 +91,13 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
         });
     };
     const isStep1Valid = () => {
-        return state.numHWB && state.etape && state.dateEtape && state.status;
+        return state.numHAWB && state.etape && state.dateEtape && state.status;
     };
     const finalSubmit = (e) => {
         e.preventDefault();
         if (isEditMode) {
             api
-                .put(`/suiviHWB/${selectedPerson.idSuiviHWB}`, state)
+                .put(`/suiviHAWB/${selectedPerson.idSuiviHWB}`, state)
                 .then((res) => {
                     toast.success("Marchandise modifié avec succès");
                     Swal.fire({
@@ -109,7 +109,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                     });
                     allsuiviHWB();
                     setState({
-                        numHWB: '',
+                        numHAWB: '',
                         etape: '',
                         dateEtape: '',
                         status: '',
@@ -127,18 +127,18 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                 });
         } else {
             api
-                .post("/SuiviHWB/", state)
+                .post("/suiviHAWB/", state)
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
-                        text: 'Le Marchandise a été ajouté.',
+                        text: 'Le suivi a été ajouté.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
                     });
                     allsuiviHWB();
                     setState({
-                        numHWB: '',
+                        numHAWB: '',
                         etape: '',
                         dateEtape: '',
                         status: '',
@@ -159,7 +159,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     };
     const handleCancel = () => {
         setState({
-            numHWB: "",
+            numHAWB: "",
             etape: "",
             dateEtape: "",
             status: "",
@@ -170,7 +170,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     }
     const filteredAerienne = transAeriennes.filter(
         (trans) =>
-            trans.numHWB.toLowerCase().includes(searchTermT.toLowerCase()) ||
+            trans.numHAWB.toLowerCase().includes(searchTermT.toLowerCase()) ||
             trans.dateHWBTransaction.toLowerCase().includes(searchTermT.toLowerCase())
     );
 
@@ -190,7 +190,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 HWB
                             </label>
                             <input
-                                value={state.numHWB}
+                                value={state.numHAWB}
                                 onChange={inputHandle}
                                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                                 type="number"
@@ -327,8 +327,8 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                             <thead className="text-white bg-blue-200">
                                 <tr>
                                     <th className="py-2 px-2 text-left">#</th>
-                                    <th className="py-2 mx-8 text-left">Num  HWB</th>
-                                    <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Destination</th>
+                                    <th className="py-2 mx-8 text-left">Num  HAWB</th>
+                                    <th className="py-2 px-4 text-left">Date Emission</th>                                       <th className="py-2 px-4 text-left">Nombre Colis</th>
                                 </tr>
                             </thead>
                             <tbody className="space-y-2">
@@ -344,9 +344,9 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
 
                                             />
                                         </td>
-                                        <td className="py-2 px-4">{trans.numHWB}</td>
-                                        <td>{trans.idExpediteur}</td>
-                                        <td>{new Date(trans.dateHWBTransaction).toLocaleDateString('fr-FR')}</td>
+                                        <td className="py-2 px-4">{trans.numHAWB}</td>
+                                        <td>{new Date(trans.dateEmmission).toLocaleDateString('fr-FR')}</td>
+                                        <td>{trans.nbColis}</td>
                                     </tr>
                                 ))}
 
