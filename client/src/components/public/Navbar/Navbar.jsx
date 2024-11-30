@@ -9,18 +9,15 @@ import { PiPlanetFill } from "react-icons/pi";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useTranslation } from 'react-i18next';
 import logo from "../../../assets/images/black.png"
-
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [toggleMenu, setToggleMenu] = useState(false);
-
   const handleToggle = () => {
     setToggleMenu((prevToggleMenu) => !prevToggleMenu);
   };
   const handleLanguageChange = (event) => {
     i18n.changeLanguage(event.target.value);
   };
-
   return (
     <nav className="pub-nav">
       <NavLink to="/" className={"logo menu"}>
@@ -77,5 +74,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

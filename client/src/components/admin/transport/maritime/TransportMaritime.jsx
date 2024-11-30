@@ -1,33 +1,30 @@
 import { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import {
-  MdEdit,
-  MdDelete,
-  MdVisibility,
   MdAdd,
   MdSearch,
   MdClear,
 } from "react-icons/md";
 import AjoutTransM from "../../../../pages/admin/AjoutTransM";
-import axios from "axios";
 import Swal from "sweetalert2";
 import "../../Dashboard/areaTable/AreaTable.scss"
 import AreaTableAction from "../../Dashboard/areaTable/AreaTableAction";
 import api from "../../../../axiosInstance";
-
 const TransportMaritime = () => {
   const [open, setOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [data, setData] = useState([]);
+
+  // récupérer tout les enrégistrement
   const allTransMaritime = async () => {
     try {
       const response = await api.get("/transMaritime/");
       setData(response.data);
-      // console.log(response.data);
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
+  // supprimer un enrégistrement
   const supprimer = (id) => {
     api
       .delete("/transMaritime/" + id)

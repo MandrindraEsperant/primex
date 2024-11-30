@@ -3,14 +3,12 @@ import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup'
 import { useTranslation } from "react-i18next"; 
-
 const Primex = () => {
     const { t } = useTranslation();
     const [isVisibleP, setIsVisibleP] = useState(false);
     const [isVisiblePt, setIsVisiblePt] = useState(false);
     const ptsectionRef = useRef(null);
     const psectionRef = useRef(null);
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -21,14 +19,12 @@ const Primex = () => {
             },
             { threshold: 0.5 } // déclenchement lorsque 50% de la section est visible
         );
-
         if (psectionRef.current) {
             observer.observe(psectionRef.current);
         }
         if (ptsectionRef.current) {
             observer.observe(psectionRef.current);
         }
-
         // Cleanup de l'observateur
         return () => {
             if (psectionRef.current) {
