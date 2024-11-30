@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import api from "./../../../axiosInstance";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const Formulaire = () => {
   const navigate = useNavigate();
@@ -63,6 +64,8 @@ const Formulaire = () => {
       setValideEmail(true)
     }
   };
+
+
   //Envoi de nouveau MDP
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +89,9 @@ const Formulaire = () => {
         if (res.status === 200) {
           const token = res.data.token;
           AccountService.saveToken(token);
-          navigate("/admin/dashboard");
+          const decodedToken = jwtDecode(token);
+          localStorage.setItem('userName', decodedToken.nom);
+          navigate("/admin/dashboard"); 
         }
       } catch (error) {
         const errorMessage =
@@ -128,6 +133,9 @@ const Formulaire = () => {
       if (res.status === 200) {
         const token = res.data.token;
         AccountService.saveToken(token);
+        const decodedToken = jwtDecode(token);
+        localStorage.setItem('userName', decodedToken.nom);
+        
         navigate("/admin/dashboard");
       }
     } catch (err) {

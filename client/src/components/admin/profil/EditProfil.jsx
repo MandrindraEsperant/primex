@@ -37,8 +37,8 @@ function EditProfil() {
   }, []);
 
   const getMyInfo = async () => {
-    try {
-      const res = await api.get(`/employe/${id}`);
+    try {      
+      const res = await api.get(`/employe/${id}`);      
       const { nomEmploye, emailEmploye, typeEmploye, motDePasse } = res.data;
       setProfil({
         nomEmploye,
@@ -60,6 +60,7 @@ function EditProfil() {
         newPwd: passwordData.newPwd,
         oldPwd: passwordData.oldPwd,
       });
+      localStorage.setItem('userName', profil.nomEmploye);
       // Affiche un toast de succès si la mise à jour est réussie
       toast.success("Profil mis à jour avec succès!");
       console.log(res.data);

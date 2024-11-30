@@ -1,15 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import { AccountService } from "../_services/Account.service";
 
-import { jwtDecode } from "jwt-decode";
-export default function nameUserConnected() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Token not found");
-    }
-    try {
-      const decodedToken = jwtDecode(token);
-      return decodedToken.nom;
-    } catch (error) {
-      console.error("Error decoding token", error);
-      return null;
-    }
+export  function useNameUserConnected() {
+  const navigate = useNavigate();
+  
+  const userName = localStorage.getItem("userName");
+  if (!userName) {
+    AccountService.logout();
+    navigate("/auth/");
+    return null;
+  }
+   return userName;
   }

@@ -10,7 +10,7 @@ import { AccountService } from "../../../_services/Account.service";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdSettings } from "react-icons/md";
-import nameUserConnected from "../../../constants/nameUserConnected";
+import {useNameUserConnected} from "../../../constants/nameUserConnected";
 import { MdWbSunny } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { ThemeContext } from "../../../context/ThemeContext";
@@ -85,13 +85,13 @@ const Navbar = () => {
             className="text-white hover:text-gray-300 flex gap-1"
           >
             <FaUserCircle size={24} />
-            <p>{nameUserConnected()}</p>
+            <p>{useNameUserConnected()}</p>
           </button>
           
 
           {/* Menu déroulant du profil */}
           {isProfileMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden border border-gray-200">
+            <div className="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden border border-gray-200 z-50">
               <Link
                 to="/admin/profil"
                 className="flex items-center px-4 py-2 text-sm hover:bg-gray-100"

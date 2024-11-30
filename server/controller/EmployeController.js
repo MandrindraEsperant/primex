@@ -48,6 +48,8 @@ class EmployeController {
       if (!token || !newPassword || !email || !codeTemp) {
         return res.status(400).json({ error: "Tous les infos sont requis." });
       }
+      await this.employeService.resetNewPassword(email,newPassword);
+
       res.status(200).send({ token });
     } catch (error) {
       if (error.message) {
@@ -83,7 +85,7 @@ class EmployeController {
     try {
       const employe = await this.employeService.updateEmploye(
         req.params.id,
-        req.body
+        req.body 
       );
       res.status(200).json(employe);
     } catch (error) {

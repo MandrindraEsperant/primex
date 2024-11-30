@@ -122,6 +122,15 @@ class EmployeService {
       throw error;
     }
   }
+  async resetNewPassword(email, pwd){
+    // Cryptage du mot de passe
+    const hashedPassword = await bcrypt.hash(
+      pwd,
+      SALT_ROUNDS
+    );
+
+    return await this.employeRepository.resetNewPassword(email,hashedPassword);
+  }
   async getEmployeById(id) {
     return await this.employeRepository.findById(id);
   }

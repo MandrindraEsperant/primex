@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const Employe = require('../models/Employe');
 class EmployeRepository  {
 
@@ -30,7 +31,16 @@ class EmployeRepository  {
     }
     return null;
   }
-
+async resetNewPassword(email, pwd){
+  const employe = await this.findByEmail(email)
+  if(!employe){
+    throw new Error("Employé non trouvé")
+  }
+  return await Employe.update(
+    {motDePasse:pwd},
+    {where:{emailEmploye: email}}
+  )
+}
   async delete(id) {
     const employe = await this.findById(id);
     if (employe) {
