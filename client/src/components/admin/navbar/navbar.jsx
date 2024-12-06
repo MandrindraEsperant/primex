@@ -10,11 +10,12 @@ import { AccountService } from "../../../_services/Account.service";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MdSettings } from "react-icons/md";
-import {useNameUserConnected} from "../../../constants/nameUserConnected";
 import { MdWbSunny } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { DARK_THEME, LIGHT_THEME } from "../../../constants/themeConstants";
+import {useNameUserConnected} from "../../../constants/nameUserConnected";
+import { useTypeUserConnected } from "../../../constants/typeUserConnected";
 
 const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -45,7 +46,9 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
+  let typeEmploye = useTypeUserConnected()
   useEffect(() => {
+
     const handleClickOutside = (event) => {
       if (
         profileMenuRef.current &&
@@ -79,13 +82,16 @@ const Navbar = () => {
           )}
         </button>
         {/* Icone de profil */}
+        {typeEmploye === "Employe" ?( <p>Admin</p>):(null) } 
+       
         <div className="relative" ref={profileMenuRef}>
+         
           <button
             onClick={toggleProfileMenu}
             className="text-white hover:text-gray-300 flex gap-1"
           >
             <FaUserCircle size={24} />
-            <p>{useNameUserConnected()}</p>
+           <p>{useNameUserConnected()}</p>
           </button>
           
 

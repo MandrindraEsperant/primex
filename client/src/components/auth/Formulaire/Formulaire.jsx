@@ -66,7 +66,7 @@ const Formulaire = () => {
   };
 
 
-  //Envoi de nouveau MDP
+  //*********************Envoi de nouveau MDP**************
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     if(newPassword==="" || code ===""){
@@ -89,8 +89,11 @@ const Formulaire = () => {
         if (res.status === 200) {
           const token = res.data.token;
           AccountService.saveToken(token);
+          
           const decodedToken = jwtDecode(token);
           localStorage.setItem('userName', decodedToken.nom);
+          localStorage.setItem('userType', decodedToken.type);
+          
           navigate("/admin/dashboard"); 
         }
       } catch (error) {
@@ -126,15 +129,19 @@ const Formulaire = () => {
     email: "",
     password: "",
   });
+  //********************************LOGIN****************************** */
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post("/employe/login", login);
       if (res.status === 200) {
         const token = res.data.token;
+
         AccountService.saveToken(token);
+
         const decodedToken = jwtDecode(token);
         localStorage.setItem('userName', decodedToken.nom);
+        localStorage.setItem('userType', decodedToken.type);
         
         navigate("/admin/dashboard");
       }
