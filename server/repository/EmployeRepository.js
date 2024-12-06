@@ -23,7 +23,7 @@ class EmployeRepository  {
       return await employe.update(employeData);
     }
     return null;
-  }
+  } 
   async resetpwd(email, employeData) {
     const employe = await Employe.findOne({ where: { emailEmploye: email } });
     if (employe) {

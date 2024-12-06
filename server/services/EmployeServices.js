@@ -50,7 +50,7 @@ class EmployeService {
       }
       
       const token = jwt.sign(
-        { id: employe.idEmploye, nom: employe.nomEmploye },
+        { id: employe.idEmploye, nom: employe.nomEmploye, type : employe.typeEmploye },
         SECRET_KEY,
         { expiresIn: "1h" }
         // { expiresIn: "7d" }
@@ -102,7 +102,7 @@ class EmployeService {
     return { token };
   }
   async resetPwd(token, newPwd, email, codeTemp) {
-    try {
+    try { 
       const decoded = jwt.verify(token, SECRET_KEY);
       if (decoded.temporaryCode != codeTemp) {
         throw new Error("Code de réinitialisation incorrect.");
@@ -115,12 +115,27 @@ class EmployeService {
       if (!verification) {
         throw new Error("Employé non trouvé");
       }
+
       const hashedPassword = await bcrypt.hash(newPwd, SALT_ROUNDS);
       const employeData = { motDePasse: hashedPassword };
       return await this.employeRepository.update(decoded.id, employeData);
     } catch (error) {
       throw error;
     }
+  }
+  async updateToken (token){
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const employe = await this.employeRepository.findById(decoded.id);
+    if (!employe) {
+      throw new Error("Employé non trouvé");
+    }
+    const newToken = jwt.sign(
+      { id: employe.idEmploye, nom: employe.nomEmploye, type : employe.typeEmploye },
+      SECRET_KEY,
+      { expiresIn: "1h" }
+      // { expiresIn: "7d" }
+    );
+    return newToken
   }
   async resetNewPassword(email, pwd){
     // Cryptage du mot de passe
