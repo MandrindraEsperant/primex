@@ -43,7 +43,7 @@ TransMaritime.init(
     },
     villeDechargement:{
       type:DataTypes.STRING,
-      allowNull:false,
+      allowNull:true,
     },
     creerPar: {
       type: DataTypes.INTEGER,
