@@ -64,7 +64,7 @@ const AjoutAgent = ({ handleClose, allAgent, isEditMode, selectedPerson }) => {
 
         if (isEditMode) {
             // Mode modification
-            delete state['creerPar'];
+            delete state['creerPar']; 
             api
                 .put(`/agent/${selectedPerson.idAgent}`, agentData)
                 .then((res) => {

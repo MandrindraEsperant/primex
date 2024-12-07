@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const sequelize = require('./config/database');
 
+const messageRoutes = require('./routes/messageRoutes');
 const employeRoutes = require('./routes/employeRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const conteneurRoutes = require('./routes/conteneurRoutes');
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
   next();
 }); 
 
+app.use('/message', messageRoutes);
 app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
 app.use('/conteneur', conteneurRoutes); 
