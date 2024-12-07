@@ -21,6 +21,8 @@ import Swal from 'sweetalert2';
 import "./Sidebar.scss";
 import { SidebarContext } from "../../../context/SidebarContext";
 import { AccountService } from './../../../_services/Account.service';
+import idUserConnected from "../../../constants/idUserConnected";
+import { useTypeUserConnected } from "../../../constants/typeUserConnected";
 
 const Sidebar = () => {
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
@@ -31,6 +33,7 @@ const Sidebar = () => {
   const { theme } = useContext(ThemeContext);
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const navbarRef = useRef(null);
+  const typeEmploye = useTypeUserConnected();
 
   // closing the navbar when clicked outside the sidebar area
   const handleClickOutside = (event) => {
@@ -109,6 +112,20 @@ const Sidebar = () => {
                 <span className="menu-link-text">Dashboard</span>
               </Link>
             </li>
+            { typeEmploye=== "Administrateur" && (
+            <li className="menu-item">
+              <Link to="/admin/employe"
+
+                className={`menu-link ${location.pathname === '/admin/employe' ? 'active' : ''}`}
+              >
+                <span className="menu-link-icon">
+                  <MdGroups size={20} />
+                </span>
+                <span className="menu-link-text">Employé</span>
+              </Link>
+            </li>)
+            }
+
             <li className="menu-item">
               <Link to="/admin/client"
 

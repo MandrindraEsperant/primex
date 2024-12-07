@@ -150,6 +150,8 @@ const Formulaire = () => {
         toast.error(err.response.data.error);
       } else {
         // Si c'est une autre erreur (ex. problème de réseau)
+        console.log(err);
+        return;
         console.error("Erreur :", err.message);
         toast.error(
           "Erreur lors de la connexion. Veuillez vérifier votre connexion réseau."
