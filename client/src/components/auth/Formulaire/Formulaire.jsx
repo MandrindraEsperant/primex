@@ -85,7 +85,7 @@ const Formulaire = () => {
           title: "Modifié",
           text: "Mot de passe changé avec succès",
         });
-        console.log(res);
+        // console.log(res);
         
         if (res.status === 200) {
           const token = res.data.token;
