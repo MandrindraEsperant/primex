@@ -49,10 +49,11 @@ class EmployeController {
       if (!token || !newPassword || !email || !codeTemp) {
         return res.status(400).json({ error: "Tous les infos sont requis." });
       }
-      const newToken = this.employeService.updateToken(token);
-      await this.employeService.resetNewPassword(email,newPassword);
 
-      res.status(200).send({ newToken });
+      await this.employeService.resetNewPassword(email,newPassword);
+      // const newToken = this.employeService.updateToken(token);
+
+      res.status(200).send({token });
     } catch (error) {
       if (error.message) {
         res.status(401).json({ error: error.message });

@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const { log } = require("console");
 require("dotenv").config();
 const SECRET_KEY = process.env.SECRET_KEY;
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS, 10);
@@ -69,7 +70,7 @@ class EmployeService {
     const temporaryCode = crypto.randomBytes(3).toString("hex");
 
     // Générer un token JWT avec le code temporaire qui expire dans 10 minutes
-    const token = jwt.sign({ id: user.idEmployer, temporaryCode }, SECRET_KEY, {
+    const token = jwt.sign({ id: user.idEmploye, temporaryCode,nom: user.nomEmploye, type : user.typeEmploye }, SECRET_KEY, {
       expiresIn: "10m",
     });
     const transporter = nodemailer.createTransport({
@@ -102,6 +103,7 @@ class EmployeService {
     return { token };
   }
   async resetPwd(token, newPwd, email, codeTemp) {
+  
     try { 
       const decoded = jwt.verify(token, SECRET_KEY);
       if (decoded.temporaryCode != codeTemp) {
@@ -115,7 +117,6 @@ class EmployeService {
       if (!verification) {
         throw new Error("Employé non trouvé");
       }
-
       const hashedPassword = await bcrypt.hash(newPwd, SALT_ROUNDS);
       const employeData = { motDePasse: hashedPassword };
       return await this.employeRepository.update(decoded.id, employeData);
@@ -123,20 +124,7 @@ class EmployeService {
       throw error;
     }
   }
-  async updateToken (token){
-    const decoded = jwt.verify(token, SECRET_KEY);
-    const employe = await this.employeRepository.findById(decoded.id);
-    if (!employe) {
-      throw new Error("Employé non trouvé");
-    }
-    const newToken = jwt.sign(
-      { id: employe.idEmploye, nom: employe.nomEmploye, type : employe.typeEmploye },
-      SECRET_KEY,
-      { expiresIn: "1h" }
-      // { expiresIn: "7d" }
-    );
-    return newToken
-  }
+
   async resetNewPassword(email, pwd){
     // Cryptage du mot de passe
     const hashedPassword = await bcrypt.hash(

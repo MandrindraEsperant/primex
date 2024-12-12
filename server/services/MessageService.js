@@ -26,7 +26,7 @@ class MessageService {
         <p><strong>Email :</strong> <br/>${email}</p>
         <p><strong>Message :</strong> <br/>${message}</p>
       
-        <p>Désolé pour le dérangement</p>
+        
         
         <br />
         <p>Merci,<br/>L'équipe de PRIMEX LOGISTICS</p>
