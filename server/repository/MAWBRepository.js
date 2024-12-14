@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const MAWB = require("../models/MAWB");
 const TransAerienne = require("../models/TransAerienne");
 
@@ -8,6 +9,27 @@ class MAWBRepository {
   async countAll() {
     return await MAWB.count();
   }
+  // *****************************Dashboard
+  async dashboard(){
+   return await MAWB.findAll({
+    attributes: [
+      [Sequelize.col('nomCompagnie'), 'compagnie'],
+      [Sequelize.fn('COUNT', Sequelize.col('nomCompagnie')), 'nb']
+    ],
+    include: [
+      {
+        model: TransAerienne,
+        attributes: [], // Ne sélectionne pas d'autres colonnes
+        required: true, // INNER JOIN
+      }
+    ],
+    group: ['nomCompagnie'],
+    order: [[Sequelize.literal('nb'), 'DESC']],
+    limit: 3,
+    raw: true, // Retourne des objets JSON purs
+  })
+  }
+  
   async findById(id) {
     return await MAWB.findByPk(id);
   }

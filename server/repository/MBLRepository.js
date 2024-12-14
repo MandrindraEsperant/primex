@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const MBL = require("../models/MBL");
 const TransMaritime = require("../models/TransMaritime");
 
@@ -41,6 +42,29 @@ class MBLRepository  {
       ],
     })  
   }
+
+  // *****************************Dashboard
+  async dashboard(){
+    return await MBL.findAll({
+     attributes: [
+       [Sequelize.col('armateur'), 'compagnie'],
+       [Sequelize.fn('COUNT', Sequelize.col('armateur')), 'nb']
+     ],
+     include: [
+       {
+         model: TransMaritime,
+         attributes: [], // Ne sélectionne pas d'autres colonnes
+         required: true, // INNER JOIN
+       }
+     ],
+     group: ['armateur'],
+     order: [[Sequelize.literal('nb'), 'DESC']],
+     limit: 3,
+     raw: true, // Retourne des objets JSON purs
+   })
+   }
+
+
   async findByMere(mbl) {
     return await MBL.findOne({ where: { numMBL: mbl } });
   }

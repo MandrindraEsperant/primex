@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Assure-toi d'avoir la connexion dans ce fichier
+const MAWB = require('./MAWB');
 
 class TransAerienne extends Sequelize.Model {}
 
@@ -55,6 +56,8 @@ TransAerienne.init(
     modelName: "TransAerienne",
     timestamps: true, // Inclut createdAt et updatedAt
   }
-);
+); 
+
+
 
 module.exports = TransAerienne;

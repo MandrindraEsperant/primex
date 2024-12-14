@@ -41,16 +41,17 @@ const AreaCards = () => {
     <section className="content-area-cards">
       <AreaCard
         colors={["#e4e8ef", "#475be8"]}
-        percentFillValue={100}
+        percentFillValue={expeditionOnYear===0 ? 0 :(100)}
         cardInfo={{
           title: "Touts l'expédition",
           value: expedition,
           text: "Nombre total des expeditions",
         }}
       />
+
       <AreaCard
         colors={["#e4e8ef", "#4ce13f"]}
-        percentFillValue={100}
+        percentFillValue={expeditionOnYear===0 ? 0 :(100)}
         cardInfo={{
           title: "Expédition de l'année courant",
           value: expeditionOnYear,

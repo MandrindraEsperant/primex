@@ -4,17 +4,27 @@ import { useEffect, useState } from "react";
 
 const AreaProgressChart = () => {
   const [data, setData] = useState([]);
+  const [totCompagnie, setTotCompagnie]=useState(0);
   const [isLoading, setIsLoading] = useState(false); /**met en true */
+
+  const getTotCompagnie = async ()=>{
+    const mar = await api.get("/mbl/all/count/")    
+    const aer = await api.get("/mawb/all/count/")    
+    setTotCompagnie(mar.data + aer.data)
+    
+  }
   const plusExpedier= async ()=>{
     try {
-      const response = await api.get("/marchandise/plus/");
-      setData(response.data);
-      setIsLoading(false);
+      const maritime = await api.get("/mbl/all/das/");    
+      const aerien = await api.get("/mawb/all/das/");
+      setData([...maritime.data,...aerien.data,]);
+      // setIsLoading(false);
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   }
   useEffect(()=>{
+    getTotCompagnie();
     plusExpedier();
   },[])
 
@@ -34,7 +44,7 @@ const AreaProgressChart = () => {
         //  key={progressbar.id}
              >
               <div className="bar-item-info">
-                <p className="bar-item-info-name">{progressbar.nature}</p>
+                <p className="bar-item-info-name">{progressbar.compagnie}</p>
                 <p className="bar-item-info-value">
                   {progressbar.nb}
                 </p>
@@ -43,7 +53,7 @@ const AreaProgressChart = () => {
                 <div
                   className="bar-item-filled"
                   style={{
-                    width: `${progressbar.pourcentage}%`,
+                    width: `${totCompagnie===0 ? 0 : (progressbar.nb /totCompagnie)* 100}%`,
                   }}
                 ></div>
               </div>

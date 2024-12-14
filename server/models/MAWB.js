@@ -28,7 +28,7 @@ MAWB.init(
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
-    },
+    }, 
     dateEmission: {
       type: DataTypes.DATE,
       allowNull: false,

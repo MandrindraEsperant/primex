@@ -15,5 +15,7 @@ router.get('/:id', (req, res) =>masterController.getOneMaster(req, res));
 router.put('/:id', (req, res) => masterController.updateMaster(req, res));
 router.delete('/:id', (req, res) => masterController.deleteMaster(req, res));
 router.get('/get/:id', (req, res) =>masterController.getOneMasterId(req, res));
+router.get('/all/das/', (req, res) =>masterController.dashboard(req, res));
+router.get('/all/count/', (req, res) =>masterController.countAll(req, res));
 
 module.exports = router;

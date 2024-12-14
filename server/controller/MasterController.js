@@ -93,6 +93,23 @@ class MasterController {
       res.status(500).send(error.message);
     }
   }
+  async countAll(req, res) {
+    const nb = await this.MasterService.countAll();
+    res.status(200).json(nb);
+  }
+  catch(error) {
+    res.status(500).send(error.message);
+  }
+
+  // *****************************Dashboard
+  async dashboard(req, res) {
+    try {
+      const tabl = await this.MasterService.dashboard();
+      res.status(200).json(tabl);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
 }
 
 module.exports = MasterController;

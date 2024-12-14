@@ -42,6 +42,13 @@ class MasterService {
     async delete(id) {
       return await this.MasterRepository.delete(id);
     }
+    async countAll(){
+      return await this.MasterRepository.countAll()
+    }
+     // *****************************Dashboard
+     async dashboard() {
+      return await this.MasterRepository.dashboard()
+     }
   }
   
   module.exports = MasterService;
