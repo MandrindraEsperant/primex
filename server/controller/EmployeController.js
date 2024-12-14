@@ -7,7 +7,20 @@ class EmployeController {
       const employe = await this.employeService.createEmploye(req.body);
       res.status(201).json(employe);
     } catch (error) {
-      res.status(500).send(error.message);
+      // res.status(500).send(error.message);
+      if (error.name === "SequelizeUniqueConstraintError") {
+        // Gérer l'erreur d'unicité
+        res.status(400).json({
+          error:
+            error.errors[0].message || "Une valeur unique est déjà présente.",
+        });
+      } else if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        // Erreur interne serveur
+        res.status(500).json({ error: "Erreur lors de la creation d'employé" });
+      }
+
     }
   }
   async authentification(req, res) {

@@ -14,14 +14,16 @@ import { MdWbSunny } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { DARK_THEME, LIGHT_THEME } from "../../../constants/themeConstants";
-import {useNameUserConnected} from "../../../constants/nameUserConnected";
+import { useNameUserConnected } from "../../../constants/nameUserConnected";
 import { useTypeUserConnected } from "../../../constants/typeUserConnected";
 
 const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const profileMenuRef = useRef(null);
-   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  let typeEmploye = useTypeUserConnected()
+  const nameUserConnected = useNameUserConnected();
 
   const Deconnection = () => {
     Swal.fire({
@@ -46,7 +48,6 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
-  let typeEmploye = useTypeUserConnected()
   useEffect(() => {
 
     const handleClickOutside = (event) => {
@@ -82,18 +83,20 @@ const Navbar = () => {
           )}
         </button>
         {/* Icone de profil */}
-        {typeEmploye === "Employe" ?( <p>Admin</p>):(null) } 
-       
+
         <div className="relative" ref={profileMenuRef}>
-         
+
           <button
             onClick={toggleProfileMenu}
             className="text-white hover:text-gray-300 flex gap-1"
           >
             <FaUserCircle size={24} />
-           <p>{useNameUserConnected()}</p>
+
+
+            {typeEmploye === "Employe" ? <p>{nameUserConnected}</p> :
+              <p>Admin</p>}
           </button>
-          
+
 
           {/* Menu déroulant du profil */}
           {isProfileMenuOpen && (
