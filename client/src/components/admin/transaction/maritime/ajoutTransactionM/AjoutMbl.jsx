@@ -154,10 +154,10 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                 api
                     .put(`/mbl/${selectedPerson.idMBL}`, state)
                     .then((res) => {
-                        toast.success("Transaction modifiée avec succès");
+                        toast.success("Expedition modifiée avec succès");
                         Swal.fire({
                             title: 'Modifié!',
-                            text: 'Le Transaction a été modifiée.',
+                            text: 'Le Expedition a été modifiée.',
                             icon: 'success',
                             timer: 3000,
                             showConfirmButton: false,
@@ -182,7 +182,7 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                     .then((res) => {
                         Swal.fire({
                             title: 'Ajouté!',
-                            text: 'Le Transaction a été ajoutée.',
+                            text: 'Le Expedition a été ajoutée.',
                             icon: 'success',
                             timer: 3000,
                             showConfirmButton: false,
@@ -224,7 +224,7 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction MBL" : "Ajouter un Transaction MBL"}
+                {isEditMode ? "Modifier un Expedition MBL" : "Ajouter un Expedition MBL"}
             </h2>
             <div className="flex items-center w-full mb-4">
                 {formArray.map((v, i) => (
@@ -241,7 +241,7 @@ const AjoutMbl = ({ handleClose, alltransactionMbl, isEditMode, selectedPerson }
                                 {formNo - 1 > i ? '✓' : v}
                             </div>
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                                {i === 0 && 'INFORMATION TRANSACTION'}
+                                {i === 0 && 'INFORMATION EXPEDITION'}
                                 {i === 1 && 'INFORMATION TRANSPORT'}
                                 {i === 2 && 'CONTENEUR'}
                             </div>

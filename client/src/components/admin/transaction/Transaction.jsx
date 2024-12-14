@@ -18,24 +18,24 @@ const Transaction = () => {
           onClick={() => setActiveTab("maritime")}
           className={`tab ${activeTab === "maritime" ? "active" : ""}`}
         >
-          Transaction MBL
+          Expedition MBL
         </div>
         <div
           onClick={() => setActiveTab("aerienne")}
           className={`tab ${activeTab === "aerienne" ? "active" : ""}`}
-        >Transaction MAWB 
+        >Expedition MAWB 
         </div>
         <div
           onClick={() => setActiveTab("hbl")}
           className={`tab ${activeTab === "hbl" ? "active" : ""}`}
         >
-          Transaction HBL
+          Expedition HBL
         </div>
         <div
           onClick={() => setActiveTab("hwb")}
           className={`tab ${activeTab === "hwb" ? "active" : ""}`}
         >
-          Transaction HAWB
+          Expedition HAWB
         </div>
       </div>
 

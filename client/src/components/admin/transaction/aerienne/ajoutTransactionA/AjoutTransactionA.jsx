@@ -251,7 +251,7 @@ const filteredAerienne = transAeriennes.filter(
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction Aérien" : "Ajouter un Transaction Aérien"}
+                {isEditMode ? "Modifier un Expedition Aérien" : "Ajouter un Expedition Aérien"}
             </h2>
             <div className="flex items-center w-full mb-4">
                 {formArray.map((v, i) => (
@@ -270,7 +270,7 @@ const filteredAerienne = transAeriennes.filter(
                             </div>
 
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                                {i === 0 && 'INFORMATION TRANSACTION'}
+                                {i === 0 && 'INFORMATION EXPEDITION'}
                                 {i === 1 && 'INFORMATION TRANSPORT'}
                                 {i === 2 && 'AGENT'}
                             </div>

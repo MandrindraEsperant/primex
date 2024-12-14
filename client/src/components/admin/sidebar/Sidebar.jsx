@@ -152,7 +152,7 @@ const Sidebar = () => {
                 <div className={`menu-link cursor-pointer ${location.pathname === '/admin/transaction' ? 'active' : ''}`}>
                   <span className="menu-link-icon">
                     <MdSwapHoriz size={20} />
-                    <span className="menu-link-text">Transaction</span>
+                    <span className="menu-link-text">Expedition</span>
                   </span>
                 </div>
               </Link>

@@ -95,7 +95,7 @@ const TransactionMaritime = () => {
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="titleCli">TRANSACTIONS MARITIME</h3>
+    <h3 className="titleCli">EXPEDITION MARITIME</h3>
             <div className="container">
             <div className="tableContainer">
         <div className="actionsContainer">

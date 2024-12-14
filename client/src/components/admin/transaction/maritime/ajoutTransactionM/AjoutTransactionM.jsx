@@ -192,10 +192,10 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
             api
                 .put(`/transactionMaritime/${selectedPerson.idtransactionMaritime}`, state)
                 .then((res) => {
-                    toast.success("Transaction modifié avec succès");
+                    toast.success("Expedition modifié avec succès");
                     Swal.fire({
                         title: 'Modifié!',
-                        text: 'Le Transaction a été modifié.',
+                        text: 'Le Expedition a été modifié.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
@@ -217,7 +217,7 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
-                        text: 'Le Transaction a été ajouté.',
+                        text: 'Le Expedition a été ajouté.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
@@ -252,7 +252,7 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction Maritime" : "Ajouter un Transaction Maritime"}
+                {isEditMode ? "Modifier un Expedition Maritime" : "Ajouter un Expedition Maritime"}
             </h2>
             <div className="flex items-center w-full mb-4">
                 {formArray.map((v, i) => (
@@ -271,7 +271,7 @@ const AjoutTransactionM = ({ handleClose, allTransactionMaritime, isEditMode, se
                             </div>
 
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                                {i === 0 && 'INFORMATION TRANSACTION'}
+                                {i === 0 && 'INFORMATION EXPEDITION'}
                                 {i === 1 && 'TRANSPORT'}
                                 {i === 2 && 'AGENT INFORMATION'}
                             </div>

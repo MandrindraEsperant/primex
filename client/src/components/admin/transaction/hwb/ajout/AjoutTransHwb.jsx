@@ -172,10 +172,10 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
             api
                 .put(`/hwbTransaction/${selectedPerson.idHWBTransaction}`, state)
                 .then((res) => {
-                    toast.success("Transaction modifié avec succès");
+                    toast.success("Expedition modifié avec succès");
                     Swal.fire({
                         title: 'Modifié!',
-                        text: 'Le Transaction a été modifié.',
+                        text: 'Le Expedition a été modifié.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
@@ -197,7 +197,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                 .then((res) => {
                     Swal.fire({
                         title: 'Ajouté!',
-                        text: 'Le Transaction a été ajouté.',
+                        text: 'Le Expedition a été ajouté.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: false,
@@ -232,7 +232,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
     return (
         <div className="car w-full rounded-md shadow-md bg-white p-5">
             <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
-                {isEditMode ? "Modifier un Transaction HWB" : "Ajouter un Transaction HWB"}
+                {isEditMode ? "Modifier un Expedition HWB" : "Ajouter un Expedition HWB"}
             </h2>
             <div className="flex items-center w-full mb-4">
                 {formArray.map((v, i) => (
@@ -251,7 +251,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                             </div>
 
                             <div className="text-sm mt-1 text-center text-green-500 font-semibold">
-                                {i === 0 && 'INFORMATION TRANSACTION'}
+                                {i === 0 && 'INFORMATION EXPEDITION'}
                                 {i === 1 && 'INFORMATION CLIENT'}
                             </div>
                         </div>
@@ -293,7 +293,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                                 htmlFor="dateDestination"
                                 className="text-lg font-semibold mb-2 "
                             >
-                                Date HWB Transaction
+                                Date HWB Expedition
                             </label>
                             <input
                                 value={state.dateHWBTransaction ? new Date(state.dateHWBTransaction).toISOString().split('T')[0]
@@ -302,7 +302,7 @@ const AjoutTransHwb = ({ handleClose, allTransactionHwb, isEditMode, selectedPer
                                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md" // Changement de la bordure de focus en bleu
                                 type="date"
                                 name="dateHWBTransaction"
-                                placeholder="Date de transaction"
+                                placeholder="Date de Expedition"
                                 id="dateHWBTransaction" // Ajout de l'ID manquant
                             />
                         </div>

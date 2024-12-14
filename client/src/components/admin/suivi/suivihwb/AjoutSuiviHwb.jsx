@@ -63,8 +63,9 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
     }, []);
     useEffect(() => {
         if (isEditMode && selectedPerson) {
+            const expData = selectedPerson.HAWB || {};
             setState({
-                numHAWB: selectedPerson.numHAWB || '',
+                numHAWB: expData.numHAWB || '',
                 etape: selectedPerson.etape || '',
                 dateEtape: selectedPerson.dateEtape || '',
                 status: selectedPerson.status || '',
@@ -190,7 +191,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                                 HWB
                             </label>
                             <input
-                                value={state.numHAWB}
+                                value={state.numHAWB || ''}
                                 onChange={inputHandle}
                                 className="p-2 border border-slate-400 mt-1 outline-0 focus:border-sky-400 rounded-md"
                                 type="number"
@@ -304,7 +305,7 @@ const AjoutSuiviHwb = ({ handleClose, allsuiviHWB, isEditMode, selectedPerson })
                         </div>
                     </div></div>
                 <div className="mt-8">
-                    <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Transaction Aérienne disponible</h2>
+                    <h2 className="text-lg text-center font-bold text-blue-400 mb-4 border-b-2 border-blue-100 pb-2">Expedition Aérienne disponible</h2>
                     {/* FILTRE */}
                     <div className="searchContainer">
                         <MdSearch className="searchIcon" />

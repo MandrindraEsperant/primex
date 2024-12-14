@@ -90,7 +90,7 @@ const Mbl = () => {
     };
     return (
         <div className={`client-container ${theme}`}>
-            <h3 className="titleCli">TRANSACTIONS MBL</h3>
+            <h3 className="titleCli">EXPEDITION MBL</h3>
             <div className="container">
                 <div className="tableContainer">
                     <div className="actionsContainer">

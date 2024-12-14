@@ -63,7 +63,7 @@ const FactureHAWB = () => {
             onChange={(e) => gerateHBL(e.target.value)}
             className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-150 ease-in-out appearance-none"
           >
-            <option value="">Sélectionnez une Transaction</option>
+            <option value="">Sélectionnez une Expedition</option>
             {hbl.map((v) => (
               <option key={v.idHAWB} value={v.idHAWB}>
                 {v.numHAWB}
@@ -148,7 +148,7 @@ const FactureHAWB = () => {
           <div className="my-2 ">
             <div className="w-full">
               <h2 className="font-bold text-lg sm:text-xl text-left mb-">
-                Détails de transaction
+                Détails de Expedition
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
                 <p className="font-bold text-sm sm:text-base ">Numéro HAWB:</p>

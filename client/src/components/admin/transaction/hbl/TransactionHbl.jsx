@@ -94,7 +94,7 @@ const TransactionHbl = () => {
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="titleCli">TRANSACTIONS HBL</h3>
+    <h3 className="titleCli">EXPEDITIONS HBL</h3>
             <div className="container">
             <div className="tableContainer">
         <div className="actionsContainer">

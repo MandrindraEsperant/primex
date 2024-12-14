@@ -65,7 +65,7 @@ const FactureMAWB = () => {
             onChange={(e) => gerateMBL(e.target.value)}
             className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-150 ease-in-out appearance-none"
           >
-            <option value="">Sélectionnez une Transaction</option>
+            <option value="">Sélectionnez une Expedition</option>
             {mbl.map((v) => (
               <option key={v.idMAWB} value={v.idMAWB}>
                 {v.numMAWB}
@@ -90,7 +90,7 @@ const FactureMAWB = () => {
         <button
           onClick={
             idMbl === ""
-              ? () => toast.error("Sélectionnez une Transaction")
+              ? () => toast.error("Sélectionnez une Expedition")
               : () => handlePrint()
           }
           className="mb-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
@@ -152,7 +152,7 @@ const FactureMAWB = () => {
           <div className="my-2 ">
             <div className="w-full">
               <h2 className="font-bold text-lg sm:text-xl text-left mb-">
-                Détails de transaction
+                Détails de Expedition
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
                 <p className="font-bold text-sm sm:text-base ">Numéro MAWB:</p>

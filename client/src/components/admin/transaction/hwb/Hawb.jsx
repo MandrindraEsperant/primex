@@ -91,7 +91,7 @@ const Hawb = () => {
     };
   return (
     <div className={`client-container ${theme}`}>
-    <h3 className="titleCli">LISTE DE TOUT LES TRANSACTIONS HAWB</h3>
+    <h3 className="titleCli">LISTE DE TOUT LES EXPEDITIONS HAWB</h3>
             <div className="container">
             <div className="tableContainer">
         <div className="actionsContainer">

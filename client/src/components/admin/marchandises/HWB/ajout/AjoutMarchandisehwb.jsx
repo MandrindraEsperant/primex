@@ -208,7 +208,7 @@ const AjoutMarchandisehwb = ({ handleClose, allMarchandiseHwb, isEditMode, selec
 
                         <div className="text-xs sm:text-sm mt-1 text-center text-green-500 font-semibold">
                             {i === 1 && 'INFORMATION MARCHANDISE'}
-                            {i === 0 && 'TRANSACTION AERIENNE HWB'}
+                            {i === 0 && 'EXPEDITION AERIENNE HWB'}
                         </div>
                     </div>
 
