@@ -9,7 +9,6 @@ import {
 import { AccountService } from "../../../_services/Account.service";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { MdSettings } from "react-icons/md";
 import { MdWbSunny } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { ThemeContext } from "../../../context/ThemeContext";
@@ -102,7 +101,7 @@ const Navbar = () => {
           {isProfileMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden border border-gray-200 z-50">
               <Link
-                to="/admin/profil"
+                 to="/admin/profil"
                 className="flex items-center px-4 py-2 text-sm hover:bg-gray-100"
               >
                 <FaUser className="mr-2 text-gray-400" />

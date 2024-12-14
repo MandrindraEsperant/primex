@@ -37,8 +37,6 @@ const AreaCards = () => {
     countExpeditionOnYear();
   },[])
  
-
-
   return (
     <section className="content-area-cards">
       <AreaCard
@@ -61,19 +59,19 @@ const AreaCards = () => {
       />
       <AreaCard
         colors={["#e4e8ef", "#f29a2e"]}
-        percentFillValue={((expeditionMaritime/expeditionOnYear)*100).toFixed(2)}
+        percentFillValue={ expeditionOnYear===0 ? 0 :((expeditionMaritime/expeditionOnYear)*100).toFixed(2)}
         cardInfo={{
           title: "Expédition Maritime",
-          value: ((expeditionMaritime/expeditionOnYear)*100).toFixed(2) +"%",
+          value: expeditionOnYear===0 ? 0+"%": ((expeditionMaritime/expeditionOnYear)*100).toFixed(2) +"%",
           text: "Dans cette année",
         }}
       />
       <AreaCard
         colors={["#e4e8ef", "#f29"]}
-        percentFillValue={((expeditionAerienne/expeditionOnYear)*100).toFixed(2)}
+        percentFillValue={expeditionOnYear===0 ? 0 :((expeditionAerienne/expeditionOnYear)*100).toFixed(2)}
         cardInfo={{
           title: "Expédition Aérienne",
-          value: ((expeditionAerienne/expeditionOnYear)*100).toFixed(2) +"%",
+          value: expeditionOnYear===0 ? 0+"%": ((expeditionAerienne/expeditionOnYear)*100).toFixed(2) +"%",
           text: "Dans cette année",
         }}
       />
