@@ -4,6 +4,7 @@ import "./Panel.scss"
 const Panel = () => {
   return (
     <div className="panels-container">
+     
       <div className="panel left-panel">
         <div className="content">
           <h3>Primex Logistics</h3>

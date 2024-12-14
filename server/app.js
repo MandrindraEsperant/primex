@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const sequelize = require('./config/database');
 
+const messageRoutes = require('./routes/messageRoutes');
 const employeRoutes = require('./routes/employeRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const conteneurRoutes = require('./routes/conteneurRoutes');
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
   next();
 }); 
 
+app.use('/message', messageRoutes);
 app.use('/employe', employeRoutes);
 app.use('/client', clientRoutes); 
 app.use('/conteneur', conteneurRoutes); 
@@ -40,9 +42,10 @@ app.use('/hbl', HBLRoutes);
 app.use('/hawb', HAWBRoutes);  
 
 // Synchroniser la base de données sans supprimer les tables existantes
-sequelize.sync({ force:false,alter:false}) 
+sequelize.sync({ force:false}) 
   .then(() => console.log('Database synced'))
   .catch(err => console.log('Error syncing database', err));
+
 
 // Middleware de gestion des erreurs
 app.use((err, req, res, next) => {

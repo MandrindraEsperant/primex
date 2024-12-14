@@ -35,11 +35,11 @@ function ViewProfil() {
     name: 'Mino Prisca',
     email: 'example@example.com',
     username: 'minoprisca12',
-    bio: "Développeuse passionnée de technologies et d'innovations",
+    bio: "Gestionnaire passionnée de technologies et d'innovations",
     birthdate: "10 Janvier 1995",
     phone: "+261 34 12 345 67",
     address: "Antananarivo, Madagascar",
-    profession: "Développeuse Logiciel",
+    profession: " Gestionnaire Logiciel",
   };
 
   return (

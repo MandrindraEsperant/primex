@@ -37,6 +37,7 @@ class EmployeController {
       }
     }
   }
+  
   async forgotPassword(req, res) {
     try {
       const { email } = req.body;
@@ -61,10 +62,11 @@ class EmployeController {
       if (!token || !newPassword || !email || !codeTemp) {
         return res.status(400).json({ error: "Tous les infos sont requis." });
       }
-      const newToken = this.employeService.updateToken(token);
-      await this.employeService.resetNewPassword(email,newPassword);
 
-      res.status(200).send({ newToken });
+      await this.employeService.resetNewPassword(email,newPassword);
+      // const newToken = this.employeService.updateToken(token);
+
+      res.status(200).send({token });
     } catch (error) {
       if (error.message) {
         res.status(401).json({ error: error.message });
@@ -84,7 +86,18 @@ class EmployeController {
         res.status(404).send("User not found");
       }
     } catch (error) {
-      res.status(500).send(error.message);
+      if (error.name === "SequelizeUniqueConstraintError") {
+        // Gérer l'erreur d'unicité
+        res.status(400).json({
+          error:
+            error.errors[0].message || "Une valeur unique est déjà présente.",
+        });
+      } else if (error.message) {
+        res.status(401).json({ error: error.message });
+      } else {
+        // Erreur interne serveur
+        res.status(500).json({ error: "Erreur lors de la creation de l'employé" });
+      }
     }
   }
   async getAllEmployes(req, res) {

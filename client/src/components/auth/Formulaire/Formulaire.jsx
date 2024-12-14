@@ -17,6 +17,7 @@ import api from "./../../../axiosInstance";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { GoArrowLeft } from "react-icons/go";
 
 const Formulaire = () => {
   const navigate = useNavigate();
@@ -33,14 +34,14 @@ const Formulaire = () => {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(email ===""){
-        return
+      if (email === "") {
+        return;
       }
-      setValideEmail(false)
+      setValideEmail(false);
       const response = await api.post("/employe/forgot", { email });
       setToken(response.data.token);
       toast.success("Email envoyé avec succès");
-      setValideEmail(true)
+      setValideEmail(true);
       setStep(2);
     } catch (error) {
       const errorMessage =
@@ -61,18 +62,16 @@ const Formulaire = () => {
           text: errorMessage,
         });
       }
-      setValideEmail(true)
+      setValideEmail(true);
     }
   };
-
-
   //*********************Envoi de nouveau MDP**************
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if(newPassword==="" || code ===""){
-      toast.error("Tout le champs sont requis")
-      return
-  }
+    if (newPassword === "" || code === "") {
+      toast.error("Tout le champs sont requis");
+      return;
+    }
     if (newPassword === confirmPassword) {
       try {
         const res = await api.post("/employe/reset", {
@@ -86,15 +85,17 @@ const Formulaire = () => {
           title: "Modifié",
           text: "Mot de passe changé avec succès",
         });
+        // console.log(res);
+        
         if (res.status === 200) {
           const token = res.data.token;
           AccountService.saveToken(token);
-          
+
           const decodedToken = jwtDecode(token);
-          localStorage.setItem('userName', decodedToken.nom);
-          localStorage.setItem('userType', decodedToken.type);
-          
-          navigate("/admin/dashboard"); 
+          localStorage.setItem("userName", decodedToken.nom);
+          localStorage.setItem("userType", decodedToken.type);
+
+          navigate("/admin/dashboard");
         }
       } catch (error) {
         const errorMessage =
@@ -117,11 +118,11 @@ const Formulaire = () => {
       toast.error("Les mots de passe ne correspondent pas.");
     }
   };
-  const canselPasswordSubmit = (e)=>{
-      e.preventDefault()
-      setStep(1);
-      setEmail("")
-  }
+  const canselPasswordSubmit = (e) => {
+    e.preventDefault();
+    setStep(1);
+    setEmail("");
+  };
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
@@ -140,9 +141,9 @@ const Formulaire = () => {
         AccountService.saveToken(token);
 
         const decodedToken = jwtDecode(token);
-        localStorage.setItem('userName', decodedToken.nom);
-        localStorage.setItem('userType', decodedToken.type);
-        
+        localStorage.setItem("userName", decodedToken.nom);
+        localStorage.setItem("userType", decodedToken.type);
+
         navigate("/admin/dashboard");
       }
     } catch (err) {
@@ -159,9 +160,18 @@ const Formulaire = () => {
       }
     }
   };
-
+  const retourAcceuil = () => {
+    navigate("/");
+  };
   return (
     <div className="forms-container">
+       <button
+       onClick={retourAcceuil}
+        class="absolute top-4 left-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 z-10 flex items-center"
+      >
+        <GoArrowLeft class="h-6 w-6 mr-2 text-white" />
+        Retour
+      </button>
       <div className="signin-signup">
         {/* authentification */}
         <form action="#" className="sign-in-form" onSubmit={handleLogin}>
@@ -195,8 +205,12 @@ const Formulaire = () => {
             </button>
           </div>
           <input type="submit" value="Connexion" className="btn solid" />
-          <div style={{ textAlign: 'right', marginBottom: '10px', color: "blue" }}>
-            <a href="#" className="forgot-password" id="sign-up-btn">Mot de passe oublié</a>
+          <div
+            style={{ textAlign: "right", marginBottom: "10px", color: "blue" }}
+          >
+            <a href="#" className="forgot-password" id="sign-up-btn">
+              Mot de passe oublié
+            </a>
           </div>
           <p className="social-text">
             Ou se connecter avec autre réseau sociaux
@@ -228,7 +242,7 @@ const Formulaire = () => {
           {/* Formulaire d'e-mail */}
           {step === 1 && (
             <>
-            <h2 className="title">Mot de passe oublié</h2>
+              <h2 className="title">Mot de passe oublié</h2>
               {valideEmail ? (
                 <>
                   <p className="secondaryText">
@@ -250,14 +264,19 @@ const Formulaire = () => {
                     Envoyer
                   </button>
                 </>
-              ) : <div className="loader"></div>}
+              ) : (
+                <div className="loader"></div>
+              )}
             </>
           )}
           {/* Formulaire de code de réinitialisation et mot de passe */}
           {step === 2 && (
             <>
               <h2 className="title">Modification de mot de passe</h2>
-              <p className="secondaryText">Veuillez consulter dans votre boit email pour le code de reinitialisation en 6 caractére</p>
+              <p className="secondaryText">
+                Veuillez consulter dans votre boit email pour le code de
+                reinitialisation en 6 caractére
+              </p>
               <div className="input-field">
                 <i>
                   <FaCheckCircle />
@@ -296,11 +315,18 @@ const Formulaire = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-              <button type="submit" className="btn" onClick={handlePasswordSubmit}>
+              <button
+                type="submit"
+                className="btn"
+                onClick={handlePasswordSubmit}
+              >
                 Valider
               </button>
-              <button type="button" class=" max-w-[200px] w-full bg-blue-300 border-0 outline-none h-12 rounded-full text-white uppercase font-semibold my-2 cursor-pointer transition duration-500"
-              onClick={canselPasswordSubmit}>
+              <button
+                type="button"
+                class=" max-w-[200px] w-full bg-blue-300 border-0 outline-none h-12 rounded-full text-white uppercase font-semibold my-2 cursor-pointer transition duration-500"
+                onClick={canselPasswordSubmit}
+              >
                 Annuler
               </button>
             </>
@@ -332,6 +358,8 @@ const Formulaire = () => {
       </div>
       {/* Container for Toast notifications */}
       <ToastContainer />
+
+      
     </div>
   );
 };

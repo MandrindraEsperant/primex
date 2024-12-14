@@ -1,7 +1,7 @@
 {
   "home": "Accueil",
   "tracking": "Suivi",
-  "service": "Service",
+  "service": "Nos Services",
   "about": "À propos de nous",
   "contact": "Contact",
   "login": "Connexion",
@@ -21,7 +21,7 @@
   "search": "Rechercher",
   "why_choose_primex": "Pourquoi choisir PRIMEX Logistics ?",
   "primex_description": "PRIMEX Logistics se distingue par son expertise et son expérience en transit international, offrant des solutions sur mesure adaptées aux besoins de chaque client. Nous garantissons la sécurité et la fiabilité de vos marchandises tout au long du processus. Grâce à notre réseau global de partenaires, nous assurons une couverture mondiale pour vos opérations de transit.",
-  "contact_us": "Contacter",
+  "contact_us": "Contactez-nous",
   "customs_declaration": "Déclaration douanière",
   "customsClearing": "Dédouanement",
     "shipmentTracking": "Suivi d’expédition",

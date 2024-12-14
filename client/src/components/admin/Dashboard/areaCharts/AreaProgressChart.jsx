@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const AreaProgressChart = () => {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(false); /**met en true */
   const plusExpedier= async ()=>{
     try {
       const response = await api.get("/marchandise/plus/");
@@ -21,7 +21,7 @@ const AreaProgressChart = () => {
   return (
     <div className="progress-bar">
       <div className="progress-bar-info">
-        <h4 className="progress-bar-title">Les marchandise les plus expéditiés </h4>
+        <h4 className="progress-bar-title">Les compagnies des transports les plus répandues </h4>
       </div>
       <div className="progress-bar-list">
         {isLoading ? (
