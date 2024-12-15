@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaCamera, FaEnvelope, FaUser, FaBirthdayCake, FaPhone, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa'; // Ajoutez plus d'icônes
-import Profil from "../../../assets/images/profil.jpg";
+import Profil from "../../../assets/images/profil.png";
 import { Link } from 'react-router-dom';
 import api from '../../../axiosInstance';
 import idUserConnected from '../../../constants/idUserConnected';

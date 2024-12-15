@@ -6,7 +6,7 @@ import {
   FaEnvelope,
   FaLock,
 } from "react-icons/fa";
-import Profil from "../../../assets/images/profil.jpg";
+import Profil from "../../../assets/images/profil.png";  
 import idUserConnected from "../../../constants/idUserConnected";
 import api from "../../../axiosInstance";
 import { ToastContainer, toast } from "react-toastify";

@@ -11,7 +11,7 @@ import AjoutCLi from "../../../pages/admin/AjoutCLi";
 import "../Dashboard/areaTable/AreaTable.scss"
 import "../Dashboard/areaTable/AreaTableAction"
 import Swal from "sweetalert2";
-// import { TrashIcon } from '@heroicons/react/24/solid'
+import { TrashIcon } from '@heroicons/react/24/solid'
 import AreaTableAction from "../Dashboard/areaTable/AreaTableAction";
 import api from "../../../axiosInstance";
 import AjoutEMploye from "../../../pages/admin/AjoutEmploye";
@@ -173,7 +173,7 @@ const Client = () => {
                                                     className="text-red-500 hover:text-red-400"
                                                     onClick={() => handleDeleteClick(item.idEmploye)} 
                                                 >
-                                                    {/* <TrashIcon className="h-6 w-6" /> */}
+                                                    <TrashIcon className="h-6 w-6" />
                                                 </button>
                                             </div>
                                         </tr>

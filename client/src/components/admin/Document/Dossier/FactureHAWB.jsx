@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import html2pdf from "html2pdf.js";
 import api from "../../../../axiosInstance";
+import logo from "../../../../assets/images/file.png"
 import { ToastContainer, toast } from "react-toastify";
 const FactureHAWB = () => {
   const [hbl, setHbl] = useState([]);
@@ -120,7 +121,7 @@ const FactureHAWB = () => {
           </div>
           <div className="w-full sm:w-auto">
             <img
-              src="logo.png"
+              src={logo}
               alt="Logo Primex"
               className="w-24 mx-auto sm:mx-0"
             />
