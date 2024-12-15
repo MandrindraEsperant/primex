@@ -28,7 +28,7 @@ const AjoutEmploye = ({ handleClose, allEmploye, selectedPerson }) => {
       modifierPar: idEmploye,
     });
 
-  }, [, selectedPerson, idEmploye]);
+  }, [ selectedPerson, idEmploye]);
 
   const inputHandle = (e) => {
     setState({
@@ -96,14 +96,7 @@ const AjoutEmploye = ({ handleClose, allEmploye, selectedPerson }) => {
           </label>
           <input
             value={state.nomEmploye}
-            onChange={(e) => {
-              const nom = e.target.value;
-              setState((prevState) => ({
-                ...prevState,
-                nomEmploye: nom,
-                motDePasse: nom, // Remplit automatiquement le champ mot de passe
-              }));
-            }}
+            onChange={inputHandle}
             className="form-input"
             type="text"
             name="nomEmploye"
@@ -136,7 +129,14 @@ const AjoutEmploye = ({ handleClose, allEmploye, selectedPerson }) => {
           </label>
           <input
             value={state.emailEmploye}
-            onChange={inputHandle}
+            onChange={(e) => {
+              const email = e.target.value;
+              setState((prevState) => ({
+                ...prevState,
+                emailEmploye: email,
+                motDePasse: email, // Remplit automatiquement le champ mot de passe
+              }));
+            }}
             className="form-input"
             type="email"
             name="emailEmploye"

@@ -1,8 +1,8 @@
 const MAWB = require("../models/MAWB");
 const HAWB = require("../models/HAWB");
 const Client = require("../models/Client");
-const sequelize = require('../config/database')
-const { fn, col, where,Sequelize } = require("sequelize");
+const sequelize = require("../config/database");
+const { fn, col, where, Sequelize } = require("sequelize");
 
 class HAWBRepository {
   async create(Data) {
@@ -58,12 +58,14 @@ class HAWBRepository {
   async countByMonth() {
     const results = await sequelize.query(
       `
-      SELECT 
-        DATE_FORMAT(dateEmmission, '%M') AS mois, 
-        COUNT(*) AS Aerienne
-      FROM hawbs
-      WHERE YEAR(dateEmmission) = YEAR(CURRENT_DATE)
-      GROUP BY mois;
+SELECT 
+    DATE_FORMAT(dateEmmission, '%M') AS mois, 
+    COUNT(*) AS Aerienne,
+    MONTH(dateEmmission) AS mois_num
+FROM hawbs
+WHERE YEAR(dateEmmission) = YEAR(CURRENT_DATE)
+GROUP BY mois, mois_num
+ORDER BY mois_num;
     `,
       { type: sequelize.QueryTypes.SELECT }
     );

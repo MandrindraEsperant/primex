@@ -27,10 +27,12 @@ class HBLRepository {
       `
       SELECT 
         DATE_FORMAT(dateEmmission, '%M') AS mois, 
-        COUNT(*) AS Maritime
+        COUNT(*) AS Maritime,
+        MONTH(dateEmmission) AS mois_num
       FROM hbls
       WHERE YEAR(dateEmmission) = YEAR(CURRENT_DATE)
-      GROUP BY mois;
+      GROUP BY mois, mois_num
+      ORDER BY mois_num;
     `,
       { type: sequelize.QueryTypes.SELECT }
     );

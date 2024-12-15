@@ -9,11 +9,9 @@ import {
   MdOutlineLogout,
   MdOutlineSettings,
   MdGroups,
-  MdContactMail,
   MdLocalShipping,
   MdDescription,
   MdTrackChanges,
-  MdInventory,
   MdSwapHoriz,
 } from "react-icons/md";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -21,7 +19,6 @@ import Swal from 'sweetalert2';
 import "./Sidebar.scss";
 import { SidebarContext } from "../../../context/SidebarContext";
 import { AccountService } from './../../../_services/Account.service';
-import idUserConnected from "../../../constants/idUserConnected";
 import { useTypeUserConnected } from "../../../constants/typeUserConnected";
 
 const Sidebar = () => {
@@ -190,14 +187,14 @@ const Sidebar = () => {
                 <span className="menu-link-text">Parametre</span>
               </Link>
             </li>
-            <li className="menu-item" title="logout" onClick={Deconnection}>
+            {/* <li className="menu-item" title="logout" onClick={Deconnection}>
               <span to="/" className="menu-link">
                 <span className="menu-link-icon">
                   <MdOutlineLogout size={20} />
                 </span>
                 <span className="menu-link-text">Deconnecter</span>
               </span>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

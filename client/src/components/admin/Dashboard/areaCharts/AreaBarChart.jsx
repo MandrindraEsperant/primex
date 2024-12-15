@@ -108,9 +108,9 @@ const AreaBarChart = () => {
       const maritime = await api.get("/hbl/count/byMonth/");
       const aerienne = await api.get("/hawb/count/byMonth/");
       // console.log("Maritime");
-      // console.log(maritime.data);
+      console.log(maritime.data);
       // console.log("Aerienne");
-      // console.log(aerienne.data);
+      console.log(aerienne.data);
       // console.log("Data");
       setData(mergeArrays(maritime.data, aerienne.data));
     } catch (error) {
@@ -137,7 +137,7 @@ const AreaBarChart = () => {
   return (
     <div className="bar-chart">
       <div className="bar-chart-info">
-        <h5 className="bar-chart-title">Total transactions</h5>
+        <h5 className="bar-chart-title">Total des expéditions</h5>
         <div className="chart-info-data">
           <div className="info-data-text">
             <FaArrowUpLong />
