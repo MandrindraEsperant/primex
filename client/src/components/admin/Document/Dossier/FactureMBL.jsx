@@ -161,14 +161,14 @@ const FactureMBL = () => {
                   Date d'émission:
                 </p>
                 <p className="text-sm sm:text-base">
-                  {mblData.dateEmission}
+                  {new Date(mblData.dateEmission).toLocaleDateString('fr-FR')}
                 </p>
 
                 <p className="font-bold text-sm sm:text-base ">
                   Date d'arrivé prevue:
                 </p>
                 <p className="text-sm sm:text-base">
-                  {mblData.dateArrivePrevue}
+                  {new Date(mblData.dateArrivePrevue).toLocaleDateString('fr-FR')}
                 </p>
               </div>
               <h2 className="font-bold text-lg sm:text-xl text-left mb-">
@@ -184,7 +184,7 @@ const FactureMBL = () => {
                   Date de Chargement:
                 </p>
                 <p className="text-sm sm:text-base">
-                  {mblData.TransMaritime.dateChargement}
+                  {new Date(mblData.TransMaritime.dateChargement).toLocaleDateString('fr-FR')}
                 </p>
 
                 <p className="font-bold text-sm sm:text-base ">

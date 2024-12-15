@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import html2pdf from "html2pdf.js";
 import api from "../../../../axiosInstance";
-import logo from "../../../../assets/images/file.png"
+import logo from "../../../../assets/images/file.png";
 import { ToastContainer, toast } from "react-toastify";
 const FactureHAWB = () => {
   const [hbl, setHbl] = useState([]);
-  const [hbl1Data, sethbl1Data] = useState(null);
-  const [totData, setTotData] = useState(null);
-  const [mbldata, setmbldata] = useState([]);
+  const [idHbl, setIdHBL] = useState("");
+
   const getNumHBL = async () => {
     try {
       const res = await api.get("/hawb/");
@@ -19,29 +18,47 @@ const FactureHAWB = () => {
   useEffect(() => {
     getNumHBL();
   }, []);
-  const [idHbl, setIdHbl] = useState("");
-  const gerateHBL = async (id) => {
-    setIdHbl(id);
+
+
+// ************************************
+const [hawbData, setHawbData] = useState(null);
+const [mawbData, setMawbData] = useState(null);
+  const generateMawb = async (id) => {
     if (id === "") return;
     try {
       const resMBL = await api.get("/mawb/get/" + id);
-      sethbl1Data(resMBL.data);
-      const resHBL = await api.get("/hawb/doc/" + id);
-      setmbldata(resHBL.data);
-
-      const resTot = await api.get("/hawb/tot/" + id);
-      setTotData(resTot.data);
-      // console.log(resTot.data);
+      setMawbData(resMBL.data);
     } catch (error) {
       console.error(error);
     }
   };
+  
+
+const handleHawbTracking = async (num) => {
+  if (num === "") return;
+  try {
+    const idMBL = await api.get("/hawb/get/" + num);
+
+    generateMawb(idMBL.data.idMAWB);
+    console.log(idMBL.data.idMAWB);
+    
+    setHawbData(idMBL.data);
+  } catch (error) {
+   console.log(error);
+   
+  }
+};
+
+// ************
+
+  
+  
   const componentRef = useRef();
   const handlePrint = () => {
     const element = componentRef.current;
     const options = {
       margin: 1,
-      filename: "Facture MAWB " + hbl1Data.numHAWB,
+      filename: "Facture HAWB " +hawbData.numHAWB,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
@@ -61,12 +78,12 @@ const FactureHAWB = () => {
         <div className="relative inline-block w-80 m-2">
           <select
             // value={""}
-            onChange={(e) => gerateHBL(e.target.value)}
+            onChange={(e) => {setIdHBL(e.target.value);handleHawbTracking(e.target.value)}}
             className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-150 ease-in-out appearance-none"
           >
             <option value="">Sélectionnez une Expedition</option>
             {hbl.map((v) => (
-              <option key={v.idHAWB} value={v.idHAWB}>
+              <option key={v.idHAWB} value={v.numHAWB}>
                 {v.numHAWB}
               </option>
             ))}
@@ -130,14 +147,15 @@ const FactureHAWB = () => {
         <div className="text-center border-t-1 border-black pt-1">
           <p className="font-semibold text-sm sm:text-base">FACTURE</p>
           <p className="font-bold text-lg sm:text-xl">House Air WayBill</p>
-          {hbl1Data && (
+          {/* {hawbData && (
             <p className="text-sm sm:text-base">
-              {hbl1Data.TransAerienne.paysChargement === "Madagascar" ||
+              {hawbData.TransAerienne.paysChargement === "Madagascar" ||
               "MADAGASCAR"
                 ? "IMPORTATION AERIENNE"
                 : "EXPORTATION AERIENNE"}
             </p>
-          )}
+          )} */}
+
           <p className="text-sm sm:text-base">MADAGASCAR</p>
         </div>
         <div className="text-right mb-1">
@@ -145,116 +163,95 @@ const FactureHAWB = () => {
           <p className="text-sm sm:text-base">Facture N°2405182/AR</p>
         </div>
 
-        {hbl1Data && totData && (
-          <div className="my-2 ">
-            <div className="w-full">
-              <h2 className="font-bold text-lg sm:text-xl text-left mb-">
-                Détails de Expedition
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-                <p className="font-bold text-sm sm:text-base ">Numéro HAWB:</p>
-                <p className="text-sm sm:text-base">{hbl1Data.numHBL}</p>
+          {/* *****************debit************** */}
+          {(
+        <div class="m-8 px-8">
+          {
+            <>
+              {mawbData  && (
+                <>
+                  <h2 className="text-2xl font-bold mb-4 text-center text-blue-600">
+                    Suivi de colis HAWB N°:{hawbData.numHAWB}
+                  </h2>
+                  <div className=" ">
+                    <div className=" flex justify-between">
+                      <div className=" ">
+                        <p>
+                          <strong>Numéro MAWB :</strong>
+                          {mawbData.numMAWB}
+                        </p>
+                        <p>
+                          <strong> Date d'émission du MAWB:</strong>
+                          {mawbData.dateEmission}
+                        </p>
+                        <p>
+                          <strong>Nom de compagnie :</strong>
+                          {mawbData.TransAerienne.nomCompagnie}
+                        </p>
+                        <p>
+                          <strong>Numero de vol :</strong>
+                          {mawbData.TransAerienne.numVol}
+                        </p>
+                      </div>
+                      <div className=" ">
+                        <p>
+                          <strong> Date de chargement:</strong>
+                          {mawbData.TransAerienne.dateChargement}
+                        </p>
+                        <p>
+                          <strong> Pays de chargement:</strong>
+                          {mawbData.TransAerienne.paysChargement}
+                        </p>
+                        <p>
+                          <strong> Ville de chargement:</strong>
+                          {mawbData.TransAerienne.villeChargement}
+                        </p>
+                        <p>
+                          <strong>Pays de déchargement :</strong>
+                          {mawbData.dateArrivePrevue}
+                        </p>
+                        <p>
+                          <strong>Date d'arrivé prevue :</strong>
+                          {mawbData.dateArrivePrevue}
+                        </p>
+                      </div>
+                    </div>
+                    <hr className="my-2 " />
+                    <div className="text-center">
+                      <p>
+                        <strong>Nom Destinataire :</strong>
+                        {hawbData.clientDest.nomClient}
+                      </p>
+                      <p>
+                        <strong>Nom Expediteur :</strong>
+                        {hawbData.clientExp.nomClient}
+                      </p>
+                      <p>
+                        <strong>Nombre de colis :</strong>
+                        {hawbData.nbColis}
+                      </p>
+                      <p>
+                        <strong>Poid :</strong>
+                        {hawbData.poid} kg
+                      </p>
+                      <p>
+                        <strong>Volume :</strong>
+                        {hawbData.poid} m <sup>3</sup>
+                      </p>
+                    </div>
+                    <hr className="my-2" />
+                    
+                    <hr className="my-2" />
+                  </div>
+                </>
+              )}
+            </>
+           }
+        </div>
+      )}
 
-                <p className="font-bold text-sm sm:text-base ">
-                  Nombre colis:
-                </p>
-                <p className="text-sm sm:text-base">{hbl1Data.nbColis}</p>
 
-                <p className="font-bold text-sm sm:text-base ">
-                  Date d'arrivé prevue:
-                </p>
-                <p className="text-sm sm:text-base">
-                  {hbl1Data.dateArrivePrevue}
-                </p>
-              </div>
-              <h2 className="font-bold text-lg sm:text-xl text-left mb-">
-                Information sur le transport
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-                <p className="font-bold text-sm sm:text-base ">
-                  Numéro du vol:
-                </p>
-                <p className="text-sm sm:text-base">
-                  {hbl1Data.TransAerienne.numVol}
-                </p>
-
-                <p className="font-bold text-sm sm:text-base ">
-                  Date de Chargement:
-                </p>
-                <p className="text-sm sm:text-base">
-                  {hbl1Data.TransAerienne.dateChargement}
-                </p>
-
-                <p className="font-bold text-sm sm:text-base ">
-                  Pays de Chargement:
-                </p>
-                <p className="text-sm sm:text-base">
-                  {hbl1Data.TransAerienne.paysChargement}
-                </p>
-
-                <p className="font-bold text-sm sm:text-base ">
-                  Pays de Déchargement:
-                </p>
-                <p className="text-sm sm:text-base">
-                  {hbl1Data.TransAerienne.paysDechargement}
-                </p>
-              </div>
-            </div>
-            <br />
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse mb-1">
-                <thead>
-                  <tr>
-                    <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                      Numero HAWB
-                    </th>
-                    <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                      Expediteur
-                    </th>
-                    <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                      Destinataire
-                    </th>
-                    <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                      Nombre de colis
-                    </th>
-                    <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                      Poids (kg)
-                    </th>
-                    <th className="border px-2 py-2 bg-blue-200 font-semibold text-sm sm:text-base">
-                      Volume (m<sup>3</sup>)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mbldata.map((v, i) => (
-                    <tr key={i}>
-                      <td className="border px-2 py-1 text-sm sm:text-base">
-                        {v.numHAWB}
-                      </td>
-                      <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                        {v.clientExp.nomClient}
-                      </td>
-                      <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                        {v.clientDest.nomClient}
-                      </td>
-                      <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                        {v.nbColis}
-                      </td>
-                      <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                        {v.poid}
-                      </td>
-                      <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                        {v.volume}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <br />
-            <br />
-          </div>
-        )}
+        {/* ****************fin********* */}
         <div className="mt-2 text-sm sm:text-base">
           <p className="text-center font-semibold">
             Merci pour votre confiance.
@@ -264,5 +261,5 @@ const FactureHAWB = () => {
       <ToastContainer />
     </div>
   );
-}
-export default FactureHAWB
+};
+export default FactureHAWB;

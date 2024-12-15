@@ -9,6 +9,7 @@ const FactureMAWB = () => {
   const [mblData, setMblData] = useState(null);
   const [totData, setTotData] = useState(null);
   const [hblData, setHblData] = useState([]);
+
   const getNumMBL = async () => {
     try {
       const res = await api.get("/mawb/");
@@ -20,17 +21,22 @@ const FactureMAWB = () => {
   useEffect(() => {
     getNumMBL();
   }, []);
+
   const [idMbl, setIdMbl] = useState("");
+
   const gerateMBL = async (id) => {
     setIdMbl(id);
+
     if (id === "") return;
     try {
-      const resMBL = await api.get("/mawb/get/" + id);
+      const resMBL = await api.get("/mawb/get/" + id); 
+
       setMblData(resMBL.data);
-      const resHBL = await api.get("/hawb/doc/" + id);
+      const resHBL = await api.get("/hawb/doc/" + id); // tout hawb avec id de MAWB
+
       setHblData(resHBL.data);
 
-      const resTot = await api.get("/hawb/tot/" + id);
+      const resTot = await api.get("/hawb/tot/" + id); //total de tout hawb avec id de MAWB /* nb total de colis ...
       setTotData(resTot.data);
       // console.log(resTot.data);
     } catch (error) {
@@ -162,13 +168,13 @@ const FactureMAWB = () => {
                 <p className="font-bold text-sm sm:text-base ">
                   Date d'émission:
                 </p>
-                <p className="text-sm sm:text-base">{mblData.dateEmission}</p>
+                <p className="text-sm sm:text-base">{new Date(mblData.dateEmission).toLocaleDateString('fr-FR')}</p>
 
                 <p className="font-bold text-sm sm:text-base ">
                   Date d'arrivé prevue:
                 </p>
                 <p className="text-sm sm:text-base">
-                  {mblData.dateArrivePrevue}
+                  {new Date(mblData.dateArrivePrevue).toLocaleDateString('fr-FR')}
                 </p>
               </div>
               <h2 className="font-bold text-lg sm:text-xl text-left mb-">
@@ -186,7 +192,7 @@ const FactureMAWB = () => {
                   Date de Chargement:
                 </p>
                 <p className="text-sm sm:text-base">
-                  {mblData.TransAerienne.dateChargement}
+                  {new Date(mblData.TransAerienne.dateChargement).toLocaleDateString('fr-FR')}
                 </p>
 
                 <p className="font-bold text-sm sm:text-base ">

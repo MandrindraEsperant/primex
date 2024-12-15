@@ -33,6 +33,7 @@ const Tableau = () => {
       console.error(error);
     }
   };
+  
   const handleHawbTracking = async (num) => {
     setTrouve(true);
     if (num === "") return;
@@ -112,9 +113,7 @@ const Tableau = () => {
           {t("shipmentTrackingTitle")}
         </div>
         <div>
-          <p className="secondaryText text-center">
-            Choisir le mode te transport de votre expedition
-          </p>
+          <p className="secondaryText text-center">{t("choixModeTransport")}</p>
           <div className=" flex justify-between gap-4">
             <div className="">
               <div
@@ -125,20 +124,24 @@ const Tableau = () => {
               >
                 {t("air_transport")}
               </div>
+
               <div
                 className="rechercher"
                 style={{ display: `${activeTab === "aerienne" ? "" : "none"}` }}
               >
                 <input
                   type="text"
-
                   onChange={(e) => setSearchHawbTerm(e.target.value)}
                   className={`txt-input ${
                     activeTab === "aerienne" ? "" : "fermer"
                   }`}
                   placeholder={t("trackingNumberPlaceholder")}
                 />
-                <button type="button" className="btn" onClick={()=>handleHawbTracking(searchHawbTerm)}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => handleHawbTracking(searchHawbTerm)}
+                >
                   {t("track")}
                 </button>
               </div>
@@ -176,8 +179,7 @@ const Tableau = () => {
           </div>
         </div>
       </div>
-      {activeTab === "aerienne" ? 
-      (
+      {activeTab === "aerienne" ? (
         <div class="m-8 px-8">
           {trouve ? (
             <>
@@ -302,7 +304,8 @@ const Tableau = () => {
             <p className="text-center text-xl p-5">Aucun resultat trouvé</p>
           )}
         </div>
-      ) : (
+      )
+       : (
         <div class="m-8 px-8">
           {find ? (
             <>
@@ -320,7 +323,7 @@ const Tableau = () => {
                         </p>
                         <p>
                           <strong> Date d'émission du MBL:</strong>
-                          {mblData.dateEmission}
+                          {new Date(mblData.dateEmission).toLocaleDateString('fr-FR')}
                         </p>
                         <p>
                           <strong>Nom de l'armateur :</strong>
@@ -338,7 +341,8 @@ const Tableau = () => {
                       <div className=" ">
                         <p>
                           <strong> Date de chargement:</strong>
-                          {mblData.TransMaritime.dateChargement}
+                          {new Date(mblData.TransMaritime.dateChargement).toLocaleDateString('fr-FR') }
+                        
                         </p>
                         <p>
                           <strong> Pays de chargement:</strong>
@@ -350,11 +354,12 @@ const Tableau = () => {
                         </p>
                         <p>
                           <strong>Pays de déchargement :</strong>
-                          {mblData.dateArrivePrevue}
+                         
+                          {mblData.TransMaritime.paysDechargement}
                         </p>
                         <p>
                           <strong>Date d'arrivé prevue :</strong>
-                          {mblData.dateArrivePrevue}
+                          {new Date(mblData.dateArrivePrevue).toLocaleDateString('fr-FR')}
                         </p>
                       </div>
                     </div>
@@ -409,7 +414,7 @@ const Tableau = () => {
                                 {v?.etape}
                               </td>
                               <td className="border px-2 py-2 text-sm sm:text-base text-right">
-                                {v.dateEtape}
+                                {new Date(v.dateEtape).toLocaleDateString('fr-FR')}
                               </td>
                               <td className="border px-2 py-2 text-sm sm:text-base text-right">
                                 {v.status}

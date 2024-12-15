@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import html2pdf from "html2pdf.js";
-import { MdClear, MdSearch } from "react-icons/md";
 import api from "./../../../../axiosInstance";
-
+ 
 const Facturation = () => {
   const [mbl, setMbl] = useState([]);
   const [mblData, setMblData] = useState(null);
