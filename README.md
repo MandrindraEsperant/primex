@@ -1,2 +1,2 @@
 # primex
-un application pour un entreprise transit
+Application web dynamique pour une entreprise de transit internationale PRIMEX Logistics
